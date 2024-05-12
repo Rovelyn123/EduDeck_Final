@@ -1,0 +1,72 @@
+.welcome-back-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100%;
+    padding-bottom: 40px;
+    overflow-y: auto;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+  }
+  
+  .title {
+    background-color: #FFD234;
+    width: 300px;
+    text-align: center;
+    border-radius: 8px;
+    padding: 5px; /* Increased padding for better visibility */
+    margin-top: 200px;
+    margin-bottom: 20px;
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.25);
+  }
+  
+  .question-card {
+    width: 900px;
+    height: 350px;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.25);
+    margin-bottom: 30px;
+    position: relative;
+  }
+  
+  .question-label {
+    position: absolute;
+    top: 20px; /* Adjusted top spacing */
+    left: 20px; /* Adjusted left spacing */
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .text-field-bottom {
+    position: absolute;
+    bottom: 20px;
+    width: calc(100% - 32px); /* Adjusted width */
+    background-color: #f5f2d8;
+    border-radius: 8px;
+    z-index: 1;
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+  }
+  
+  .counter {
+    position: absolute;
+    top: 20px;
+    right: 20px; /* Adjusted right spacing */
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .question-text {
+    font-size: 28px;
+    color: #332d2d;
+    position: absolute;
+    margin-top: -30px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 80%; /* Adjust width as needed */
+  }
+  

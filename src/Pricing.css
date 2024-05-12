@@ -1,0 +1,25 @@
+.sideBar {
+    background-color: #f7c81e;
+    width: 325px;
+    margin: 35px;
+    height: 885px;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    border: black solid 2px;
+    box-shadow: 0px 10px 5px 0px rgb(0 0 0 / 25%);
+}
+
+.contactPanel {
+    background-color: #FFFFFF;
+    height: 25%;
+    width: 87%;
+    margin: 18px;
+    position: absolute;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    border-radius: 20px;
+}

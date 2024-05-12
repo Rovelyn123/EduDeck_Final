@@ -1,0 +1,215 @@
+.homebg {
+    display: flex;
+    justify-content: flex-end;
+    /* align-items: center; */
+    height: 100vh; 
+    width: auto;
+    background-color: #F2D064;
+    /* background-image: url("/public/okk.png"); */
+    background-image: url('/public/homebackgrounds.png');
+}
+
+.backg {
+    display: flex;
+    justify-content: flex-end;
+    /* margin-right: 100px; */
+    align-items: center;
+    width: 100px;
+    height: 100px; 
+    background-color: #FFFFFF;
+    /* background-image: url("/public/logo.png"); */
+}
+
+.innerdiv {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: #FFFDD6;
+    height: 100vh;
+    width: 750px;
+    border-radius: 20px;
+}
+
+.ininnerdiv {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.acadzen {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #8C7111;
+    font-size: 55px;
+}
+
+.homeacadzen {
+    flex-grow: 1;
+    font-weight: bold;
+    color: #8C7111;
+    font-size: 55px;
+}
+
+.dashboard {
+    background-image: url('/public/crystalbackground.png');
+    background-size: cover;
+    height: 100vh;
+    width: 1000vh;
+    background-color: #FFFFFF;
+}
+
+.dashboardlogo {
+    display: inline-block;
+    align-items: center;
+    margin-top: 25px;
+    flex-direction: row;
+}
+
+.namecontainer {
+    /* background-color: #FAC712; */
+    /* border: #000000 solid 1px; */
+    width: 1055px;
+    margin-top: 35px;
+    margin-left: 410px;
+    height: 385px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0; /* Set the z-index to bring it to the front */
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+}
+
+.navcontainer {
+    background-color: #FAC712;
+    width: 325px;
+    margin: 35px;
+    height: 885px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0; /* Set the z-index to bring it to the front */
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+}
+
+.hometoabout {
+    background-color: #FFEAA0;
+    margin-top: 1500px;
+    margin-left: 105px;
+    height: 575px;
+    width: 1700px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    border-radius: 20px;
+}
+
+.quizact {
+    background-color: #FAC712;
+    margin-top: 110px;
+    height: 275px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    border-radius: 20px;
+}
+
+
+.welcome-back-page {
+    background-image: url('/public/crystalbackground.png');
+    background-color: #FFFFFF;
+    background-size: cover;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+}
+
+.applogo {
+    display: inline-block;
+    align-items: center;
+    margin-top: 100px;
+    margin-left: 40px;
+    flex-direction: row;
+}
+
+.applogo img {
+    width: 200px;
+    margin-right: 0px; /* Adjust the margin to create space between the logo and text */
+}
+
+.applogo div .homeacadzen {
+    font-size: 60px; /* Adjust the font size of the AcadZen text */
+    font-weight: bold;
+}
+
+.welcome-back-container {
+    background-color: #FAC712;
+    width: 600px;
+    margin-left: 200px;
+    height: 100vh;
+    position: relative;
+    z-index: 1; /* Set the z-index to bring it to the front */
+    justify-content: center;
+    align-items: center;
+}
+  
+.login-form-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    z-index: 0; /* Set the z-index to send it behind */
+    background-color: #FFFFFF;
+    height: 85%;
+    width: 90%;
+    margin-top: 75px;
+    margin-left: 100px;
+    border-radius: 10px;
+  }
+
+.login-container {
+    width: 45%;
+    border: #FAC712 solid 1px;
+    height: 75%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-right: 120px;
+    border-radius: 20px;
+}
+  
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px; /* Adjust as needed */
+    margin-top: 10px;
+  }
