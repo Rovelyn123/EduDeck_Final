@@ -1,19 +1,20 @@
 import React, { useRef, useState, useEffect } from "react";
 import "./UploadDocument.css";
-import { AppBar, Toolbar, Typography, IconButton, Box, Button } from "@mui/material";
-import HomeIcon from "@mui/icons-material/Home";
+import {AppBar, Toolbar, Typography, IconButton, Box, Button, useMediaQuery, useTheme  } from "@mui/material";
+import {AccountCircle, NotificationsNone} from "@mui/icons-material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import CancelIcon from "@mui/icons-material/Cancel";
 import SaveIcon from "@mui/icons-material/Save";
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
-// import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'js-cookie'; 
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function UploadDocument() {
+    const theme = useTheme();
     const fileInputRef = useRef(null);
     const [selectedFile, setSelectedFile] = useState(null);
     const [uploadedFiles, setUploadedFiles] = useState([]);
@@ -21,6 +22,9 @@ function UploadDocument() {
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [confirmationCallback, setConfirmationCallback] = useState(null);
     const [documentToDelete, setDocumentToDelete] = useState(null);
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+    const isMediumScreen = useMediaQuery('(max-width:1219px)');
+    const navigate = useNavigate();
 
     const { files, user } = uploadedFiles;
 
@@ -373,35 +377,46 @@ function UploadDocument() {
     return (
         <>
             <ToastContainer />
-            <div className="welcome-back-page">
-                <div className="lsbody">
-                    <AppBar style={{ background: 'none', boxShadow: 'none', padding: '10px', marginTop: '20px' }}>
-                        <Toolbar>
-                            <img src="/logo.png" alt="App Logo" style={{ width: 100, marginLeft: '50px' }} />
-                            <Typography variant="h3" style={{ fontFamily: 'Poppin, sans-serif', fontWeight: '600', fontSize: '40px', color: '#B18A00' }}
-                            >AcadZen
+                <div className="Upbody">
+                <AppBar position="sticky" style={{backgroundColor: 'transparent', boxShadow: 'none', justifyContent: 'center'}}>
+                    <Toolbar style={{marginLeft: 0, paddingLeft: 0, display: 'flex', justifyContent: 'space-between'}}>
+                    <Link to="/dashboard" style={{ textDecoration: 'none' }}>
+                        <Box display={'flex'} style={{ width: isMobile ? 50 : 230, backgroundColor: 'tranparent', alignItems: 'center', marginLeft: 0 }}>
+                        <img src="/logo.png" alt="logo" style={{ height: isMobile ? 35 : 60 }} />
+                        {!isMobile && (
+                            <Typography variant="h3" style={{ fontFamily: 'Poppin, sans-serif', fontWeight: '600', fontSize: '2em', color: '#B18A00' }}>
+                            EduDeck
                             </Typography>
-                            <div style={{ display: 'flex', alignItems: 'center', width: '100%', padding: '10px', marginLeft: '50px' }}>
-                                <div style={{ background: 'white', borderRadius: '15px', textAlign: 'center', height: '55px', width: '1101px', boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' }}>
-                                    <Typography variant="h4" style={{ fontFamily: "Roboto Condensed", fontSize: '35px', color: '#332D2D', justifyContent: 'center', marginTop: '3px' }}
-                                    >Document to Flashcard Converter
-                                    </Typography>
-                                </div>
-                            </div>
-                            <Box style={{ background: 'white', borderRadius: '10px', padding: '2px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: '70px' }}>
-                                <Box style={{ background: '#FAC712', borderRadius: '10px', width: '50px', height: '50px' }}>
-                                <Link to="/dashboard" style={{ textDecoration: 'none' }}> 
-                                    <IconButton color="black" style={{ fontSize: '45px' }}>
-                                        <HomeIcon style={{ fontSize: '80%', width: '100%' }} />
-                                    </IconButton>
-                                </Link>
-
-                                </Box>
+                        )}
+                        </Box>
+                    </Link>
+                        <Box style={{display: 'flex',backgroundColor: 'white', width: isMobile ? 250 : isMediumScreen ? 700 : 870, justifyContent: 'center', margin: 'auto', borderRadius: 15, boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)'}}>
+                        <Typography variant= {isMobile ? "body1" : "h4"} style={{ fontFamily: "Roboto Condensed", color: '#332D2D', justifyContent: 'center', textAlign: 'center' }}>
+                            Document Text Highlighting
+                        </Typography>
+                        </Box>
+                        <Box style={{display: "flex", width: isMobile ? 60 : 150, justifyContent: isMobile ? 'space-between' : 'space-evenly', marginRight: isMobile ? '-0.5rem' : 0, marginTop: isMobile ? '0.2rem' : '0.5rem'}} >
+                            <Box style={{ background: 'white', borderRadius: isMobile ? 25 : 50, padding: isMobile ? '2.5px' : '5px', alignItems: 'center', justifyContent: 'center', boxShadow: 'inset 0 5px 20px 0px rgba(0, 0, 0, 0.35)' }}>
+                            <Link to="/profilesettings" style={{textDecorationLine: 'none'}}>
+                            <Box style={{ background: '#D0BF81', borderRadius: isMobile ? 25 : 50, width: isMobile ? '1.4rem' : '2.8rem', height: isMobile ? '1.4rem' : '2.8rem'}}>
+                                <IconButton color="white" style={{ fontSize: isMobile ? '22.5px' : '45px', padding: '0' }}>
+                                <AccountCircle style={{ fontSize: '100%', width: '100%', color: 'white' }} />
+                                </IconButton>
                             </Box>
-                        </Toolbar>
-                    </AppBar>
+                            </Link>
+                            </Box>
+                            <Box style={{ background: 'white', borderRadius: isMobile ? 25 : 50, padding: isMobile ? '2.5px' : '5px', alignItems: 'center', justifyContent: 'center', boxShadow: 'inset 0 5px 20px 0px rgba(0, 0, 0, 0.35)' }}>
+                            <Box style={{ background: 'white', borderRadius: isMobile ? 25 : 50, width: isMobile ? '1.4rem' : '2.8rem', height: isMobile ? '1.4rem' : '2.8rem' }}>
+                                <IconButton color="white" style={{ fontSize: isMobile ? '22.5px': '45px', padding: '0' }}>
+                                <NotificationsNone style={{ fontSize: '100%', width: '100%', color: 'black' }} />
+                                </IconButton>
+                            </Box>
+                            </Box>
+                    </Box>
+                    </Toolbar>
+                </AppBar>
 
-                    <div className="upload-document-content">
+                    <div className="upload-content">
 
                         <div className="left-panel">
                             {/* File preview or document icon */}
@@ -451,30 +466,13 @@ function UploadDocument() {
                             {selectedFile ? (
                                 <Typography
                                     variant="h4"
-                                    style={{
-                                        fontFamily: 'Roboto Condensed',
-                                        fontSize: '20px',
-                                        color: 'black',
-                                        textAlign: 'center',
-                                        fontWeight: 'bold',
-                                        fontStyle: 'italic',
-                                        marginTop: '15px',
-                                    }}
-                                >
+                                    style={{fontFamily: 'Roboto Condensed',fontSize: '20px',color: 'black',textAlign: 'center',fontWeight: 'bold',fontStyle: 'italic', marginTop: '15px',}}>
                                     {selectedFile.name}
                                 </Typography>
                             ) : (
                                 <Typography
                                     variant="h4"
-                                    style={{
-                                        fontFamily: 'Roboto Condensed',
-                                        fontSize: '20px',
-                                        color: 'black',
-                                        textAlign: 'center',
-                                        fontWeight: 'bold',
-                                        marginTop: '10px',
-                                    }}
-                                >
+                                    style={{fontFamily: 'Roboto Condensed', fontSize: '20px', color: 'black', textAlign: 'center', fontWeight: 'bold', marginTop: '10px'}}>
                                     Supported document types: PDF, DOCX, TXT, PPTX
                                 </Typography>
                             )}
@@ -502,13 +500,14 @@ function UploadDocument() {
                                     Upload Document
                                 </Typography>
                             </Button>
-                            <Link to="/flashcardsmgt" style={{ textDecoration: 'none' }}>
+                            {/* <Link to="/texthiglighting" style={{ textDecoration: 'none' }}> */}
                             <Button style={{ background: '#FAC712', width: '230px', height: '45px', borderRadius: '10px', marginTop: '150px', marginLeft: '10px' }}>
-                                <Typography style={{ fontSize: '20px', fontFamily: 'Nunito Sans, sans-serif', fontWeight: 'bold', color: '#332D2D', textTransform: 'none' }}>
-                                    FlashCards
+                                <Typography style={{ fontSize: '20px', fontFamily: 'Nunito Sans, sans-serif', fontWeight: 'bold', color: '#332D2D', textTransform: 'none' }} 
+                                onClick={() => navigate("/TextHighlighting")}>
+                                    Text Highlighting
                                 </Typography>
                             </Button>
-                            </Link>
+                            {/* </Link> */}
                         </div>
 
                         {/* Right Panel for Displaying Uploaded Files */}
@@ -546,15 +545,7 @@ function UploadDocument() {
                                                 {editStates[editIndex]?.newFile && (
                                                     <Typography
                                                         variant="h5"
-                                                        style={{
-                                                            fontFamily: 'Roboto Condensed',
-                                                            fontSize: '18px',
-                                                            color: 'black',
-                                                            textAlign: 'center',
-                                                            fontWeight: 'bold',
-                                                            marginTop: '15px',
-                                                        }}
-                                                    >
+                                                        style={{fontFamily: 'Roboto Condensed', fontSize: '18px', color: 'black', textAlign: 'center', fontWeight: 'bold', marginTop: '15px'}}>
                                                         Selected File: {editStates[editIndex].newFile.name}
                                                     </Typography>
                                                 )}
@@ -630,92 +621,9 @@ function UploadDocument() {
                         </div>
                         
                     </div>
-                </div>
             </div>
         </>
     );
 }
 
 export default UploadDocument;
-
-
-// const handleSaveEdit = async () => {
-//     try {
-//         console.log('Save edit clicked. EditIndex:', editIndex);
-//       if (editIndex !== null && newFileName.trim() !== "") {
-//         const documentID = uploadedFiles[editIndex]?.documentID;
-//         console.log('Document ID before update:', documentID);
-//         const newFile = editStates[editIndex]?.newFile;
-
-//          console.log('Document ID:', documentID);
-//         console.log('New File:', newFile);
-  
-//         if (!documentID) {
-//           console.error('Document ID not found for editIndex:', editIndex);
-//           return;
-//         }
-  
-//         const formData = new FormData();
-//         formData.append('document', new Blob([JSON.stringify({ documentTitle: newFileName })], { type: 'application/json' }));
-        
-//         // Append the new file if it exists
-//         if (newFile) {
-//           formData.append('file', newFile);
-//         }
-
-//         // Append the replacement file if it exists
-//         if (replacementFile) {
-//             formData.append('file', replacementFile);
-//         }
-
-//         // Add this console.log to inspect the uploadedFiles array
-//         console.log('Uploaded Files before update:', uploadedFiles);
-  
-//         const response = await fetch(`http://localhost:8080/api/document/update/${documentID}`, {  
-//           method: 'PUT',
-//           body: formData,
-//           headers: {},
-//         });
-  
-//         console.log('Response Status:', response.status);
-//         const responseBody = await response.text();
-//         console.log('Response Body:', responseBody);
-  
-//         if (!response.ok) {
-//           throw new Error('File update failed. Please try again.');
-//         }
-  
-//         const updatedFiles = uploadedFiles.map((file, i) => {
-//             if (i === editIndex ) {
-//                 return {
-//                     documentID: documentID,
-//                     documentTitle: newFileName || file.documentTitle,
-//                     fileType: newFile ? getFileType(newFile.name) : file.fileType,
-//                     fileSize: newFile ? formatFileSize(newFile.size) : file.fileSize,
-//                 };
-//             } else {
-//                 return file;
-//             }
-//         });
-  
-//         setUploadedFiles(updatedFiles);
-//         handleCancelEdit();
-  
-//         toast.success('File successfully updated!', {
-//           position: toast.POSITION.TOP_CENTER,
-//           autoClose: 500,
-//         });
-//       } else {
-//         toast.error('Please provide a new name to update.', {
-//           position: toast.POSITION.TOP_CENTER,
-//           autoClose: 1000,
-//         });
-//       }
-//     } catch (error) {
-//       console.error('Error in handleSaveEdit:', error);
-//       toast.error(error.message, {
-//         position: toast.POSITION.TOP_CENTER,
-//         autoClose: 1000,
-//       });
-//     }
-//   };  

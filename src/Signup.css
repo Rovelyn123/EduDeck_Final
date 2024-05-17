@@ -1,3 +1,4 @@
+sign up css
 .lsbody {
   background-image: url('/public/crystalbackground.png');
   background-size: cover;
@@ -74,5 +75,4 @@ button[type="submit"]:hover {
 .buttoncontainer {
   display: flex; /* Use flexbox for centering */
   justify-content: center; 
-  align-items: center;
 }

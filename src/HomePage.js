@@ -1,13 +1,12 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Link, Navigate } from 'react-router-dom';
 import { AppBar, IconButton, Grid, Typography, Toolbar, Button, Box, ButtonGroup, Container} from '@mui/material';
-import './HomePage.module.css';
+import './HomePage.css'; 
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Footer from './Footer';
 import Login from './Login';
 import Signup from './Signup';
 import Dashboard from './Dashboard';
-import styles from './HomePage.module.css';
 import LearningSession from './LearningSession';
 import UploadDocument from './UploadDocument';
 import AboutUs from './AboutUs';
