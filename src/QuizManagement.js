@@ -8,7 +8,7 @@ import { Typography, SwipeableDrawer, useMediaQuery, useTheme, Divider, Button, 
 import { useState } from "react";
 import { AccountCircle, NotificationsNone, AddCircleOutline } from "@mui/icons-material";
 
-function FlashcardManagement() {
+function QuizManagement() {
   const [isBoxVisible, setIsBoxVisible] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -39,7 +39,7 @@ function FlashcardManagement() {
             <Grid item xs={12} >
               <Box style= {{display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column"}}>
                 <Typography marginTop={13} style={{fontFamily: 'Roboto Condensed', fontWeight: 550, fontSize: 18}}>
-                  Decks
+                  Quizzes
                 </Typography>
                 <Divider style={{ backgroundColor: '#BCA860', width: '80%', marginTop: 10}} />
               </Box>
@@ -87,7 +87,7 @@ function FlashcardManagement() {
     setSaveChangesOpen(true);
   };
 
-  const handleAddFlashcard = () => {
+  const handleAddQuestion = () => {
     setShowBox(true);
 //     if (currentQuestion !== '' && currentAnswer !== '') {
 //         setQuestions([...questions, { question: currentQuestion, answer: currentAnswer }]);
@@ -140,7 +140,7 @@ function FlashcardManagement() {
             <Grid item xs={12} >
             <Box style= {{display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column"}}>
                 <Typography marginTop={13} style={{fontFamily: 'Roboto Condensed', fontWeight: 550, fontSize: 30}}>
-                  Decks
+                  Quizzes
                 </Typography>
                 <Divider style={{ backgroundColor: '#BCA860', width: '80%', marginTop: 10}} />
               </Box>
@@ -163,7 +163,7 @@ function FlashcardManagement() {
           </Grid>
                 <Button style={{backgroundColor: '#FFD234', margin: 20, width: '90%', boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)'}}>
                     <Typography style={{color: 'black', fontFamily: 'Roboto Condensed', fontWeight: 500, fontSize: '1.5em', textTransform: 'none'}}>
-                      Create New Deck
+                      Generate Flashcard
                     </Typography>
                 </Button>
 
@@ -179,7 +179,7 @@ function FlashcardManagement() {
                     </Box>
                     <Box style={{ background: 'white', borderRadius: '15px', textAlign: 'center', height: '60px', width: '1100px', boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)', position: 'absolute', marginTop: '25px', marginLeft: '90%' }}>
                     <Typography style={{  fontSize: '30px', color: '#332D2D', justifyContent: 'center', marginTop: '7px' }}
-                    >Document to Flashcards Converter
+                    >Document to Quiz Converter
                     </Typography>
                     </Box>
 
@@ -193,8 +193,8 @@ function FlashcardManagement() {
                     
                     <Box sx={{ position: 'fixed', top: '130px', width: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', marginTop: '10px', paddingLeft: '20px' }}>
                         <Button sx={{ backgroundColor: '#D9D9D9', color: '#000000', marginRight: '15px', width: '10%', height: '7%', boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)', borderRadius: '8px', }}
-                        onClick={handleAddFlashcard}>
-                            + Add Flashcard
+                        onClick={handleAddQuestion}>
+                            + Add Question
                         </Button>
                     </Box>
                     {showBox && (
@@ -228,8 +228,8 @@ function FlashcardManagement() {
                     
                     <Box sx={{ position: 'fixed', bottom: '5px', marginLeft: '1700px', width: '100%', height: '20%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <Button sx={{ backgroundColor: '#FFFFFF', color: '#000000', marginRight: '20px', width: '17%', height: '30%', boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)', borderRadius: '8px' }}
-                        onlick={()=> handleClickOpen('Start Review Session')}>
-                        Start Review Session
+                        onlick={()=> handleClickOpen('Start Test quiz')}>
+                        Start Test Quiz
                         </Button>
                         <Button sx={{ backgroundColor: '#FFD234', color: '#000000', marginRight: '20px', width: '17%', height: '30%', boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)', borderRadius: '8px' }}
                         onClick={() => handleSaveChanges('Save Changes')}
@@ -237,8 +237,8 @@ function FlashcardManagement() {
                         Save Changes
                         </Button>
                         <Button sx={{ backgroundColor: '#FFFFFF', color: '#000000', width: '17%', height: '30%', boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)', borderRadius: '8px' }}
-                        onClick={() => handleClickOpen('Delete Deck')}>
-                        Delete Deck
+                        onClick={() => handleClickOpen('Delete Quiz')}>
+                        Delete Quiz
                         </Button>
 
 
@@ -284,4 +284,4 @@ function FlashcardManagement() {
   );
 }
 
-export default FlashcardManagement;
+export default QuizManagement;

@@ -93,19 +93,19 @@ function NavigationBar() {
           <Grid item xs={12}>
             <Button
               style={{
-                backgroundColor: clicked === 'downloads' ? '#FFEAA0' : 'transparent',
+                backgroundColor: clicked === 'flashcards' ? '#FFEAA0' : 'transparent',
                 width: '100%',
-                boxShadow: clicked === 'downloads' ? '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' : 'none',
+                boxShadow: clicked === 'flashcards' ? '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' : 'none',
                 marginBottom: 2,
                 display: 'flex',
                 justifyContent: 'flex-start',
                 alignItems: 'center',
               }}
-              onClick={() => handleButtonClick('downloads')}
+              onClick={() => handleButtonClick('flashcards')}
             >
               <img src="/downloads.png" alt="downloads" style={{ height: 20, marginRight: 0 }} />
               <Typography style={{ color: 'black', fontFamily: 'Roboto', fontWeight: 300, fontSize: '1.3em', textTransform: 'none', flexGrow: 1 }}>
-                Downloads
+                Flashcards
               </Typography>
             </Button>
           </Grid>
@@ -201,12 +201,14 @@ function NavigationBar() {
             </Button>
 
             <Button
-              style={{backgroundColor: clicked === 'downloads' ? '#FFEAA0' : 'transparent', width: '100%', boxShadow: clicked === 'downloads' ? '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' : 'none', marginBottom: 20, display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}
-              onClick={() => handleButtonClick('downloads')}
+            component={Link}
+            to="/flashcardsmgt"
+              style={{backgroundColor: location.pathname === '/flashcardsmgt' ? '#FFEAA0' : 'transparent', width: '100%', boxShadow: location.pathname === '/flashcardsmgt' ? '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' : 'none', marginBottom: 20, display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}
+              onClick={() => handleButtonClick('flashcards')}
             >
-              <img src="/downloads.png" alt="downloads" style={{height: 20, marginRight: -10}} />
+              <img src="/downloads.png" alt="downloads" style={{height: 20, marginRight: 45}} />
               <Typography style={{color: 'black', fontFamily: 'Roboto', fontWeight: 300, fontSize: '1.3em', textTransform: 'none', flexGrow: 1}}>
-                Downloads
+                Flashcards
               </Typography>
             </Button>
 

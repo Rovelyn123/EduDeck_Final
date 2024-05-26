@@ -17,7 +17,7 @@ const QuizSession = () => {
         <Toolbar>
           <img src="/logo.png" alt="App Logo" style={{width: 100, marginLeft: '50px'}}/>
           <Typography variant="h3" style={{fontFamily: 'Poppin, sans-serif', fontWeight: '600', fontSize: '40px',color: '#B18A00'}}>
-            AcadZen
+            EduDeck
           </Typography>
         </Toolbar>
         <div style={{ display: 'flex', alignItems: 'center', width: '100%', padding: '10px', marginLeft: '100px'}}>

@@ -7,7 +7,7 @@ import Footer from './Footer';
 import Login from './Login';
 import Signup from './Signup';
 import Dashboard from './Dashboard';
-import LearningSession from './LearningSession';
+import ReviewSession from './ReviewSession';
 import UploadDocument from './UploadDocument';
 import AboutUs from './AboutUs';
 import AboutEdudeck from './AboutEdudeck';
@@ -19,6 +19,12 @@ import LanguageIcon from '@mui/icons-material/Language';
 import ProfileSettings from './ProfileSettings';
 import FlashcardManagement from './FlashcardManagement';
 import Pricing from './Pricing';
+import PaymentScreen from './payment/Payment';
+import BillingScreen from './payment/Billing';
+import SummaryScreen from './payment/Summary';
+import TextHighlighting from './TextHighlighting';
+import QuizManagement from './QuizManagement';
+import QuizSession from './QuizSession';
 
 export default function HomePage() {
     const [user, setUser] = React.useState(null);
@@ -65,16 +71,21 @@ export default function HomePage() {
             <div>
                 <Routes>
                     <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path='/learningsession' element={<LearningSession />} />
                     <Route path='/uploaddocument' element={<UploadDocument />} />
                     <Route path='/flashcardsmgt' element={<FlashcardManagement />} />
-                    <Route path='/learningsession' element={<LearningSession/>} />
+                    <Route path='/reviewsession' element={<ReviewSession/>} />
                     <Route path='/aboutus' element={<AboutUs />} />
                     <Route path='/aboutedudeck' element={<AboutEdudeck />} />
                     <Route path='/pricing' element={<Pricing />} />
+                    <Route path='/payment' element={<PaymentScreen />} />
+                    <Route path='/billing' element={<BillingScreen />} />
+                    <Route path='/summary' element={<SummaryScreen />} />
                     <Route path="/login" element={<Login isSignInView={isSignInView} setIsSignInView={setIsSignInView} />} />
                     <Route path="/signup" element={<Signup handleToggle={() => setShowLogin(false)} />} />
                     <Route path='/profilesettings' element={<ProfileSettings/>} />
+                    <Route path='/TextHighlighting' element={<TextHighlighting/>} />
+                    <Route path='/quiz' element={<QuizManagement />} />
+                    <Route path='/quizsession' element={<QuizSession />} />
                     <Route
                         path="/"
                         element={
@@ -166,6 +177,9 @@ export default function HomePage() {
                             </div>
                         }
                     />
+                    <Route
+                        path="*"
+                        element={<div>404. Page not Found</div>}/>
                 </Routes>
 
                 {showLogin && (

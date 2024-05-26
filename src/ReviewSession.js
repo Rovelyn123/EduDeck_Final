@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./LearningSession.css";
+import "./ReviewSession.css";
 import { AppBar, Toolbar, Typography, IconButton, Box, Button } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -7,7 +7,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { Link } from "react-router-dom";
 import axios from 'axios';
 
-function LearningSession() {
+function ReviewSession() {
   const [isFlipped, setIsFlipped] = useState(false);
   const [flashcards, setFlashcards] = useState({
     "Rizal's Lovers": [
@@ -58,9 +58,9 @@ function LearningSession() {
 
   const currentFlashcard = flashcards["Rizal's Lovers"][currentCardIndex];
 
-  const fetchLearningSessions = async () => {
+  const fetchReviewSessions = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/api/LearningSession/getAllLearningSession');
+      const response = await axios.get('http://localhost:8080/api/ReviewSession/getAllReviewSession');
       const learningSessions = response.data; // Assuming your API returns data in JSON format
       console.log('Learning Sessions:', learningSessions);
       // Perform further actions with the retrieved data (e.g., set state, display data)
@@ -70,9 +70,9 @@ function LearningSession() {
     }
   };
 
-  const handleFetchLearningSessions = () => {
-    fetchLearningSessions();
-  };
+  // const handleFetchReviewSessions = () => {
+  //   fetchReviewSessions();
+  // };
 
     return (
     <>
@@ -81,7 +81,7 @@ function LearningSession() {
             <Toolbar>
                 <img src= "/logo.png" alt="App Logo" style={{width: 100, marginLeft: '50px'}}/>
                 <Typography variant="h3" style={{fontFamily: 'Poppin, sans-serif', fontWeight: '600', fontSize: '40px',color: '#B18A00'}}
-                >AcadZen
+                >EduDeck
                 </Typography>
                 <div style={{ display: 'flex', alignItems: 'center', width: '100%', padding: '10px', marginLeft: '100px'}}>
                     <div style={{ background: 'white', borderRadius: '15px', textAlign: 'center', height: '55px', width: '1101px', boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)'}}>
@@ -160,9 +160,9 @@ function LearningSession() {
                 <Button variant="contained" onClick={toggleMemorized}>
                     Marked as Memorized
                 </Button>
-                <Button onClick={handleFetchLearningSessions}>
+                {/* <Button onClick={handleFetchReviewSessions}>
                   Fetch Learning Sessions
-                </Button>
+                </Button> */}
             </div>
             
     </div>
@@ -171,4 +171,4 @@ function LearningSession() {
     );
 }
 
-export default LearningSession;
+export default ReviewSession;
