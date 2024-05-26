@@ -1085,9 +1085,20 @@ import { Link, useLocation } from "react-router-dom";
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
+import { useNavigate } from 'react-router-dom';
 
-const UserProfile = ({ onLogout }) => {
+const UserProfile = () => {
   const location = useLocation();
+
+  const navigate = useNavigate();
+  
+  const handleLogout = () => {
+    localStorage.removeItem('username');
+    localStorage.removeItem('password');
+    localStorage.removeItem('userid');
+    localStorage.removeItem('email');
+    navigate("/login");
+  };
 
   const [editingUsername, setEditingUsername] = useState(false);
   const [showPassword, setShowPassword] = useState(false); // State to control password visibility
@@ -1375,7 +1386,7 @@ const UserProfile = ({ onLogout }) => {
               backgroundColor: 'transparent',
               fontSize: '1em',
             }}
-            onClick={onLogout}
+            onClick={handleLogout}
           >
             Logout
           </button>

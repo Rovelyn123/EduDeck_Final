@@ -42,56 +42,6 @@ const Login = () => {
     }
   };
 
-  const handleSignup = async (event) => {
-    event.preventDefault();
-
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
-    console.log("Submitting:", { email, username, password });
-
-    if (!password.match(passwordRegex)) {
-      console.error("Password does not meet the requirements");
-
-      alert("Password does not meet the requirements. It must contain at least one lowercase letter, one uppercase letter, one digit, one special character, and be at least 8 characters long.");
-
-      console.log("Password:", password);
-      console.log("Is valid password:", password.match(passwordRegex));
-
-      return;
-    }
-
-    try {
-      const response = await fetch("http://localhost:8080/api/user/insertUser", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          username,
-          password,
-        }),
-      });
-
-      if (response.ok) {
-        setIsAccountCreated(true);
-        console.log("Signup successful");
-      } else {
-        console.error("Signup failed");
-      }
-    } catch (error) {
-      console.error("Error during signup:", error);
-    }
-  };
-
-  if (isAccountCreated) {
-    return <Navigate to="/login" />;
-  }
-
-  const handleSignUpClick = () => {
-    setShowLogin(false);
-  };
-
   if (isLoggedIn) {
     return <Navigate to="/dashboard" />;
   }
