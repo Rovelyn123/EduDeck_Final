@@ -1149,7 +1149,7 @@ const UserProfile = () => {
     const updatedPassword = newPassword !== "" ? newPassword : password;
     const updatedEmail = newEmail !== "" ? newEmail : email;
 
-    fetch(`http://localhost:8080/api/user/update/${userno}`, {
+    fetch(`http://localhost:8080/user/updateUser/${userno}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -1199,7 +1199,7 @@ const UserProfile = () => {
   };
 
   const deleteUser = () => {
-    fetch(`http://localhost:8080/api/user/delete/${userno}`, {
+    fetch(`http://localhost:8080/user/deleteUser/${userno}`, {
       method: 'PUT', // Assuming your deleteUser endpoint uses a PUT request
       headers: {
         'Content-Type': 'application/json',

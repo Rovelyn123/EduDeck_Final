@@ -40,7 +40,7 @@ const Dashboard = ({onLogout}) => {
       console.log(storedUsername);
       // setUserName(newEnteredUsername || "Guest");
   
-      axios.get('http://localhost:8080/api/user/getAllUser')
+      axios.get('http://localhost:8080/user/getAllUsers')
           .then(response => {
               setUserData(response.data);
           })
