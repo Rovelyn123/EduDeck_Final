@@ -12,13 +12,14 @@ import Pricing from './Pricing';
 import { BrowserRouter } from 'react-router-dom';
 import HomePage from './HomePage';
 import App from './App';
+import FlashcardAnalytics from "./FlashcardAnalytics";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     {/* <BrowserRouter> */}
     {/* <App /> */}
-    <HomePage/>
+      {/* <HomePage/>*/}
     {/* <QuizSession/> */}
     {/* <Dashboard/> */}
     {/* <UploadDocument/> */}
@@ -29,6 +30,7 @@ root.render(
     {/* <AboutUs/> */}
     {/* <Pricing/> */}
     {/* </BrowserRouter> */}
+      <FlashcardAnalytics/>
   </React.StrictMode>
 );
 
