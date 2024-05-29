@@ -28,14 +28,14 @@ function UploadDocument() {
 
     const { files, user } = uploadedFiles;
 
-    const userno = localStorage.getItem('userno');
+    const userid = localStorage.getItem('userid');
 
         // Fetch uploaded files from the backend when the component mounts
         const fetchUploadedFiles = async () => {
-            console.log(userno);
+            console.log(userid);
             try {
                 // Fetch uploaded files
-                const filesResponse = await fetch(`http://localhost:8080/api/document/files/${userno}`);
+                const filesResponse = await fetch(`http://localhost:8080/api/document/files/${userid}`);
                 if (!filesResponse.ok) {
                     throw new Error('Failed to fetch uploaded files.');
                 }
@@ -114,15 +114,15 @@ function UploadDocument() {
         if (selectedFile) {
             const fileType = getFileType(selectedFile.name);
     
-            if (['pdf', 'docx', 'pptx', 'txt'].includes(fileType)) {
+            if (['pdf', 'docx', 'pptx'].includes(fileType)) {
                 try {
-                    console.log(userno);
+                    console.log(userid);
 
                     const formData = new FormData();
                     formData.append('document', new Blob([JSON.stringify({ documentTitle: selectedFile.name, fileType: fileType, isDeleted: 0, isDeleted: 0 })], { type: 'application/json' }));
                     formData.append('file', selectedFile);
     
-                    const response = await fetch(`http://localhost:8080/api/document/upload/${userno}`, {
+                    const response = await fetch(`http://localhost:8080/api/document/upload/${userid}`, {
                         method: 'POST',
                         body: formData,
                         headers: {},
@@ -180,38 +180,33 @@ function UploadDocument() {
     const handleEditClick = (index) => {
         console.log('Edit clicked for index:', index);
         setEditIndex(index);
-        setNewFileName("");
-    
-        // Initialize the edit state for this index
+        const file = uploadedFiles[index];
+        const fileNameWithoutExtension = file.documentTitle.replace(/\.[^/.]+$/, ""); // Remove extension
+        setNewFileName(fileNameWithoutExtension);
         setEditStates((prevStates) => {
             const newStates = [...prevStates];
             newStates[index] = {
-                newFileName: uploadedFiles[index]?.documentTitle || "",
+                newFileName: fileNameWithoutExtension,
                 newFile: null,
             };
             return newStates;
         });
-    
-        // Trigger click on the hidden file input
         const fileInputId = `fileInput-${index}`;
         const fileInput = document.getElementById(fileInputId);
         if (fileInput) {
             fileInput.click();
         }
     };
-
+    
     const [replacementFile, setReplacementFile] = useState(null);
     
     const handleNewFileName = async (index) => {
         try {
             const documentID = uploadedFiles[index]?.documentID;
-    
             if (!documentID) {
                 console.error("Document ID not found for index:", index);
                 return;
             }
-
-            // Check if newFileName is empty and replacementFile is not provided
             if (!newFileName && !replacementFile) {
                 toast.warning("Please provide a new file name", {
                     position: toast.POSITION.TOP_CENTER,
@@ -219,80 +214,64 @@ function UploadDocument() {
                 });
                 return;
             }
-
+            const file = uploadedFiles[index];
+            const extension = getFileType(file.documentTitle);
+            const updatedFileName = `${newFileName}.${extension}`;
             const formData = new FormData();
-            formData.append('newFileName', newFileName);
-    
-            // Append the new file if it exists
+            formData.append('newFileName', updatedFileName);
             if (replacementFile) {
                 formData.append("newFile", replacementFile);
             }
-    
             const response = await fetch(
                 `http://localhost:8080/api/document/update/${documentID}`,
                 {
                     method: "PUT",
                     body: formData,
-                    headers: {
-                        // Add any required headers here
-                    },
+                    headers: {},
                 }
             );
-    
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-    
             const responseData = await response.json();
             console.log('Update response:', responseData);
-
-            //Update the file name after being change
             const newUploadedFiles = [...uploadedFiles];
-            newUploadedFiles[index].documentTitle = newFileName;
+            newUploadedFiles[index].documentTitle = updatedFileName;
             setUploadedFiles(newUploadedFiles);
-    
-            // Display a success toast message
             toast.success('File name updated successfully!', {
                 position: toast.POSITION.TOP_CENTER,
                 autoClose: 500,
             });
         } catch (error) {
             console.error('Error updating file name:', error);
-    
-            // Display an error toast message
             toast.error('Error updating file name: ' + error.message);
         }
     };
-
+    
     const handleFileReplaceChange = (e) => {
         const file = e.target.files[0];
         setReplacementFile(file);
-
-        // Display file info after selecting a replacement file
         if (file) {
             console.log("Replacement File Selected:", file.name);
             console.log("File Size:", formatFileSize(file.size));
         }
     };
-
+    
     const handleCancelEdit = () => {
-    setEditIndex(null);
-    setNewFileName("");
-    setNewFile(null);
-
-    // Clear the edit state for this index
-    setEditStates((prevStates) => {
-        const newStates = [...prevStates];
-        if (editIndex !== null) {
-            newStates[editIndex] = {
-                newFileName: "",
-                newFile: null,
-            };
-        }
-        return newStates;
-    });
-};
- 
+        setEditIndex(null);
+        setNewFileName("");
+        setNewFile(null);
+        setEditStates((prevStates) => {
+            const newStates = [...prevStates];
+            if (editIndex !== null) {
+                newStates[editIndex] = {
+                    newFileName: "",
+                    newFile: null,
+                };
+            }
+            return newStates;
+        });
+    };
 
       // Delete using confirmation modal
 
@@ -371,6 +350,7 @@ function UploadDocument() {
                 autoClose: 1000,
             });
         }
+
     };
 
     // Add ToastContainer at the root level of your component tree
@@ -473,7 +453,7 @@ function UploadDocument() {
                                 <Typography
                                     variant="h4"
                                     style={{fontFamily: 'Roboto Condensed', fontSize: '20px', color: 'black', textAlign: 'center', fontWeight: 'bold', marginTop: '10px'}}>
-                                    Supported document types: PDF, DOCX, TXT, PPTX
+                                    Supported document types: PDF, DOCX, PPTX, PNG, JPEG
                                 </Typography>
                             )}
 
@@ -500,14 +480,14 @@ function UploadDocument() {
                                     Upload Document
                                 </Typography>
                             </Button>
-                            {/* <Link to="/texthiglighting" style={{ textDecoration: 'none' }}> */}
+                            <Link to="/TextHighlighting" style={{ textDecoration: 'none' }}>
                             <Button style={{ background: '#FAC712', width: '230px', height: '45px', borderRadius: '10px', marginTop: '150px', marginLeft: '10px' }}>
                                 <Typography style={{ fontSize: '20px', fontFamily: 'Nunito Sans, sans-serif', fontWeight: 'bold', color: '#332D2D', textTransform: 'none' }} 
-                                onClick={() => navigate("/TextHighlighting")}>
+                               >
                                     Text Highlighting
                                 </Typography>
                             </Button>
-                            {/* </Link> */}
+                            </Link>
                         </div>
 
                         {/* Right Panel for Displaying Uploaded Files */}
@@ -520,7 +500,7 @@ function UploadDocument() {
                             uploadedFiles
                             .filter(file => file.isDeleted !== 1) // Filter out deleted files
                             .map((file, index) => (
-                                <div key={file.documentID} className="fileComponents">
+                                <div key={file.documentID} className="fileComponents" >
                                 {/* File icon based on the file type */}
                                 {file.fileType === 'pdf' && <img src="/pdf.png" alt="PDF Icon" style={{ width: '60px', margin: '5px 10px 5px 15px' }} />}
                                 {file.fileType === 'docx' && <img src="/docxIcon.png" alt="DOCX Icon" style={{ width: '60px', margin: '5px 10px 5px 15px' }} />}

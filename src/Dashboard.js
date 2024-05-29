@@ -17,9 +17,9 @@ const Dashboard = ({onLogout}) => {
     const [selectedImage, setSelectedImage] = useState(null);
 
     useEffect(() => {
-      const userno = localStorage.getItem('userno');
+      const userid = localStorage.getItem('userid');
   
-      axios.get(`http://localhost:8080/api/document/files/${userno}`)
+      axios.get(`http://localhost:8080/api/document/files/${userid}`)
           .then(response => {
               setUserData(response.data);
               setDocumentCount(response.data.length);
@@ -31,9 +31,9 @@ const Dashboard = ({onLogout}) => {
       // Extract entered username from location state
       const newEnteredUsername = location.state?.enteredUsername || "";
       setEnteredUsername(newEnteredUsername);
-      // Retrieve userno from localStorage
-      const storedUserNo = localStorage.getItem('userno');
-      console.log(storedUserNo); // Use this userno as needed
+      // Retrieve userid from localStorage
+      const storeduserid = localStorage.getItem('userid');
+      console.log(storeduserid); // Use this userid as needed
       // Retrieve username from localStorage
       const storedUsername = localStorage.getItem('username');
       setUserName(storedUsername || "Guest");
@@ -53,10 +53,10 @@ const Dashboard = ({onLogout}) => {
     useEffect(() => {
     const fetchProfilePicture = () => {
         // Retrieve the user number
-        const userno = localStorage.getItem('userno');
+        const userid = localStorage.getItem('userid');
 
         // Check if the user has uploaded a profile picture
-        axios.get(`http://localhost:8080/api/profile/getProfilePicture/${userno}`, { responseType: 'blob' }) // Specify responseType as 'blob'
+        axios.get(`http://localhost:8080/api/profile/getProfilePicture/${userid}`, { responseType: 'blob' }) // Specify responseType as 'blob'
             .then((response) => {
                 // If the response is successful and contains data, set the selected image
                 if (response.data && response.data.size > 0) {
@@ -76,39 +76,7 @@ const Dashboard = ({onLogout}) => {
 
     fetchProfilePicture();
 }, [location.pathname, location.state?.enteredUsername]);
-    
-  
-    const convertToCSV = (data) => {
-  
-      if (!data || data.length === 0) {
-        return '';
-      }
-  
-      const csvRows = [];
-      const headers = Object.keys(data[0]);
-      csvRows.push(headers.join(','));
-    
-      for (const row of data) {
-        const values = headers.map(header => {
-          const escaped = (''+row[header]).replace(/"/g, '\\"');
-          return `"${escaped}"`;
-        });
-        csvRows.push(values.join(','));
-      }
-    
-      return csvRows.join('\n');
-    };
-    
-    const csvData = convertToCSV(userData);
-  
-    const downloadLink = document.createElement('a');
-    downloadLink.href = `data:text/csv;charset=utf-8,${encodeURI(csvData)}`;
-    downloadLink.download = 'userData.csv';
-  
-    const handleDownload = () => {
-      downloadLink.click();
-    };
-    
+        
     return (
         <>
             <div

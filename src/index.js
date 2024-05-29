@@ -19,7 +19,7 @@ root.render(
   <React.StrictMode>
     {/* <BrowserRouter> */}
     {/* <App /> */}
-      {/* <HomePage/>*/}
+      <HomePage/>
     {/* <QuizSession/> */}
     {/* <Dashboard/> */}
     {/* <UploadDocument/> */}
@@ -30,7 +30,7 @@ root.render(
     {/* <AboutUs/> */}
     {/* <Pricing/> */}
     {/* </BrowserRouter> */}
-      <FlashcardAnalytics/>
+      {/* <FlashcardAnalytics/> */}
   </React.StrictMode>
 );
 
