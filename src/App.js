@@ -30,11 +30,11 @@
 // import QuizManagement from "./QuizManagement";
 // import GenerateFlashcards from "./GenerateFlashcards";
 // import QuizAnalytics from "./QuizAnalytics";
-// import QuizAnalytics2 from "./QuizAnalytics2";
-// import FlashcardAnalytics from "./FlashcardAnalytics";
-// import AnalyticsMonitoring from "./AnalyticsMonitoring";
-// import SecurityMeasure from "./SecurityMeasure";
-// import SystemConfig from "./SystemConfig";
+// import QuizAnalytics from "./QuizAnalytics";
+// import AdminFlashcardAnalytics from "./AdminFlashcardAnalytics";
+// import AdminAnalyticsMonitoring from "./AdminAnalyticsMonitoring";
+// import AdminSecurityMeasure from "./AdminSecurityMeasure";
+// import AdminSystemConfig from "./AdminSystemConfig";
 // import Quiz from "./Quiz";
 // import QuizSummary from "./QuizSummary";
 
@@ -63,8 +63,8 @@
 //           <Route path="/quizmanagement" element={user ? <QuizManagement /> : <Login />} /> 
 //           <Route path="/quizsession" element={user ? <QuizSession /> : <Login />} /> 
 //           <Route path="/quizanalytics" element={user ? <QuizAnalytics /> : <Login />} /> 
-//           <Route path="/quizanalytics2" element={user ? <QuizAnalytics2 /> : <Login />} />  */}
-//           {/* <Route path="/flashcardanalytics2" element={user ? <FlashcardAnalytics /> : <Login />} /> 
+//           <Route path="/quizanalytics2" element={user ? <QuizAnalytics /> : <Login />} />  */}
+//           {/* <Route path="/flashcardanalytics2" element={user ? <AdminFlashcardAnalytics /> : <Login />} />
 //           <Route path="/ordersummary" element={<OrderSummary />} />
 //           <Route path="/billing" element={<Billing />} />
 //           <Route path="/payment" element={<Payment />} /> */}
@@ -72,9 +72,9 @@
 //           {/* <Route path="/thankyou" element={<Thankyou />} />
 //           <Route path="/admindashboard" element={user ? <AdminDashboard /> : <Login />} /> 
 //           <Route path="/adminusermgt" element={user ? <AdminUserDashboard /> : <Login />} /> 
-//           <Route path="/analyticsmonitoring" element={user ? <AnalyticsMonitoring /> : <Login />} /> 
-//           <Route path="/securitymeasure" element={user ? <SecurityMeasure /> : <Login />} /> 
-//           <Route path="/systemconfig" element={user ? <SystemConfig /> : <Login />} />  */}
+//           <Route path="/analyticsmonitoring" element={user ? <AdminAnalyticsMonitoring /> : <Login />} />
+//           <Route path="/securitymeasure" element={user ? <AdminSecurityMeasure /> : <Login />} />
+//           <Route path="/systemconfig" element={user ? <AdminSystemConfig /> : <Login />} />  */}
 
 //           <Route path="/quiz" element={user ? <Quiz /> : <Login />} /> 
 //           <Route path="/quizsummary" element={user ? <QuizSummary /> : <Login />} /> 

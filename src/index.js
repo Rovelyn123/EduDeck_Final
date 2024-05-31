@@ -30,7 +30,7 @@ root.render(
     {/* <AboutUs/> */}
     {/* <Pricing/> */}
     {/* </BrowserRouter> */}
-      {/* <FlashcardAnalytics/> */}
+      {/* <AdminFlashcardAnalytics/> */}
   </React.StrictMode>
 );
 
