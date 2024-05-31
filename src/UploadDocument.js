@@ -114,7 +114,7 @@ function UploadDocument() {
         if (selectedFile) {
             const fileType = getFileType(selectedFile.name);
     
-            if (['pdf', 'docx', 'pptx'].includes(fileType)) {
+            if (['pdf', 'docx', 'pptx', 'jpeg', 'png'].includes(fileType)) {
                 try {
                     console.log(userid);
 

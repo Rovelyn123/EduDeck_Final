@@ -1,160 +1,266 @@
-.dashboard {
-    background-image: url('/public/crystalbackground.png');
+/* Base styles */
+.lsbody {
+    width: 100%;
+    margin: 0 auto;
+  }
+  
+  .profile-picture {
+    width: 35%;
+    height: 230px;
+    background-color: white;
+    position: absolute;
+    top: 22.1%;
+    left: 41%;
+    transform: translate(-50%, -50%);
+    border-radius: 7px;
+    overflow: hidden;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .profilepicturecontainer {
+    height: 5em;
+    width: 5em;
+    background-color: lightgray;
+    border-radius: 1.5em;
+    position: absolute;
+    top: 50%;
+    left: 12%;
+    transform: translate(-50%, -50%);
     background-size: cover;
-    height: 100vh;
-    width: 1000vh;
-    background-color: #FFFFFF;
-}
-
-.navcontainer {
-    background-color: #FAC712;
-    width: 325px;
-    margin: 35px;
-    height: 885px;
+    background-position: center;
+    cursor: pointer;
+  }
+  
+  .username-display {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 0; /* Set the z-index to bring it to the front */
-    justify-content: center;
-    align-items: center;
-    border-radius: 20px;
-}
-
-.dashboardlogo {
-    display: inline-block;
-    align-items: center;
-    margin-top: 25px;
-    flex-direction: row;
-}
-
-.namecontainer {
-    /* background-color: #FAC712; */
-    /* border: #000000 solid 1px; */
-    width: 1055px;
-    margin-top: 35px;
-    margin-left: 410px;
-    height: 385px;
+    top: 57%;
+    left: 30%;
+    transform: translate(-50%, -50%);
+    margin-left: 20px;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+  }
+  
+  .coverphotocontainer {
+    width: 100%;
+    height: 50%;
+    background-color: lightyellow;
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .bios {
+    width: 35%;
+    height: 230px;
+    background-color: white;
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 0; /* Set the z-index to bring it to the front */
-    justify-content: center;
-    align-items: center;
-    border-radius: 20px;
-}
-
-
-
-.contactusdiv {
-    background-color: #FFFFFF;
-    /* margin-top: 110px; */
-    height: 25%;
-    width: 87%;
-    margin: 20px;
-    position: absolute;
+    top: 7.5%;
+    left: 60.8%;
+    border-radius: 7px;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+  }
+  
+  .bio-container {
+    overflow-y: auto; /* Allows vertical scrolling if content overflows */
+    padding: 0.3em; /* Provides some space inside the container */
+    height: 9.7em; /* Fixed height */
+    width: 97.6%; /* Adjusted to 100% */
+    background-color: rgb(237, 237, 237);
+    border-radius: 0.4em;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+  }
+  
+  .bio-text {
+    word-wrap: break-word; /* Ensures long words do not cause horizontal overflow */
     text-align: center;
-    /* top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 0; */
+  }
+  
+  .bio-edit-button {
+    background-color: #d7ae1c;
+    color: rgb(0, 0, 0);
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+    height: 2.5em;
+    width: 8em;
+    margin: 10px;
+    align-self: center;
+  }
+  
+  .personal-info {
+    width: 69%;
+    height: 16em;
+    background-color: white;
+    position: absolute;
+    top: 72%;
+    left: 59.6%;
+    transform: translate(-50%, -50%);
+    border-radius: 7px;
+    padding: 20px;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    border-radius: 20px;
-}
-
-.logoutdiv {
-    background-color: #FFFFFF;
-    width: 325px;
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+  
+  .personal-info-title {
+    text-align: left;
+    font-size: 1.5em;
+  }
+  
+  .info-group {
+    display: flex;
+    flex-direction: row;
+    margin-top: 1em;
+  }
+  
+  .info-field1 {
+    width: 45%;
+    margin-left: 1.8em;
+  }
+  
+  .info-field2{
+    width: 45%; 
+    margin-left: 2em;
+  }
+  
+  .info-item button {
     margin-left: 10px;
-    height: 885px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 0; /* Set the z-index to bring it to the front */
-    justify-content: center;
-    align-items: center;
-    border-radius: 20px;
-}
-
-.profileContainer {
-    /* background-color: #FAC712; */
-    /* border: #000000 solid 1px; */
-    width: 1055px;
-    /* margin-top: 35px; */
-    margin-left: 380px;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 0; /* Set the z-index to bring it to the front */
-    justify-content: center;
-    align-items: center;
-    border-radius: 20px;
-}
-
-.profileinfo {
-    background-color: #FAC712;
-    margin-top: 7%;
-    height: 25%;
-    padding-left: 25px;
-    padding-top: 10px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 0;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .info-item {
     display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    flex-direction: column;
-    border-radius: 20px;
-}
-
-.accountinfo {
-    background-color: #FFFFFF;
-    margin-top: 34%;
-    height: 30%;
-    padding-left: 25px;
-    padding-top: 10px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 0;
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    flex-direction: column;
-    border-radius: 20px;
-}
-
-.updating {
-    /* background-color: #FFFFFF; */
-    margin-top: 64%;
+    justify-content: space-between;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    align-items: center;
+    padding: 5px;
+    margin-bottom: 10px;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  .info-item button svg {
+    color: #b0b0b0; /* Adjust the color as needed */
+    font-size: 18px; /* Adjust the size as needed */
+  }
+  
+  .logout-button {
+    margin-right: .5em;
+    width:13%;
     height: 20%;
-    padding-left: 25px;
-    padding-top: 10px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 0;
-    display: flex;
-    justify-content: center;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
     align-items: center;
-    flex-direction: column;
-    border-radius: 20px;
-}
+    justify-content: center;
+    display: flex;
+    align-self: flex-end;
+  }
+  
+  .logout-button svg {
+    margin-right: 8px; /* Adjust the spacing between the icon and text */
+  }
+  
+  .logout-button span {
+    font-size: 5em; /* Adjust the font size of the text */
+  }
+  
+  .MuiDialog-paper {
+    width: 50%;
+  }
+  
+  .MuiDialogTitle-root {
+    background-color: lightyellow;
+    padding: 10px;
+  }
+  
+  .MuiDialogContent-root {
+    padding: 10px;
+  }
+  
+  .MuiDialogActions-root {
+    padding: 10px;
+    justify-content: flex-end;
+  }
+  
+  /* Media Queries for responsiveness */
+  
+  @media (max-width: 768px) {
+  
+    .lsbody{
+      display: flex;
+      flex-direction: column;
+    }
+  
+    .containerbox{
+      flex-direction: column;
+    }
+  
+    .profile-picture {
+      width: 90%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      margin-bottom: 10%;
+    }
+  
+    .bios {
+      width: 90%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      height: auto; /* Adjust height based on content */
+      margin-bottom: 10%;
+    }
+  
+    .bio-container {
+      width: 97%;
+      height: 8em; /* Adjust height based on content */
+    }
+  
+    .personal-info {
+      width: 82%;
+      top: 93%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      height: auto; /* Adjust height based on content */  
+    }
+  
+    .profilepicturecontainer {
+      left: 15%;
+    }
+  
+    .logout-button {
+      margin-top: 2em;
+    }
+  
+    .username-display {
+      top: 57%;
+      left: 34%;
+    }
+  
+    .info-group {
+      flex-direction: column;
+    }
+  
+    .info-field1, .info-field2 {
+      width: 100%;
+      margin-left: 0;
+    }
+
+    .delete-button {
+      position : relative;
+      margin-top: 0;
+    }
+  }  

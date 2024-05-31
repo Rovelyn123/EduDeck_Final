@@ -28,9 +28,9 @@ const Login = () => {
       if (response.ok) {
         const userDetails = await response.json();
         localStorage.setItem('username', username);
-        localStorage.setItem('password', password);
+        // localStorage.setItem('password', password);
         localStorage.setItem('userid', userDetails.userid);
-        localStorage.setItem('email', userDetails.email);
+        // localStorage.setItem('email', userDetails.email);
         navigate("/dashboard", { state: { enteredUsername: username } });
       } else {
         const data = await response.json();
