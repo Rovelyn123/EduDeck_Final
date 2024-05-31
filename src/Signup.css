@@ -1,11 +1,14 @@
-sign up css
 .lsbody {
   background-image: url('/public/crystalbackground.png');
   background-size: cover;
   height: 100vh;
   width: 100%;
   position:absolute;
-}  
+}
+
+.thin-icon {
+  transform: scale(0.8);
+}
 
 .logocontainer {
   position: absolute;
@@ -16,7 +19,7 @@ sign up css
   height: 100%; /* Size of the square */
   background-color: #FFD234; /* Example color */
   z-index: 5; /* Adjust z-index as needed to ensure it overlaps properly */
-  }
+}
 
 .firstcontainer {
   margin-top: 45px;
@@ -54,7 +57,7 @@ sign up css
 button[type="submit"] {
   background-color: #FFD234; /* Green */
   border: none;
-  color: rgb(0, 0, 0);
+  color: rgb(18, 18, 18);
   padding: 7px 10px;
   text-align: center;
   text-decoration: none;
@@ -62,17 +65,18 @@ button[type="submit"] {
   font-size: 16px;
   margin: 4px 2px;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: 20px;
   width: 100px;
   position: bottom;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 button[type="submit"]:hover {
-  background-color: #B18A00; 
+  background-color: #B18A00;
   /* border: 1px solid gold; */
 }
 
 .buttoncontainer {
   display: flex; /* Use flexbox for centering */
-  justify-content: center; 
+  justify-content: center;
 }
