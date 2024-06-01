@@ -114,7 +114,7 @@ function UploadDocument() {
         if (selectedFile) {
             const fileType = getFileType(selectedFile.name);
     
-            if (['pdf', 'docx', 'pptx', 'jpeg', 'png'].includes(fileType)) {
+            if (['pdf', 'docx', 'pptx', 'jpeg', 'png', 'jpg'].includes(fileType)) {
                 try {
                     console.log(userid);
 
@@ -403,7 +403,11 @@ function UploadDocument() {
                             {selectedFile ? (
                                 <div style={{ marginBottom: '10px', width: '100%' }}>
                                     {getFileType(selectedFile.name) === 'pdf' ? (
-                                        <embed src={URL.createObjectURL(selectedFile)} type="application/pdf" width="40%" height="300px" />
+                                       <img
+                                       src="/PDF.png"
+                                       alt="pdf Icon"
+                                       style={{ width: '40%', height: '300px' }}
+                                        />
                                     ) : getFileType(selectedFile.name) === 'docx' ? (
                                         // Displaying a placeholder icon for DOCX files
                                         <img
@@ -418,14 +422,22 @@ function UploadDocument() {
                                             alt="PPT Icon"
                                             style={{ width: '40%', height: '300px' }}
                                         />
-                                    ) : getFileType(selectedFile.name) === 'txt' ? (
+                                    ) : getFileType(selectedFile.name) === 'jpeg' || 'jpg' ? (
                                         // Displaying a placeholder icon for TXT files
                                         <img
-                                            src="/txt.png"
-                                            alt="TXT Icon"
+                                            src="/jpg.png"
+                                            alt="jpg Icon"
                                             style={{ width: '40%', height: '300px' }}
                                         />
-                                    ) : (
+                                    ) : getFileType(selectedFile.name) === 'png' ? (
+                                        // Displaying a placeholder icon for TXT files
+                                        <img
+                                            src="/png.jpg"
+                                            alt="png Icon"
+                                            style={{ width: '40%', height: '300px' }}
+                                        />
+                                    
+                                    ): (
                                         // Displaying an image for unsupported file types
                                         <img
                                             src="/error.png"
@@ -506,6 +518,8 @@ function UploadDocument() {
                                 {file.fileType === 'docx' && <img src="/docxIcon.png" alt="DOCX Icon" style={{ width: '60px', margin: '5px 10px 5px 15px' }} />}
                                 {file.fileType === 'pptx' && <img src="/pptx.png" alt="PPT Icon" style={{ width: '60px', margin: '5px 10px 5px 15px' }} />}
                                 {file.fileType === 'txt' && <img src="/txtIcon.png" alt="TXT Icon" style={{ width: '55px', margin: '8px 10px 8px 15px' }} />}
+                                {(file.fileType === 'jpeg' || file.fileType === 'jpg') && <img src="/jpg.png" alt="jpg Icon" style={{ width: '60px', margin: '5px 10px 5px 15px' }} />}
+                                {file.fileType === 'png' && <img src="/png.jpg" alt="png Icon" style={{ width: '55px', margin: '8px 10px 8px 15px' }} />}
 
                                 {/* Display file information */}
                                 {file.documentTitle && file.fileSize && (
