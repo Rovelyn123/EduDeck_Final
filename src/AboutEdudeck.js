@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Footer from "./Footer";
 import { useTheme } from "@mui/material/styles";
 
-function AboutAcadZen() {
+function AboutEdudeck() {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -157,4 +157,4 @@ function AboutAcadZen() {
     );
 }
 
-export default AboutAcadZen;
+export default AboutEdudeck;
