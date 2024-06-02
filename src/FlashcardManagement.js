@@ -7,8 +7,11 @@ import Grid from '@mui/material/Grid';
 import { Typography, SwipeableDrawer, useMediaQuery, useTheme, Divider, IconButton } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import { useEffect } from "react";
+import axios from "axios";
 
 function FlashcardManagement() {
+    const userid = localStorage.getItem('userid');
+
     const [openEditDialog, setOpenEditDialog] = useState(false);
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
     const [openAddDialog, setOpenAddDialog] = useState(false);
@@ -18,16 +21,12 @@ function FlashcardManagement() {
     const [newQuestion, setNewQuestion] = useState("");
     const [newAnswer, setNewAnswer] = useState("");
     const [newDeckTitle, setNewDeckTitle] = useState("");
+    const [deckId, setDeckId] = useState(null);
     const [decks, setDecks] = useState(() => {
         const savedDecks = localStorage.getItem('decks');
         return savedDecks ? JSON.parse(savedDecks) : [];
-    });// New state for deck title
-
-    const [flashcards, setFlashcards] = useState(() => {
-        const savedFlashcards = localStorage.getItem('flashcards');
-        return savedFlashcards ? JSON.parse(savedFlashcards) : [];
     });
-
+    const [flashcards, setFlashcards] = useState([]);
     const [isBoxVisible, setIsBoxVisible] = useState(false);
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -36,12 +35,33 @@ function FlashcardManagement() {
         return localStorage.getItem('selectedDeck') || '';
     });
 
+    useEffect(() => {
+        const fetchDecks = async () => {
+          try {
+            const response = await axios.get(`http://localhost:8080/api/decks/getDecksByUser/${userid}`);
+            setDecks(response.data.map(deck => deck.title));
+          } catch (error) {
+            console.error("Error fetching decks:", error);
+          }
+        };
+        fetchDecks();
+      }, []);
+
 
     useEffect(() => {
       localStorage.setItem('decks', JSON.stringify(decks));
   }, [decks]);
 
   useEffect(() => {
+    setDeckId('12');
+    const fetchFlashcards = async () => {
+        try {
+          const flashcardsResponse = await axios.get(`http://localhost:8080/api/flashcards/deck/${deckId}`);
+          setFlashcards(flashcardsResponse.data);
+        } catch (error) {
+          console.error('Error fetching flashcards:', error);
+        }
+      };
     const savedFlashcards = localStorage.getItem("flashcards");
     if (savedFlashcards) {
         setFlashcards(JSON.parse(savedFlashcards));

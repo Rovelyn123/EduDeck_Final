@@ -26,6 +26,7 @@ import TextHighlighting from './TextHighlighting';
 import QuizManagement from './QuizManagement';
 import QuizSession from './QuizSession';
 import GenerateFlashcard from './GenerateFlashcard';
+import UserManagement from './UserManagement';
 
 export default function HomePage() {
     const [user, setUser] = React.useState(null);
@@ -87,6 +88,7 @@ export default function HomePage() {
                     <Route path='/TextHighlighting' element={<TextHighlighting/>} />
                     <Route path='/quiz' element={<QuizManagement />} />
                     <Route path='/quizsession' element={<QuizSession />} />
+                    <Route path='/usermanagement' element={<UserManagement />} />
                     <Route path='/generateflashcard' element={<GenerateFlashcard />} />
                     <Route
                         path="/"
