@@ -1,78 +1,91 @@
 .lsbody {
   background-image: url('/public/crystalbackground.png');
   background-size: cover;
-  height: 100vh;
-  width: 100%;
-  position:absolute;
-}  
-
-.logocontainer {
-  position: absolute;
-  top: 50%; /* Adjust this to control the vertical overlap */
-  left: 30%; /* Centers the square horizontally, adjust as needed */
-  transform: translate(-50%, -50%); /* Adjusts the positioning to center the square */
-  width: 480px; /* Size of the square */
-  height: 100%; /* Size of the square */
-  background-color: #FFD234; /* Example color */
-  z-index: 5; /* Adjust z-index as needed to ensure it overlaps properly */
-  }
-
-.firstcontainer {
-  margin-top: 45px;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 20px;
-  display: flex;
-  justify-content: right;
-  align-items: center;
-  height: 79vh;
-  max-width: 1150px; /* Adjusted width to ensure space on the right */
-  box-shadow: 0 2px 8px rgba(0.2, 0.2, 0.2, 0.2);
-  background-color: white;
-  border-radius: 8px;
 }
 
+.logocontainer {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  width: 40%; /* Adjusted to a percentage */
+  max-width: 480px; /* Limit maximum width */
+  height: 20vh; /* Adjusted to a percentage */
+  background-color: #FFD234;
+  z-index: 5;
+}
+
+.firstcontainer {
+  margin-top: 5vh; /* Adjusted to a percentage */
+  padding: 2vw; /* Adjusted to a percentage */
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  min-height: 50vh; /* Adjusted to a percentage */
+  max-width: 90vw; /* Adjusted to a percentage */
+  box-shadow: 0 2px 8px rgba(0.2, 0.2, 0.2, 0.2);
+  background-color: white;
+  border-radius: 1vw; /* Adjusted to a percentage */
+}
 
 .secondcontainer {
-  margin: 37px;
-  padding: 20px;
+  margin: 3vh 0; /* Adjusted to a percentage */
+  padding: 2vw; /* Adjusted to a percentage */
   background-color: white;
-  border-radius: 8px;
+  border-radius: 1vw; /* Adjusted to a percentage */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: 450px;
-  height: 340px;
+  width: 80%; /* Adjusted to a percentage */
+  max-width: 450px; /* Limit maximum width */
   border: 1px solid gold;
 }
 
-.firstcontainer, .secondcontainer {
-  /* Your existing styles */
-  position: relative; /* Add this if not already present to ensure stacking context */
-  z-index: 1; /* Ensures these containers are below the overlapping square */
-}
-
 button[type="submit"] {
-  background-color: #FFD234; /* Green */
+  background-color: #FFD234;
   border: none;
   color: rgb(0, 0, 0);
-  padding: 7px 10px;
+  padding: 1vh 2vw; /* Adjusted to a percentage */
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
+  font-size: 1.6vw; /* Adjusted to a percentage */
+  margin: 2vh 1vw; /* Adjusted to a percentage */
   cursor: pointer;
   border-radius: 4px;
-  width: 100px;
-  position: bottom;
-}
-
-button[type="submit"]:hover {
-  background-color: #B18A00; 
-  /* border: 1px solid gold; */
+  width: 30%; /* Adjusted to a percentage */
 }
 
 .buttoncontainer {
-  display: flex; /* Use flexbox for centering */
-  justify-content: center; 
-  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 1100px) {
+  .logocontainer {
+    display: none;
+  }
+}
+/* Media query for screens smaller than 600px */
+@media (max-width: 768px) {
+  .logocontainer {
+    display: none;
+  }
+
+  .firstcontainer {
+    display: flex;
+    display: none;
+    width: 90%;
+    height: 100px;
+  }
+
+  .secondcontainer {
+    width: 900%; /* Adjust width to fit smaller screens */
+    border: none;
+    position: absolute;
+    box-shadow: none;
+  }
+
+  /* Adjust button styles for smaller screens */
+  button[type="submit"] {
+    width: 90%; /* Make button full width */
+    margin: 5vw 5vw; /* Adjust margin for spacing */
+  }
 }
