@@ -25,8 +25,8 @@ import SummaryScreen from './payment/Summary';
 import TextHighlighting from './TextHighlighting';
 import QuizManagement from './QuizManagement';
 import QuizSession from './QuizSession';
-import GenerateFlashcard from './GenerateFlashcard';
 import UserManagement from './UserManagement';
+import AdminProfile from './AdminProfile';
 
 export default function HomePage() {
     const [user, setUser] = React.useState(null);
@@ -89,7 +89,7 @@ export default function HomePage() {
                     <Route path='/quiz' element={<QuizManagement />} />
                     <Route path='/quizsession' element={<QuizSession />} />
                     <Route path='/usermanagement' element={<UserManagement />} />
-                    <Route path='/generateflashcard' element={<GenerateFlashcard />} />
+                    <Route path='/adminprofile' element={<AdminProfile />} />
                     <Route
                         path="/"
                         element={
