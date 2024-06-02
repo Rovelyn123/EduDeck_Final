@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 import "./login.css";
 import { Typography, Divider} from '@mui/material';
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
-function Login({ onLogin }) {
+function Login() {
+  const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [error, setError] = useState("");
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -14,11 +19,36 @@ function Login({ onLogin }) {
     setPassword(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault();
-    onLogin(username, password);
-    // After login, you might want to clear the form or redirect the user
+    try {
+      const response = await fetch("http://localhost:8080/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
+      if (response.ok) {
+        const userDetails = await response.json();
+        localStorage.setItem('username', username);
+        // localStorage.setItem('password', password);
+        localStorage.setItem('userid', userDetails.userid);
+        // localStorage.setItem('email', userDetails.email);
+        navigate("/dashboard", { state: { enteredUsername: username } });
+      } else {
+        const data = await response.json();
+        setError(data.message || "Login failed");
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+      setError("An error occurred during login");
+    }
   };
+
+  if (isLoggedIn) {
+    return <Navigate to="/dashboard" />;
+  }
 
   const handleForgotPassword = () => {
     // Here, you might open a modal, navigate to a different route, or set some state to show a forgot password form
@@ -38,7 +68,7 @@ function Login({ onLogin }) {
       </div>
       <div className='firstcontainer' >
         <div className='secondcontainer'>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleLogin}>
             <Typography style={{ fontSize: '30px', fontWeight: 'bold', marginLeft: '20px' }}>
               Log in</Typography>
             <Typography style={{ fontSize: '12px', fontWeight: 'light', marginLeft: '20px' }}>
@@ -93,10 +123,12 @@ function Login({ onLogin }) {
               <button type="submit" style={{ height: '2.3em', width: '14.2em', fontWeight: '600', color: 'white', borderRadius: '.2em', 
                                              position: 'absolute', top: '71%', left: '49%', transform: 'translate(-50%, -50%)'}}>Login</button>
             </div>
+            <Link to="/signup">
               <Typography
                 style={{ cursor: 'pointer', color: '#FFD234', display: 'block', marginTop: '10px' , fontWeight: 'bold',
                          fontSize: '12px', textAlign: 'center', position: 'absolute', top: '80%', left: '50%', transform: 'translate(-50%, -50%)' }}>Create Account
-              </Typography>            
+              </Typography>   
+            </Link>         
           </form>
         </div>
       </div>
