@@ -10,6 +10,14 @@ import { AccountCircle, NotificationsNone } from "@mui/icons-material";
 import NavigationBar from "./NavigationBar";
 
 
+function handleButtonClick1() {
+    window.location.href = "https://buy.stripe.com/test_3cs2b92ML4IT8NO4gg";
+}
+
+function handleButtonClick() {
+    window.location.href = "https://buy.stripe.com/test_5kAaHFfzx3EP1lm7st";
+}
+
 function Pricing() {
 
     // const [settingClicked, setSettingClicked] = useState(false);
@@ -77,7 +85,7 @@ function Pricing() {
               <Typography style={{ fontFamily: 'Inter', fontWeight: 'bolder', color: '#B18A00', fontSize: '32px', textAlign: 'left'}}>₱300.00</Typography>
               <Typography style={{ fontFamily: 'Inter', color: '#9FA0A0', fontSize: '15px', textAlign: 'left'}}>Which is ₱25.00/ month</Typography>
               <Button style={{background: '#FAC712', fontFamily: 'Inter', fontSize: '20px', fontWeight: 'bold', color: '#555245', marginTop: '70px',marginLeft: '15px',
-                              textTransform: 'none', padding: '10px', borderRadius: '10px', width: '370px'}}>
+                              textTransform: 'none', padding: '10px', borderRadius: '10px', width: '370px'}}onClick={handleButtonClick1}>
                 Start your free trial now</Button> 
               </Box>
 <Box style={{ width: '400px', height: '300px', backgroundColor: '#FFFFFF', margin: '20px auto',borderRadius: '20px', border: '1.5px solid black',
@@ -89,9 +97,13 @@ function Pricing() {
               <Typography style={{ fontFamily: 'Inter', fontWeight: 'bolder', color: '#B18A00', fontSize: '32px', textAlign: 'left', marginRight: '10px'}}>₱30.00</Typography>
               <Typography style={{ fontFamily: 'Inter', color: '#9FA0A0', fontSize: '15px', textAlign: 'left'}}> / month</Typography>
               </div>
-              <Button style={{background: '#332D2D', fontFamily: 'Inter', fontSize: '20px', fontWeight: 'bold', color: '#FAC712', marginTop: '70px',marginLeft: '15px',
-                              textTransform: 'none', padding: '10px', borderRadius: '10px', width: '370px'}}>
-                Start your free trial now</Button> 
+    <Button
+        style={{
+            background: '#332D2D', fontFamily: 'Inter', fontSize: '20px', fontWeight: 'bold', color: '#FAC712', marginTop: '70px', marginLeft: '15px', textTransform: 'none', padding: '10px', borderRadius: '10px', width: '370px'
+    }}
+        onClick={handleButtonClick}>
+        Start your free trial now
+    </Button>
               </Box>
               </div>
 
