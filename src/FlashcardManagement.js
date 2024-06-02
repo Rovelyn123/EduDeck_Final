@@ -253,8 +253,8 @@ function FlashcardManagement() {
         )}
       </div>
 
-                <div className="container">
-                    <div className="title">
+                <div className="flashcardcontainer">
+                    <div className="flashcardtitle">
                         <div className="left-buttons">
                             <Button style={{borderRadius: '12px', boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', border: '.5px solid #D9D9D9', padding: '4px 8px', fontSize: '0.875rem'}} variant="contained" className="title-button" onClick={handleOpenAddDialog}>Add Question</Button>
                             <Button style={{borderRadius: '12px', boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', border: '.5px solid #D9D9D9', padding: '4px 8px', fontSize: '0.875rem'}} variant="contained" className="title-button" onClick={() => setOpenConfirmDeleteDeckDialog(true)}>Delete Deck</Button>
