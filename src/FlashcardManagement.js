@@ -8,6 +8,7 @@ import { Typography, SwipeableDrawer, useMediaQuery, useTheme, Divider, IconButt
 import MenuIcon from '@mui/icons-material/Menu';
 import { useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function FlashcardManagement() {
     const userid = localStorage.getItem('userid');
@@ -304,8 +305,12 @@ function FlashcardManagement() {
                             )}
                     </div>
                     <div className="footer-buttons">
+                        <Link to="/quizsession">
                         <Button style={{borderRadius: '20px', boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', border: '.5px solid #D9D9D9', backgroundColor: 'white', color: 'black'}} variant="contained">Start Quiz</Button>
-                        <Button style={{borderRadius: '20px', boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', border: '.5px solid #D9D9D9', backgroundColor: 'white', color: 'black'}} variant="contained">Start Learning Session</Button>
+                        </Link>
+                        <Link to="/reviewsession">
+                        <Button style={{borderRadius: '20px', boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', border: '.5px solid #D9D9D9', backgroundColor: 'white', color: 'black'}} variant="contained">Start Review Session</Button>
+                        </Link>
                     </div>
                 </div>
             </div>
