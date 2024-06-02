@@ -795,7 +795,7 @@ const UserProfile = () => {
               {userName}
             </div>
             <div className='coverphotocontainer'></div>
-            <button className="delete-button" onClick={handleProfilePicDelete}>Delete Profile Picture</button>
+            {/* <button className="delete-button" onClick={handleProfilePicDelete}>Delete Profile Picture</button> */}
           </div>
 
           <div className="bios">
