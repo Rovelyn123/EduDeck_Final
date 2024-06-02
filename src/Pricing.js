@@ -7,7 +7,13 @@ import { createTheme } from '@mui/material/styles';
 
 
 function PricingScreen() {
+    function handleButtonClick1() {
+        window.location.href = "https://buy.stripe.com/test_3cs2b92ML4IT8NO4gg";
+    }
 
+    function handleButtonClick2() {
+        window.location.href = "https://buy.stripe.com/test_5kAaHFfzx3EP1lm7st";
+    }
     const [settingClicked, setSettingClicked] = useState(false);
     const navigate = useNavigate();
 
@@ -137,7 +143,7 @@ function PricingScreen() {
 
                         <Button
                           sx={{ background: '#FAC712', fontFamily: 'Inter', fontSize: { xs: '18px', md: '20px' }, fontWeight: 'bold', color: '#555245', marginTop: '35px', textTransform: 'none', padding: '10px', borderRadius: '10px', width: '100%', boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
-                          }} onClick={handleClick}
+                          }} onClick={handleButtonClick1}
                         >
                           Get Edudeck Plus
                         </Button>
@@ -194,7 +200,7 @@ function PricingScreen() {
                           </Typography>
                         <Button
                           sx={{ background: '#332D2D', fontFamily: 'Inter', fontSize: { xs: '18px', md: '20px' }, fontWeight: 'bold', color: '#FAC712', marginTop: '20px', textTransform: 'none', padding: '10px', borderRadius: '10px', width: '100%', boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
-                          }} onClick={handleClick}
+                          }} onClick={handleButtonClick2}
                         >
                           Get Edudeck Plus
                         </Button>
