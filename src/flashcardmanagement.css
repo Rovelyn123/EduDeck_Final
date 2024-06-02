@@ -119,5 +119,5 @@
 
 .MuiButton-containedSecondary {
     background-color: #FFD700 !important; /* Gold save button */
-    color: black !important; /* Ensure text is black */
+    color: black !important; 
 }
