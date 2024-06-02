@@ -12,10 +12,10 @@ const ThankyouPopup = ({ open, handleClose }) => {
         left: "50%",
         transform: "translate(-50%, -50%)",
         backgroundColor: "#FFFFFF",
-        width: { xs: "90%", md: "50%" },
+        width: { xs: "90%", md: "40%" },
         height: { xs: "auto", md: "auto" },
         borderRadius: "3em",
-        boxShadow: "4px 4px 4px 4px rgba(0, 0, 0, 0.25)",
+        boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.2)",
         padding: { xs: "20px", md: "30px" },
         zIndex: 1300,
       }}
@@ -34,7 +34,7 @@ const ThankyouPopup = ({ open, handleClose }) => {
       <Typography
         sx={{
           color: "#000000",
-          fontSize: { xs: "1em", md: "1.5em" },
+          fontSize: { xs: "1em", md: "1em" },
           textAlign: "center",
           marginBottom: { xs: "20px", md: "15px" },
         }}
@@ -44,7 +44,7 @@ const ThankyouPopup = ({ open, handleClose }) => {
       <Typography
         sx={{
           color: "#000000",
-          fontSize: { xs: "1em", md: "1.5em" },
+          fontSize: { xs: "1em", md: "1em" },
           textAlign: "center",
           marginBottom: { xs: "20px", md: "30px" },
         }}

@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { Typography, Drawer, useMediaQuery, useTheme, Divider, Button, IconButton } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link, useLocation, useNavigate } from "react-router-dom";
-
 
 function NavigationBar() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -14,39 +13,36 @@ function NavigationBar() {
   const navigate = useNavigate();
   const location = useLocation();
 
-    const handleButtonClick = (buttonName) => {
-        setClicked(buttonName); 
-    };
-
   const toggleDrawer = (open) => () => {
     setIsDrawerOpen(open);
   };
 
+  const handleButtonClick = (buttonName) => {
+    setClicked(buttonName === clicked ? null : buttonName);
+  };
 
-//// sa mobile view ni need pa i adjust
   const drawerContent = (
     <Box
       sx={{
-        width: { xs: 110, sm: 230 },
-        height: { xs: '80vh', sm: '100vh' },
+        width: '100%',
+        height: '100%',
         backgroundColor: 'white',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-start',
         alignItems: 'center',
         paddingTop: 0,
         boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
       }}
     >
-      <Box
-        sx={{
-          width: '100%',
-          height: 'auto',
-          overflowY: 'auto',
-          paddingBottom: '5rem',
-        }}
-      >
-        <Divider style={{ backgroundColor: '#BCA860', width: '80%', marginTop: 10 }} />
+      <Box sx={{ width: '100%', height: '90%', overflowY: 'auto', paddingBottom: '5em' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 1 }}>
+          <img src="/logo.png" alt="logo" style={{ height: 50 }} />
+            <Typography variant="h3" style={{ marginRight: '.5em',fontFamily: 'Poppin, sans-serif', fontWeight: '600', fontSize: '2em', color: '#B18A00', }}>
+                EduDeck
+              </Typography>
+        </Box>
+        <Divider style={{ marginLeft: '1em', backgroundColor: '#BCA860', width: '80%', marginTop: 10 }} />
         <Grid container spacing={1} sx={{ paddingTop: 2 }}>
           <Grid item xs={12}>
             <Button
@@ -61,14 +57,12 @@ function NavigationBar() {
               }}
               onClick={() => handleButtonClick('overview')}
             >
-              <img src="/overview.png" alt="overview" style={{ height: 35, marginRight: 0 }} />
-              <Typography style={{ color: 'black', fontFamily: 'Roboto', fontWeight: 300, fontSize: '1.3em', textTransform: 'none', flexGrow: 1 }}>
+              <img src="/overview.png" alt="overview" style={{ height: 25, marginLeft: '1.2em' }} />
+              <Typography style={{ color: 'black', fontFamily: 'Roboto', fontSize: '1.1em', textTransform: 'none', flexGrow: 1 }}>
                 Overview
               </Typography>
             </Button>
           </Grid>
-  
-          {/* Add similar Button components for other items */}
           <Grid item xs={12}>
             <Button
               style={{
@@ -82,35 +76,32 @@ function NavigationBar() {
               }}
               onClick={() => handleButtonClick('document to flashcards')}
             >
-              <img src="/convert.png" alt="convert icon" style={{ height: 25, marginRight: 0 }} />
-              <Typography style={{ color: 'black', fontFamily: 'Roboto', fontWeight: 300, fontSize: '1.3em', textTransform: 'none', flexGrow: 1 }}>
+              <img src="/convert.png" alt="convert icon" style={{ height: 20, marginLeft: '1.3em'  }} />
+              <Typography style={{ color: 'black', fontFamily: 'Roboto', fontSize: '1.1em', textTransform: 'none', flexGrow: 1 }}>
                 Document to Flashcards
               </Typography>
             </Button>
           </Grid>
-  
-          {/* Add similar Button components for other items */}
           <Grid item xs={12}>
             <Button
               style={{
-                backgroundColor: clicked === 'flashcards' ? '#FFEAA0' : 'transparent',
+                backgroundColor: clicked === 'downloads' ? '#FFEAA0' : 'transparent',
                 width: '100%',
-                boxShadow: clicked === 'flashcards' ? '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' : 'none',
+                boxShadow: clicked === 'downloads' ? '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' : 'none',
                 marginBottom: 2,
                 display: 'flex',
                 justifyContent: 'flex-start',
                 alignItems: 'center',
               }}
-              onClick={() => handleButtonClick('flashcards')}
+              onClick={() => handleButtonClick('downloads')}
             >
-              <img src="/downloads.png" alt="downloads" style={{ height: 20, marginRight: 0 }} />
-              <Typography style={{ color: 'black', fontFamily: 'Roboto', fontWeight: 300, fontSize: '1.3em', textTransform: 'none', flexGrow: 1 }}>
+              <img src="/downloads.png" alt="downloads" style={{ height: 15, marginLeft: '1.3em' }} />
+              <Typography style={{ color: 'black', fontFamily: 'Roboto', fontSize: '1.1em', textTransform: 'none', flexGrow: 1 }}>
                 Flashcards
               </Typography>
             </Button>
           </Grid>
-
-          <Grid item xs={12}>
+          {/* <Grid item xs={12}>
             <Button
               style={{
                 backgroundColor: clicked === 'quiz' ? '#FFEAA0' : 'transparent',
@@ -123,23 +114,91 @@ function NavigationBar() {
               }}
               onClick={() => handleButtonClick('quiz')}
             >
-              <img src="/quiz.png" alt="Quiz icon" style={{ height: 30, marginRight: 0 }} />
-              <Typography style={{ color: 'black', fontFamily: 'Roboto', fontWeight: 300, fontSize: '1.3em', textTransform: 'none', flexGrow: 1 }}>
+              <img src="/quiz.png" alt="Quiz icon" style={{ height: 23, marginLeft: '1.4em' }} />
+              <Typography style={{ color: 'black', fontFamily: 'Roboto', fontSize: '1.1em', textTransform: 'none', flexGrow: 1 }}>
                 Quiz
               </Typography>
             </Button>
+          </Grid> */}
+          <Grid item xs={12}>
+            <Button
+              style={{
+                backgroundColor: clicked === 'pricing' ? '#FFEAA0' : 'transparent',
+                width: '100%',
+                boxShadow: clicked === 'pricing' ? '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' : 'none',
+                marginBottom: 2,
+                display: 'flex',
+                justifyContent: 'flex-start',
+                alignItems: 'center',
+              }}
+              onClick={() => handleButtonClick('pricing')}
+            >
+              <img src="/pricing.png" alt="pricing" style={{ height: 25, marginLeft: '1.3em' }} />
+              <Typography style={{ color: 'black', fontFamily: 'Roboto',  fontSize: '1.1em', textTransform: 'none', flexGrow: 1 }}>
+                Pricing
+              </Typography>
+            </Button>
           </Grid>
-         
-  
+          <Grid item xs={12}>
+            <Button
+              style={{
+                backgroundColor: clicked === 'settings' ? '#FFEAA0' : 'transparent',
+                width: '100%',
+                boxShadow: clicked === 'settings' ? '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' : 'none',
+                marginBottom: 2,
+                display: 'flex',
+                justifyContent: 'flex-start',
+                alignItems: 'center',
+              }}
+              onClick={() => handleButtonClick('settings')}
+            >
+              <img src="/settings.png" alt="settings icon" style={{ height: 20, marginLeft: '1.3em' }} />
+              <Typography style={{ color: 'black', fontFamily: 'Roboto', fontSize: '1.1em', textTransform: 'none', flexGrow: 1 }}>
+                Settings
+              </Typography>
+            </Button>
+          </Grid>
         </Grid>
+        <Divider style={{ marginLeft: '1em', backgroundColor: '#BCA860', width: '80%', marginTop: 10 }} />
+        <Box
+          sx={{
+            backgroundColor: '#F3F3F3',
+            width: '70%',
+            height: 'auto',
+            marginTop: 2,
+            marginBottom: 10,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            boxShadow: '0px 5px 10px 0px rgba(0, 0, 0, 0.25)',
+            padding: '1em',
+            marginLeft: '8%'
+          }}
+        >
+          <Typography
+            style={{
+              fontFamily: 'Roboto Condensed',
+              fontSize: 12,
+              color: 'black',
+              margin: "0px 2px 5px 2px",
+              textAlign: 'center',
+            }}
+          >
+            Encountering problems with our service? Reach out to our customer support team for assistance.
+          </Typography>
+          <Button style={{ backgroundColor: '#FFD234', width: '90%', boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' }}>
+            <Typography style={{ color: 'black', fontFamily: 'Roboto Condensed', fontSize: '1em', textTransform: 'none' }}>
+              Contact Us
+            </Typography>
+          </Button>
+        </Box>
       </Box>
     </Box>
   );
-  
 
   return (
     <>
-      {/* <div style={{backgroundImage: 'url(/crystalbackground.png)', minHeight: '100vh', overflow: 'hidden' }}> */}
+      <div style={{backgroundImage: 'url(/crystalbackground.png)', minHeight: '100vh', overflow: 'hidden' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: 1 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', marginLeft: -1}}>
             <img src="/logo.png" alt="logo" style={{ height: isMobile ? 35 : 50 }} />
@@ -166,84 +225,79 @@ function NavigationBar() {
             onClose={toggleDrawer(false)}
             transitionDuration={{ enter: 500, exit: 500 }}
             SlideProps={{ direction: "right" }}
-            PaperProps={{ style: { backgroundColor: 'transparent', height: '60vh', top: '12vh' } }}
-            BackdropProps={{ invisible: true }}
+            PaperProps={{ style: { backgroundColor: 'white', width: '50%', height: '100%' } }}
           >
             {drawerContent}
           </Drawer>
         )}
         {!isMobile && (
           <Box sx={{ width: {xs: 110, sm: 240}, height: {xs: '80vh', sm: '100vh'}, backgroundColor: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', marginTop: '-64px', paddingTop: 0, boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)'}}>
-            <Divider style={{ backgroundColor: '#BCA860', width: '80%', marginTop: 80}} />
+            <Divider style={{ backgroundColor: '#BCA860', width: '80%', marginTop: '30%'}} />
             <Grid container>
-            <Button
-            component={Link}
+
+            <Button component={Link}
             to="/dashboard"
-              style={{backgroundColor: location.pathname === '/dashboard' ? '#FFEAA0' : 'transparent', width: '100%', boxShadow: location.pathname === '/dashboard' ? '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' : 'none', marginBottom: 20, display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}
-              onClick={() => handleButtonClick('dashboard')}
+              style={{backgroundColor: clicked === 'overview' ? '#FFEAA0' : 'transparent', width: '100%', boxShadow: clicked === 'overview' ? '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' : 'none', marginBottom: '3%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}
+              onClick={() => handleButtonClick('overview')}
             >
-              <img src="/overview.png" alt="dashboard" style={{height: 35, marginRight: 40}} />
-              <Typography style={{color: 'black', fontFamily: 'Roboto', fontWeight: 300, fontSize: '1.3em', textTransform: 'none', flexGrow: 1}}>
+              <img src="/overview.png" alt="overview" style={{height: '80%', marginRight: '.5em'}} />
+              <Typography style={{color: 'black', fontFamily: 'Roboto', fontWeight: 300, fontSize: '15px', textTransform: 'none', flexGrow: 1}}>
                 Overview
               </Typography>
             </Button>
 
-            <Button
-            component={Link}
+            <Button component={Link}
             to="/uploaddocument"
-              style={{backgroundColor: clicked === 'document to flashcards' ? '#FFEAA0' : 'transparent', width: '100%', boxShadow: clicked === 'document to flashcards' ? '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' : 'none', marginBottom: 20, display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}
+              style={{backgroundColor: clicked === 'document to flashcards' ? '#FFEAA0' : 'transparent', width: '100%', boxShadow: clicked === 'document to flashcards' ? '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' : 'none', marginBottom: '3%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}
               onClick={() => handleButtonClick('document to flashcards')}
             >
-            <img src="/convert.png" alt="convert icon" style={{height: 25, marginRight: 50}} />
-              <Typography style={{color: 'black', fontFamily: 'Roboto', fontWeight: 300, fontSize: '1.3em', textTransform: 'none', flexGrow: 1}}>
+            <img src="/convert.png" alt="convert icon" style={{height: '80%', marginRight: '.6em'}} />
+              <Typography style={{color: 'black', fontFamily: 'Roboto', fontWeight: 300, fontSize: '15px', textTransform: 'none', flexGrow: 1}}>
               Document to Flashcards
               </Typography>
             </Button>
 
-            <Button
+            <Button 
             component={Link}
             to="/flashcardsmgt"
-              style={{backgroundColor: location.pathname === '/flashcardsmgt' ? '#FFEAA0' : 'transparent', width: '100%', boxShadow: location.pathname === '/flashcardsmgt' ? '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' : 'none', marginBottom: 20, display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}
-              onClick={() => handleButtonClick('flashcards')}
+              style={{backgroundColor: clicked === 'downloads' ? '#FFEAA0' : 'transparent', width: '100%', boxShadow: clicked === 'downloads' ? '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' : 'none', marginBottom: '3%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}
+              onClick={() => handleButtonClick('downloads')}
             >
-              <img src="/downloads.png" alt="downloads" style={{height: 20, marginRight: 45}} />
-              <Typography style={{color: 'black', fontFamily: 'Roboto', fontWeight: 300, fontSize: '1.3em', textTransform: 'none', flexGrow: 1}}>
+              <img src="/downloads.png" alt="downloads" style={{height: '70%', marginRight: '.5em'}} />
+              <Typography style={{color: 'black', fontFamily: 'Roboto', fontWeight: 300, fontSize: '15px', textTransform: 'none', flexGrow: 1}}>
                 Flashcards
               </Typography>
             </Button>
 
-            <Button
-            component={Link}
+            {/* <Button  component={Link}
             to="/quiz"
-              style={{backgroundColor: location.pathname === '/quiz' ? '#FFEAA0' : 'transparent', width: '100%', boxShadow: location.pathname === '/quiz' ? '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' : 'none', marginBottom: 20, display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}
+              style={{backgroundColor: clicked === 'quiz' ? '#FFEAA0' : 'transparent', width: '100%', boxShadow: clicked === 'quiz' ? '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' : 'none', marginBottom: '3%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}
               onClick={() => handleButtonClick('quiz')}
             >
-            <img src="/quiz.png" alt="Quiz icon" style={{height: 30, marginRight: 49}} />
-              <Typography style={{color: 'black', fontFamily: 'Roboto', fontWeight: 300, fontSize: '1.3em', textTransform: 'none', flexGrow: 1}}>
+            <img src="/quiz.png" alt="Quiz icon" style={{height: '90%', marginRight: '.5em'}} />
+              <Typography style={{color: 'black', fontFamily: 'Roboto', fontWeight: 300, fontSize: '15px', textTransform: 'none', flexGrow: 1}}>
               Quiz
               </Typography>
-            </Button>
-
-            <Button
-            component={Link}
+            </Button> */}
+             
+            <Button component={Link}
             to="/pricing"
-              style={{backgroundColor: location.pathname === '/pricing' ? '#FFEAA0' : 'transparent', width: '100%', boxShadow: location.pathname === '/pricing' ? '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' : 'none', marginBottom: 20, display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}
+              style={{backgroundColor: clicked === 'pricing' ? '#FFEAA0' : 'transparent', width: '100%', boxShadow: clicked === 'pricing' ? '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' : 'none', marginBottom: '3%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}
               onClick={() => handleButtonClick('pricing')}
             >
-              <img src="/pricing.png" alt="pricing" style={{height: 35, marginRight: 42}} />
-              <Typography style={{color: 'black', fontFamily: 'Roboto', fontWeight: 300, fontSize: '1.3em', textTransform: 'none', flexGrow: 1}}>
+              <img src="/pricing.png" alt="pricing" style={{height: '100%', marginRight: '.5em'}} />
+              <Typography style={{color: 'black', fontFamily: 'Roboto', fontWeight: 300, fontSize: '15px', textTransform: 'none', flexGrow: 1}}>
                 Pricing
               </Typography>
             </Button>
 
-            <Button
-            component={Link}
+            <Button component={Link}
             to="/profilesettings"
-              style={{backgroundColor: location.pathname === '/profilesettings' ? '#FFEAA0' : 'transparent', width: '100%', boxShadow: location.pathname === '/profilesettings' ? '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' : 'none', marginBottom: 0, display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}
-              onClick={() => handleButtonClick('profilesettings')}
+              style={{backgroundColor: clicked === 'settings' ? '#FFEAA0' : 'transparent', width: '100%', boxShadow: clicked === 'settings' ? '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' : 'none', marginBottom: '3%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}
+              onClick={() => handleButtonClick('settings')}
             >
-            <img src="/settings.png" alt="settings icon" style={{height: 28, marginRight: 48}} />
-              <Typography style={{color: 'black', fontFamily: 'Roboto', fontWeight: 300, fontSize: '1.3em', textTransform: 'none', flexGrow: 1}}>
+            <img src="/settings.png" alt="settings icon" style={{height: '100%', marginRight: '.5em'}} />
+              <Typography style={{color: 'black', fontFamily: 'Roboto', fontWeight: 300, fontSize: '15px', textTransform: 'none', flexGrow: 1}}>
               Settings
               </Typography>
             </Button>
@@ -252,13 +306,13 @@ function NavigationBar() {
             <Divider style={{ backgroundColor: '#BCA860', width: '80%'}} />
 
             <Box style={{backgroundColor: '#F3F3F3', height: '26%', width: "90%", marginBottom: 10, display: 'flex', flexDirection: 'column', alignItems: 'center',
-              boxShadow: '0px 5px 10px 0px rgba(0, 0, 0, 0.25)', justifyContent: 'center'
+              boxShadow: '0px 5px 10px 0px rgba(0, 0, 0, 0.25)', justifyContent: 'center', borderRadius: '8px',
             }}>
-              <Typography style={{fontFamily: 'Roboto Condensed', fontSize: 17, fontWeight: 500, color: 'black', margin: "5px 2px 20px 2px" , textAlign: 'center'}}>
+              <Typography style={{fontFamily: 'Roboto Condensed', fontSize: '15px', fontWeight: 500, color: 'black', padding: '2px', textAlign: 'center'}}>
                 Encountering problems with our service? Reach out to our customer support team for assistance.
               </Typography>
-            <Button style={{backgroundColor: '#FFD234', width: '90%', boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)'}}>
-                <Typography style={{color: 'black', fontFamily: 'Roboto Condensed', fontWeight: 500, fontSize: '1.5em', textTransform: 'none'}}>
+            <Button style={{backgroundColor: '#FFD234', width: '90%', height: '25%', boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)'}}>
+                <Typography style={{color: 'black', fontFamily: 'Roboto Condensed', fontWeight: 600, fontSize: '20px', textTransform: 'none'}}>
                   Contact Us
                 </Typography>
               </Button>
@@ -266,7 +320,7 @@ function NavigationBar() {
             
           </Box>
         )}
-      {/* </div> */}
+      </div>
     </>
   );
 }
