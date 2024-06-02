@@ -64,3 +64,30 @@
     word-wrap: break-word; /* Ensures long words do not cause horizontal overflow */
   }
   
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  @media only screen and (max-width: 600px) {
+    .MuiTypography-h4 {
+      font-size: 1.5rem;
+    }
+  
+    .MuiButton-root {
+      font-size: 0.75rem;
+    }
+  }
+  
+  @media only screen and (min-width: 601px) {
+    .MuiTypography-h4 {
+      font-size: 2rem;
+    }
+  
+    .MuiButton-root {
+      font-size: 1rem;
+    }
+  }
+  
