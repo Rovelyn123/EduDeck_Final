@@ -12,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'js-cookie'; 
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import axios from "axios";
 
 function UploadDocument() {
     const theme = useTheme();
@@ -24,7 +25,12 @@ function UploadDocument() {
     const [documentToDelete, setDocumentToDelete] = useState(null);
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const isMediumScreen = useMediaQuery('(max-width:1219px)');
+    
     const navigate = useNavigate();
+    const [deckId, setDeckId] = useState('');
+  const [extractedText, setExtractedText] = useState('');
+  const [deckCreated, setDeckCreated] = useState(false);
+  const [loading, setLoading] = useState(false);
 
     const { files, user } = uploadedFiles;
 
@@ -326,23 +332,35 @@ function UploadDocument() {
 
     const handleGenerateClick = async (index) => {
         try {
+            setLoading(true);
             // Get the document ID of the file at the given index
             const documentID = uploadedFiles[index]?.documentID;
-    
-            // Make a request to the backend service to generate flashcards
-            const response = await fetch(`http://localhost:8080/api/flashcard/generate/${documentID}`, {
-                method: 'PUT',
+            const documentTitle = uploadedFiles[index]?.documentTitle;
+            
+            const userId = localStorage.getItem('userid');
+            const createDeckResponse = await axios.post('http://localhost:8080/api/decks/createFlashcardDeck', {
+                title: documentTitle,
+                user: {
+                userid: userId
+                }
             });
-    
-            if (!response.ok) {
-                throw new Error('Failed to generate flashcards. Please try again.');
-            }
-    
-            // Parse the response data as JSON
-            const flashcards = await response.json();
-    
-            // Do something with the flashcards...
-            console.log(flashcards);
+            const newDeckId = createDeckResponse.data.deckId;
+            setDeckId(newDeckId);
+            setDeckCreated(true);
+
+            const extractTextResponse = await axios.get(`http://localhost:8080/textextractor/document/${documentID}`);
+            setExtractedText(extractTextResponse.data);
+      
+            await axios.post(`http://localhost:8080/generate-flashcards/${newDeckId}`, extractTextResponse.data, {
+              headers: {
+                'Content-Type': 'text/plain'
+              }
+            });
+
+            setLoading(false);
+
+            navigate('/flashcardsmgt');
+
         } catch (error) {
             console.error('Error in handleGenerateClick:', error);
             toast.error(error.message, {
@@ -353,9 +371,34 @@ function UploadDocument() {
 
     };
 
+    const styles = {
+        overlay: {
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000,
+        },
+        loadingText: {
+          color: 'white',
+          fontSize: '24px',
+          fontWeight: 'bold',
+        },
+      };
+
     // Add ToastContainer at the root level of your component tree
     return (
         <>
+        {loading && (
+        <div style={styles.overlay}>
+          <div style={styles.loadingText}>Generating flashcards...</div>
+        </div>
+      )}
             <ToastContainer />
                 <div className="Upbody">
                 <AppBar position="sticky" style={{backgroundColor: 'transparent', boxShadow: 'none', justifyContent: 'center'}}>
