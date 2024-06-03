@@ -22,73 +22,50 @@ function FlashcardManagement() {
     const [newQuestion, setNewQuestion] = useState("");
     const [newAnswer, setNewAnswer] = useState("");
     const [newDeckTitle, setNewDeckTitle] = useState("");
-    const [deckId, setDeckId] = useState(null);
-    const [decks, setDecks] = useState(() => {
-        const savedDecks = localStorage.getItem('decks');
-        return savedDecks ? JSON.parse(savedDecks) : [];
-    });
+    const [decks, setDecks] = useState([]);
     const [flashcards, setFlashcards] = useState([]);
     const [isBoxVisible, setIsBoxVisible] = useState(false);
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-    const isMediumScreen = useMediaQuery('(max-width:1219px)');
     const [selectedDeck, setSelectedDeck] = useState(() => {
         return localStorage.getItem('selectedDeck') || '';
+    });
+    const [selectedDeckId, setSelectedDeckId] = useState(() => {
+        return localStorage.getItem('selectedDeckId') || '';
     });
 
     useEffect(() => {
         const fetchDecks = async () => {
           try {
             const response = await axios.get(`http://localhost:8080/api/decks/getDecksByUser/${userid}`);
-            setDecks(response.data.map(deck => deck.title));
+            setDecks(response.data);
           } catch (error) {
             console.error("Error fetching decks:", error);
           }
         };
         fetchDecks();
-      }, []);
-
+      }, [userid]);
 
     useEffect(() => {
-      localStorage.setItem('decks', JSON.stringify(decks));
-  }, [decks]);
-
-  useEffect(() => {
-    setDeckId('12');
-    const fetchFlashcards = async () => {
-        try {
-          const flashcardsResponse = await axios.get(`http://localhost:8080/api/flashcards/deck/${deckId}`);
-          setFlashcards(flashcardsResponse.data);
-        } catch (error) {
-          console.error('Error fetching flashcards:', error);
+        if (selectedDeckId) {
+            const fetchFlashcards = async () => {
+                try {
+                  const flashcardsResponse = await axios.get(`http://localhost:8080/api/flashcards/deck/${selectedDeckId}`);
+                  setFlashcards(flashcardsResponse.data);
+                } catch (error) {
+                  console.error('Error fetching flashcards:', error);
+                }
+              };
+            fetchFlashcards();
         }
-      };
-    const savedFlashcards = localStorage.getItem("flashcards");
-    if (savedFlashcards) {
-        setFlashcards(JSON.parse(savedFlashcards));
-    }
-    }, []);
+    }, [selectedDeckId]);
 
-    useEffect(() => {
-        localStorage.setItem("flashcards", JSON.stringify(flashcards));
-    }, [flashcards]);
-
-        const toggleDrawer = (open) => (event) => {
+    const toggleDrawer = (open) => (event) => {
         if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
             return;
         }
         setIsBoxVisible(open);
     };
-
-    useEffect(() => {
-        localStorage.setItem('selectedDeck', selectedDeck);
-    }, [selectedDeck]);
-
-    useEffect(() => {
-        localStorage.setItem('decks', JSON.stringify(decks));
-    }, [decks]);
-
-
 
     const handleEditClick = (flashcard) => {
         setCurrentFlashcard(flashcard);
@@ -119,26 +96,23 @@ function FlashcardManagement() {
     };
 
     const handleAddFlashcard = () => {
-        // Check if a deck is selected
         if (selectedDeck) {
-            // Add the new flashcard with the selected deck title
             setFlashcards([...flashcards, { question: newQuestion, answer: newAnswer, deck: selectedDeck }]);
             setOpenAddDialog(false);
             setNewQuestion("");
             setNewAnswer("");
         } else {
-            // Notify the user to select a deck first
             alert("Please select a deck before adding a flashcard.");
         }
     };
 
     const handleDeleteAll = () => {
         setFlashcards(flashcards.filter((fc) => fc.deck !== selectedDeck));
-        setDecks(decks.filter((deck) => deck !== selectedDeck));
+        setDecks(decks.filter((deck) => deck.title !== selectedDeck));
         setSelectedDeck('');
+        setSelectedDeckId('');
         setOpenConfirmDeleteDeckDialog(false);
     };
-
 
     const handleCloseAddDialog = () => {
         setOpenAddDialog(false);
@@ -162,9 +136,16 @@ function FlashcardManagement() {
     };
 
     const handleCreateNewDeck = () => {
-      setDecks([...decks, newDeckTitle]);
-      setOpenNewDeckDialog(false);
-  };
+        setDecks([...decks, { title: newDeckTitle }]);
+        setOpenNewDeckDialog(false);
+    };
+
+    const handleDeckSelection = (deck) => {
+        setSelectedDeck(deck.title);
+        setSelectedDeckId(deck.deckId);
+        localStorage.setItem('selectedDeck', deck.title);
+        localStorage.setItem('selectedDeckId', deck.deckId);
+    };
 
     const drawerContent = (
         <Box sx={{ width: { xs: '50vw', sm: 230 }, height: '100vh', backgroundColor: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', paddingTop: 0, boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' }}>
@@ -183,12 +164,12 @@ function FlashcardManagement() {
                             <Grid item xs={12} style={{ marginTop: isMobile ? 20 : 40 }} key={index}>
                                 <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column">
                                     <Button style={{
-                                        textTransform: 'none', backgroundColor: selectedDeck === deck ? 'rgba(255, 210, 52, 0.3)' : 'transparent',
-                                        color: selectedDeck === deck ? '#B18A00' : '#332D2D', boxShadow: selectedDeck === deck ? '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' : 'none',
+                                        textTransform: 'none', backgroundColor: selectedDeck === deck.title ? 'rgba(255, 210, 52, 0.3)' : 'transparent',
+                                        color: selectedDeck === deck.title ? '#B18A00' : '#332D2D', boxShadow: selectedDeck === deck.title ? '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' : 'none',
                                         width: '100%', justifyContent: 'center'
                                     }}
-                                            onClick={() => setSelectedDeck(deck)}>
-                                        <Typography variant='body1' style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{deck}</Typography>
+                                    onClick={() => handleDeckSelection(deck)}>
+                                        <Typography variant='body1' style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{deck.title}</Typography>
                                     </Button>
                                 </Box>
                             </Grid>
@@ -252,12 +233,12 @@ function FlashcardManagement() {
                     <Grid item xs={12} style={{ marginTop: isMobile ? 25 : 40 }} key={index}>
                       <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column">
                         <Button style={{
-                          textTransform: 'none', backgroundColor: selectedDeck === deck ? 'rgba(255, 210, 52, 0.3)' : 'transparent',
-                          color: selectedDeck === deck ? '#B18A00' : '#332D2D', boxShadow: selectedDeck === deck ? '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' : 'none',
+                          textTransform: 'none', backgroundColor: selectedDeck === deck.title ? 'rgba(255, 210, 52, 0.3)' : 'transparent',
+                          color: selectedDeck === deck.title ? '#B18A00' : '#332D2D', boxShadow: selectedDeck === deck.title ? '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' : 'none',
                           width: '100%', justifyContent: 'center'
                         }}
-                          onClick={() => setSelectedDeck(deck)}>
-                          <Typography variant='body1' style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{deck}</Typography>
+                        onClick={() => handleDeckSelection(deck)}>
+                          <Typography variant='body1' style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{deck.title}</Typography>
                         </Button>
                       </Box>
                     </Grid>
@@ -283,27 +264,31 @@ function FlashcardManagement() {
                        <h1> {selectedDeck ? selectedDeck : "Flashcards"} </h1>
                     </div>
                     <div className="flashcards">
-                        {selectedDeck && flashcards.length > 0 ? (
-                            flashcards
-                            .filter(flashcards => flashcards.deck === selectedDeck)
-                            .map((flashcard, index) => (
-                            <div key={index} className="flashcard">
-                                <div className="flashcard-content">
-                                    <div><strong>Question:</strong> {flashcard.question}</div>
-                                    <div><strong>Answer:</strong> {flashcard.answer}</div>
+                    {selectedDeck ? (
+                        flashcards.length > 0 ? (
+                            flashcards.map((flashcard, index) => (
+                                <div key={index} className="flashcard">
+                                    <div className="flashcard-content">
+                                        <div><strong>Question:</strong> {flashcard.question}</div>
+                                        <div><strong>Answer:</strong> {flashcard.answer}</div>
+                                    </div>
+                                    <div className="icons">
+                                        <Edit className="icon" onClick={() => handleEditClick(flashcard)} />
+                                        <Delete className="icon" onClick={() => handleDeleteClick(flashcard)} />
+                                    </div>
                                 </div>
-                                <div className="icons">
-                                    <Edit className="icon" onClick={() => handleEditClick(flashcard)} />
-                                    <Delete className="icon" onClick={() => handleDeleteClick(flashcard)} />
-                                </div>
-                            </div>
                             ))
-                          ) : (
+                        ) : (
                             <Typography variant="body1" style={{ textAlign: 'center', marginTop: '20px' }}>
-                                    Select a deck to see flashcards or add a new flashcard.
-                                </Typography>
-                            )}
-                    </div>
+                                No flashcards available. Add a new flashcard.
+                            </Typography>
+                        )
+                    ) : (
+                        <Typography variant="body1" style={{ textAlign: 'center', marginTop: '20px' }}>
+                            Select a deck to see flashcards or add a new flashcard.
+                        </Typography>
+                    )}
+                </div>
                     <div className="footer-buttons">
                         <Link to="/quizsession">
                         <Button style={{borderRadius: '20px', boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', border: '.5px solid #D9D9D9', backgroundColor: 'white', color: 'black'}} variant="contained">Start Quiz</Button>
