@@ -1,50 +1,87 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "./QuizSession.css";
-import { AppBar, Toolbar, Typography, IconButton, Box, TextField } from "@mui/material";
+import { Typography, Box, TextField, Button } from "@mui/material";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import QuizTopBar from "./QuizTopBar";
 
 const QuizSession = () => {
-    // Array of questions
-    const questions = [
-        "What is the capital of France?",
-        "What is the capital of Brazil?",
-        "What is the capital of Philippines?",
-        // Add more questions as needed
-    ];
+    const [questions, setQuestions] = useState([]);
 
-  return (
-    <div className="welcome-back-page">
-      <AppBar style={{background: 'none', boxShadow: 'none', padding: '10px', marginTop: '10px'}}>
-        <Toolbar>
-          <img src="/logo.png" alt="App Logo" style={{width: 100, marginLeft: '50px'}}/>
-          <Typography variant="h3" style={{fontFamily: 'Poppin, sans-serif', fontWeight: '600', fontSize: '40px',color: '#B18A00'}}>
-            EduDeck
-          </Typography>
-        </Toolbar>
-        <div style={{ display: 'flex', alignItems: 'center', width: '100%', padding: '10px', marginLeft: '100px'}}>
-          <div style={{ background: 'white', borderRadius: '15px', textAlign: 'center', height: '55px', width: '1101px', boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)'}}>
-            <Typography variant="h4" style={{ fontFamily: "Roboto Condensed", fontSize: '35px',color: '#332D2D', textAlign: 'center', lineHeight: '55px' }}>
-              Test Quiz
-            </Typography>
-          </div>
-        </div>
-      </AppBar>
-        <div className="title">
-          <Typography variant="h3" style={{ fontFamily: "Roboto Condensed", fontSize: '35px',color: '#332D2D', textAlign: 'center', lineHeight: '55px' }}>Rizal's Lovers</Typography>
-        </div>
-        <div className="question">
-                {questions.map((question, index) => (
-                    <div key={index} className="question-card">
-                        <div className="counter">{index + 1}/20</div>
-                        <Typography variant="h6" className="question-label">Question</Typography>
-                        <span className="question-text">{question}</span>
-                        <div className="text-field-bottom">
-                            <TextField label="Your Answer" variant="outlined" style={{ width: '800px' }}/>
-                        </div>
+    useEffect(() => {
+        // Function to fetch or generate questions
+        const fetchQuestions = () => {
+            // This is where you retrieve the questions from the document
+            // For demonstration, we will simulate this with a timeout
+            setTimeout(() => {
+                const generatedQuestions = [
+                    "Who was Jose Rizal’s puppy love?",
+                    "Unfortunately, _______’s mother disapproved of her daughter’s relationship with Rizal, who was then a known filibustero.",
+                    "Who was Jose Rizal’s true love in exile?",
+                    "What does UML stand for?",
+                    "Explain the purpose of a use case diagram.",
+                    "Define scope creep.",
+                    "What are the key elements of a project scope statement?",
+                    // Add more questions as needed
+                ];
+                setQuestions(generatedQuestions);
+            }, 1000);
+        };
+
+        fetchQuestions();
+    }, []);
+
+    const theme = createTheme({
+        breakpoints: {
+            values: {
+                xs: 0,
+                sm: 600,
+                md: 960,
+                lg: 1280,
+                xl: 1920,
+            },
+        },
+    });
+
+    return (
+        <ThemeProvider theme={theme}>
+            <Box sx={{
+                backgroundImage: `url('/crystalbackground.png')`,
+                backgroundSize: 'cover',
+                minHeight: { xs: '150vh', md: '100vh' },
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+            }}>
+                <div className="welcome-back-page">
+                    <QuizTopBar />
+                    <div className="title">
+                        <Typography variant="h3" style={{ fontFamily: "Roboto Condensed", fontSize: '29px', color: '#332D2D', textAlign: 'center', lineHeight: '55px' }}>
+                            Rizal's Lovers
+                        </Typography>
                     </div>
-                ))}
-            </div>
-      </div>
-  );
+                    <div className="question">
+                        {questions.length > 0 ? questions.map((question, index) => (
+                            <div key={index} className="question-card">
+                                <div className="counter">{index + 1}/20</div>
+                                <Typography variant="h6" className="question-label">Question</Typography>
+                                <span className="question-text">{question}</span>
+                                <div className="text-field-bottom">
+                                    <TextField label="Your Answer" variant="outlined" style={{ width: '800px', backgroundColor: '#f5f2d8' }} />
+                                </div>
+                            </div>
+                        )) : (
+                            <Typography>Loading questions...</Typography>
+                        )}
+                    </div>
+                </div>
+                <Box sx={{ display: 'flex', justifyContent: 'center', paddingBottom: '20px' }}>
+                    <Button variant="contained" sx={{backgroundColor: '#FFD234'}}>
+                        <Typography>Submit</Typography>
+                    </Button>
+                </Box>
+            </Box>
+        </ThemeProvider>
+    );
 };
 
 export default QuizSession;
