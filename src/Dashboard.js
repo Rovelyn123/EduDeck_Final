@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './Dashboard.css';
+//import './Dashboard.css';
 import { Typography, Divider, Button, Dialog, DialogActions, DialogContentText,
     DialogContent, TextField, DialogTitle, IconButton, Box, Toolbar, Grid} from '@mui/material';
 import { AccountCircle, NotificationsNone } from "@mui/icons-material";
@@ -165,11 +165,11 @@ const Dashboard = ({onLogout}) => {
         
                 <div style={{ marginLeft: "1em"}}>
                   <Typography variant="h4" sx={{textAlign: { xs: 'center', md: 'left' },
-                                        fontSize: { xs: '.8em', md: '1em' },
+                                        fontSize: { xs: '.9em', md: '1em' },
                                         fontFamily: 'Roboto Condensed', fontWeight: 'bold',
                                         position: 'absolute',
-                                        top: { xs: '5%', md: '10%' },
-                                        left: { xs: '10%', md: '-70%' },
+                                        top: { xs: '17%', md: '10%' },
+                                        left: { xs: '2%', md: '-70%' },
                                         transform: { xs: 'translateX(-50%)', md: 'none' },
                                     }} > Welcome Back,
                   </Typography>
@@ -180,8 +180,8 @@ const Dashboard = ({onLogout}) => {
                         fontSize: '1.8em',
                         marginRight: { xs: 'auto', md: 'auto' }, 
                         position: 'absolute', 
-                        top: { xs: '25%', md: '40%' }, 
-                        left: { xs: '1%', md: '-45%' }, 
+                        top: { xs: '35%', md: '40%' }, 
+                        left: { xs: '1%', md: '-42%' }, 
                         transform: { xs: 'translateX(-50%)', md: 'translateX(-50%)' }, 
                         textAlign: { xs: 'center', md: 'left' }
                     }}
@@ -305,11 +305,11 @@ const Dashboard = ({onLogout}) => {
             </div>
             
             <Box sx={{
-                width: {xs: '19em', md:'45.5em'},
-                height: {xs: '14em', md:'10em'},
+                width: {xs: '83.5%', md:'55%'},
+                height: {xs: '26%', md:'25%'},
                 backgroundColor: '#FFD234', position: 'absolute',
-                top: {xs: '11em', md: '110px'},
-                marginLeft: {xs: '12em', md: '625px'},
+                top: {xs: '25%', md: '17%'},
+                marginLeft: {xs: '49%', md: '47%'},
                 transform: 'translate(-50%, -50%)',
                 borderRadius: '7px', overflow: 'hidden',
                 boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
@@ -322,102 +322,102 @@ const Dashboard = ({onLogout}) => {
                 }}>Recent Quiz Activity
             </Typography>
 
-      <Box sx={{
-      backgroundColor: "#FFFFFF",
-      borderRadius: '.5em',
-      position: 'absolute',
-      p: 2,
-      boxSizing: 'border-box',
-      width: { xs: '17em', md: '35em' },
-      height: { xs: '9.5em', md: '6em' },
-      top: { xs: '3em', md: '3em' },
-      left: { xs: '1em', md: '1em' },
-      boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
-    }}>
-      <Typography sx={{ position: 'absolute', top: { xs: '1em', md: '1em' }, left: { xs: '1em', md: '1em' }, fontSize: '1em', fontWeight: 'bold' }}>
-        Rizal's Lovers
-      </Typography>
-      <Typography sx={{ position: 'absolute', top: '3em', left: '3em', fontSize: '.8em', fontWeight: 'bold' }}>
-        Total Questions: {totalQuestions}
-      </Typography>
-      <Typography sx={{ position: 'absolute', top: '4.5em', left: '3.1em', fontSize: '.8em', fontWeight: 'bold' }}>
-        Score: {score}%
-      </Typography>
-
-      <Box sx={{
-        display: 'flex', flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'flex-end', position: 'absolute', bottom: 0, right: 0, p: 2, width: '100%', boxSizing: 'border-box'
-      }}>
-        <Button 
-          onClick={handleClickOpen}
-          style={{
-            background: '#FFE793',
-            width: '12em',
-            height: '2.2em',
-            fontSize: '.75em',
-            color: '#000000',
-            position: 'relative',
+            <Box sx={{
+            backgroundColor: "#FFFFFF",
             borderRadius: '.5em',
-            marginBottom: '.1em',
-            marginRight: '1em'
-          }}
-          sx={{
-            '@media (max-width: 600px)': { width: '17em', height: '3em', fontSize: '.75em' }
+            position: 'absolute',
+            p: 2,
+            boxSizing: 'border-box',
+            width: { xs: '85%', md: '80%' },
+            height: { xs: '65%', md: '60%' },
+            top: { xs: '25%', md: '30%' },
+            left: { xs: '7%', md: '2%' },
+            boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
           }}>
-          Target Score: {targetScore}%
-        </Button>
+            <Typography sx={{ position: 'absolute', top: { xs: '1em', md: '1em' }, left: { xs: '1em', md: '1em' }, fontSize: '1em', fontWeight: 'bold' }}>
+              Rizal's Lovers
+            </Typography>
+            <Typography sx={{ position: 'absolute', top: '3em', left: '3em', fontSize: '.8em', fontWeight: 'bold' }}>
+              Total Questions: {totalQuestions}
+            </Typography>
+            <Typography sx={{ position: 'absolute', top: '4.5em', left: '3.1em', fontSize: '.8em', fontWeight: 'bold' }}>
+              Score: {score}%
+            </Typography>
 
-        <Button style={{
-          background: '#FFE793',
-          width: '8em',
-          height: '2.2em',
-          fontSize: '.75em',
-          color: '#000000',
-          position: 'relative',
-          borderRadius: '.5em',
-          marginBottom: '.1em'
-        }}
-        sx={{
-          '@media (max-width: 600px)': { width: '17em', height: '3em', fontSize: '.75em' }
-        }}>
-        {score >= targetScore ? 'FAILED!' : 'PASSED!'}
-      </Button>
-      </Box>
+            <Box sx={{
+              display: 'flex', flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'flex-end', position: 'absolute', bottom: 0, right: 0, p: 2, width: '100%', boxSizing: 'border-box'
+            }}>
+              <Button 
+                onClick={handleClickOpen}
+                style={{
+                  background: '#FFE793',
+                  width: '12em',
+                  height: '2.2em',
+                  fontSize: '.75em',
+                  color: '#000000',
+                  position: 'relative',
+                  borderRadius: '.5em',
+                  marginBottom: '.1em',
+                  marginRight: '1em'
+                }}
+                sx={{
+                  '@media (max-width: 600px)': { width: '17em', height: '3em', fontSize: '.75em' }
+                }}>
+                Target Score: {targetScore}%
+              </Button>
 
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Edit Target Score</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Please enter your desired target score.
-          </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            label="Target Score"
-            type="number"
-            fullWidth
-            variant="outlined"
-            value={targetScore}
-            onChange={handleTargetScoreChange}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleClose} color="primary">
-            Save
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </Box>
-    </Box>
+              <Button style={{
+                background: '#FFE793',
+                width: '8em',
+                height: '2.2em',
+                fontSize: '.75em',
+                color: '#000000',
+                position: 'relative',
+                borderRadius: '.5em',
+                marginBottom: '.1em'
+              }}
+              sx={{
+                '@media (max-width: 600px)': { width: '17em', height: '3em', fontSize: '.75em' }
+              }}>
+              {score >= targetScore ? 'FAILED!' : 'PASSED!'}
+            </Button>
+            </Box>
 
-    <Box>
+            <Dialog open={open} onClose={handleClose}>
+              <DialogTitle>Edit Target Score</DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  Please enter your desired target score.
+                </DialogContentText>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  label="Target Score"
+                  type="number"
+                  fullWidth
+                  variant="outlined"
+                  value={targetScore}
+                  onChange={handleTargetScoreChange}
+                />
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose} color="primary">
+                  Cancel
+                </Button>
+                <Button onClick={handleClose} color="primary">
+                  Save
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </Box>
+          </Box>
+
+          <Box>
                 <Typography variant="h4"
                 sx={{
                     textAlign: 'left', position: 'absolute', fontWeight: 'bold',
-                    top: { xs: '16em', md: '8em' },
-                    left: { xs: '2.3em', md: '11em' },
+                    top: { xs: '42%', md: '34%' },
+                    left: { xs: '11%', md: '22%' },
                     fontSize: { xs: '1.2em', md: '1.7em' },
                 }}> Elevate your learning
                 </Typography>
@@ -425,8 +425,8 @@ const Dashboard = ({onLogout}) => {
                 <Typography
                 variant="h4" sx={{
                     textAlign: 'center', position: 'absolute',
-                    top: { xs: '21em', md: '16em' },
-                    left: { xs: '2.5em', md: '18.7em' },
+                    top: { xs: '45%', md: '40%' },
+                    left: { xs: '10%', md: '22%' },
                     fontSize: { xs: '1em', md: '1em' },
                     width: { xs: '50%', md: 'auto' } 
                 }}> subscribe today, unlocking a world of interactive study materials
@@ -434,11 +434,11 @@ const Dashboard = ({onLogout}) => {
 
                 <Box sx={{
                     backgroundColor: "#FFFFFF",
-                    width: { xs: '6em', md: '6.5em' },
-                    height: { xs: '5em', md: '5.5em' },
+                    width: { xs: '6em', md: '7%' },
+                    height: { xs: '5em', md: '14%' },
                     borderRadius: '.5em', position: 'absolute',
-                    top: { xs: '19em', md: '12.5em' },
-                    left: { xs: '15em', md: '50em' },
+                    top: { xs: '42%', md: '31.5%' },
+                    left: { xs: '65%', md: '58%' },
                     boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
                     display: 'flex', justifyContent: 'center', alignItems: 'center'
                 }}>
@@ -447,10 +447,10 @@ const Dashboard = ({onLogout}) => {
             </Box>
 
             <Box sx={{
-                    width: { xs: '78%', md: '43em' },
-                    height: { xs: 'auto', md: '150px' }, backgroundColor: 'white', position: 'absolute',
-                    top: { xs: '26em', md: '300px' },
-                    left: { xs: '50%', md: '630px' },
+                    width: { xs: '73%', md: '52%' },
+                    height: { xs: 'auto', md: 'auto' }, backgroundColor: 'white', position: 'absolute',
+                    top: { xs: '55%', md: '47%' },
+                    left: { xs: '50%', md: '47%' },
                     transform: 'translateX(-50%)',
                     borderRadius: '7px', padding: '20px',
                     boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
@@ -519,49 +519,13 @@ const Dashboard = ({onLogout}) => {
                 </Grid>
                    </Grid>
                 </Box>
-
-                {/* <Box sx={{
-                width: { xs: '70%', md: '43em' },
-                height: 'auto', backgroundColor: 'white', borderColor: '#FAC712', borderStyle: 'solid', borderWidth: '3px',
-                position: 'absolute',
-                top: { xs: '48em', md: '32em' },
-                left: { xs: '50%', md: '630px' },
-                transform: 'translateX(-50%)', borderRadius: '7px', padding: '10px 20px',
-                boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', display: 'flex',
-                flexDirection: { xs: 'column', md: 'row' },
-                alignItems: 'center',
-                justifyContent: { xs: 'center', md: 'space-between' },
-                }}>
-                   <img src="fire.png" alt="file" style={{ width: '4em', marginRight: '1em', marginBottom: { xs: '1em', md: 0 } }}/>
-            <Box
-            sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, alignItems: { xs: 'center', md: 'baseline' }, }}>
-
-            <Typography sx={{
-                    fontSize: { xs: '1em', md: '1.5em' },
-                    fontWeight: 'bold',
-                    marginBottom: { xs: '0.5em', md: 0 },
-                    marginRight: { xs: 0, md: '1em' },
-                    }}> 3 DAYS
-            </Typography>
-
-            <Typography sx={{fontSize: { xs: '0.8em', md: '1em' }, color: '#989A9B', }}> CURRENT STREAK </Typography>
-
-            </Box>
-            <Typography sx={{
-                fontSize: { xs: '1em', md: '1.2em' },
-                textAlign: 'center',
-                marginTop: { xs: '1em', md: 0 }
-            }}> M&nbsp;&nbsp;&nbsp;&nbsp;T&nbsp;&nbsp;&nbsp;&nbsp;W&nbsp;&nbsp;&nbsp;&nbsp;T&nbsp;&nbsp;&nbsp;&nbsp;F&nbsp;&nbsp;&nbsp;&nbsp;S&nbsp;&nbsp;&nbsp;&nbsp;S
-            </Typography>
-
-                </Box> */}
               
         <Box sx={{
-            width: { xs: '70%', md: '43em' },
+            width: { xs: '73.5%', md: '52%' },
             height: 'auto', backgroundColor: 'white', borderColor: '#FAC712', borderStyle: 'solid', borderWidth: '3px',
             position: 'absolute',
-            top: { xs: '48em', md: '32em' },
-            left: { xs: '50%', md: '630px' },
+            top: { xs: '95%', md: '80%' },
+            left: { xs: '50%', md: '47%' },
             transform: 'translateX(-50%)', borderRadius: '7px', padding: '10px 20px',
             boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', display: 'flex',
             flexDirection: { xs: 'column', md: 'row' },
@@ -595,11 +559,11 @@ const Dashboard = ({onLogout}) => {
         </Box>
 
                 <Box sx={{
-                      width: { xs: '85%', md: '18em' },
-                      height: { xs: '15em', md: '34em' },
+                      width: { xs: '85%', md: '21.5%' },
+                      height: { xs: '28%', md: '87%' },
                       backgroundColor: 'white', position: 'absolute',
-                      top: { xs: '63em', md: '21.5em' },
-                      left: { xs: '50%', md: '72.5em' },
+                      top: { xs: '120%', md: '55%' },
+                      left: { xs: '50%', md: '87%' },
                       transform: { xs: 'translateX(-50%)', md: 'translate(-50%, -50%)' },
                       borderRadius: '7px', padding: '10px', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center',
                       boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
@@ -609,13 +573,13 @@ const Dashboard = ({onLogout}) => {
                         textAlign: 'center',
                         fontSize: { xs: '1.2em', md: '1.3em' },
                         position: 'absolute',
-                        top: { xs: '1em', md: '1.3em' },
+                        top: { xs: '1em', md: '4%' },
                     }}> Recent Flashcard Activity
                 </Typography>
                 <Box sx={{
                 backgroundColor: '#FFE793',
-                width: { xs: '90%', md: '16em' },
-                height: '9em',borderRadius: '.5em', position: 'absolute',
+                width: { xs: '90%', md: '90%' },
+                height: { xs: '60%', md: '28%' },borderRadius: '.5em', position: 'absolute',
                 top: { xs: '4em', md: '4em' },
                 boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
                 display: 'flex', justifyContent: 'center', alignItems: 'center',
