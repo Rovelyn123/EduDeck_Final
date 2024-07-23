@@ -7,7 +7,6 @@ import TopAppBar from './TopAppBar';
 
 function ReviewSession() {
   const [flashcardTitle, setFlashcardTitle] = useState('Rizal Lovers');
-
   const [isFlipped, setIsFlipped] = useState(false);
   const [flashcards] = useState({
     "Rizal's Lovers": [

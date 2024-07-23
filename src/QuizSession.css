@@ -16,7 +16,7 @@
     align-items: center;
     border-radius: 8px;
     padding: 5px; /* Increased padding for better visibility */
-    margin-top: 100px;
+    /* margin-top: 100px; */
     margin-bottom: 20px;
     box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.25);
   }
@@ -74,9 +74,10 @@
  
 @media (max-width: 480px) {
   .title {
-    width: 60%;
-    font-size: 20px;
-    margin-top: 120px;
+    width: 50%;
+    /* height: 55%; */
+    font-size: 15px;
+    margin-top: 20px;
 }
   
   .question-card {
