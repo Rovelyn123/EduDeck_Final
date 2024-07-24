@@ -1,32 +1,39 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import "./QuizSession.css";
 import { Typography, Box, TextField, Button, AppBar, Toolbar, useMediaQuery } from "@mui/material";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const QuizSession = () => {
     const [questions, setQuestions] = useState([]);
+    const [totalQuestions, setTotalQuestions] = useState(0);
+    const [title, setTitle] = useState('');
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        // Function to fetch or generate questions
-        const fetchQuestions = () => {
-            // This is where you retrieve the questions from the document
-            // For demonstration, we will simulate this with a timeout
-            setTimeout(() => {
-                const generatedQuestions = [
-                    "Who was Jose Rizal’s puppy love?",
-                    "Unfortunately, _______’s mother disapproved of her daughter’s relationship with Rizal, who was then a known filibustero.",
-                    "Who was Jose Rizal’s true love in exile?",
-                    "What does UML stand for?",
-                    "Explain the purpose of a use case diagram.",
-                    "Define scope creep.",
-                    "What are the key elements of a project scope statement?",
-                    // Add more questions as needed
-                ];
-                setQuestions(generatedQuestions);
-            }, 1000);
+        const fetchQuestions = async () => {
+            try {
+                const selectedDeckId = localStorage.getItem('selectedDeckId');
+                if (!selectedDeckId) {
+                    throw new Error('No deck selected');
+                }
+                const response = await axios.get(`http://localhost:8080/api/flashcards/deck/${selectedDeckId}`);
+                const flashcards = response.data;
+
+                const fetchedQuestions = flashcards.map(flashcard => flashcard.question);
+                setQuestions(fetchedQuestions);
+                setTotalQuestions(fetchedQuestions.length);
+                setError(null);
+            } catch (error) {
+                console.error('Error fetching questions:', error);
+                setError('An error occurred while fetching questions. Please try again later.');
+            }
         };
 
         fetchQuestions();
+
+        const selectedDeck = localStorage.getItem('selectedDeck');
+        setTitle(selectedDeck || 'Untitled Deck');
     }, []);
 
     const theme = createTheme({
@@ -130,13 +137,15 @@ const QuizSession = () => {
                 <Box className="welcome-back-page">
                     <div className="title">
                         <Typography variant="h3" style={{ fontFamily: "Roboto Condensed", fontSize: '29px', color: '#332D2D', textAlign: 'center', lineHeight: '55px' }}>
-                            Rizal's Lovers
+                            {title}
                         </Typography>
                     </div>
                     <div className="question">
-                        {questions.length > 0 ? questions.map((question, index) => (
+                        {error ? (
+                            <Typography variant="h6" color="error">{error}</Typography>
+                        ) : questions.length > 0 ? questions.map((question, index) => (
                             <div key={index} className="question-card">
-                                <div className="counter">{index + 1}/20</div>
+                                <div className="counter">{index + 1}/{totalQuestions}</div>
                                 <Typography variant="h6" className="question-label">Question</Typography>
                                 <span className="question-text">{question}</span>
                                 <div className="text-field-bottom">
