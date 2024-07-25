@@ -25,6 +25,7 @@ import SummaryScreen from './payment/Summary';
 import TextHighlighting from './TextHighlighting';
 import QuizManagement from './QuizManagement';
 import QuizSession from './QuizSession';
+import QuizSummary from './QuizSummary';
 import UserManagement from './UserManagement';
 import AdminProfile from './AdminProfile';
 
@@ -88,6 +89,7 @@ export default function HomePage() {
                     <Route path='/TextHighlighting' element={<TextHighlighting/>} />
                     <Route path='/quiz' element={<QuizManagement />} />
                     <Route path='/quizsession' element={<QuizSession />} />
+                    <Route path='/quizsummary' element={<QuizSummary />} />
                     <Route path='/usermanagement' element={<UserManagement />} />
                     <Route path='/adminprofile' element={<AdminProfile />} />
                     <Route

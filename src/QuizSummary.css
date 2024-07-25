@@ -1,0 +1,127 @@
+.lsbody {
+    background-image: url('/public/crystalbackground.png');
+    background-size: cover;
+    min-height: 100vh; /* Use min-height to ensure background covers the entire viewport */
+    width: 100%;
+    position: absolute;
+    overflow-y: auto; /* Allows for vertical scrolling if content overflows */
+  }
+  
+  /* .navigation ul li {
+      margin-bottom: 1em; /* Adjusts the space between the buttons 
+    }
+     */
+     .nav-btn {
+      margin-top: 2em;
+      margin-left: 1em;
+      margin-bottom: .5em;
+      display: block;
+      width: 90%;
+      height: 3em;
+      padding: .5em;
+      background-color: transparent; /* Ensures buttons have no background */
+      border: none;
+      color: #333; /* Visible text color */
+      cursor: pointer;
+      text-align: left;
+      border-radius: .5em; /* Optional: Adds rounded corners to the buttons */
+    }
+    
+    .nav-btn:hover {
+      color: #555; /* Lightens text color on hover for a visual effect */
+    }
+    
+    .nav-btn:focus {
+      outline: none;
+    }
+  
+    .btn-active {
+      background-color: #ffffff; /* White background */
+      color: #B18A00; /* Gold color */
+      box-shadow: 0 2px 8px rgba(0.2, 0.2, 0.2, 0.2);
+    }
+  
+    .btn-active img {
+      filter: sepia(1) saturate(5) hue-rotate(20deg);
+    }
+  
+    .btn-active svg {
+    fill: rgb(255, 217, 0);
+    }
+  
+    .bio-container {
+      overflow-y: auto; /* Allows vertical scrolling if content overflows */
+      padding: .3em; /* Provides some space inside the container */
+      height: 9.7em; /* Fixed height */
+      width: 26em; /* Fixed width */
+      background-color: rgb(237, 237, 237);
+      border-radius: .4em;
+    }
+    
+    .bio-text {
+      word-wrap: break-word; /* Ensures long words do not cause horizontal overflow */
+    }
+    
+    .question-card {
+      width: 76em; 
+      height: 25em;
+      background-color: #ffffff;
+      border-radius: 15px;
+      box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.25);
+      margin-bottom: 30px;
+      position: relative;
+      top: 10em; 
+      margin-Left: 19em;
+    }
+    
+    .question-label {
+      position: absolute;
+      top: 20px; /* Adjusted top spacing */
+      left: 50px; /* Adjusted left spacing */
+      font-weight: bold;
+      color: #CBBA61;
+      font-size: 1.5em; 
+    }
+    
+    .text-field-bottom {
+      position: absolute;
+      bottom: 20px;
+      width: calc(100% - 32px); /* Adjusted width */
+      /* background-color: #f5f2d8; */
+      border-radius: 8px;
+      z-index: 1;
+      display: flex;
+      justify-content: center; /* Center horizontally */
+      align-items: center; /* Center vertically */
+    }
+    
+    .counter {
+      position: absolute;
+      top: 20px;
+      right: 50px; /* Adjusted right spacing */
+      font-size: 18px;
+      color: #CBBA61;
+    }
+    
+    .answer-label{
+      color: #CBBA61; 
+      font-size: 1.5em; 
+      font-weight: bolder; 
+      position: absolute; 
+      top: 270px; /* Adjusted top spacing */
+      left: 50px; /* Adjusted left spacing */
+    }
+  
+      .question-text {
+      font-size: 28px;
+      color: #332d2d;
+      position: absolute;
+      margin-top: -30px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      width: 80%; /* Adjust width as needed */
+    }
+  
+    

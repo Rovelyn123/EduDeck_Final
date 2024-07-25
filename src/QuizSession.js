@@ -3,12 +3,15 @@ import axios from 'axios';
 import "./QuizSession.css";
 import { Typography, Box, TextField, Button, AppBar, Toolbar, useMediaQuery } from "@mui/material";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
 
 const QuizSession = () => {
     const [questions, setQuestions] = useState([]);
     const [totalQuestions, setTotalQuestions] = useState(0);
     const [title, setTitle] = useState('');
     const [error, setError] = useState(null);
+    const [userAnswers, setUserAnswers] = useState({});
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchQuestions = async () => {
@@ -20,12 +23,16 @@ const QuizSession = () => {
                 const response = await axios.get(`http://localhost:8080/api/flashcards/deck/${selectedDeckId}`);
                 const flashcards = response.data;
 
-                const fetchedQuestions = flashcards.map(flashcard => flashcard.question);
+                const fetchedQuestions = flashcards.map(flashcard =>({
+                    id: flashcard.flashcardId,
+                    question: flashcard.question,
+                    answer: flashcard.answer
+
+                }));
                 setQuestions(fetchedQuestions);
                 setTotalQuestions(fetchedQuestions.length);
                 setError(null);
             } catch (error) {
-                console.error('Error fetching questions:', error);
                 setError('An error occurred while fetching questions. Please try again later.');
             }
         };
@@ -35,6 +42,34 @@ const QuizSession = () => {
         const selectedDeck = localStorage.getItem('selectedDeck');
         setTitle(selectedDeck || 'Untitled Deck');
     }, []);
+
+    const handleInputChange = (flashcardId, value) => {
+        setUserAnswers(prevAnswers => ({
+            ...prevAnswers,
+            [flashcardId]: value
+        }));
+    };
+
+    const submitQuiz = () => {
+        const detailedResults = questions.map(question => ({
+            question: question.question,
+            correctAnswer: question.answer,
+            userAnswer: userAnswers[question.id] || ''
+        }));
+    
+        let correctAnswers = 0;
+        questions.forEach(question => {
+            if (userAnswers[question.id] && userAnswers[question.id].toLowerCase() === question.answer.toLowerCase()) {
+                correctAnswers++;
+            }
+        });
+    
+        const wrongAnswers = totalQuestions - correctAnswers;
+        const score = { correctAnswers, wrongAnswers, detailedResults };
+    
+        navigate('/quizsummary', { state: score });
+    };
+    
 
     const theme = createTheme({
         breakpoints: {
@@ -150,12 +185,12 @@ const QuizSession = () => {
                         {error ? (
                             <Typography variant="h6" color="error">{error}</Typography>
                         ) : questions.length > 0 ? questions.map((question, index) => (
-                            <div key={index} className="question-card">
+                            <div key={question.id} className="question-card">
                                 <div className="counter">{index + 1}/{totalQuestions}</div>
                                 <Typography variant="h6" className="question-label">Question</Typography>
-                                <span className="question-text">{question}</span>
+                                <span className="question-text">{question.question}</span>
                                 <div className="text-field-bottom">
-                                    <TextField label="Your Answer" variant="outlined" style={{ width: '800px', backgroundColor: '#f5f2d8' }} />
+                                    <TextField label="Your Answer" variant="outlined" style={{ width: '800px', backgroundColor: '#f5f2d8' }} onChange={(e) => handleInputChange(question.id, e.target.value)}/>
                                 </div>
                             </div>
                         )) : (
@@ -164,7 +199,7 @@ const QuizSession = () => {
                     </div>
                 </Box>
                 <Box sx={{ display: 'flex', justifyContent: 'center', paddingBottom: '20px' }}>
-                    <Button variant="contained" sx={{backgroundColor: '#FFD234'}}>
+                    <Button variant="contained" sx={{backgroundColor: '#FFD234'}} onClick={submitQuiz}>
                         <Typography>Submit</Typography>
                     </Button>
                 </Box>
