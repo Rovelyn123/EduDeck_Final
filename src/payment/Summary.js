@@ -3,8 +3,10 @@ import { Toolbar, Typography, Button, Box, IconButton, ThemeProvider, Grid } fro
 import { AccountCircle } from "@mui/icons-material";
 import { createTheme } from '@mui/material/styles';
 import ThankyouPopup from './ThankyouPopup'; // Ensure the correct import path
+import { useNavigate } from "react-router-dom";
 
 function SummaryScreen() {
+    const navigate = useNavigate();
     const [showThankyouPopup, setShowThankyouPopup] = useState(false);
 
     const handlePurchaseClick = () => {
@@ -29,7 +31,7 @@ function SummaryScreen() {
 
     return (
         <ThemeProvider theme={theme}>
-            <div style={{ backgroundColor: "#FFFFFF", position: "relative", width: "100vw", height: "100vh" }}>
+            <div style={{ backgroundColor: "#FFFFFF", minHeight: "100vh", overflowY: "auto", position: "relative" }}>
                 <div style={{
                     backgroundImage: `url('/pricebg.png')`,
                     backgroundSize: "cover",
@@ -40,6 +42,7 @@ function SummaryScreen() {
                     left: 0,
                     justifyContent: "center",
                     alignItems: "center",
+                    overflowY: "auto"
                 }}>
                     <Toolbar sx={{ mt: 2 }}>
                         <img src="/logo.png" alt="App Logo" sx={{ width: 90, marginLeft: '45px' }} />
@@ -63,7 +66,7 @@ function SummaryScreen() {
                                 justifyContent: 'center'
                             }}
                         >
-                            <IconButton color="inherit" sx={{ fontSize: '35px', p: '0' }}>
+                            <IconButton onClick={() => navigate("/profilesettings")} color="inherit" sx={{ fontSize: '35px', p: '0' }}>
                                 <AccountCircle sx={{ fontSize: '100%', width: '100%', color: 'white' }} />
                             </IconButton>
                         </Box>

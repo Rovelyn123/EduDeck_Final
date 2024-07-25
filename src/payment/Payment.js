@@ -33,7 +33,7 @@ function PaymentScreen() {
    return (
 
     <ThemeProvider theme={theme}>
-    <div style={{ backgroundColor: "#FFFFFF", position: "relative", width: "100vw", height: "100vh" }}>
+    <div style={{ backgroundColor: "#FFFFFF", minHeight: "100vh", overflowY: "auto", position: "relative" }}>
         <div style={{
             backgroundImage: `url('/pricebg.png')`,
             backgroundSize: "cover",
@@ -44,6 +44,7 @@ function PaymentScreen() {
             left: 0,
             justifyContent: "center",
             alignItems: "center",
+            overflowY: "auto",
           }}
         >
         <Toolbar sx={{ mt: 2 }}>
@@ -68,7 +69,7 @@ function PaymentScreen() {
                                 justifyContent: 'center'
                               }}
                             >
-                              <IconButton color="inherit" sx={{ fontSize: '35px', p: '0' }}>
+                              <IconButton onClick={() => navigate("/profilesettings")} color="inherit" sx={{ fontSize: '35px', p: '0' }}>
                                 <AccountCircle sx={{ fontSize: '100%', width: '100%', color: 'white' }} />
                               </IconButton>
                             </Box>
@@ -88,7 +89,7 @@ function PaymentScreen() {
         <Grid container justifyContent="center" spacing={2}>
       <Grid item xs={12}>
         <Box sx={{ backgroundColor: "#FFFFFF", height: { xs: '85%', md: '80%' }, maxWidth: { xs: '82%', md: '50%' }, marginTop: {xs: '12%', md: '1%'},
-        marginLeft: {xs: '5%', md: '28%'}, borderRadius: '1em', padding: '1em', boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', }}>
+        marginLeft: {xs: '5%', md: '26%'}, borderRadius: '1em', padding: '1em', boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', }}>
           <Box sx={{ backgroundColor: "#FFD234", width: '100%', height: '100%', borderRadius: '1em', padding: '2em', boxSizing: 'border-box' }}>
             <Typography sx={{ color: '#000000', fontSize: { xs: '24px', md: '25px' }, fontWeight: 'bold', marginBottom: '.5em', textAlign: 'center' }}>
               Payment Method
@@ -236,7 +237,7 @@ function PaymentScreen() {
             </Grid>
 
             <Box sx={{ textAlign: 'center', top: '1em' }}>
-              <Button sx={{ background: '#FFFFFF',  fontSize: '15px', fontWeight: 'bold', color: '#000000', borderRadius: '10px', width: '10em', top: {xs:'10px', md:'1px'}, boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',}} onClick={handleClick}>
+              <Button sx={{ background: '#FFFFFF',  fontSize: '15px', fontWeight: 'bold', color: '#000000', borderRadius: '10px', width: '15%', top: {xs:'10px', md:'1px'}, boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',}} onClick={handleClick}>
                 OK
               </Button>
             </Box>
