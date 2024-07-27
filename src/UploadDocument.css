@@ -1,6 +1,7 @@
 .Upbody {
   background-image: url('/public/crystalbackground.png');
   min-height: 100vh;
+  overflow: scroll;
 }  
 
 .header {
@@ -146,4 +147,80 @@
   height: 100%;
   color: blue;
   font-size: 20px;
+}
+
+
+@media (max-width: 600px) {
+  .Upbody {
+    min-height: 160vh;
+    overflow: scroll;
+  }
+
+  .left-panel, .right-panel {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  .right-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 10%;
+  }
+  .upload-content {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 960px) {
+  .Upbody {
+    min-height: 160vh;
+    overflow: scroll;
+  }
+
+  .left-panel, .right-panel {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  .right-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .upload-content {
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 961px) {
+  .Upbody {
+    min-height: 160vh;
+    overflow: scroll;
+  }
+
+  .upload-content {
+    display: flex;
+    flex-direction: row;
+  }
+  .left-panel {
+    width: 40%;
+  }
+  .right-panel {
+    width: 60%;
+  }
+}
+
+.confirmation-box {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1001;
+}
+
+.confirmation-message {
+  margin-bottom: 10px;
 }

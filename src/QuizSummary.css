@@ -123,5 +123,39 @@
       text-align: center;
       width: 80%; /* Adjust width as needed */
     }
+
+
+    @media (max-width: 600px) {
+      .container {
+          width: 90%;
+          margin-left: 5%;
+          height: auto;
+          padding: 1em;
+      }
+      .circular-progress {
+          width: 150px;
+          height: 150px;
+          top: 10%;
+          margin-left: 25%;
+      }
+      .typography-correct, .typography-wrong {
+          font-size: 1em;
+          top: auto;
+          left: 10%;
+      }
+      .typography-success {
+          font-size: 1.2em;
+          top: auto;
+          left: 10%;
+          margin-top: 1em;
+      }
+      .button-ok {
+          width: 60%;
+          height: 2.5em;
+          top: auto;
+          left: 20%;
+          margin-top: 1em;
+      }
+  }
   
     

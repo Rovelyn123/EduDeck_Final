@@ -487,13 +487,13 @@ function TextHighlighting() {
                       </Box>
               </Link>
               </Box>
-              <Box style={{ background: 'white', borderRadius: isMobile ? 25 : 50, padding: isMobile ? '2.5px' : '5px', alignItems: 'center', justifyContent: 'center', boxShadow: 'inset 0 5px 20px 0px rgba(0, 0, 0, 0.35)' }}>
+              {/* <Box style={{ background: 'white', borderRadius: isMobile ? 25 : 50, padding: isMobile ? '2.5px' : '5px', alignItems: 'center', justifyContent: 'center', boxShadow: 'inset 0 5px 20px 0px rgba(0, 0, 0, 0.35)' }}>
                 <Box style={{ background: 'white', borderRadius: isMobile ? 25 : 50, width: isMobile ? '1.4rem' : '2.8rem', height: isMobile ? '1.4rem' : '2.8rem' }}>
                   <IconButton color="white" style={{ fontSize: isMobile ? '22.5px' : '45px', padding: '0' }}>
                     <NotificationsNone style={{ fontSize: '100%', width: '100%', color: 'black' }} />
                   </IconButton>
                 </Box>
-              </Box>
+              </Box> */}
             </Box>
           </Toolbar>
         </AppBar>
@@ -539,10 +539,14 @@ function TextHighlighting() {
             </Button>
           </Box>
         )}
-        <Box style={{ backgroundColor: 'white', border: '1px solid black', display: 'flex', justifyContent: 'center', alignItems: 'center', width: isMobile ? '90%' : '56%', height: isMobile ? 770 : 733, marginLeft: isMobile ? 18 : isMediumScreen ? 295 : 350, position: 'absolute', top: 60 }}>
-          {renderFileEmbed()}
+
+        <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: isMobile ? '90%' : '56%',  marginLeft: isMobile ? 18 : isMediumScreen ? 295 : 350, }}>
+          <Box style={{ width: '90vw', height: '85vh', border: '1px solid black', boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.1)', backgroundColor: 'white', padding: 10, overflow: 'hidden', marginTop: isMobile ? -900 : -580 }}>
+            {renderFileEmbed()}
+          </Box>
         </Box>
-        <Box style={{
+        
+        {/* <Box style={{
           display: 'flex', justifyContent: 'center', alignItems: 'center', width: isMobile ? '95%' : '3.5%', height: isMobile ? 60 : 420, backgroundColor: 'white', marginLeft: isMobile ? 12 : isMediumScreen ? 295 : 500, position: 'absolute', top: isMobile ? 730 : 200, right: 10, borderRadius: isMobile ? 0 : 50, boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
           border: '1px solid black', display: 'flex', flexDirection: 'column'
         }}>
@@ -561,7 +565,7 @@ function TextHighlighting() {
           <IconButton style={{ margin: '10px' }}>
             <MoreHorizIcon fontSize='large' />
           </IconButton>
-        </Box>
+        </Box> */}
       </div>
     </>
   );

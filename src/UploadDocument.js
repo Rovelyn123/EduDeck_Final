@@ -428,13 +428,13 @@ function UploadDocument() {
                             </Box>
                             </Link>
                             </Box>
-                            <Box style={{ background: 'white', borderRadius: isMobile ? 25 : 50, padding: isMobile ? '2.5px' : '5px', alignItems: 'center', justifyContent: 'center', boxShadow: 'inset 0 5px 20px 0px rgba(0, 0, 0, 0.35)' }}>
+                            {/* <Box style={{ background: 'white', borderRadius: isMobile ? 25 : 50, padding: isMobile ? '2.5px' : '5px', alignItems: 'center', justifyContent: 'center', boxShadow: 'inset 0 5px 20px 0px rgba(0, 0, 0, 0.35)' }}>
                             <Box style={{ background: 'white', borderRadius: isMobile ? 25 : 50, width: isMobile ? '1.4rem' : '2.8rem', height: isMobile ? '1.4rem' : '2.8rem' }}>
                                 <IconButton color="white" style={{ fontSize: isMobile ? '22.5px': '45px', padding: '0' }}>
                                 <NotificationsNone style={{ fontSize: '100%', width: '100%', color: 'black' }} />
                                 </IconButton>
                             </Box>
-                            </Box>
+                            </Box> */}
                     </Box>
                     </Toolbar>
                 </AppBar>
@@ -530,13 +530,13 @@ function UploadDocument() {
                             </div>
 
                             {/* Upload Document Button */}
-                            <Button style={{ background: '#FAC712', width: '230px', height: '45px', borderRadius: '10px', marginTop: '150px' }} onClick={handleUploadClick}>
+                            <Button sx={{ background: '#FAC712', width: '230px', height: '45px', borderRadius: '10px', marginTop: { xs: '780px', md: '150px' } }} onClick={handleUploadClick}>
                                 <Typography style={{ fontSize: '20px', fontFamily: 'Nunito Sans, sans-serif', fontWeight: 'bold', color: '#332D2D', textTransform: 'none' }}>
                                     Upload Document
                                 </Typography>
                             </Button>
                             <Link to="/TextHighlighting" style={{ textDecoration: 'none' }}>
-                            <Button style={{ background: '#FAC712', width: '230px', height: '45px', borderRadius: '10px', marginTop: '150px', marginLeft: '10px' }}>
+                            <Button sx={{ background: '#FAC712', width: '230px', height: '45px', borderRadius: '10px', marginTop: { xs: '20px', md: '30px' }, marginLeft: { xs: '4px', md: '2px' } }}>
                                 <Typography style={{ fontSize: '20px', fontFamily: 'Nunito Sans, sans-serif', fontWeight: 'bold', color: '#332D2D', textTransform: 'none' }} 
                                >
                                     Text Highlighting
