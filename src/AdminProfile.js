@@ -72,9 +72,9 @@ function AdminProfile() {
     >
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 1 }}>
         <img src="/logo.png" alt="logo" style={{ height: 50 }} />
-        <Typography variant="h3" style={{ marginLeft: '.5em', fontFamily: 'Poppin, sans-serif', fontWeight: '600', fontSize: '2em', color: '#B18A00', }}>
+        <Typography variant="h3" style={{ fontFamily: 'Poppin, sans-serif', fontWeight: '600', fontSize: '2em', color: '#B18A00', }}>
           EduDeck
-        </Typography>
+        </Typography>   
       </Box>
       <Divider style={{ backgroundColor: '#BCA860', width: '80%', marginTop: 10 }} />
       <Grid container spacing={1} sx={{ paddingTop: 2 }}>

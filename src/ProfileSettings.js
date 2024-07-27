@@ -822,7 +822,7 @@ const UserProfile = () => {
                 <button onClick={() => handleEdit('name')} className="edit-button"><FaEdit /></button>
               </div>
               <Typography variant="subtitle1" sx={{ fontSize: '12px' }}>Email</Typography>
-              <div className="info-item">
+              <div className="info-item" style={{height: '1.5em'}}>
                 <Typography variant="body3">{userDetails.email}</Typography>
               </div>
               <Typography variant="subtitle1" sx={{ fontSize: '12px' }}>Mobile Number</Typography>

@@ -1,93 +1,115 @@
-
-/* .navigation ul li {
-    margin-bottom: 1em; /* Adjusts the space between the buttons 
-  }
-   */
-   .nav-btn {
-    margin-top: 2em;
-    margin-left: 1em;
-    margin-bottom: .5em;
-    display: block;
-    width: 90%;
-    height: 3em;
-    padding: .5em;
-    background-color: transparent; /* Ensures buttons have no background */
-    border: none;
-    color: #333; /* Visible text color */
-    cursor: pointer;
-    text-align: left;
-    border-radius: .5em; /* Optional: Adds rounded corners to the buttons */
-  }
-  
-  .nav-btn:hover {
-    color: #555; /* Lightens text color on hover for a visual effect */
-  }
-  
-  .nav-btn:focus {
-    outline: none;
-  }
-
-  .btn-active {
-    background-color: #ffffff; /* White background */
-    color: #B18A00; /* Gold color */
-    box-shadow: 0 2px 8px rgba(0.2, 0.2, 0.2, 0.2);
-  }
-
-.searchInput[type="text"] {
-  width: 10px; /* Adjust as needed */
-  padding: 10px;
-  height: 20px;
-  font-size: x-large;
-  border: 1px solid #ccc;
-  border-radius: 10px;
+/* Dashboard.css */
+body {
+  font-family: 'Roboto', sans-serif;
 }
 
+.dashboard-card {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 15px;
+  padding: 20px;
+  text-align: center;
+  margin: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
 
-.btn-active img {
-    filter: sepia(1) saturate(5) hue-rotate(20deg);
+.dashboard-card-title {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+.dashboard-card-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dashboard-card-button {
+  margin: 5px;
+  padding: 10px 20px;
+  background-color: #D0BF81;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+.dashboard-subtitle {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+.dashboard-text {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.dashboard-image-box {
+  display: flex;
+  justify-content: center;
+}
+
+.dashboard-image {
+  width: 50px;
+  height: 50px;
+}
+
+.document-count {
+  display: flex;
+  align-items: center;
+}
+
+.document-count-number {
+  font-size: 2em;
+  margin-right: 10px;
+}
+
+.document-icon {
+  width: 30px;
+  height: 30px;
+}
+
+@media (max-width: 600px) {
+  .dashboard-card {
+    padding: 10px;
+    margin: 5px;
   }
 
-  .btn-active svg {
-  fill: rgb(255, 217, 0);
+  .dashboard-card-title {
+    font-size: 1.2em;
+    margin-bottom: 5px;
   }
 
-  .bio-container {
-    overflow-y: auto; /* Allows vertical scrolling if content overflows */
-    padding: .3em; /* Provides some space inside the container */
-    height: 9.7em; /* Fixed height */
-    width: 26em; /* Fixed width */
-    background-color: rgb(237, 237, 237);
-    border-radius: .4em;
+  .dashboard-card-box {
+    padding: 5px;
   }
-  
-  .bio-text {
-    word-wrap: break-word; /* Ensures long words do not cause horizontal overflow */
-  }
-  
 
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Roboto', sans-serif;
+  .dashboard-card-button {
+    font-size: 0.8em;
+    padding: 5px 10px;
+    margin: 3px;
   }
-  
-  @media only screen and (max-width: 600px) {
-    .MuiTypography-h4 {
-      font-size: 1.5rem;
-    }
-  
-    .MuiButton-root {
-      font-size: 0.75rem;
-    }
+
+  .dashboard-subtitle {
+    font-size: 1em;
   }
-  
-  @media only screen and (min-width: 601px) {
-    .MuiTypography-h4 {
-      font-size: 2rem;
-    }
-  
-    .MuiButton-root {
-      font-size: 1rem;
-    }
+
+  .dashboard-text {
+    font-size: 0.9em;
+    margin-bottom: 5px;
   }
-  
+
+  .dashboard-image {
+    width: 40px;
+    height: 40px;
+  }
+
+  .document-count-number {
+    font-size: 1.5em;
+  }
+
+  .document-icon {
+    width: 25px;
+    height: 25px;
+  }
+}

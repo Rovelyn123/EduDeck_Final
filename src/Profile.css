@@ -58,7 +58,7 @@
     height: 230px;
     background-color: white;
     position: absolute;
-    top: 7.5%;
+    top: 2.5%;
     left: 60.8%;
     border-radius: 7px;
     padding: 10px;
@@ -182,7 +182,7 @@
   }
   
   .MuiDialogTitle-root {
-    background-color: lightyellow;
+    background-color: rgb(255, 255, 255);
     padding: 10px;
   }
   

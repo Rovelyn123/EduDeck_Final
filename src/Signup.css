@@ -75,3 +75,38 @@ button[type="submit"]:hover {
   display: flex; /* Use flexbox for centering */
   justify-content: center; 
 }
+
+.custom-tooltip {
+  width: 30em;
+  z-index: 9999; /* Very high value to ensure it is on top */
+  position: absolute; /* Ensures the tooltip can be placed correctly */
+  background: white; /* Background color for better visibility */
+  border: 1px solid #B18A00; /* Border color matching your theme */
+  padding: 10px; /* Padding for better readability */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Shadow for better visibility */
+  border-radius: 8px; /* Rounded corners */
+  transform: translateX(-50%); /* Center the tooltip */
+  left: 50%; /* Position it in the center horizontally */
+}
+
+.custom-tooltip ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.custom-tooltip li {
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: red;
+}
+
+.custom-tooltip li.valid {
+  color: green;
+}
+
+.custom-tooltip .tooltip-icon {
+  margin-left: 5px;
+}
