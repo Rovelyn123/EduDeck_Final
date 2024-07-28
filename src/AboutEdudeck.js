@@ -38,6 +38,7 @@ function AboutEdudeck() {
                             alignItems: 'center',
                         }}
                     >
+                        <Link to="/" style={{ textDecoration: 'none' }}>
                         <div style={{ display: 'flex', alignItems: 'center' }}>
                             <img src="/logo.png" alt="App Logo" style={{ width: isMobile ? 40 : 60 }} />
                             <Typography
@@ -53,10 +54,13 @@ function AboutEdudeck() {
                                 EduDeck
                             </Typography>
                         </div>
+                        </Link>
                         <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <Button style={{ color: '#8C7111', fontWeight: 'bold' }}>Sign up</Button>
+                            <Link to="/signup" style={{ textDecoration: 'none' }}>
+                            <Button style={{ color: '#8C7111', fontWeight: 'bold' }}>Sign up</Button> </Link>
                             <Box sx={{ marginX: '8px', color: '#8C7111' }}>|</Box>
-                            <Button style={{ color: '#8C7111', fontWeight: 'bold' }}>Login</Button>
+                            <Link to="/login" style={{ textDecoration: 'none' }}>
+                            <Button style={{ color: '#8C7111', fontWeight: 'bold' }}>Login</Button> </Link>
                         </div>
                     </Toolbar>
                 </AppBar>
