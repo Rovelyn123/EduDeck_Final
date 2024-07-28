@@ -61,7 +61,7 @@
   position: relative;
 }
 
-.inner-panel.flipped {
+.inner-panel.flipped .flashcard {
   transform: rotateY(180deg);
 }
 

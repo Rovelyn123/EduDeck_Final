@@ -29,7 +29,7 @@ const navigate = useNavigate();
 
     return (
         <ThemeProvider theme={theme}>
-             <div style={{ backgroundColor: "#FFFFFF", position: "relative", width: "100vw", height: "100vh" }}>
+             <div style={{ backgroundColor: "#FFFFFF", minHeight: "100vh", overflowY: "auto", position: "relative" }}>
             <Box
                 sx={{
                   backgroundImage: `url('/pricebg.png')`,
@@ -41,8 +41,9 @@ const navigate = useNavigate();
                   left: 0,
                   justifyContent: "center",
                   alignItems: "center",
-                        }}
-                    >
+                  overflowY: "auto",
+                }}
+                >
 
                     <Toolbar sx={{ mt: 2 }}>
                         <img src="/logo.png" alt="App Logo" sx={{width: 90, marginLeft: '45px'}} />
@@ -66,7 +67,7 @@ const navigate = useNavigate();
                                 justifyContent: 'center'
                               }}
                             >
-                              <IconButton color="inherit" sx={{ fontSize: '35px', p: '0' }}>
+                              <IconButton onClick={() => navigate("/profilesettings")} color="inherit" sx={{ fontSize: '35px', p: '0' }}>
                                 <AccountCircle sx={{ fontSize: '100%', width: '100%', color: 'white' }} />
                               </IconButton>
                             </Box>

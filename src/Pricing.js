@@ -42,11 +42,11 @@ function PricingScreen() {
   return (
     <>
     <ThemeProvider theme={theme}>
-    <div style={{ backgroundColor: "#F5D56E", position: "relative", width: "100vw", height: "140vh" }}>
+    <div style={{ backgroundColor: "#F5D56E", minHeight: "100vh", overflowY: "auto", position: "relative" }}>
         <div
           style={{
             backgroundImage: `url('/pricebg.png')`,
-            backgroundSize: "cover",
+            // backgroundSize: "cover",
             width: "100%",
             height: "100%",
             position: "absolute",
@@ -54,6 +54,7 @@ function PricingScreen() {
             left: 0,
             justifyContent: "center",
             alignItems: "center",
+            overflowY: "auto"
           }}
         >
 
@@ -79,7 +80,7 @@ function PricingScreen() {
                                 justifyContent: 'center'
                               }}
                             >
-                              <IconButton color="inherit" sx={{ fontSize: '35px', p: '0' }}>
+                              <IconButton onClick={() => navigate("/profilesettings")} color="inherit" sx={{ fontSize: '35px', p: '0' }}>
                                 <AccountCircle sx={{ fontSize: '100%', width: '100%', color: 'white' }} />
                               </IconButton>
                             </Box>

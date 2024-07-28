@@ -45,7 +45,8 @@ function NavigationBar() {
         <Divider style={{ marginLeft: '1em', backgroundColor: '#BCA860', width: '80%', marginTop: 10 }} />
         <Grid container spacing={1} sx={{ paddingTop: 2 }}>
           <Grid item xs={12}>
-            <Button
+            <Button component={Link}
+            to="/dashboard"
               style={{
                 backgroundColor: clicked === 'overview' ? '#FFEAA0' : 'transparent',
                 width: '100%',
@@ -55,16 +56,17 @@ function NavigationBar() {
                 justifyContent: 'flex-start',
                 alignItems: 'center',
               }}
-              onClick={() => handleButtonClick('overview')}
+              // onClick={() => handleButtonClick('overview')}
             >
               <img src="/overview.png" alt="overview" style={{ height: 25, marginLeft: '1.2em' }} />
-              <Typography style={{ color: 'black', fontFamily: 'Roboto', fontSize: '1.1em', textTransform: 'none', flexGrow: 1 }}>
+              <Typography style={{ color: 'black', fontFamily: 'Roboto', fontSize: '1.1em', textTransform: 'none', flexGrow: 1, marginLeft: '2em' }}>
                 Overview
               </Typography>
             </Button>
           </Grid>
           <Grid item xs={12}>
-            <Button
+            <Button component={Link}
+            to="/uploaddocument"
               style={{
                 backgroundColor: clicked === 'document to flashcards' ? '#FFEAA0' : 'transparent',
                 width: '100%',
@@ -77,13 +79,14 @@ function NavigationBar() {
               onClick={() => handleButtonClick('document to flashcards')}
             >
               <img src="/convert.png" alt="convert icon" style={{ height: 20, marginLeft: '1.3em'  }} />
-              <Typography style={{ color: 'black', fontFamily: 'Roboto', fontSize: '1.1em', textTransform: 'none', flexGrow: 1 }}>
+              <Typography style={{ color: 'black', fontFamily: 'Roboto', fontSize: '1.1em', textTransform: 'none', flexGrow: 1, marginLeft: '2em' }}>
                 Document to Flashcards
               </Typography>
             </Button>
           </Grid>
           <Grid item xs={12}>
-            <Button
+            <Button component={Link}
+            to="/flashcardsmgt"
               style={{
                 backgroundColor: clicked === 'downloads' ? '#FFEAA0' : 'transparent',
                 width: '100%',
@@ -93,10 +96,10 @@ function NavigationBar() {
                 justifyContent: 'flex-start',
                 alignItems: 'center',
               }}
-              onClick={() => handleButtonClick('downloads')}
+              // onClick={() => handleButtonClick('downloads')}
             >
               <img src="/downloads.png" alt="downloads" style={{ height: 15, marginLeft: '1.3em' }} />
-              <Typography style={{ color: 'black', fontFamily: 'Roboto', fontSize: '1.1em', textTransform: 'none', flexGrow: 1 }}>
+              <Typography style={{ color: 'black', fontFamily: 'Roboto', fontSize: '1.1em', textTransform: 'none', flexGrow: 1, marginLeft: '2em' }}>
                 Flashcards
               </Typography>
             </Button>
@@ -121,7 +124,8 @@ function NavigationBar() {
             </Button>
           </Grid> */}
           <Grid item xs={12}>
-            <Button
+            <Button component={Link}
+            to="/pricing"
               style={{
                 backgroundColor: clicked === 'pricing' ? '#FFEAA0' : 'transparent',
                 width: '100%',
@@ -130,17 +134,18 @@ function NavigationBar() {
                 display: 'flex',
                 justifyContent: 'flex-start',
                 alignItems: 'center',
-              }}
-              onClick={() => handleButtonClick('pricing')}
+              }} 
+              // onClick={() => handleButtonClick('pricing')}
             >
               <img src="/pricing.png" alt="pricing" style={{ height: 25, marginLeft: '1.3em' }} />
-              <Typography style={{ color: 'black', fontFamily: 'Roboto',  fontSize: '1.1em', textTransform: 'none', flexGrow: 1 }}>
+              <Typography style={{ color: 'black', fontFamily: 'Roboto',  fontSize: '1.1em', textTransform: 'none', flexGrow: 1, marginLeft: '2em' }}>
                 Pricing
               </Typography>
             </Button>
           </Grid>
           <Grid item xs={12}>
-            <Button
+            <Button component={Link}
+            to="/profilesettings"
               style={{
                 backgroundColor: clicked === 'settings' ? '#FFEAA0' : 'transparent',
                 width: '100%',
@@ -150,10 +155,10 @@ function NavigationBar() {
                 justifyContent: 'flex-start',
                 alignItems: 'center',
               }}
-              onClick={() => handleButtonClick('settings')}
+              // onClick={() => handleButtonClick('settings')}
             >
               <img src="/settings.png" alt="settings icon" style={{ height: 20, marginLeft: '1.3em' }} />
-              <Typography style={{ color: 'black', fontFamily: 'Roboto', fontSize: '1.1em', textTransform: 'none', flexGrow: 1 }}>
+              <Typography style={{ color: 'black', fontFamily: 'Roboto', fontSize: '1.1em', textTransform: 'none', flexGrow: 1, marginLeft: '2em' }}>
                 Settings
               </Typography>
             </Button>

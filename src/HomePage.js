@@ -25,6 +25,7 @@ import SummaryScreen from './payment/Summary';
 import TextHighlighting from './TextHighlighting';
 import QuizManagement from './QuizManagement';
 import QuizSession from './QuizSession';
+import QuizSummary from './QuizSummary';
 import UserManagement from './UserManagement';
 import AdminProfile from './AdminProfile';
 
@@ -99,78 +100,81 @@ export default function HomePage() {
     return (
         <Router>
             <ThemeProvider theme={theme}>
-                <div>
-                    <Routes>
-                        <Route path="/dashboard" element={<Dashboard />} />
-                        <Route path='/uploaddocument' element={<UploadDocument />} />
-                        <Route path='/flashcardsmgt' element={<FlashcardManagement />} />
-                        <Route path='/reviewsession' element={<ReviewSession />} />
-                        <Route path='/aboutus' element={<AboutUs />} />
-                        <Route path='/aboutedudeck' element={<AboutEdudeck />} />
-                        <Route path='/pricing' element={<Pricing />} />
-                        <Route path='/payment' element={<PaymentScreen />} />
-                        <Route path='/billing' element={<BillingScreen />} />
-                        <Route path='/summary' element={<SummaryScreen />} />
-                        <Route path="/login" element={<Login isSignInView={isSignInView} setIsSignInView={setIsSignInView} />} />
-                        <Route path="/signup" element={<Signup handleToggle={() => setShowLogin(false)} />} />
-                        <Route path='/profilesettings' element={<ProfileSettings />} />
-                        <Route path='/TextHighlighting' element={<TextHighlighting />} />
-                        <Route path='/quiz' element={<QuizManagement />} />
-                        <Route path='/quizsession' element={<QuizSession />} />
-                        <Route path='/usermanagement' element={<UserManagement />} />
-                        <Route path='/adminprofile' element={<AdminProfile />} />
-                        <Route
-                            path="/"
-                            element={
-                                <div className='bd'>
-                                    {!hideAppBar && (
-                                        <AppBar position="sticky" sx={{ background: 'white' }}>
-                                            <Toolbar sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                                                <Box sx={{ display: 'flex', alignItems: 'center', margin: '0 0 0 -0.7rem ' }}>
-                                                    <Box sx={{ height: { xs: '35px', sm: '52px' }, width: 'auto' }}>
-                                                        <img src='logo.png' alt='logo' className='logo' style={{ height: '100%', width: 'auto' }} />
-                                                    </Box>
-                                                    <Typography sx={{ color: "#8c7111", fontFamily: 'Poppins, sans-serif', fontWeight: 600, fontSize: { xs: '1.2em', sm: '1.8em' }, display: { xs: "none", sm: "block" } }}>
-                                                        EduDeck
-                                                    </Typography>
-                                                </Box>
-                                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                                    <ButtonGroup color="secondary" variant="text" aria-label="Button group">
-                                                        <Link to="/signup" style={{ textDecoration: 'none' }}><Button sx={{ color: '#8C7111', fontWeight: 'bold', fontSize: { xs: '0.8em', sm: '1em' } }}>Signup</Button></Link>
-                                                        <Link to="/Login" style={{ textDecoration: 'none' }}>   <Button sx={{ color: '#8C7111', fontWeight: 'bold', fontSize: { xs: '0.8em', sm: '1em' } }}>Login</Button></Link>
-                                                    </ButtonGroup>
-                                                </Box>
-                                            </Toolbar>
-                                        </AppBar>
-                                    )}
-                                    {!hideAppBar && (
-                                        <Container>
-                                            <Grid container spacing={3}>
-                                                <Grid item xs={12} md={6}>
-                                                    <Box sx={{ textAlign: 'left', mt: { xs: 6, sm: 10 }, marginLeft: '5em' }}>
-                                                        <Typography variant="h4" sx={{ color: "#8c7111", width: '90%', fontWeight: 600, fontSize: { xs: '2.4em', sm: '2.8em' } }}>
-                                                            Elevating College Life for Holistic Success
-                                                        </Typography>
-                                                        <Typography variant="body1" sx={{ color: "#666666", mt: 2, width: '70%' }}>
-                                                            Transforming Academic Journey with Integrated Flashcards, Quiz and Text Highlighting.
-                                                        </Typography>
-                                                    </Box>
-                                                </Grid>
-                                                <Grid item xs={12} md={6}>
-                                                    <Box sx={{ textAlign: 'right', mt: { xs: 6, sm: 0 } }}>
-                                                        <img src="/homebackgrounds.png" alt="homepagebackground" style={{ marginRight: '5em', width: '90%', height: 'auto' }} />
-                                                    </Box>
-                                                </Grid>
-                                            </Grid>
+            <div>
+                <Routes>
+                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path='/uploaddocument' element={<UploadDocument />} />
+                    <Route path='/flashcardsmgt' element={<FlashcardManagement />} />
+                    <Route path='/reviewsession' element={<ReviewSession/>} />
+                    <Route path='/aboutus' element={<AboutUs />} />
+                    <Route path='/aboutedudeck' element={<AboutEdudeck />} />
+                    <Route path='/pricing' element={<Pricing />} />
+                    <Route path='/payment' element={<PaymentScreen />} />
+                    <Route path='/billing' element={<BillingScreen />} />
+                    <Route path='/summary' element={<SummaryScreen />} />
+                    <Route path="/login" element={<Login isSignInView={isSignInView} setIsSignInView={setIsSignInView} />} />
+                    <Route path="/signup" element={<Signup handleToggle={() => setShowLogin(false)} />} />
+                    <Route path='/profilesettings' element={<ProfileSettings/>} />
+                    <Route path='/TextHighlighting' element={<TextHighlighting/>} />
+                    <Route path='/quiz' element={<QuizManagement />} />
+                    <Route path='/quizsession' element={<QuizSession />} />
+                    <Route path='/quizsummary' element={<QuizSummary />} />
+                    <Route path='/usermanagement' element={<UserManagement />} />
+                    <Route path='/adminprofile' element={<AdminProfile />} />
+                    <Route
+                        path="/"
+                        element={
+                            <div className='bd'>
+                                {!hideAppBar && (
+                                    <AppBar position="sticky" sx={{background: 'white'}}>
+                                    <Toolbar sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                                        <Box sx={{display: 'flex', alignItems: 'center', margin: '0 0 0 -0.7rem '}}>
+                                            <Box sx={{height: { xs: '35px', sm: '52px' }, width: 'auto'}}>
+                                            <img src='logo.png' alt='logo' className='logo' style={{height: '100%', width: 'auto'}} />
+                                        </Box>
+                                        <Typography sx={{color: "#8c7111", fontFamily: 'Poppins, sans-serif', fontWeight: 600, fontSize: { xs: '1.2em', sm: '1.8em' }, display: { xs: "none", sm: "block" }}}>
+                                            EduDeck
+                                        </Typography>
+                                        </Box>
+                                        <Box sx={{display: 'flex', alignItems: 'center'}}>
+                                        <ButtonGroup color="secondary" variant="text" aria-label="Button group">
+                                        <Link to="/signup" style={{ textDecoration: 'none' }}><Button sx={{color: '#8C7111', fontWeight: 'bold', fontSize: { xs: '0.8em', sm: '1em' }}}>Signup</Button></Link>
+                                        <Link to="/Login" style={{ textDecoration: 'none' }}>   <Button sx={{color: '#8C7111', fontWeight: 'bold', fontSize: { xs: '0.8em', sm: '1em' }}}>Login</Button></Link>
+                                        </ButtonGroup>
+                                        </Box>
+                                    </Toolbar>
+                                </AppBar>
+                                )}
+                                {!hideAppBar && ( 
+                                    <Container>
+                                    <Grid container spacing={3}>
+                                      <Grid item xs={12} md={6}>
+                                        <Box sx={{textAlign: 'left', mt: { xs: 6, sm: 10 }, marginLeft: '5em'}}>
+                                          <Typography variant="h4" sx={{color: "#8c7111", width: '90%' , fontWeight: 600, fontSize: { xs: '2.4em', sm: '2.8em' }}}>
+                                            Elevating College Life for Holistic Success
+                                          </Typography>
+                                          <Typography variant="body1" sx={{color: "#666666", mt: 2, width: '70%'}}>
+                                            Transforming Academic Journey with Integrated Flashcards, Quiz and Text Highlighting.
+                                          </Typography>
+                                        </Box>
+                                      </Grid>
+                                      <Grid item xs={12} md={6}>
+                                        <Box sx={{textAlign: 'right', mt: { xs: 6, sm: 0 }}}>
+                                          <img src="/homebackgrounds.png" alt="homepagebackground" style={{ marginRight: '5em', width: '90%', height: 'auto'}}/>   
+                                        </Box>
+                                      </Grid>
+                                    </Grid>
+                                  </Container>
+
+                                    
+                                )}
+                                {showHometoabout && (
+                                    <>  
+                                        <Container sx={{textAlign: 'center', mt: { xs: 6, sm: 10 }}}>
+                                        <Typography variant="h5" sx={{color: "#666666", fontFamily: 'Poppins, sans-serif', fontWeight: 600, fontSize: { xs: '2em', sm: '2.4em' }}}>
+                                            Excel in your courses using our latest set of study resources.
+                                        </Typography>
                                         </Container>
-                                    )}
-                                    {showHometoabout && (
-                                        <>
-                                            <Container sx={{ textAlign: 'center', mt: { xs: 6, sm: 10 } }}>
-                                                <Typography variant="h5" sx={{ color: "#666666", fontFamily: 'Poppins, sans-serif', fontWeight: 600, fontSize: { xs: '2em', sm: '2.4em' } }}>
-                                                    Excel in your courses using our latest set of study resources.
-                                                </Typography>
-                                            </Container>
 
                                             <Container sx={{ textAlign: 'center', mt: { xs: 6, sm: 10 } }}>
                                                 <Grid container spacing={3}>

@@ -71,22 +71,31 @@ function FlashcardManagement() {
         setCurrentFlashcard(flashcard);
         setNewQuestion(flashcard.question);
         setNewAnswer(flashcard.answer);
+        localStorage.setItem('currentflashcardid', flashcard.flashcardId); // Add this line
         setOpenEditDialog(true);
     };
 
     const handleDeleteClick = (flashcard) => {
         setCurrentFlashcard(flashcard);
+        localStorage.setItem('currentflashcardid', flashcard.flashcardId); // Add this line
         setOpenDeleteDialog(true);
     };
 
-    const handleSaveEdit = () => {
-        setFlashcards(
-            flashcards.map((fc) =>
-                fc === currentFlashcard ? { ...fc, question: newQuestion, answer: newAnswer } : fc
-            )
-        );
-        setOpenEditDialog(false);
-        setCurrentFlashcard(null);
+    const handleSaveEdit = async () => {
+        const currentflashcardid = localStorage.getItem('currentflashcardid'); // Correct variable name
+        try {
+            const updatedFlashcard = {
+                ...currentFlashcard,
+                question: newQuestion,
+                answer: newAnswer
+            };
+            await axios.put(`http://localhost:8080/api/flashcards/editFlashcard/${currentflashcardid}`, updatedFlashcard); // Correct variable name
+            setFlashcards(flashcards.map((fc) => (fc.id === currentFlashcard.id ? updatedFlashcard : fc)));
+            setOpenEditDialog(false);
+            setCurrentFlashcard(null);
+        } catch (error) {
+            console.error('Error updating flashcard:', error);
+        }
     };
 
     const handleConfirmDelete = () => {
