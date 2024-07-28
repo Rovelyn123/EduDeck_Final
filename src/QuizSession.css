@@ -71,21 +71,22 @@
 
 @media (max-width: 480px) {
   .title {
-      width: fit-content;
-      padding: 5px 10px; /* Adjust padding as needed */
-      font-size: 14px; /* Adjust font size for smaller screens */
-      margin-top: 10px;
+    width: fit-content;
+    padding: 5px 10px; /* Adjust padding as needed */
+    font-size: 14px; /* Adjust font size for smaller screens */
+    margin-top: 10px;
+    text-align: center; /* Center text for better readability */
   }
 
   .question-card {
-    width: 90%; /* Adjust width to fit the screen */
-    height: auto; /* Adjust height to fit the content */
-    padding: 20px; /* Add padding for better spacing */
+    width: 350px;
+    height: 350px;
     background-color: #ffffff;
     border-radius: 15px;
     box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.25);
     margin-bottom: 30px;
     position: relative;
+   
   }
 
   .question-label {

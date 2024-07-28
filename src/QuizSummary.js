@@ -22,7 +22,10 @@ const QuizSummary = () => {
     const percentage = (correctAnswers / totalQuestions) * 100;
     const successMessage = percentage >= 60 ? "Great job! You're on the right track." : "Keep trying! Review your answers and improve.";
 
-    
+    const handleClickOk = () => {
+        navigate('/Dashboard');
+    };
+
     const theme = createTheme({
         breakpoints: {
             values: {
@@ -214,7 +217,7 @@ return (
                 transform: 'translateX(-50%)',
                 borderRadius: '10px',
                 boxShadow: '0px 5px 10px 0px rgba(0, 0, 0, 0.25)'
-            }}>OK</Button>
+            }}onClick={handleClickOk}>OK</Button>
         </Box>
 
             
@@ -223,14 +226,15 @@ return (
         <div>
             <Box
                 style={{
-                    top: isMobile ? 'calc(50% - 130px)' : '2%',
+                    top: isMobile ? '30px' : '20px',
                     padding: '2%',
                     backgroundColor: '#ffffff',
                     borderRadius: '1em',
                     width: isMobile ? '87%' : '61%',
                     marginLeft: isMobile ? '5%' : '18%',
-                    marginBottom: isMobile ? '15em' : '2em',
-                    boxShadow: '0px 5px 10px 0px rgba(0, 0, 0, 0.25)'
+                    marginBottom: isMobile ? '5em' : '2em',
+                    boxShadow: '0px 5px 10px 0px rgba(0, 0, 0, 0.25)',
+                    position: 'relative'
                 }}
             >
                 <Typography variant="h5" style={{ marginBottom: '1em', fontWeight: 'bolder' }}>
