@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Typography, Tooltip } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import "./SignupUI.css";
@@ -11,6 +12,8 @@ function SignupUI({ onSignup }) {
   const [email, setEmail] = useState('');
   const [passwordRequirements, setPasswordRequirements] = useState({});
   const [showTooltip, setShowTooltip] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -40,14 +43,35 @@ function SignupUI({ onSignup }) {
     setEmail(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     if (password !== confirmPassword) {
       alert("Passwords do not match");
       return;
     }
-    onSignup(username, password, email);
-    // After signup, you might want to clear the form or redirect the user
+
+    try {
+      const response = await fetch("http://localhost:8080/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          username,
+          password,
+        }),
+      });
+
+      if (response.ok) {
+        navigate('/login');
+      } else {
+        alert("Signup failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error during signup:", error);
+      alert("An error occurred. Please try again.");
+    }
   };
 
   return (
