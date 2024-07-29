@@ -1,0 +1,332 @@
+
+/* .wrapper{
+    margin-bottom: auto 0px; 
+    padding: 0; 
+    background-image: url('/public/crystalbackground.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+  } */
+  
+  /* button {
+    cursor: pointer;
+  } */
+  /* button:hover {
+    background-color: lightgrey; 
+  } */
+  /*
+  .container{
+    
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-left: 150px;
+  }
+  */
+  /* .header{
+    display:flex;
+    align-items: center;
+    width: 1019px;
+    margin-left: 250px;
+    justify-content: center;
+  }
+  
+  .header .heading {
+    justify-content: center;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0px 4px 4px #00000040;
+      height: 35px;
+      width: 770px;
+      padding: 10px;
+    font-family: "Roboto Condensed";
+    font-size: 28px;
+    color: #332D2D;
+    text-align: center;
+  }
+  .decksnav{
+    float: left;
+    width: 200px;
+    margin: 35px;
+    ;
+  }
+  
+  .decksnav .decks-list{
+    background-color: #FFD234;
+    border-radius: 10px;
+    box-shadow: 0px 4px 4px #00000040;
+    height: 450px;
+    width: 160px;
+    padding: 20px;
+    text-align:center;
+  }
+  .decksnav .decks-heading{
+      color: #332d2d;
+    font-family: "Roboto Condensed", Helvetica;
+    font-size: 28px;
+    font-weight: 700;
+    margin: 20px;
+  }
+  
+  .decksnav .deck-title{
+    color: #332d2d;
+    font-family: "Roboto Condensed", Helvetica;
+    font-size: 14px;
+    font-weight: 700;
+    padding:10px;
+    border: none;
+    background-color: transparent;
+    display: block;
+      width: 100%;
+  }
+  
+  .decksnav .deck-title-clicked{
+    color: #B18A00;
+    box-shadow: 0px 4px 4px #00000040;
+    border: none;
+    font-family: "Roboto Condensed", Helvetica;
+    font-size: 14px;
+    font-weight: 700;
+    background-color: #ffffff;
+    border-radius: 5px;
+    padding: 10px;
+    text-align: center;
+  } */
+  
+  /* .selected-flashcard-deck{
+    align-items: center;
+    margin-left: 280px;
+    margin-top: 10px;
+      background-color: #ffffff;
+    border-radius: 15px;
+    width:1019px;
+    height:443px;
+    padding: 10px;
+    overflow: auto; Enable scrolling
+        border: 1px solid #ccc;
+  } */
+  /* .flashcard-deck-title {
+    font-weight: bold;
+    text-align: center;
+    color: #332d2d;
+    font-family: "Roboto Condensed", Helvetica;
+    font-size: 28px;
+    font-weight: 700;
+  
+  
+  }
+  .actionButtons {
+    display: flex;
+  }
+  .btnGray{
+    
+    border: none;
+    height: 30px;
+    font-weight: 600;
+    border-radius: 10px;
+  background: rgba(217, 217, 217, 0.58);
+  margin-right:10px;
+  padding:7px;
+  }
+  
+  .difficulty-tag{
+    border: none;
+    height: 30px;
+    font-weight: 500;
+    font-style: italic;
+    border-radius: 10px;
+  background: rgba(255, 255, 255, 0.58);
+  color: #333;
+  margin-right:10px;
+  padding:7px;
+  }
+  
+  
+  
+  .flashcard{
+      font-size: 12px;
+      background-color: #FFD234;
+      border-radius: 15px;
+      box-shadow: 0px 4px 4px #00000040;
+      height: auto;
+      width: 940px;
+      padding: 10px;
+      margin: 20px;
+      text-align:center;
+      overflow: hidden;
+  }
+  
+  .btnYellow{
+    width: 200px;
+  height: 38px;
+  border: none;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  flex-shrink: 0;
+    border-radius: 15px;
+    background: #FAC712;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  }
+  
+  .btnWhite{
+    width: 204px;
+  height: 38px;
+  border: none;
+  margin: 20px;
+  flex-shrink: 0;
+    border-radius: 15px;
+    background: #ffffff;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  }
+  
+  
+  
+  
+  .buttons{
+    margin-left: 250px;
+    
+    align-items: center;
+    width: 1019px;
+    height:140px;
+  } */
+/* FlashcardProgress.css */
+
+.container {
+  display: flex;
+  justify-content: space-between; /* To push the sidebar and content to opposite sides */
+  width: 1250px; /* Adjust the width of the container */
+  height: 500px; /* Set the desired height for the square */
+}
+
+.sidebar {
+  width: 20%;
+  background-color: #FFD234;
+  padding: 20px;
+  margin-top: 150px;
+  margin-left: 50px;
+  width: 200px;
+  height: 100%;
+  border-radius: 15px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar ul li a {
+  text-decoration: none;
+  color: #333;
+  display: block;
+  padding: 10px ;
+  margin-top: 10px;
+}
+
+.sidebar ul li a:hover {
+  background-color: #bababa;
+  border-radius: 10px;
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
+  height: 100%;
+  overflow: auto;
+  box-sizing: border-box;
+}
+
+.content table {
+  width: 100%; /* Adjusted table width to occupy remaining space */
+  border-collapse: collapse;
+}
+
+.content-wrapper {
+  flex: 1;
+  box-sizing: border-box;
+  padding: 20px;
+  height: 540px;
+  overflow: auto;
+  background-color: #fff; /* Set background color if needed */
+  margin-left: 20px; /* Add a margin to the left */
+  margin-top: 150px;
+  width: 100%;
+  border-radius: 7px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  /* Other styles for the content wrapper */
+}
+
+.last-reviewed {
+  text-align: right;
+}
+
+.selected {
+  background-color: #FFD234;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2  );
+  /* Other styles to highlight the selected item */
+}
+
+.navigation-decks {
+  background-color: white;
+  padding: 10px; /* Add padding as needed */
+  border-radius: 10px; /* Add border-radius for rounded corners */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Add a shadow effect */
+  height: 400px;
+}
+
+
+.content-inside {
+  background-color: #FFD234; /* Set the background color to yellow */
+  width: 100%; /* Make it take the full width of the content wrapper */
+  height: 415px; /* Make it take the full height of the content wrapper */
+  display: flex; /* Use flex to center the content */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  margin-top: 2px;
+  border-radius: 7px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.content-wrapper table {
+  width: 100%; /* Set table width to occupy the entire content area */
+  border-collapse: collapse;
+}
+
+.content th,
+.content td {
+  border: 1px solid #000000;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #ffffff;
+}
+
+/* Adjust individual column widths */
+th:nth-child(1),
+td:nth-child(1) {
+  width: 35%; /* Set width for the first column */
+}
+
+th:nth-child(2),
+td:nth-child(2) {
+  width: 10%; /* Set width for the second column */
+}
+
+th:nth-child(3),
+td:nth-child(3) {
+  width: 10%; /* Set width for the third column */
+}
+
+th:nth-child(4),
+td:nth-child(4) {
+  width: 10%; /* Set width for the fourth column */
+}
+
+th:nth-child(5),
+td:nth-child(5) {
+  width: 20%; /* Set width for the fifth column */
+}
