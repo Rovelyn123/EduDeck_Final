@@ -220,12 +220,6 @@ const Dashboard = ({onLogout}) => {
                           transform: { xs: 'translateX(-50%)', md: 'none' },
                           background: '#D0BF81', borderRadius: '50px', width: '39px', height: '39px', display: 'flex', justifyContent: 'center', alignItems: 'center',
                                     }}
-                        sx={{
-                          top: { xs: '1.3%', md: '2.5%' },
-                          marginLeft: { xs: '50%', md: '2%' },
-                          transform: { xs: 'translateX(-50%)', md: 'none' },
-                          background: '#D0BF81', borderRadius: '50px', width: '39px', height: '39px', display: 'flex', justifyContent: 'center', alignItems: 'center',
-                                    }}
                         >
                           <IconButton
                             style={{ padding: "0" }}
@@ -492,7 +486,8 @@ const Dashboard = ({onLogout}) => {
                     <img src="file.png" alt="file"
                         style={{ width: '5em', position: 'absolute', left: '1em', top: '50%', transform: 'translateY(-50%)'}}/>
                      <span style={{ color: 'black', position: 'absolute', top: '1em', left: '10%', transform: 'translateX(-50%)', fontSize: '1.8em', fontWeight: 'bold' }}>{documentCount}</span>
-                  </div> */}
+                    </Button>
+                </Grid>
                
                 <Grid item xs={12} md={6}>
                     <Button sx={{
