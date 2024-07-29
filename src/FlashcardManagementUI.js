@@ -104,14 +104,36 @@ function FlashcardManagementUI() {
         setCurrentFlashcard(null);
     };
 
-    const handleAddFlashcard = () => {
+    const handleAddFlashcard = async () => {
         if (selectedDeck) {
-            setFlashcards([...flashcards, { question: newQuestion, answer: newAnswer, deck: selectedDeck }]);
-            setOpenAddDialog(false);
-            setNewQuestion("");
-            setNewAnswer("");
+            try {
+                const response = await axios.post('http://localhost:8080/api/flashcards/createFlashcard', {
+                    question: newQuestion,
+                    answer: newAnswer,
+                    flashcardDeck: {
+                        deckId: selectedDeckId
+                    }
+                });
+
+                if (response.status === 200) {
+                    const newFlashcard = {
+                        question: newQuestion,
+                        answer: newAnswer,
+                        deck: selectedDeck
+                    };
+                    setFlashcards([...flashcards, newFlashcard]);
+                    setOpenAddDialog(false);
+                    setNewQuestion('');
+                    setNewAnswer('');
+                } else {
+                    alert('Failed to add flashcard. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error adding flashcard:', error);
+                alert('An error occurred while adding the flashcard.');
+            }
         } else {
-            alert("Please select a deck before adding a flashcard.");
+            alert('Please select a deck before adding a flashcard.');
         }
     };
 

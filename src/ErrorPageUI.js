@@ -55,7 +55,7 @@ function ErrorPageUI() {
                                     Page not found
                                 </Typography>
                                 <Typography style={{ color: '#333333' }} variant="body1">
-                                    This page you're looking for doesn't exist or <br /> an error occurred.
+                                    The page you're looking for doesn't exist or <br /> an error occurred.
                                 </Typography>
                                 <Button 
                                     style={{ 
