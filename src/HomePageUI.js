@@ -28,6 +28,7 @@ import QuizSession from './QuizSessionUI';
 import QuizSummary from './QuizSummaryUI';
 import UserManagement from './UserManagementUI';
 import AdminProfile from './AdminProfileUI';
+import ErrorPageUI from './ErrorPageUI';
 
 export default function HomePageUI() {
     const [user, setUser] = React.useState(null);
@@ -223,9 +224,7 @@ export default function HomePageUI() {
                                 </div>
                             }
                         />
-                        <Route
-                            path="*"
-                            element={<div>404. Page not Found</div>} />
+                        <Route path="*" element={<ErrorPageUI />} />
                     </Routes>
 
                     {showLogin && (

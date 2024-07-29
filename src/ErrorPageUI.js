@@ -55,7 +55,7 @@ function ErrorPageUI() {
                                     Page not found
                                 </Typography>
                                 <Typography style={{ color: '#333333' }} variant="body1">
-                                    This page you're looking for doesn't exist or an <br /> other error occurred, go back to homepage
+                                    This page you're looking for doesn't exist or <br /> an error occurred.
                                 </Typography>
                                 <Button 
                                     style={{ 
@@ -68,7 +68,7 @@ function ErrorPageUI() {
                                         border: '.5px solid #D9D9D9'
                                     }} 
                                     component={Link} 
-                                    to="/" 
+                                    to="/dashboard" 
                                     onClick={() => window.scrollTo(0, 0)}
                                 >
                                     Go back
