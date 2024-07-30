@@ -98,10 +98,16 @@ function FlashcardManagementUI() {
         }
     };
 
-    const handleConfirmDelete = () => {
-        setFlashcards(flashcards.filter(fc => fc !== currentFlashcard));
-        setOpenDeleteDialog(false);
-        setCurrentFlashcard(null);
+    const handleConfirmDelete = async () => {
+        const currentflashcardid = localStorage.getItem('currentflashcardid'); // Retrieve the current flashcard ID
+        try {
+            await axios.put(`http://localhost:8080/api/flashcards/deleteFlashcard/${currentflashcardid}`); // Use the API endpoint to delete the flashcard
+            setFlashcards(flashcards.filter(fc => fc !== currentFlashcard));
+            setOpenDeleteDialog(false);
+            setCurrentFlashcard(null);
+        } catch (error) {
+            console.error('Error deleting flashcard:', error);
+        }
     };
 
     const handleAddFlashcard = async () => {
