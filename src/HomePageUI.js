@@ -8,7 +8,7 @@ import Login from './LoginUI';
 import Signup from './SignupUI';
 import Dashboard from './DashboardUI';
 import ReviewSession from './ReviewSessionUI';
-import UploadDocument from './UploadDocumentUI';
+import DocumentUploadUI from './DocumentUploadUI';
 import AboutUs from './AboutUsUI';
 import AboutEdudeck from './AboutEdudeckUI';
 import { Divider } from "@mui/material";
@@ -104,7 +104,7 @@ export default function HomePageUI() {
             <div>
                 <Routes>
                     <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path='/uploaddocument' element={<UploadDocument />} />
+                    <Route path='/uploaddocument' element={<DocumentUploadUI />} />
                     <Route path='/flashcardsmgt' element={<FlashcardManagement />} />
                     <Route path='/reviewsession' element={<ReviewSession/>} />
                     <Route path='/aboutus' element={<AboutUs />} />

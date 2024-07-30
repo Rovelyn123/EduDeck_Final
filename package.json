@@ -12,6 +12,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.2",
     "js-cookie": "^3.0.5",
+    "jszip": "^3.10.1",
     "mammoth": "^1.7.2",
     "pdfjs-dist": "^4.3.136",
     "react": "^18.2.0",

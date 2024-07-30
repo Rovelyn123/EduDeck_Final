@@ -560,7 +560,7 @@
 
 
 import React, { useRef, useState, useEffect } from "react";
-import "./UploadDocumentUI.css";
+import "./DocumentUploadUI.css";
 import {AppBar, Toolbar, Typography, IconButton, Box, Button, useMediaQuery, useTheme  } from "@mui/material";
 import {AccountCircle, NotificationsNone} from "@mui/icons-material";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -575,7 +575,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 
-function UploadDocumentUI() {
+function DocumentUploadUI() {
     const theme = useTheme();
     const fileInputRef = useRef(null);
     const [selectedFile, setSelectedFile] = useState(null);
@@ -1101,4 +1101,4 @@ function UploadDocumentUI() {
     );
 }
 
-export default UploadDocumentUI;
+export default DocumentUploadUI;
