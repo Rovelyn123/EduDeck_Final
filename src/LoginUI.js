@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import "./LoginUI.css";
 import { Typography, Divider } from '@mui/material';
 import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 function LoginUI() {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [error, setError] = useState("");
 
@@ -16,6 +18,10 @@ function LoginUI() {
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   const handleLogin = async (event) => {
@@ -35,10 +41,10 @@ function LoginUI() {
         navigate("/dashboard", { state: { enteredUsername: username } });
       } else {
         const data = await response.json();
-        setError(data.message || "Login failed");
+        alert(data.message || "Login failed");
       }
     } catch (error) {
-      setError("An error occurred during login");
+      alert("An error occurred during login");
     }
   };
 
@@ -96,9 +102,10 @@ function LoginUI() {
             </div>
             <div>
               <div style={{ marginBottom: '10px', position: 'relative' }}>
-                <div style={{ marginLeft: '30px' }}>
+              <div style={{ marginLeft: '30px', position: 'relative' }}>
+                <div style={{ position: 'relative', width: '100%' }}>
                   <input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     placeholder="Password"
                     value={password}
                     onChange={handlePasswordChange}
@@ -111,6 +118,22 @@ function LoginUI() {
                       outline: 'none',
                     }}
                   />
+                  {password && (
+                      <span 
+                        onClick={togglePasswordVisibility} 
+                        style={{
+                          position: 'absolute',
+                          right: '33px',
+                          top: '63%',
+                          transform: 'translateY(-50%)',
+                          cursor: 'pointer',
+                          color: '#B18A00'
+                        }}
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </span>
+                    )}
+                  </div>
                   <Typography
                     onClick={handleForgotPassword}
                     style={{ cursor: 'pointer', color: 'gray', display: 'block', marginTop: '10px', fontStyle: 'italic', fontWeight: '300', fontSize: '12px', textAlign: 'center', marginRight: '2.5em' }}

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import "./SignupUI.css";
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 function SignupUI({ onSignup }) {
   const [username, setUsername] = useState('');
@@ -12,11 +13,21 @@ function SignupUI({ onSignup }) {
   const [email, setEmail] = useState('');
   const [passwordRequirements, setPasswordRequirements] = useState({});
   const [showTooltip, setShowTooltip] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const navigate = useNavigate();
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword(!showConfirmPassword);
   };
 
   const handlePasswordChange = (event) => {
@@ -141,7 +152,7 @@ function SignupUI({ onSignup }) {
             </div>
 
             <div>
-              <div style={{ marginLeft:'.5em', marginBottom: '10px', position: 'relative' }}>
+              <div style={{ marginLeft: '.5em', marginBottom: '10px', position: 'relative' }}>
                 <div style={{ marginLeft: '20px' }}>
                   <Tooltip
                     title={
@@ -152,7 +163,7 @@ function SignupUI({ onSignup }) {
                             { text: "Password must contain at least one uppercase letter.", valid: passwordRequirements.upper },
                             { text: "Password must contain at least one lowercase letter.", valid: passwordRequirements.lower },
                             { text: "Password must contain at least one digit.", valid: passwordRequirements.digit }
-                            ].map((req, index) => (
+                          ].map((req, index) => (
                             <li key={index} style={{ color: req.valid ? 'green' : 'red' }}>
                               {req.text}
                               {req.valid ? <CheckIcon fontSize="small" className="tooltip-icon" /> : <CloseIcon fontSize="small" className="tooltip-icon" />}
@@ -165,24 +176,42 @@ function SignupUI({ onSignup }) {
                     disableHoverListener
                     placement="bottom"
                   >
-                    <input
-                      type="password"
-                      placeholder="Password"
-                      value={password}
-                      onChange={handlePasswordChange}
-                      onFocus={() => setShowTooltip(true)}
-                      onBlur={() => setShowTooltip(false)}
-                      style={{
-                        marginTop: '10px',
-                        width: '90%',
-                        padding: '8px',
-                        border: 'none',
-                        borderBottom: '1px solid #B18A00',
-                        outline: 'none',
-                        position: 'relative',
-                        zIndex: 2 // Increase z-index
-                      }}
-                    />
+                    <div style={{ position: 'relative' }}>
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Password"
+                        value={password}
+                        onChange={handlePasswordChange}
+                        onFocus={() => setShowTooltip(true)}
+                        onBlur={() => setShowTooltip(false)}
+                        style={{
+                          marginTop: '10px',
+                          width: '90%',
+                          padding: '8px',
+                          border: 'none',
+                          borderBottom: '1px solid #B18A00',
+                          outline: 'none',
+                          position: 'relative',
+                          zIndex: 2 // Increase z-index
+                        }}
+                      />
+                      {password && (
+                        <span 
+                          onClick={togglePasswordVisibility} 
+                          style={{
+                            position: 'absolute',
+                            right: '8%',
+                            top: '63%',
+                            transform: 'translateY(-50%)',
+                            cursor: 'pointer',
+                            color: '#B18A00',
+                            zIndex: 3 // Make sure the eye icon is on top
+                          }}
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </span>
+                      )}
+                    </div>
                   </Tooltip>
                 </div>
               </div>
@@ -192,7 +221,7 @@ function SignupUI({ onSignup }) {
               <div style={{ marginLeft:'.5em', marginBottom: '10px', position: 'relative' }}>
                 <div style={{ marginLeft: '20px' }}>
                   <input
-                    type="password"
+                    type={showConfirmPassword ? "text" : "password"}
                     placeholder="Confirm Password"
                     value={confirmPassword}
                     onChange={handleConfirmPasswordChange}
@@ -205,6 +234,21 @@ function SignupUI({ onSignup }) {
                       outline: 'none',
                     }}
                   />
+                  {confirmPassword && (
+                    <span 
+                      onClick={toggleConfirmPasswordVisibility} 
+                      style={{
+                        position: 'absolute',
+                        right: '7.8%',
+                        top: '63%',
+                        transform: 'translateY(-50%)',
+                        cursor: 'pointer',
+                        color: '#B18A00',
+                      }}
+                    >
+                      {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
