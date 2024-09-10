@@ -31,6 +31,7 @@ function DocumentUploadUI() {
     const [extractedText, setExtractedText] = useState('');
     const [deckCreated, setDeckCreated] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [uploadLoading, setUploadLoading] = useState(false);
 
     const { files, user } = uploadedFiles;
 
@@ -112,6 +113,60 @@ function DocumentUploadUI() {
         return `${size.toFixed(2)} ${units[index]}`;
     };
     
+    // const handleUploadClick = async () => {
+    //     if (selectedFile) {
+    //         const fileType = getFileType(selectedFile.name);
+    
+    //         if (['pdf', 'docx', 'pptx', 'jpeg', 'png', 'jpg', 'ppt'].includes(fileType)) {
+    //             try {
+    //                 const formData = new FormData();
+    //                 formData.append('document', new Blob([JSON.stringify({ documentTitle: selectedFile.name, fileType: fileType, isDeleted: 0, isDeleted: 0 })], { type: 'application/json' }));
+    //                 formData.append('file', selectedFile);
+    
+    //                 const response = await fetch(`http://localhost:8080/api/document/upload/${userid}`, {
+    //                     method: 'POST',
+    //                     body: formData,
+    //                     headers: {},
+    //                 });
+    
+    //                 if (!response.ok) {
+    //                     throw new Error('File upload failed. Please try again.');
+    //                 }
+    
+    //                 const data = await response.json();
+    
+    //                 const newFile = {
+    //                     documentID: data.documentID,
+    //                     documentTitle: selectedFile.name,
+    //                     fileType: fileType,
+    //                     fileSize: formatFileSize(selectedFile.size),
+    //                 };
+    
+    //                 setUploadedFiles((prevFiles) => [...prevFiles, newFile]);
+    //                 setSelectedFile(null);
+    
+    //                 toast.success('File successfully uploaded!', {
+    //                     position: toast.POSITION.TOP_CENTER,
+    //                     autoClose: 500,
+    //                 });
+    //             } catch (error) {
+    //                 toast.error(error.message, {
+    //                     position: toast.POSITION.TOP_CENTER,
+    //                     autoClose: 1000,
+    //                 });
+    //                 setSelectedFile(null);
+    //             }
+    //         } else {
+    //             toast.error('Unsupported file type. Please choose a different file.', {
+    //                 position: toast.POSITION.TOP_CENTER,
+    //                 autoClose: 1000,
+    //             });
+    //             setSelectedFile(null);
+    //         }
+    //     }
+    // };
+
+
     const handleUploadClick = async () => {
         if (selectedFile) {
             const fileType = getFileType(selectedFile.name);
@@ -119,7 +174,11 @@ function DocumentUploadUI() {
             if (['pdf', 'docx', 'pptx', 'jpeg', 'png', 'jpg', 'ppt'].includes(fileType)) {
                 try {
                     const formData = new FormData();
-                    formData.append('document', new Blob([JSON.stringify({ documentTitle: selectedFile.name, fileType: fileType, isDeleted: 0, isDeleted: 0 })], { type: 'application/json' }));
+                    formData.append('document', new Blob([JSON.stringify({
+                        documentTitle: selectedFile.name,
+                        fileType: fileType,
+                        isDeleted: 0
+                    })], { type: 'application/json' }));
                     formData.append('file', selectedFile);
     
                     const response = await fetch(`http://localhost:8080/api/document/upload/${userid}`, {
@@ -129,7 +188,13 @@ function DocumentUploadUI() {
                     });
     
                     if (!response.ok) {
-                        throw new Error('File upload failed. Please try again.');
+                        let errorMessage = 'File upload failed. Please try again.';
+                        if (response.status === 413) {
+                            errorMessage = 'File size too large. Please select a smaller file.';
+                        } else if (response.status === 415) {
+                            errorMessage = 'Unsupported file format. Please choose a supported format.';
+                        }
+                        throw new Error(errorMessage);
                     }
     
                     const data = await response.json();
@@ -146,14 +211,20 @@ function DocumentUploadUI() {
     
                     toast.success('File successfully uploaded!', {
                         position: toast.POSITION.TOP_CENTER,
-                        autoClose: 500,
+                        autoClose: 1000,
                     });
                 } catch (error) {
                     toast.error(error.message, {
                         position: toast.POSITION.TOP_CENTER,
-                        autoClose: 1000,
+                        autoClose: 3000,
                     });
                     setSelectedFile(null);
+                    // Show retry option
+                    toast.info("Please check the file and retry the upload.", {
+                        position: toast.POSITION.TOP_CENTER,
+                        autoClose: 5000,
+                        onClose: () => handleBrowseClick(), // Retry when user clicks
+                    });
                 }
             } else {
                 toast.error('Unsupported file type. Please choose a different file.', {
@@ -164,6 +235,7 @@ function DocumentUploadUI() {
             }
         }
     };
+    
     
 
     const getFileType = (fileName) => {
@@ -470,7 +542,7 @@ function DocumentUploadUI() {
                                         )}
                                         {file.documentTitle && file.fileSize && (
                                         <div style={{ margin: '10px' }}>
-                                            <Typography variant= {isMobile ? 'body2' : "h6"} style={{ fontFamily: 'Roboto Condensed', fontWeight: 'bold', fontSize: isMobile ? '16px' : '18px' }}>{file.documentTitle}</Typography>
+                                            <Typography variant= {isMobile ? 'body2' : "h6"} style={{ fontFamily: 'Roboto Condensed', fontWeight: 'bold', fontSize: isMobile ? '16px' : '18px', maxWidth: isMobile ? '150px' : '380px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{file.documentTitle}</Typography>
                                             <Typography variant="body2">{file.fileSize}</Typography>
                                         </div>
                                         )}
