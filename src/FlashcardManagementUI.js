@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./flashcardmanagement.css";
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField,Card, CardContent, } from '@mui/material';
 import { Edit, Delete } from '@mui/icons-material';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -97,7 +97,17 @@ function FlashcardManagementUI() {
             console.error('Error updating flashcard:', error);
         }
     };
+    const [open, setOpen] = useState(false);
 
+    // Function to open the dialog
+    const handleOpen = () => {
+        setOpen(true);
+    };
+
+    // Function to close the dialog
+    const handleClose = () => {
+        setOpen(false);
+    };
     const handleConfirmDelete = async () => {
         const currentflashcardid = localStorage.getItem('currentflashcardid'); // Retrieve the current flashcard ID
         try {
@@ -327,15 +337,115 @@ function FlashcardManagementUI() {
                     )}
                 </div>
                     <div className="footer-buttons">
-                        <Link to="/quizsession">
-                        <Button style={{borderRadius: '20px', boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', border: '.5px solid #D9D9D9', backgroundColor: 'white', color: 'black'}} variant="contained">Start Quiz</Button>
-                        </Link>
+                        <Button style={{borderRadius: '20px', boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', border: '.5px solid #D9D9D9', backgroundColor: 'white', color: 'black'}} variant="contained" onClick={handleOpen}>Start Quiz</Button>
                         <Link to="/reviewsession">
                         <Button style={{borderRadius: '20px', boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', border: '.5px solid #D9D9D9', backgroundColor: 'white', color: 'black'}} variant="contained">Start Review Session</Button>
                         </Link>
                     </div>
                 </div>
             </div>
+            <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth style={{ borderRadius: '20px' }}>
+                <DialogTitle>
+                    <Typography variant="h4" align="center" sx={{ fontWeight: 'bold' }}>
+                        Choose Your Difficulty Level
+                    </Typography>
+
+                </DialogTitle>
+                <DialogContent>
+                    <Grid container spacing={3} justifyContent="center">
+                        {/* Easy Difficulty */}
+                        <Grid item xs={12} sm={6} md={4}>
+                            <Card style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                minHeight: '220px',  // Uniform minimum height
+                                minWidth: '150px',   // Uniform minimum width
+                                justifyContent: 'space-between'
+                            }}>  {/* Uniform height */}
+                                <CardContent style={{ textAlign: 'center', flexGrow: 1 }}> {/* Center content */}
+                                    <Typography variant="h5" align="center">Easy</Typography>
+                                    <Box display="flex" justifyContent="center" alignItems="center" mb={1}> {/* Box for centering */}
+                                        <img src="/easyquiz.png" alt="Easy Quiz Icon" style={{ width: '70px', height: '70px' }} />
+                                    </Box>
+                                    <Typography variant="body2" align="center">
+                                        Straightforward questions, ideal for beginners.
+                                    </Typography>
+                                </CardContent>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    component={Link}
+                                    to="/quizsession"
+                                    style={{ margin: '16px auto' }} // Center button horizontally
+                                >
+                                    Let's Go
+                                </Button>
+                            </Card>
+                        </Grid>
+
+                        {/* Medium Difficulty */}
+                        <Grid item xs={12} sm={6} md={4}>
+                            <Card style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                minHeight: '220px',  // Uniform minimum height
+                                minWidth: '150px',   // Uniform minimum width
+                                justifyContent: 'space-between'
+                            }}>  {/* Uniform height */}
+                                <CardContent style={{ textAlign: 'center', flexGrow: 1 }}> {/* Center content */}
+                                    <Typography variant="h5" align="center">Medium</Typography>
+                                    <Box display="flex" justifyContent="center" alignItems="center" mb={1}> {/* Box for centering */}
+                                        <img src="/mediumquiz.png" alt="Medium Quiz Icon" style={{ width: '70px', height: '70px' }} />
+                                    </Box>
+                                    <Typography variant="body2" align="center">
+                                        Requires some knowledge and thought to answer.
+                                    </Typography>
+                                </CardContent>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    component={Link}
+                                    to="/quizsession"
+                                    style={{ margin: '16px auto' }} // Center button horizontally
+                                >
+                                    Let's Go
+                                </Button>
+                            </Card>
+                        </Grid>
+
+                        {/* Hard Difficulty */}
+                        <Grid item xs={12} sm={6} md={4}>
+                            <Card style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                minHeight: '220px',  // Uniform minimum height
+                                minWidth: '150px',   // Uniform minimum width
+                                justifyContent: 'space-between'
+                            }}>  {/* Uniform height */}
+                                <CardContent style={{ textAlign: 'center', flexGrow: 1 }}> {/* Center content */}
+                                    <Typography variant="h5" align="center">Hard</Typography>
+                                    <Box display="flex" justifyContent="center" alignItems="center" mb={1}> {/* Box for centering */}
+                                        <img src="/hardquiz.png" alt="Hard Quiz Icon" style={{ width: '70px', height: '70px' }} />
+                                    </Box>
+                                    <Typography variant="body2" align="center">
+                                        Challenging questions that test in-depth understanding.
+                                    </Typography>
+                                </CardContent>
+                                <Button
+                                    component={Link}
+                                    to="/quizsession"
+                                    variant="contained"
+                                    color="primary"
+                                    style={{ margin: '16px auto' }} // Center button horizontally
+                                >
+                                    Let's Go
+                                </Button>
+                            </Card>
+                        </Grid>
+                    </Grid>
+                </DialogContent>
+            </Dialog>
+
             <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
                 <DialogTitle>Edit Flashcard</DialogTitle>
                 <DialogContent>
