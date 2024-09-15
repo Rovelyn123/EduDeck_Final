@@ -3,7 +3,7 @@ import axios from "axios";
 import {Box, Grid, Typography, SwipeableDrawer, useMediaQuery, useTheme, AppBar, Toolbar, IconButton, Divider,Button } from "@mui/material";
 import { AccountCircle, NotificationsNone} from "@mui/icons-material";
 import { toast } from 'react-toastify';
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import * as pdfjsLib from "pdfjs-dist";
 import mammoth from "mammoth";
 import JSZip from "jszip";
@@ -20,6 +20,8 @@ function TextHighlightingUI() {
   const [fileURL, setFileURL] = useState(null);
   const userid = localStorage.getItem('userid');
   const [selectedDocumentID, setSelectedDocumentID] = useState(null);
+  const location = useLocation();
+  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     const fetchFileNames = async () => {
@@ -33,15 +35,33 @@ function TextHighlightingUI() {
     fetchFileNames();
   }, [userid]);
 
-  // useEffect(() => {
-  //   // Load the selected file from local storage
-  //   const storedDocumentID = localStorage.getItem('selectedDocumentID');
-  //   const storedDocumentTitle = localStorage.getItem('selectedDocumentTitle');
+  useEffect(() => {
+    const fetchProfilePicture = () => {
+        // Retrieve the user number
+        const userid = localStorage.getItem('userid');
 
-  //   if (storedDocumentID && storedDocumentTitle) {
-  //     handleDocumentClick(storedDocumentID, storedDocumentTitle);
-  //   }
-  // }, []);
+        // Check if the user has uploaded a profile picture
+        axios.get(`http://localhost:8080/user/getProfilePicture/${userid}`, { responseType: 'blob' }) // Specify responseType as 'blob'
+            .then((response) => {
+                // If the response is successful and contains data, set the selected image
+                if (response.data && response.data.size > 0) {
+                    const imageURL = URL.createObjectURL(response.data);
+                    setSelectedImage(imageURL);
+                } else {
+                    // If no picture is found or the response is empty, set the selected image to null to display the default AccountCircle icon
+                    setSelectedImage(null);
+                }
+            })
+            .catch((error) => {
+                // If there's an error (e.g., no profile picture found), set the selected image to null to display the default AccountCircle icon
+                console.log("Error fetching profile picture:", error);
+                setSelectedImage(null);
+            });
+    };
+
+    fetchProfilePicture();
+}, [location.pathname, location.state?.enteredUsername]);
+
 
   const toggleDrawer = (open) => (event) => {
     if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -336,18 +356,83 @@ function TextHighlightingUI() {
                 Document Text Highlighting
               </Typography>
             </Box>
-            <Box style={{ display: "flex", width: isMobile ? 60 : 150, justifyContent: isMobile ? 'space-between' : 'space-evenly', marginRight: isMobile ? '-0.5rem' : 0, marginTop: isMobile ? '0.2rem' : '0.5rem' }} >
-              <Box style={{ background: 'white', borderRadius: isMobile ? 25 : 50, padding: isMobile ? '2.5px' : '5px', alignItems: 'center', justifyContent: 'center', boxShadow: 'inset 0 5px 20px 0px rgba(0, 0, 0, 0.35)' }}>
-              <Link to="/profilesettings" style={{textDecorationLine: 'none'}}>
-                     <Box style={{ background: '#D0BF81', borderRadius: isMobile ? 25 : 50, width: isMobile ? '1.4rem' : '2.8rem', height: isMobile ? '1.4rem' : '2.8rem'}}>
-                        <IconButton color="white" style={{ fontSize: isMobile ? '22.5px' : '45px', padding: '0' }}>
-                            <AccountCircle style={{ fontSize: '100%', width: '100%', color: 'white' }} />
-                            </IconButton>
-                      </Box>
-              </Link>
-              </Box>
-
-            </Box>
+            <Box
+                  style={{
+                    background: "transparent",
+                    borderRadius: "45px",
+                    padding: "5px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginTop: "6px",
+                    marginLeft: "20px",
+                  }}
+                >
+                  <Box display="flex" alignItems="center">
+                    <Box
+                      style={{
+                        background: "white",
+                        borderRadius: "100%",
+                        padding: "5px",
+                        marginRight: "15px",
+                        boxShadow: "inset 0 5px 20px 0px rgba(0, 0, 0, 0.35)",
+                      }}
+                    >
+                      {selectedImage === null ? (
+                        <Box
+                        sx={{
+                          top: { xs: '1.3%', md: '2.5%' },
+                          marginLeft: { xs: '50%', md: '2%' },
+                          transform: { xs: 'translateX(-50%)', md: 'none' },
+                          background: '#D0BF81', borderRadius: '50px', width: '39px', height: '39px', display: 'flex', justifyContent: 'center', alignItems: 'center',
+                                    }}
+                        >
+                          <IconButton
+                            style={{ padding: "0" }}
+                            onClick={() => navigate("/profilesettings")}
+                          >
+                            <AccountCircle
+                              style={{
+                                fontSize: "45px",
+                                color: "white",
+                                marginLeft: "1px",
+                              }}
+                            />
+                          </IconButton>
+                        </Box>
+                      ) : (
+                          <Button
+                          component={Link}
+                          to="/profilesettings"
+                            variant="contained"
+                            color="primary"
+                            style={{
+                              background: "white",
+                              borderRadius: "50%",
+                              width: "20%",
+                              height: "45px",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              padding: 0,
+                              margin: 0,
+                            }}
+                          >
+                            <img
+                              src={selectedImage}
+                              alt="User Avatar"
+                              style={{
+                                width: "80%",
+                                height: "100%",
+                                objectFit: "fill",
+                                borderRadius: "100%",
+                              }}
+                            />
+                          </Button>
+                      )}
+                    </Box>
+                  </Box>
+                </Box>
           </Toolbar>
         </AppBar>
         {isMobile ? (

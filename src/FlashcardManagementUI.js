@@ -9,6 +9,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { AppBar } from "@mui/material";
 
 function FlashcardManagementUI() {
     const userid = localStorage.getItem('userid');
@@ -237,7 +238,9 @@ function FlashcardManagementUI() {
             <div className="body">
 
       <div style={{ backgroundImage: 'url(/crystalbackground.png)', minHeight: '100vh', overflow: 'hidden' }}>
-        <Box style={{ display: 'flex', alignItems: 'center', marginTop: 15 }}>
+      <AppBar position="sticky" style={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
+        <Link to="/dashboard" style={{ textDecoration: 'none' }}>
+        <Box style={{ display: 'flex', alignItems: 'center', marginTop: 5 }}>
           <img src="/logo.png" alt="logo" style={{ height: isMobile ? 35 : 50 }} />
           {!isMobile && (
             <Typography variant="h3" style={{ fontFamily: 'Poppin, sans-serif', fontWeight: '600', fontSize: '2em', color: '#B18A00', marginLeft: 10 }}>
@@ -250,6 +253,8 @@ function FlashcardManagementUI() {
             </IconButton>
           )}
         </Box>
+        </Link>
+        </AppBar>
         {isMobile ? (
           <SwipeableDrawer
             anchor="left"

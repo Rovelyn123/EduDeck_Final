@@ -16,6 +16,7 @@ const TopAppBarUI = () => {
       }}
     >
       <Toolbar style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', alignItems: 'center' }}>
+        <Link to="/dashboard" style={{ textDecoration: 'none' }}>
         <Box style={{ display: 'flex', alignItems: 'center', width: 'auto' }}>
           <img src="/logo.png" alt="App Logo" style={{ width: 70 }} />
           <Typography
@@ -31,6 +32,7 @@ const TopAppBarUI = () => {
             EduDeck
           </Typography>
         </Box>
+        </Link>
         <Box
           style={{
             display: 'flex',
