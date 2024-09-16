@@ -1,6 +1,7 @@
 import React from "react";
 import { AppBar, Toolbar, Typography, Box, useMediaQuery } from "@mui/material";
 import { Link } from "react-router-dom";
+import '@fontsource/lato';
 
 const TopAppBarUI = () => {
   const isMobile = useMediaQuery('(max-width:600px)');
@@ -16,13 +17,14 @@ const TopAppBarUI = () => {
       }}
     >
       <Toolbar style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', alignItems: 'center' }}>
+      <Link to="/dashboard" style={{ textDecoration: 'none' }}>
         <Box style={{ display: 'flex', alignItems: 'center', width: 'auto' }}>
           <img src="/logo.png" alt="App Logo" style={{ width: 70 }} />
           <Typography
             variant="h4"
             style={{
-              fontFamily: 'Poppin, sans-serif',
-              fontWeight: '600',
+              fontFamily: 'Lato',
+              fontWeight: '900',
               fontSize: '30px',
               color: '#B18A00',
               marginLeft: '10px'
@@ -31,6 +33,7 @@ const TopAppBarUI = () => {
             EduDeck
           </Typography>
         </Box>
+      </Link>
         <Box
           style={{
             display: 'flex',
@@ -54,7 +57,7 @@ const TopAppBarUI = () => {
             <Typography
               variant="h5"
               style={{
-                fontFamily: "Roboto Condensed",
+                fontFamily: "Lato",
                 fontSize: isMobile ? '20px' : '30px',
                 color: '#332D2D',
                 textAlign: 'center',

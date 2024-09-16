@@ -29,6 +29,7 @@
   box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.25);
   margin-bottom: 30px;
   position: relative;
+  font-family: 'Lato';
 }
 
 .question-label {
@@ -37,6 +38,7 @@
   left: 20px; /* Adjusted left spacing */
   font-weight: bold;
   color: #333;
+  font-family: 'Lato';
 }
 
 .text-field-bottom {
@@ -48,6 +50,7 @@
   display: flex;
   justify-content: center; /* Center horizontally */
   align-items: center; /* Center vertically */
+  font-family: 'Lato';
 }
 
 .counter {
@@ -67,6 +70,7 @@
   transform: translate(-50%, -50%);
   text-align: center;
   width: 80%; /* Adjust width as needed */
+  font-family: 'Lato';
 }
 
 @media (max-width: 480px) {
@@ -75,6 +79,7 @@
       padding: 5px 10px; /* Adjust padding as needed */
       font-size: 14px; /* Adjust font size for smaller screens */
       margin-top: 10px;
+      font-family: 'Lato';
   }
 
   .question-card {
@@ -86,17 +91,20 @@
     box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.25);
     margin-bottom: 30px;
     position: relative;
+    font-family: 'Lato';
   }
 
   .question-label {
       top: 10px;
       left: 10px;
+      font-family: 'Lato';
       /* font-size: 14px; Adjust font size for smaller screens */
   }
 
   .question-text {
       font-size: 20px; /* Adjust font size for smaller screens */
       width: 90%; /* Adjust width to fit the screen */
+      font-family: 'Lato';
   }
 
   .counter {
@@ -112,5 +120,6 @@
       display: flex;
       justify-content: center; /* Center horizontally */
       align-items: center; /* Center vertically */
+      font-family: 'Lato';
   }
 }

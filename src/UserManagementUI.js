@@ -4,6 +4,7 @@ import Grid from '@mui/material/Grid';
 import { Typography, Drawer, useMediaQuery, useTheme, Divider, Button, IconButton, TextField, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import DeleteIcon from '@mui/icons-material/Delete';
+import '@fontsource/lato';
 
 function UserManagementUI() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -75,7 +76,7 @@ function UserManagementUI() {
     >
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 1 }}>
         <img src="/logo.png" alt="logo" style={{ height: 50 }} />
-        <Typography variant="h3" style={{ fontFamily: 'Poppin, sans-serif', fontWeight: '600', fontSize: '2em', color: '#B18A00', }}>
+        <Typography variant="h3" style={{ fontFamily: 'Lato', fontWeight: '900', fontSize: '2em', color: '#B18A00', }}>
           EduDeck
         </Typography>
       </Box>
@@ -95,7 +96,7 @@ function UserManagementUI() {
             onClick={() => handleButtonClick('overview')}
           >
             <img src="/overview.png" alt="overview" style={{ height: 25, marginLeft: '1.2em' }} />
-            <Typography style={{ color: 'black', fontFamily: 'Roboto', fontSize: '1.1em', textTransform: 'none', flexGrow: 1 }}>
+            <Typography style={{ color: 'black', fontFamily: 'Lato', fontSize: '1.1em', textTransform: 'none', flexGrow: 1 }}>
               User Management
             </Typography>
           </Button>
@@ -114,7 +115,7 @@ function UserManagementUI() {
             onClick={() => handleButtonClick('document to flashcards')}
           >
             <img src="/convert.png" alt="convert icon" style={{ height: 20, marginLeft: '1.3em' }} />
-            <Typography style={{ color: 'black', fontFamily: 'Roboto', fontSize: '1.1em', textTransform: 'none', flexGrow: 1 }}>
+            <Typography style={{ color: 'black', fontFamily: 'Lato', fontSize: '1.1em', textTransform: 'none', flexGrow: 1 }}>
               Admin Profile
             </Typography>
           </Button>
@@ -150,7 +151,7 @@ function UserManagementUI() {
             </Drawer>
           )}
           <Box sx={{ flexGrow: 1, p: 2 }}>
-            <Typography variant="h4" gutterBottom>Users</Typography>
+            <Typography style={{fontFamily: 'Lato'}} variant="h4" gutterBottom>Users</Typography>
             <TextField 
               fullWidth 
               variant="outlined" 
@@ -198,20 +199,20 @@ function UserManagementUI() {
               <Table stickyHeader>
                 <TableHead>
                   <TableRow sx={{ backgroundColor: '#FFFACD' }}>
-                    <TableCell sx={{ fontWeight: 'bold' }}>Name</TableCell>
-                    <TableCell sx={{ fontWeight: 'bold' }}>Email</TableCell>
-                    <TableCell sx={{ fontWeight: 'bold' }}>Mobile number</TableCell>
-                    <TableCell sx={{ fontWeight: 'bold' }}>Account Created</TableCell>
-                    <TableCell sx={{ fontWeight: 'bold' }}>Action</TableCell>
+                    <TableCell sx={{ fontWeight: 'bold', fontFamily: 'Lato' }}>Name</TableCell>
+                    <TableCell sx={{ fontWeight: 'bold', fontFamily: 'Lato' }}>Email</TableCell>
+                    <TableCell sx={{ fontWeight: 'bold', fontFamily: 'Lato' }}>Mobile number</TableCell>
+                    <TableCell sx={{ fontWeight: 'bold', fontFamily: 'Lato' }}>Account Created</TableCell>
+                    <TableCell sx={{ fontWeight: 'bold', fontFamily: 'Lato' }}>Action</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {filteredUsers.map(user => (
                     <TableRow key={user.id}>
-                      <TableCell>{user.name}</TableCell>
-                      <TableCell>{user.email}</TableCell>
-                      <TableCell>{user.mobile}</TableCell>
-                      <TableCell>{user.accountCreated}</TableCell>
+                      <TableCell style={{fontFamily: 'Lato'}}>{user.name}</TableCell>
+                      <TableCell style={{fontFamily: 'Lato'}}>{user.email}</TableCell>
+                      <TableCell style={{fontFamily: 'Lato'}}>{user.mobile}</TableCell>
+                      <TableCell style={{fontFamily: 'Lato'}}>{user.accountCreated}</TableCell>
                       <TableCell>
                         <IconButton onClick={() => handleOpenDialog(user)}>
                           <DeleteIcon />

@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import "./QuizSessionUI.css";
+import "./QuizUI.css";
 import { Typography, Box, TextField, Button, AppBar, Toolbar, useMediaQuery } from "@mui/material";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import '@fontsource/lato';
-import { Link } from 'react-router-dom';
 
-const QuizSessionUI = () => {
+const QuizUI = () => {
     const [questions, setQuestions] = useState([]);
     const [totalQuestions, setTotalQuestions] = useState(0);
     const [title, setTitle] = useState('');
@@ -107,7 +106,6 @@ const QuizSessionUI = () => {
     }}
 >
     <Toolbar style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', alignItems: 'center' }}>
-    <Link to="/dashboard" style={{ textDecoration: 'none' }}>
         <Box style={{ display: 'flex', alignItems: 'center', width: 'auto' }}>
             <img src="/logo.png" alt="App Logo" style={{ width: 70 }} />
             <Typography
@@ -123,7 +121,6 @@ const QuizSessionUI = () => {
                 EduDeck
             </Typography>
         </Box>
-        </Link>
         <Box
             style={{
                 display: 'flex',

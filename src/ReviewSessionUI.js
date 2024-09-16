@@ -5,6 +5,7 @@ import { Typography, IconButton, Button } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import TopAppBar from './TopAppBarUI';
+import '@fontsource/lato';
 
 function ReviewSessionUI() {
   const [flashcardTitle, setFlashcardTitle] = useState('Review Session');
@@ -85,7 +86,7 @@ function ReviewSessionUI() {
       <TopAppBar />
 
       <div className="center-panel" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
-        <Typography variant="h5" style={{ textAlign: 'center' }}>{flashcardTitle}</Typography>
+        <Typography variant="h5" style={{ textAlign: 'center', fontFamily: 'Lato', }}>{flashcardTitle}</Typography>
         {error ? (
           <Typography variant="h6" color="error">{error}</Typography>
         ) : flashcards.length > 0 ? (
@@ -140,7 +141,9 @@ function ReviewSessionUI() {
           onClick={showAnswer}
           style={{
             backgroundColor: '#ffd234',
-            borderRadius: '2em'
+            borderRadius: '2em',
+            fontFamily: 'Lato',
+            fontWeight: '600',
           }}
           sx={{
             width: '150px',
@@ -157,7 +160,7 @@ function ReviewSessionUI() {
           <ArrowForwardIcon />
         </IconButton>
       </div>
-      <div className="Memorized" style={{ marginTop: 'auto', marginBottom: '20px', textAlign: 'center' }}>
+      <div className="Memorized" style={{ marginTop: 'auto', marginBottom: '20px', textAlign: 'center',fontFamily: 'Lato', fontWeight: '700', }}>
         <Button variant="contained" onClick={toggleMemorized}>
           {isMemorized ? "Unmark as Memorized" : "Mark as Memorized"}
         </Button>

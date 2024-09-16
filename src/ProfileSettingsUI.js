@@ -561,6 +561,7 @@ import { Typography, Button, Dialog, DialogActions, DialogContent, TextField, Di
 import React, { useEffect, useState } from 'react';
 import { FaEdit, FaSignOutAlt } from 'react-icons/fa';
 import { useLocation, useNavigate } from 'react-router-dom';
+import '@fontsource/lato';
 
 const UserProfileUI = () => {
   const location = useLocation();
@@ -742,7 +743,7 @@ const UserProfileUI = () => {
     if (editDialogType === 'bio') {
       return (
         <div>
-          <Typography variant="body1" style={{ marginBottom: '1em' }}>Edit Bio</Typography>
+          <Typography variant="body1" style={{ marginBottom: '1em', fontFamily: 'Lato', }}>Edit Bio</Typography>
           <TextField
             fullWidth
             value={tempValue}
@@ -760,7 +761,7 @@ const UserProfileUI = () => {
     } else {
       return (
         <div>
-          <Typography variant="body1" style={{ marginBottom: '1em' }}>Edit {editDialogType.charAt(0).toUpperCase() + editDialogType.slice(1)}</Typography>
+          <Typography variant="body1" style={{ marginBottom: '1em', fontFamily: 'Lato', }}>Edit {editDialogType.charAt(0).toUpperCase() + editDialogType.slice(1)}</Typography>
           <TextField
             fullWidth
             value={tempValue}

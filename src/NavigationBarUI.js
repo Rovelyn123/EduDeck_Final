@@ -4,6 +4,7 @@ import Grid from '@mui/material/Grid';
 import { Typography, Drawer, useMediaQuery, useTheme, Divider, Button, IconButton } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import '@fontsource/lato';
 
 function NavigationBarUI() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -38,7 +39,7 @@ function NavigationBarUI() {
       <Box sx={{ width: '100%', height: '90%', overflowY: 'auto', paddingBottom: '5em' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 1 }}>
           <img src="/logo.png" alt="logo" style={{ height: 50 }} />
-            <Typography variant="h3" style={{ marginRight: '.5em',fontFamily: 'Poppin, sans-serif', fontWeight: '600', fontSize: '2em', color: '#B18A00', }}>
+            <Typography variant="h3" style={{ marginRight: '.5em',fontFamily: 'Lato', fontWeight: '900', fontSize: '2em', color: '#B18A00', }}>
                 EduDeck
               </Typography>
         </Box>
@@ -59,7 +60,7 @@ function NavigationBarUI() {
               // onClick={() => handleButtonClick('overview')}
             >
               <img src="/overview.png" alt="overview" style={{ height: 25, marginLeft: '1.2em' }} />
-              <Typography style={{ color: 'black', fontFamily: 'Roboto', fontSize: '1.1em', textTransform: 'none', flexGrow: 1, marginLeft: '2em' }}>
+              <Typography style={{ color: 'black', fontFamily: 'Lato', fontSize: '1.1em', textTransform: 'none', flexGrow: 1, marginLeft: '2em' }}>
                 Overview
               </Typography>
             </Button>
@@ -79,7 +80,7 @@ function NavigationBarUI() {
               onClick={() => handleButtonClick('document to flashcards')}
             >
               <img src="/convert.png" alt="convert icon" style={{ height: 20, marginLeft: '1.3em'  }} />
-              <Typography style={{ color: 'black', fontFamily: 'Roboto', fontSize: '1.1em', textTransform: 'none', flexGrow: 1, marginLeft: '2em' }}>
+              <Typography style={{ color: 'black', fontFamily: 'Lato', fontSize: '1.1em', textTransform: 'none', flexGrow: 1, marginLeft: '2em' }}>
                 Document to Flashcards
               </Typography>
             </Button>
@@ -99,7 +100,7 @@ function NavigationBarUI() {
               // onClick={() => handleButtonClick('downloads')}
             >
               <img src="/downloads.png" alt="downloads" style={{ height: 15, marginLeft: '1.3em' }} />
-              <Typography style={{ color: 'black', fontFamily: 'Roboto', fontSize: '1.1em', textTransform: 'none', flexGrow: 1, marginLeft: '2em' }}>
+              <Typography style={{ color: 'black', fontFamily: 'Lato', fontSize: '1.1em', textTransform: 'none', flexGrow: 1, marginLeft: '2em' }}>
                 Flashcards
               </Typography>
             </Button>
@@ -138,7 +139,7 @@ function NavigationBarUI() {
               // onClick={() => handleButtonClick('pricing')}
             >
               <img src="/pricing.png" alt="pricing" style={{ height: 25, marginLeft: '1.3em' }} />
-              <Typography style={{ color: 'black', fontFamily: 'Roboto',  fontSize: '1.1em', textTransform: 'none', flexGrow: 1, marginLeft: '2em' }}>
+              <Typography style={{ color: 'black', fontFamily: 'Lato',  fontSize: '1.1em', textTransform: 'none', flexGrow: 1, marginLeft: '2em' }}>
                 Pricing
               </Typography>
             </Button>
@@ -158,7 +159,7 @@ function NavigationBarUI() {
               // onClick={() => handleButtonClick('settings')}
             >
               <img src="/settings.png" alt="settings icon" style={{ height: 20, marginLeft: '1.3em' }} />
-              <Typography style={{ color: 'black', fontFamily: 'Roboto', fontSize: '1.1em', textTransform: 'none', flexGrow: 1, marginLeft: '2em' }}>
+              <Typography style={{ color: 'black', fontFamily: 'Lato', fontSize: '1.1em', textTransform: 'none', flexGrow: 1, marginLeft: '2em' }}>
                 Settings
               </Typography>
             </Button>
@@ -182,7 +183,7 @@ function NavigationBarUI() {
         >
           <Typography
             style={{
-              fontFamily: 'Roboto Condensed',
+              fontFamily: 'Lato',
               fontSize: 12,
               color: 'black',
               margin: "0px 2px 5px 2px",
@@ -192,7 +193,7 @@ function NavigationBarUI() {
             Encountering problems with our service? Reach out to our customer support team for assistance.
           </Typography>
           <Button style={{ backgroundColor: '#FFD234', width: '90%', boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' }}>
-            <Typography style={{ color: 'black', fontFamily: 'Roboto Condensed', fontSize: '1em', textTransform: 'none' }}>
+            <Typography style={{ color: 'black', fontFamily: 'Lato', fontSize: '1em', textTransform: 'none' }}>
               Contact Us
             </Typography>
           </Button>
@@ -208,7 +209,7 @@ function NavigationBarUI() {
           <Box sx={{ display: 'flex', alignItems: 'center', marginLeft: -1}}>
             <img src="/logo.png" alt="logo" style={{ height: isMobile ? 35 : 50 }} />
             {!isMobile && (
-              <Typography variant="h3" style={{ fontFamily: 'Poppin, sans-serif', fontWeight: '600', fontSize: '2em', color: '#B18A00', ml: 1 }}>
+              <Typography variant="h3" style={{ fontFamily: 'Lato', fontWeight: '900', fontSize: '2em', color: '#B18A00', ml: 1 }}>
                 EduDeck
               </Typography>
             )}
@@ -246,7 +247,7 @@ function NavigationBarUI() {
               onClick={() => handleButtonClick('overview')}
             >
               <img src="/overview.png" alt="overview" style={{height: '80%', marginRight: '.5em'}} />
-              <Typography style={{color: 'black', fontFamily: 'Roboto', fontWeight: 300, fontSize: '15px', textTransform: 'none', flexGrow: 1}}>
+              <Typography style={{color: 'black', fontFamily: 'Lato', fontWeight: 300, fontSize: '15px', textTransform: 'none', flexGrow: 1}}>
                 Overview
               </Typography>
             </Button>
@@ -257,7 +258,7 @@ function NavigationBarUI() {
               onClick={() => handleButtonClick('document to flashcards')}
             >
             <img src="/convert.png" alt="convert icon" style={{height: '80%', marginRight: '.6em'}} />
-              <Typography style={{color: 'black', fontFamily: 'Roboto', fontWeight: 300, fontSize: '15px', textTransform: 'none', flexGrow: 1}}>
+              <Typography style={{color: 'black', fontFamily: 'Lato', fontWeight: 300, fontSize: '15px', textTransform: 'none', flexGrow: 1}}>
               Document to Flashcards
               </Typography>
             </Button>
@@ -269,7 +270,7 @@ function NavigationBarUI() {
               onClick={() => handleButtonClick('downloads')}
             >
               <img src="/downloads.png" alt="downloads" style={{height: '70%', marginRight: '.5em'}} />
-              <Typography style={{color: 'black', fontFamily: 'Roboto', fontWeight: 300, fontSize: '15px', textTransform: 'none', flexGrow: 1}}>
+              <Typography style={{color: 'black', fontFamily: 'Lato', fontWeight: 300, fontSize: '15px', textTransform: 'none', flexGrow: 1}}>
                 Flashcards
               </Typography>
             </Button>
@@ -291,7 +292,7 @@ function NavigationBarUI() {
               onClick={() => handleButtonClick('pricing')}
             >
               <img src="/pricing.png" alt="pricing" style={{height: '100%', marginRight: '.5em'}} />
-              <Typography style={{color: 'black', fontFamily: 'Roboto', fontWeight: 300, fontSize: '15px', textTransform: 'none', flexGrow: 1}}>
+              <Typography style={{color: 'black', fontFamily: 'Lato', fontWeight: 300, fontSize: '15px', textTransform: 'none', flexGrow: 1}}>
                 Pricing
               </Typography>
             </Button>
@@ -302,7 +303,7 @@ function NavigationBarUI() {
               onClick={() => handleButtonClick('settings')}
             >
             <img src="/settings.png" alt="settings icon" style={{height: '100%', marginRight: '.5em'}} />
-              <Typography style={{color: 'black', fontFamily: 'Roboto', fontWeight: 300, fontSize: '15px', textTransform: 'none', flexGrow: 1}}>
+              <Typography style={{color: 'black', fontFamily: 'Lato', fontWeight: 300, fontSize: '15px', textTransform: 'none', flexGrow: 1}}>
               Settings
               </Typography>
             </Button>
@@ -313,11 +314,11 @@ function NavigationBarUI() {
             <Box style={{backgroundColor: '#F3F3F3', height: '26%', width: "90%", marginBottom: 10, display: 'flex', flexDirection: 'column', alignItems: 'center',
               boxShadow: '0px 5px 10px 0px rgba(0, 0, 0, 0.25)', justifyContent: 'center', borderRadius: '8px',
             }}>
-              <Typography style={{fontFamily: 'Roboto Condensed', fontSize: '15px', fontWeight: 500, color: 'black', padding: '2px', textAlign: 'center'}}>
+              <Typography style={{fontFamily: 'Lato', fontSize: '15px', fontWeight: 500, color: 'black', padding: '2px', textAlign: 'center'}}>
                 Encountering problems with our service? Reach out to our customer support team for assistance.
               </Typography>
             <Button style={{backgroundColor: '#FFD234', width: '90%', height: '25%', boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)'}}>
-                <Typography style={{color: 'black', fontFamily: 'Roboto Condensed', fontWeight: 600, fontSize: '20px', textTransform: 'none'}}>
+                <Typography style={{color: 'black', fontFamily: 'Lato', fontWeight: 600, fontSize: '20px', textTransform: 'none'}}>
                   Contact Us
                 </Typography>
               </Button>

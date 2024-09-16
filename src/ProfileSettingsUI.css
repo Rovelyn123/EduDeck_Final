@@ -2,6 +2,7 @@
 .lsbody {
     width: 100%;
     margin: 0 auto;
+    font-family: 'Lato';
   }
   
   .profile-picture {
@@ -43,6 +44,7 @@
     margin-left: 20px;
     font-size: 1.5em;
     margin-bottom: 20px;
+    font-family: 'Lato';
   }
   
   .coverphotocontainer {
@@ -68,6 +70,7 @@
     justify-content: space-between;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
     margin-bottom: 20px;
+    font-family: 'Lato';
   }
   
   .bio-container {
@@ -84,6 +87,7 @@
   .bio-text {
     word-wrap: break-word; /* Ensures long words do not cause horizontal overflow */
     text-align: center;
+    font-family: 'Lato';
   }
   
   .bio-edit-button {
@@ -94,6 +98,7 @@
     width: 8em;
     margin: 10px;
     align-self: center;
+    font-family: 'Lato';
   }
   
   .personal-info {
@@ -110,11 +115,13 @@
     display: flex;
     flex-direction: column;
     margin-bottom: 20px;
+    font-family: 'Lato';
   }
   
   .personal-info-title {
     text-align: left;
     font-size: 1.5em;
+    font-family: 'Lato';
   }
   
   .info-group {
@@ -202,6 +209,7 @@
     .lsbody{
       display: flex;
       flex-direction: column;
+      font-family: 'Lato';
     }
   
     .containerbox{
@@ -222,6 +230,7 @@
       transform: translate(-50%, -50%);
       height: auto; /* Adjust height based on content */
       margin-bottom: 10%;
+      font-family: 'Lato';
     }
   
     .bio-container {

@@ -9,6 +9,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import '@fontsource/lato';
 
 function FlashcardManagementUI() {
     const userid = localStorage.getItem('userid');
@@ -199,7 +200,7 @@ function FlashcardManagementUI() {
             <Grid container>
                 <Grid item xs={12}>
                     <Box style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
-                        <Typography marginTop={2} style={{ fontFamily: 'Roboto Condensed', fontWeight: 550, fontSize: 18 }}>
+                        <Typography marginTop={2} style={{ fontFamily: 'Lato', fontWeight: 900, fontSize: 18 }}>
                             Documents
                         </Typography>
                         <Divider style={{ backgroundColor: '#BCA860', width: '80%', marginTop: 10 }} />
@@ -216,7 +217,7 @@ function FlashcardManagementUI() {
                                         width: '100%', justifyContent: 'center'
                                     }}
                                     onClick={() => handleDeckSelection(deck)}>
-                                        <Typography variant='body1' style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{deck.title}</Typography>
+                                        <Typography variant='body1' style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontFamily: 'Lato', }}>{deck.title}</Typography>
                                     </Button>
                                 </Box>
                             </Grid>
@@ -225,7 +226,7 @@ function FlashcardManagementUI() {
                 </Box>
             </Grid>
             <Button onClick={handleOpenNewDeckDialog} style={{ backgroundColor: '#FFD234', margin: 20, width: '90%', boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' }}>
-                <Typography style={{ color: 'black', fontFamily: 'Roboto Condensed', fontWeight: 300, fontSize: '20px', textTransform: 'none' }}>
+                <Typography style={{ color: 'black', fontFamily: 'Lato', fontWeight: 300, fontSize: '20px', textTransform: 'none' }}>
                     Create New Deck
                 </Typography>
             </Button>
@@ -237,10 +238,11 @@ function FlashcardManagementUI() {
             <div className="body">
 
       <div style={{ backgroundImage: 'url(/crystalbackground.png)', minHeight: '100vh', overflow: 'hidden' }}>
-        <Box style={{ display: 'flex', alignItems: 'center', marginTop: 15 }}>
-          <img src="/logo.png" alt="logo" style={{ height: isMobile ? 35 : 50 }} />
+      <Link to="/dashboard" style={{ textDecoration: 'none' }}>
+         <Box style={{ display: 'flex', alignItems: 'center', marginTop: 15 }}>
+          <img src="/logo.png" alt="logo" style={{ height: isMobile ? 35 : 50 }} /> 
           {!isMobile && (
-            <Typography variant="h3" style={{ fontFamily: 'Poppin, sans-serif', fontWeight: '600', fontSize: '2em', color: '#B18A00', marginLeft: 10 }}>
+            <Typography variant="h3" style={{ fontFamily: 'Lato', fontWeight: '900', fontSize: '2em', color: '#B18A00', marginLeft: 10 }}>
               EduDeck
             </Typography>
           )}
@@ -250,6 +252,7 @@ function FlashcardManagementUI() {
             </IconButton>
           )}
         </Box>
+        </Link>
         {isMobile ? (
           <SwipeableDrawer
             anchor="left"
@@ -268,7 +271,7 @@ function FlashcardManagementUI() {
             <Grid container>
               <Grid item xs={12}>
                 <Box style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
-                  <Typography marginTop={13} style={{ fontFamily: 'Roboto Condensed', fontWeight: 550, fontSize: 30 }}>
+                  <Typography marginTop={13} style={{ fontFamily: 'Lato', fontWeight: 900, fontSize: 30 }}>
                     Documents
                   </Typography>
                   <Divider style={{ backgroundColor: '#BCA860', width: '80%', marginTop: 10 }} />
@@ -285,7 +288,7 @@ function FlashcardManagementUI() {
                           width: '100%', justifyContent: 'center'
                         }}
                         onClick={() => handleDeckSelection(deck)}>
-                          <Typography variant='body1' style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{deck.title}</Typography>
+                          <Typography variant='body1' style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontFamily: 'Lato', }}>{deck.title}</Typography>
                         </Button>
                       </Box>
                     </Grid>
@@ -294,7 +297,7 @@ function FlashcardManagementUI() {
               </Box>
             </Grid>
             <Button  onClick={handleOpenNewDeckDialog} style={{ backgroundColor: '#FFD234', margin: 20, width: '90%', boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' }}>
-              <Typography style={{ color: 'black', fontFamily: 'Roboto Condensed', fontWeight: 500, fontSize: '20px', textTransform: 'none' }}>
+              <Typography style={{ color: 'black', fontFamily: 'Lato', fontWeight: 500, fontSize: '20px', textTransform: 'none' }}>
                 Create New Deck
               </Typography>
             </Button>
@@ -305,8 +308,8 @@ function FlashcardManagementUI() {
                 <div className="flashcardcontainer">
                     <div className="flashcardtitle">
                         <div className="left-buttons">
-                            <Button style={{borderRadius: '12px', boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', border: '.5px solid #D9D9D9', padding: '4px 8px', fontSize: '0.875rem'}} variant="contained" className="title-button" onClick={handleOpenAddDialog}>Add Question</Button>
-                            <Button style={{borderRadius: '12px', boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', border: '.5px solid #D9D9D9', padding: '4px 8px', fontSize: '0.875rem'}} variant="contained" className="title-button" onClick={() => setOpenConfirmDeleteDeckDialog(true)}>Delete Deck</Button>
+                            <Button style={{borderRadius: '12px', boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', border: '.5px solid #D9D9D9', padding: '4px 8px', fontSize: '0.875rem', fontFamily: 'Lato', fontWeight: '700'}} variant="contained" className="title-button" onClick={handleOpenAddDialog}>Add Question</Button>
+                            <Button style={{borderRadius: '12px', boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', border: '.5px solid #D9D9D9', padding: '4px 8px', fontSize: '0.875rem', fontFamily: 'Lato', fontWeight: '700'}} variant="contained" className="title-button" onClick={() => setOpenConfirmDeleteDeckDialog(true)}>Delete Deck</Button>
                         </div>
                        <h1> {selectedDeck ? selectedDeck : "Flashcards"} </h1>
                     </div>
@@ -326,27 +329,27 @@ function FlashcardManagementUI() {
                                 </div>
                             ))
                         ) : (
-                            <Typography variant="body1" style={{ textAlign: 'center', marginTop: '20px' }}>
+                            <Typography variant="body1" style={{ textAlign: 'center', marginTop: '20px', fontFamily: 'Lato', }}>
                                 No flashcards available. Add a new flashcard.
                             </Typography>
                         )
                     ) : (
-                        <Typography variant="body1" style={{ textAlign: 'center', marginTop: '20px' }}>
+                        <Typography variant="body1" style={{ textAlign: 'center', marginTop: '20px', fontFamily: 'Lato',}}>
                             Select a deck to see flashcards or add a new flashcard.
                         </Typography>
                     )}
                 </div>
                     <div className="footer-buttons">
-                        <Button style={{borderRadius: '20px', boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', border: '.5px solid #D9D9D9', backgroundColor: 'white', color: 'black'}} variant="contained" onClick={handleOpen}>Start Quiz</Button>
+                        <Button style={{borderRadius: '20px', boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', border: '.5px solid #D9D9D9', backgroundColor: 'white', color: 'black', fontFamily: 'Lato', fontWeight: '700'}} variant="contained" onClick={handleOpen}>Start Quiz</Button>
                         <Link to="/reviewsession">
-                        <Button style={{borderRadius: '20px', boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', border: '.5px solid #D9D9D9', backgroundColor: 'white', color: 'black'}} variant="contained">Start Review Session</Button>
+                        <Button style={{borderRadius: '20px', boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', border: '.5px solid #D9D9D9', backgroundColor: 'white', color: 'black', fontFamily: 'Lato', fontWeight: '700'}} variant="contained">Start Review Session</Button>
                         </Link>
                     </div>
                 </div>
             </div>
-            <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth style={{ borderRadius: '20px' }}>
+            <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth style={{ borderRadius: '20px', fontFamily: 'Lato', }}>
                 <DialogTitle>
-                    <Typography variant="h4" align="center" sx={{ fontWeight: 'bold' }}>
+                    <Typography variant="h4" align="center" sx={{ fontWeight: 'bold', fontFamily: 'Lato', fontWeight: '700' }}>
                         Choose Your Difficulty Level
                     </Typography>
 
@@ -362,7 +365,7 @@ function FlashcardManagementUI() {
                                 minWidth: '150px',   // Uniform minimum width
                                 justifyContent: 'space-between'
                             }}>  {/* Uniform height */}
-                                <CardContent style={{ textAlign: 'center', flexGrow: 1 }}> {/* Center content */}
+                                <CardContent style={{ textAlign: 'center', flexGrow: 1, fontFamily: 'Lato',  }}> {/* Center content */}
                                     <Typography variant="h5" align="center">Easy</Typography>
                                     <Box display="flex" justifyContent="center" alignItems="center" mb={1}> {/* Box for centering */}
                                         <img src="/easyquiz.png" alt="Easy Quiz Icon" style={{ width: '70px', height: '70px' }} />
@@ -392,7 +395,7 @@ function FlashcardManagementUI() {
                                 minWidth: '150px',   // Uniform minimum width
                                 justifyContent: 'space-between'
                             }}>  {/* Uniform height */}
-                                <CardContent style={{ textAlign: 'center', flexGrow: 1 }}> {/* Center content */}
+                                <CardContent style={{ textAlign: 'center', flexGrow: 1, fontFamily: 'Lato',  }}> {/* Center content */}
                                     <Typography variant="h5" align="center">Medium</Typography>
                                     <Box display="flex" justifyContent="center" alignItems="center" mb={1}> {/* Box for centering */}
                                         <img src="/mediumquiz.png" alt="Medium Quiz Icon" style={{ width: '70px', height: '70px' }} />
@@ -422,7 +425,7 @@ function FlashcardManagementUI() {
                                 minWidth: '150px',   // Uniform minimum width
                                 justifyContent: 'space-between'
                             }}>  {/* Uniform height */}
-                                <CardContent style={{ textAlign: 'center', flexGrow: 1 }}> {/* Center content */}
+                                <CardContent style={{ textAlign: 'center', flexGrow: 1, fontFamily: 'Lato', }}> {/* Center content */}
                                     <Typography variant="h5" align="center">Hard</Typography>
                                     <Box display="flex" justifyContent="center" alignItems="center" mb={1}> {/* Box for centering */}
                                         <img src="/hardquiz.png" alt="Hard Quiz Icon" style={{ width: '70px', height: '70px' }} />
