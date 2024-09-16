@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Typography, Divider, Button, Dialog, DialogActions, DialogContentText,
     DialogContent, TextField, DialogTitle, IconButton, Box, Toolbar, Grid} from '@mui/material';
 import { AccountCircle, NotificationsNone } from "@mui/icons-material";
-import NavigationBar from './NavigationBarUI';
+import NavigationBarUI from './NavigationBarUI';
 import { Link, useLocation, useNavigate} from "react-router-dom";
 import axios from "axios";
 
@@ -128,7 +128,7 @@ const DashboardUI = ({onLogout}) => {
         const userid = localStorage.getItem('userid');
 
         // Check if the user has uploaded a profile picture
-        axios.get(`http://localhost:8080/api/profile/getProfilePicture/${userid}`, { responseType: 'blob' }) // Specify responseType as 'blob'
+        axios.get(`http://localhost:8080/user/getProfilePicture/${userid}`, { responseType: 'blob' }) // Specify responseType as 'blob'
             .then((response) => {
                 // If the response is successful and contains data, set the selected image
                 if (response.data && response.data.size > 0) {
@@ -159,7 +159,7 @@ const DashboardUI = ({onLogout}) => {
               overflow: { xs: 'scroll', md: 'hidden' },
             }}
           >
-          <NavigationBar/>
+          <NavigationBarUI/>
             <div>
             <Toolbar style={{ position: "absolute", top: 0,  right: 0 }}>
         
@@ -235,8 +235,6 @@ const DashboardUI = ({onLogout}) => {
                           </IconButton>
                         </Box>
                       ) : (
-                        // <Link to="/profilesettings">
-                        // <Link to="/profilesettings">
                           <Button
                           component={Link}
                           to="/profilesettings"
@@ -265,42 +263,8 @@ const DashboardUI = ({onLogout}) => {
                               }}
                             />
                           </Button>
-                        // </Link>
-                        // </Link>
                       )}
                     </Box>
-                    {/* <Box
-                    {/* <Box
-                      style={{
-                        background: "white",
-                        borderRadius: "100%",
-                        padding: "5px",
-                        marginRight: "40px",
-                        boxShadow: "inset 0 5px 20px 0px rgba(0, 0, 0, 0.35)",
-                      }}
-                    >
-                      <Box
-                        style={{
-                          background: "white",
-                          borderRadius: "100%",
-                          width: "45px",
-                          height: "45px",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                        }}
-                      >
-                        <IconButton style={{ padding: "0" }}>
-                          <NotificationsNone
-                            style={{
-                              fontSize: "45px",
-                              color: "black",
-                              marginLeft: "1px",
-                            }}
-                          />
-                        </IconButton>
-                      </Box>
-                    </Box> */}
                   </Box>
                 </Box>
               </Toolbar>

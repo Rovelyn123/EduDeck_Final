@@ -6,11 +6,10 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import CancelIcon from "@mui/icons-material/Cancel";
 import SaveIcon from "@mui/icons-material/Save";
-import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'js-cookie'; 
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 
@@ -31,9 +30,8 @@ function DocumentUploadUI() {
     const [extractedText, setExtractedText] = useState('');
     const [deckCreated, setDeckCreated] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [uploadLoading, setUploadLoading] = useState(false);
-
-    const { files, user } = uploadedFiles;
+    const [selectedImage, setSelectedImage] = useState(null);
+    const location = useLocation();
 
     const userid = localStorage.getItem('userid');
 
@@ -73,6 +71,32 @@ function DocumentUploadUI() {
             fetchUploadedFiles();  // Fetch files when component mounts
         }, [userid]);  // Add dependencies if needed        
 
+        useEffect(() => {
+            const fetchProfilePicture = () => {
+                // Retrieve the user number
+                const userid = localStorage.getItem('userid');
+        
+                // Check if the user has uploaded a profile picture
+                axios.get(`http://localhost:8080/user/getProfilePicture/${userid}`, { responseType: 'blob' }) // Specify responseType as 'blob'
+                    .then((response) => {
+                        // If the response is successful and contains data, set the selected image
+                        if (response.data && response.data.size > 0) {
+                            const imageURL = URL.createObjectURL(response.data);
+                            setSelectedImage(imageURL);
+                        } else {
+                            // If no picture is found or the response is empty, set the selected image to null to display the default AccountCircle icon
+                            setSelectedImage(null);
+                        }
+                    })
+                    .catch((error) => {
+                        // If there's an error (e.g., no profile picture found), set the selected image to null to display the default AccountCircle icon
+                        console.log("Error fetching profile picture:", error);
+                        setSelectedImage(null);
+                    });
+            };
+        
+            fetchProfilePicture();
+        }, [location.pathname, location.state?.enteredUsername]);
 
     const handleBrowseClick = () => {
         fileInputRef.current.click();
@@ -112,60 +136,6 @@ function DocumentUploadUI() {
     
         return `${size.toFixed(2)} ${units[index]}`;
     };
-    
-    // const handleUploadClick = async () => {
-    //     if (selectedFile) {
-    //         const fileType = getFileType(selectedFile.name);
-    
-    //         if (['pdf', 'docx', 'pptx', 'jpeg', 'png', 'jpg', 'ppt'].includes(fileType)) {
-    //             try {
-    //                 const formData = new FormData();
-    //                 formData.append('document', new Blob([JSON.stringify({ documentTitle: selectedFile.name, fileType: fileType, isDeleted: 0, isDeleted: 0 })], { type: 'application/json' }));
-    //                 formData.append('file', selectedFile);
-    
-    //                 const response = await fetch(`http://localhost:8080/api/document/upload/${userid}`, {
-    //                     method: 'POST',
-    //                     body: formData,
-    //                     headers: {},
-    //                 });
-    
-    //                 if (!response.ok) {
-    //                     throw new Error('File upload failed. Please try again.');
-    //                 }
-    
-    //                 const data = await response.json();
-    
-    //                 const newFile = {
-    //                     documentID: data.documentID,
-    //                     documentTitle: selectedFile.name,
-    //                     fileType: fileType,
-    //                     fileSize: formatFileSize(selectedFile.size),
-    //                 };
-    
-    //                 setUploadedFiles((prevFiles) => [...prevFiles, newFile]);
-    //                 setSelectedFile(null);
-    
-    //                 toast.success('File successfully uploaded!', {
-    //                     position: toast.POSITION.TOP_CENTER,
-    //                     autoClose: 500,
-    //                 });
-    //             } catch (error) {
-    //                 toast.error(error.message, {
-    //                     position: toast.POSITION.TOP_CENTER,
-    //                     autoClose: 1000,
-    //                 });
-    //                 setSelectedFile(null);
-    //             }
-    //         } else {
-    //             toast.error('Unsupported file type. Please choose a different file.', {
-    //                 position: toast.POSITION.TOP_CENTER,
-    //                 autoClose: 1000,
-    //             });
-    //             setSelectedFile(null);
-    //         }
-    //     }
-    // };
-
 
     const handleUploadClick = async () => {
         if (selectedFile) {
@@ -443,18 +413,88 @@ function DocumentUploadUI() {
                     </Link>
                         <Box style={{display: 'flex',backgroundColor: 'white', width: isMobile ? 250 : isMediumScreen ? 700 : 870, justifyContent: 'center', margin: 'auto', borderRadius: 15, boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)'}}>
                         <Typography variant= {isMobile ? "body1" : "h4"} style={{ fontFamily: "Roboto Condensed", color: '#332D2D', justifyContent: 'center', textAlign: 'center' }}>
-                            Document Text Highlighting
+                            File Manager
                         </Typography>
                         </Box>
-                            <Box style={{ background: 'white', borderRadius: isMobile ? 25 : 50, padding: isMobile ? '2.5px' : '5px', alignItems: 'center', justifyContent: 'center', boxShadow: 'inset 0 5px 20px 0px rgba(0, 0, 0, 0.35)' }}>
-                            <Link to="/profilesettings" style={{textDecorationLine: 'none'}}>
-                            <Box style={{ background: '#D0BF81', borderRadius: isMobile ? 25 : 50, width: isMobile ? '1.4rem' : '2.8rem', height: isMobile ? '1.4rem' : '2.8rem'}}>
-                                <IconButton color="white" style={{ fontSize: isMobile ? '22.5px' : '45px', padding: '0' }}>
-                                <AccountCircle style={{ fontSize: '100%', width: '100%', color: 'white' }} />
-                                </IconButton>
-                            </Box>
-                            </Link>
+                            {/* <Box style={{ background: 'white', borderRadius: isMobile ? 25 : 50, padding: isMobile ? '2.5px' : '5px', alignItems: 'center', justifyContent: 'center', boxShadow: 'inset 0 5px 20px 0px rgba(0, 0, 0, 0.35)' }}> */}
+                            {/* <Link to="/profilesettings" style={{textDecorationLine: 'none'}}> */}
+                            <Box
+                  style={{
+                    background: "transparent",
+                    borderRadius: "45px",
+                    padding: "5px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginTop: "6px",
+                    marginLeft: "20px",
+                  }}
+                >
+                  <Box display="flex" alignItems="center">
+                    <Box
+                      style={{
+                        background: "white",
+                        borderRadius: "100%",
+                        padding: "5px",
+                        marginRight: "15px",
+                        boxShadow: "inset 0 5px 20px 0px rgba(0, 0, 0, 0.35)",
+                      }}
+                    >
+                      {selectedImage === null ? (
+                        <Box
+                        sx={{
+                          top: { xs: '1.3%', md: '2.5%' },
+                          marginLeft: { xs: '50%', md: '2%' },
+                          transform: { xs: 'translateX(-50%)', md: 'none' },
+                          background: '#D0BF81', borderRadius: '50px', width: '39px', height: '39px', display: 'flex', justifyContent: 'center', alignItems: 'center',
+                                    }}
+                        >
+                          <IconButton
+                            style={{ padding: "0" }}
+                            onClick={() => navigate("/profilesettings")}
+                          >
+                            <AccountCircle
+                              style={{
+                                fontSize: "45px",
+                                color: "white",
+                                marginLeft: "1px",
+                              }}
+                            />
+                          </IconButton>
+                        </Box>
+                      ) : (
+                          <Button
+                          component={Link}
+                          to="/profilesettings"
+                            variant="contained"
+                            color="primary"
+                            style={{
+                              background: "white",
+                              borderRadius: "50%",
+                              width: "20%",
+                              height: "45px",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              padding: 0,
+                              margin: 0,
+                            }}
+                          >
+                            <img
+                              src={selectedImage}
+                              alt="User Avatar"
+                              style={{
+                                width: "80%",
+                                height: "100%",
+                                objectFit: "fill",
+                                borderRadius: "100%",
+                              }}
+                            />
+                          </Button>
+                      )}
                     </Box>
+                  </Box>
+                </Box>
                     </Toolbar>
                 </AppBar>
 

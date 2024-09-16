@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Toolbar, Typography, Divider, Button, Dialog, DialogActions, 
     DialogContent, TextField, DialogTitle, IconButton, Box, AppBar, useMediaQuery} from '@mui/material';
 import { AccountCircle, NotificationsNone } from "@mui/icons-material";
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -57,6 +57,7 @@ return (
                     }}
                 >
                     <Toolbar style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', alignItems: 'center' }}>
+                        <Link to="/dashboard" style={{ textDecoration: 'none' }}>
                         <Box style={{ display: 'flex', alignItems: 'center', width: 'auto' }}>
                             <img src="/logo.png" alt="App Logo" style={{ width: 70 }} />
                             <Typography
@@ -72,6 +73,7 @@ return (
                                 EduDeck
                             </Typography>
                         </Box>
+                        </Link>
                         <Box
                             style={{
                                 display: 'flex',
@@ -201,7 +203,8 @@ return (
                     {successMessage}
                 </Typography>
             </Box>
-            <Button style={{
+            <Button component={Link} to="/flashcardsmgt"
+             style={{
                 background: '#FFEAA0',
                 width: '20%',
                 height: '10%',

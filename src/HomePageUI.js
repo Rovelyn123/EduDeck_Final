@@ -17,7 +17,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import LanguageIcon from '@mui/icons-material/Language';
 import ProfileSettings from './ProfileSettingsUI';
-import FlashcardManagement from './FlashcardManagementUI';
+import FlashcardManagementUI from './FlashcardManagementUI';
 import Pricing from './PricingUI';
 import PaymentScreen from './payment/PaymentUI';
 import BillingScreen from './payment/BillingUI';
@@ -105,7 +105,7 @@ export default function HomePageUI() {
                 <Routes>
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path='/uploaddocument' element={<DocumentUploadUI />} />
-                    <Route path='/flashcardsmgt' element={<FlashcardManagement />} />
+                    <Route path='/flashcardsmgt' element={<FlashcardManagementUI />} />
                     <Route path='/reviewsession' element={<ReviewSession/>} />
                     <Route path='/aboutus' element={<AboutUs />} />
                     <Route path='/aboutedudeck' element={<AboutEdudeck />} />
