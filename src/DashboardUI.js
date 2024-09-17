@@ -6,6 +6,7 @@ import { AccountCircle, NotificationsNone } from "@mui/icons-material";
 import NavigationBarUI from './NavigationBarUI';
 import { Link, useLocation, useNavigate} from "react-router-dom";
 import axios from "axios";
+import PerformancePieChart from './PerformancePieChart';
 
 const DashboardUI = ({onLogout}) => {
     const navigate = useNavigate();
@@ -379,7 +380,7 @@ const DashboardUI = ({onLogout}) => {
           </Box>
           </Box>
 
-          <Box>
+          {/* <Box>
                 <Typography variant="h4"
                 sx={{
                     textAlign: 'left', position: 'absolute', fontWeight: 'bold',
@@ -397,9 +398,9 @@ const DashboardUI = ({onLogout}) => {
                     fontSize: { xs: '1em', md: '1em' },
                     width: { xs: '50%', md: 'auto' } 
                 }}> subscribe today, unlocking a world of interactive study materials
-                </Typography>
+                </Typography> */}
 
-                <Box sx={{
+                {/* <Box sx={{
                     backgroundColor: "#FFFFFF",
                     width: { xs: '6em', md: '7%' },
                     height: { xs: '5em', md: '14%' },
@@ -411,9 +412,9 @@ const DashboardUI = ({onLogout}) => {
                 }}>
                 <img src="dart.png" style={{ width: '80%', height: '80%' }}/>
                 </Box>
-            </Box>
+            </Box> */}
 
-            <Box sx={{
+            {/* <Box sx={{
                     width: { xs: '73%', md: '52%' },
                     height: { xs: 'auto', md: 'auto' }, backgroundColor: 'white', position: 'absolute',
                     top: { xs: '55%', md: '47%' },
@@ -441,7 +442,7 @@ const DashboardUI = ({onLogout}) => {
                           </div>
                           <span style={{ marginLeft: '3em', fontSize: '.5em', fontWeight: 'bold', marginTop: 5}}>DOCUMENT UPLOADED</span>
                       </div>
-                  </div>  */}
+                  </div> 
                
                 <Grid item xs={12} md={6}>
                     <Button sx={{
@@ -494,6 +495,23 @@ const DashboardUI = ({onLogout}) => {
                     </Button>
                 </Grid>
                    </Grid>
+                </Box> */}
+
+                <Box sx={{
+                    width: { xs: '73%', md: '52%' },
+                    height: { xs: '40%', md: '40%' }, backgroundColor: 'white', position: 'absolute',
+                    top: { xs: '40%', md: '32%' },
+                    left: { xs: '50%', md: '47%' },
+                    transform: 'translateX(-50%)',
+                    borderRadius: '7px', padding: '20px',
+                    boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
+                    display: 'flex', 
+                    flexDirection: 'column', 
+                    alignItems: 'center'
+                }}>
+                  Analytics
+                <PerformancePieChart/>
+
                 </Box>
               
         <Box sx={{
