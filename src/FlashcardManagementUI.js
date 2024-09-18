@@ -1,6 +1,16 @@
 import React, { useState } from "react";
-import "./flashcardmanagement.css";
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField,Card, CardContent, } from '@mui/material';
+import './flashcardmanagement.css';
+import {
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
+    Button,
+    TextField,
+    Card,
+    CardContent,
+    MenuItem, InputLabel, FormControl, Select,
+} from '@mui/material';
 import { Edit, Delete } from '@mui/icons-material';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -10,6 +20,10 @@ import { useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import '@fontsource/lato';
+
+function handleQuestionChange() {
+
+}
 
 function FlashcardManagementUI() {
     const userid = localStorage.getItem('userid');
@@ -233,6 +247,7 @@ function FlashcardManagementUI() {
         </Box>
     );
 
+    let selectedQuestions;
     return (
         <>
             <div className="body">
@@ -347,27 +362,33 @@ function FlashcardManagementUI() {
                     </div>
                 </div>
             </div>
-            <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth style={{ borderRadius: '20px', fontFamily: 'Lato', }}>
-                <DialogTitle>
+            <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth style={{ borderRadius: '20px', fontFamily: 'Lato' }}>
+                <DialogTitle sx={{ marginBottom: 5 }}>
                     <Typography variant="h4" align="center" sx={{ fontWeight: 'bold', fontFamily: 'Lato', fontWeight: '700' }}>
                         Choose Your Difficulty Level
                     </Typography>
-
                 </DialogTitle>
                 <DialogContent>
-                    <Grid container spacing={3} justifyContent="center">
+                    <Grid container spacing={3} justifyContent="center" alignItems="center" style={{ textAlign: 'center' }}>
                         {/* Easy Difficulty */}
-                        <Grid item xs={12} sm={6} md={4}>
+                        <Grid item>
                             <Card style={{
                                 display: 'flex',
                                 flexDirection: 'column',
-                                minHeight: '220px',  // Uniform minimum height
-                                minWidth: '150px',   // Uniform minimum width
-                                justifyContent: 'space-between'
-                            }}>  {/* Uniform height */}
-                                <CardContent style={{ textAlign: 'center', flexGrow: 1, fontFamily: 'Lato',  }}> {/* Center content */}
-                                    <Typography variant="h5" align="center">Easy</Typography>
-                                    <Box display="flex" justifyContent="center" alignItems="center" mb={1}> {/* Box for centering */}
+                                height: '280px',  // Fixed height
+                                width: '200px',   // Fixed width
+                                justifyContent: 'space-between',
+                                borderRadius: '15px',  // Rounded corners
+                                margin: '0 auto',
+                                boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',  // Subtle shadow
+                                transition: 'transform 0.3s, box-shadow 0.3s',  // Smooth transition
+
+                            }}
+                                  className="quiz-card" // Adding class for hover effect
+                            >
+                                <CardContent style={{ textAlign: 'center', flexGrow: 1, fontFamily: 'Lato' }}>
+                                    <Typography variant="h5" align="center" sx={{ marginBottom: 2 }}>Easy</Typography>
+                                    <Box display="flex" justifyContent="center" alignItems="center" mb={1}>
                                         <img src="/easyquiz.png" alt="Easy Quiz Icon" style={{ width: '70px', height: '70px' }} />
                                     </Box>
                                     <Typography variant="body2" align="center">
@@ -379,29 +400,47 @@ function FlashcardManagementUI() {
                                     color="primary"
                                     component={Link}
                                     to="/quizsession"
-                                    style={{ margin: '16px auto' }} // Center button horizontally
+                                    style={{
+                                        margin: '10px auto',
+                                        backgroundColor: '#f0e68c',
+                                        color: 'black',
+                                        borderRadius: '20px',
+                                        textTransform: 'none', // Prevents uppercase transformation
+                                        fontSize: '16px' // Adjust the font size as needed
+                                    }}
+                                    className="quiz-button"
                                 >
-                                    Let's Go
+                                    Let's Begin
                                 </Button>
+
+
                             </Card>
                         </Grid>
 
                         {/* Medium Difficulty */}
-                        <Grid item xs={12} sm={6} md={4}>
+                        <Grid item>
                             <Card style={{
                                 display: 'flex',
                                 flexDirection: 'column',
-                                minHeight: '220px',  // Uniform minimum height
-                                minWidth: '150px',   // Uniform minimum width
-                                justifyContent: 'space-between'
-                            }}>  {/* Uniform height */}
-                                <CardContent style={{ textAlign: 'center', flexGrow: 1, fontFamily: 'Lato',  }}> {/* Center content */}
-                                    <Typography variant="h5" align="center">Medium</Typography>
-                                    <Box display="flex" justifyContent="center" alignItems="center" mb={1}> {/* Box for centering */}
+                                height: '280px',  // Fixed height
+                                width: '200px',   // Fixed width
+                                justifyContent: 'space-between',
+                                borderRadius: '15px',
+                                margin: '0 auto',
+                                boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+                                transition: 'transform 0.3s, box-shadow 0.3s',
+
+                            }}
+                                  className="quiz-card"
+                            >
+                                <CardContent style={{ textAlign: 'center', flexGrow: 1, fontFamily: 'Lato' }}>
+                                    <Typography variant="h5" align="center" sx={{ marginBottom: 2 }}>Medium</Typography>
+                                    <Box display="flex" justifyContent="center" alignItems="center" mb={1}>
                                         <img src="/mediumquiz.png" alt="Medium Quiz Icon" style={{ width: '70px', height: '70px' }} />
                                     </Box>
                                     <Typography variant="body2" align="center">
-                                        Requires some knowledge and thought to answer.
+                                        Requires some knowledge, insight, and thought to answer.
+
                                     </Typography>
                                 </CardContent>
                                 <Button
@@ -409,25 +448,43 @@ function FlashcardManagementUI() {
                                     color="primary"
                                     component={Link}
                                     to="/quizsession"
-                                    style={{ margin: '16px auto' }} // Center button horizontally
+                                    style={{
+                                        margin: '10px auto',
+                                        backgroundColor: '#f0e68c',
+                                        color: 'black',
+                                        borderRadius: '20px',
+                                        textTransform: 'none', // Prevents uppercase transformation
+                                        fontSize: '16px' // Adjust the font size as needed
+                                    }}
+                                    className="quiz-button"
                                 >
-                                    Let's Go
+                                    Let's Begin
                                 </Button>
+
+
+
                             </Card>
                         </Grid>
 
                         {/* Hard Difficulty */}
-                        <Grid item xs={12} sm={6} md={4}>
+                        <Grid item>
                             <Card style={{
                                 display: 'flex',
                                 flexDirection: 'column',
-                                minHeight: '220px',  // Uniform minimum height
-                                minWidth: '150px',   // Uniform minimum width
-                                justifyContent: 'space-between'
-                            }}>  {/* Uniform height */}
-                                <CardContent style={{ textAlign: 'center', flexGrow: 1, fontFamily: 'Lato', }}> {/* Center content */}
-                                    <Typography variant="h5" align="center">Hard</Typography>
-                                    <Box display="flex" justifyContent="center" alignItems="center" mb={1}> {/* Box for centering */}
+                                height: '280px',  // Fixed height
+                                width: '200px',   // Fixed width
+                                justifyContent: 'space-between',
+                                borderRadius: '15px',
+                                margin: '0 auto',
+                                boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+                                transition: 'transform 0.3s, box-shadow 0.3s',
+
+                            }}
+                                  className="quiz-card"
+                            >
+                                <CardContent style={{ textAlign: 'center', flexGrow: 1, fontFamily: 'Lato' }}>
+                                    <Typography variant="h5" align="center" sx={{ marginBottom: 2 }}>Hard</Typography>
+                                    <Box display="flex" justifyContent="center" alignItems="center" mb={1}>
                                         <img src="/hardquiz.png" alt="Hard Quiz Icon" style={{ width: '70px', height: '70px' }} />
                                     </Box>
                                     <Typography variant="body2" align="center">
@@ -435,19 +492,81 @@ function FlashcardManagementUI() {
                                     </Typography>
                                 </CardContent>
                                 <Button
-                                    component={Link}
-                                    to="/quizsession"
                                     variant="contained"
                                     color="primary"
-                                    style={{ margin: '16px auto' }} // Center button horizontally
+                                    component={Link}
+                                    to="/quizsession"
+                                    style={{
+                                        margin: '10px auto',
+                                        backgroundColor: '#f0e68c',
+                                        color: 'black',
+                                        borderRadius: '20px',
+                                        textTransform: 'none', // Prevents uppercase transformation
+                                        fontSize: '16px' // Adjust the font size as needed
+                                    }}
+                                    className="quiz-button"
                                 >
-                                    Let's Go
+                                    Let's Begin
                                 </Button>
+
+
                             </Card>
                         </Grid>
                     </Grid>
+
+
+
+                    {/* Drop-down menu for selecting number of questions */}
+                    <Grid container justifyContent="center" style={{ marginTop: '30px' }}>
+                        <Grid item xs={12} sm={6} md={4}>
+                            <FormControl fullWidth>
+                                <InputLabel
+                                    id="questions-select-label"
+                                    sx={{
+                                        color: '#B18A00',          // Label color
+                                        fontWeight: 'bold',        // Bold text
+                                        fontSize: '1rem',          // Adjust font size for the label
+                                    }}
+                                >
+                                    Choose no. of Questions
+                                </InputLabel>
+
+                                <Select
+                                    labelId="questions-select-label"
+                                    id="questions-select"
+                                    value={selectedQuestions}
+                                    onChange={handleQuestionChange}
+                                    sx={{
+                                        borderRadius: '10px',            // Rounded corners
+                                        fontSize: '1rem',                 // Adjust font size for text inside Select
+                                        width: '100%',                    // Adjust width to fit the container or set a specific value
+                                        minWidth: '120px',                // Set a minimum width if needed
+                                        '& .MuiSelect-icon': {
+                                            color: 'black',             // Icon color
+                                        },
+                                        '& .MuiSelect-select': {
+                                            color: 'black',              // Text color inside Select component
+                                        },
+                                        '& .MuiInputLabel-root': {
+                                            color: '#B18A00',           // Ensure label color matches
+                                            fontWeight: 'bold',         // Ensure label text is bold
+                                        }
+                                    }}
+                                >
+                                    <MenuItem value={5}>5 Questions</MenuItem>
+                                    <MenuItem value={10}>10 Questions</MenuItem>
+                                    <MenuItem value={15}>15 Questions</MenuItem>
+                                    <MenuItem value={20}>20 Questions</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                    </Grid>
+
+
+
                 </DialogContent>
             </Dialog>
+
 
             <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
                 <DialogTitle>Edit Flashcard</DialogTitle>
