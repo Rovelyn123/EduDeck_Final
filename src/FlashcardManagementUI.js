@@ -1,6 +1,16 @@
 import React, { useState } from "react";
-import "./flashcardmanagement.css";
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField,Card, CardContent, } from '@mui/material';
+import './flashcardmanagement.css';
+import {
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
+    Button,
+    TextField,
+    Card,
+    CardContent,
+    MenuItem, InputLabel, FormControl, Select,
+} from '@mui/material';
 import { Edit, Delete } from '@mui/icons-material';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -8,11 +18,15 @@ import { Typography, SwipeableDrawer, useMediaQuery, useTheme, Divider, IconButt
 import MenuIcon from '@mui/icons-material/Menu';
 import { useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import '@fontsource/lato';
+import {toast } from 'react-toastify';
 
 function FlashcardManagementUI() {
     const userid = localStorage.getItem('userid');
+    const navigate = useNavigate();
+    const [difficultyLevel, setDifficultyLevel] = useState("");
+    const [numQuestions, setNumQuestions] = useState(5);
 
     const [openEditDialog, setOpenEditDialog] = useState(false);
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
@@ -34,6 +48,15 @@ function FlashcardManagementUI() {
     const [selectedDeckId, setSelectedDeckId] = useState(() => {
         return localStorage.getItem('selectedDeckId') || '';
     });
+    const [selectedDeckDocumentId, setSelectedDeckDocumentId] = useState(null);
+
+    const handleQuestionChange = (event) => {
+        setNumQuestions(event.target.value);
+    };
+
+    const handleDifficultySelection = (level) => {
+        setDifficultyLevel(level);
+      };
 
     useEffect(() => {
         const fetchDecks = async () => {
@@ -60,6 +83,43 @@ function FlashcardManagementUI() {
             fetchFlashcards();
         }
     }, [selectedDeckId]);
+
+    const [loading, setLoading] = useState(false);
+    const handleStartQuiz = async (index) => {
+        try {
+            handleClose();
+            setLoading(true);
+            
+            const documentTitle = localStorage.getItem('selectedDeck');
+            const selectedDeckId = localStorage.getItem('selectedDeckId');
+            const createDeckResponse = await axios.post('http://localhost:8080/api/quizzes/create', {
+                title: documentTitle,
+                passing_score: 60,
+                deck: {
+                    deckId: selectedDeckId
+                }
+            });
+            const newQuizId = createDeckResponse.data.quizId;
+            
+            const extractTextResponse = await axios.get(`http://localhost:8080/textextractor/document/${selectedDeckDocumentId}`);
+      
+            await axios.post(`http://localhost:8080/generate-quiz?quizId=${newQuizId}&difficultyLevel=${difficultyLevel}&numQuestions=${numQuestions}`, extractTextResponse.data, {
+              headers: {
+                'Content-Type': 'text/plain'
+              }
+            });
+            console.log(newQuizId);
+            setLoading(false);
+            navigate('/quizsession', { state: { quizId: newQuizId } });
+            console.log(newQuizId);
+        } catch (error) {
+            console.error('Error in Generating Quiz:', error);
+            toast.error(error.message, {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 1000,
+            });
+        }
+    };
 
     const toggleDrawer = (open) => (event) => {
         if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -191,8 +251,10 @@ function FlashcardManagementUI() {
     const handleDeckSelection = (deck) => {
         setSelectedDeck(deck.title);
         setSelectedDeckId(deck.deckId);
+        setSelectedDeckDocumentId(deck.document.documentID);
         localStorage.setItem('selectedDeck', deck.title);
         localStorage.setItem('selectedDeckId', deck.deckId);
+        localStorage.setItem('selectedDeckDocumentId', deck.document.documentID); 
     };
 
     const drawerContent = (
@@ -233,9 +295,22 @@ function FlashcardManagementUI() {
         </Box>
     );
 
+    let selectedQuestions;
+
+    const generateQuizStyles = {
+        overlay: { position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, },
+        loadingText: { color: 'white', fontSize: '24px', fontWeight: 'bold', },
+    };
+
     return (
         <>
-            <div className="body">
+        {loading && (
+        <div style={generateQuizStyles.overlay}>
+          <div style={generateQuizStyles.loadingText}>Generating quiz...</div>
+        </div>
+      )}
+      <div className="body">
 
       <div style={{ backgroundImage: 'url(/crystalbackground.png)', minHeight: '100vh', overflow: 'hidden' }}>
       <Link to="/dashboard" style={{ textDecoration: 'none' }}>
@@ -347,27 +422,34 @@ function FlashcardManagementUI() {
                     </div>
                 </div>
             </div>
-            <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth style={{ borderRadius: '20px', fontFamily: 'Lato', }}>
-                <DialogTitle>
+            <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth style={{ borderRadius: '20px', fontFamily: 'Lato' }}>
+                <DialogTitle sx={{ marginBottom: 5 }}>
                     <Typography variant="h4" align="center" sx={{ fontWeight: 'bold', fontFamily: 'Lato', fontWeight: '700' }}>
                         Choose Your Difficulty Level
                     </Typography>
-
                 </DialogTitle>
                 <DialogContent>
-                    <Grid container spacing={3} justifyContent="center">
+                    <Grid container spacing={3} justifyContent="center" alignItems="center" style={{ textAlign: 'center' }}>
                         {/* Easy Difficulty */}
-                        <Grid item xs={12} sm={6} md={4}>
+                        <Grid item>
                             <Card style={{
                                 display: 'flex',
                                 flexDirection: 'column',
-                                minHeight: '220px',  // Uniform minimum height
-                                minWidth: '150px',   // Uniform minimum width
-                                justifyContent: 'space-between'
-                            }}>  {/* Uniform height */}
-                                <CardContent style={{ textAlign: 'center', flexGrow: 1, fontFamily: 'Lato',  }}> {/* Center content */}
-                                    <Typography variant="h5" align="center">Easy</Typography>
-                                    <Box display="flex" justifyContent="center" alignItems="center" mb={1}> {/* Box for centering */}
+                                height: '280px',  // Fixed height
+                                width: '200px',   // Fixed width
+                                justifyContent: 'space-between',
+                                borderRadius: '15px',  // Rounded corners
+                                margin: '0 auto',
+                                boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',  // Subtle shadow
+                                transition: 'transform 0.3s, box-shadow 0.3s',  // Smooth transition
+
+                            }}
+                                  className="quiz-card" // Adding class for hover effect
+                                  onClick={() => handleDifficultySelection('Easy')}
+                            >
+                                <CardContent style={{ textAlign: 'center', flexGrow: 1, fontFamily: 'Lato' }}>
+                                    <Typography variant="h5" align="center" sx={{ marginBottom: 2 }}>Easy</Typography>
+                                    <Box display="flex" justifyContent="center" alignItems="center" mb={1}>
                                         <img src="/easyquiz.png" alt="Easy Quiz Icon" style={{ width: '70px', height: '70px' }} />
                                     </Box>
                                     <Typography variant="body2" align="center">
@@ -377,57 +459,93 @@ function FlashcardManagementUI() {
                                 <Button
                                     variant="contained"
                                     color="primary"
-                                    component={Link}
-                                    to="/quizsession"
-                                    style={{ margin: '16px auto' }} // Center button horizontally
+                                    onClick={handleStartQuiz}
+                                    style={{
+                                        margin: '10px auto',
+                                        backgroundColor: '#f0e68c',
+                                        color: 'black',
+                                        borderRadius: '20px',
+                                        textTransform: 'none', // Prevents uppercase transformation
+                                        fontSize: '16px' // Adjust the font size as needed
+                                    }}
+                                    className="quiz-button"
                                 >
-                                    Let's Go
+                                    Let's Begin
                                 </Button>
+
+
                             </Card>
                         </Grid>
 
                         {/* Medium Difficulty */}
-                        <Grid item xs={12} sm={6} md={4}>
+                        <Grid item>
                             <Card style={{
                                 display: 'flex',
                                 flexDirection: 'column',
-                                minHeight: '220px',  // Uniform minimum height
-                                minWidth: '150px',   // Uniform minimum width
-                                justifyContent: 'space-between'
-                            }}>  {/* Uniform height */}
-                                <CardContent style={{ textAlign: 'center', flexGrow: 1, fontFamily: 'Lato',  }}> {/* Center content */}
-                                    <Typography variant="h5" align="center">Medium</Typography>
-                                    <Box display="flex" justifyContent="center" alignItems="center" mb={1}> {/* Box for centering */}
+                                height: '280px',  // Fixed height
+                                width: '200px',   // Fixed width
+                                justifyContent: 'space-between',
+                                borderRadius: '15px',
+                                margin: '0 auto',
+                                boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+                                transition: 'transform 0.3s, box-shadow 0.3s',
+
+                            }}
+                                  className="quiz-card"
+                                  onClick={() => handleDifficultySelection('Medium')}
+                            >
+                                <CardContent style={{ textAlign: 'center', flexGrow: 1, fontFamily: 'Lato' }}>
+                                    <Typography variant="h5" align="center" sx={{ marginBottom: 2 }}>Medium</Typography>
+                                    <Box display="flex" justifyContent="center" alignItems="center" mb={1}>
                                         <img src="/mediumquiz.png" alt="Medium Quiz Icon" style={{ width: '70px', height: '70px' }} />
                                     </Box>
                                     <Typography variant="body2" align="center">
-                                        Requires some knowledge and thought to answer.
+                                        Requires some knowledge, insight, and thought to answer.
+
                                     </Typography>
                                 </CardContent>
                                 <Button
                                     variant="contained"
                                     color="primary"
-                                    component={Link}
-                                    to="/quizsession"
-                                    style={{ margin: '16px auto' }} // Center button horizontally
+                                    onClick={handleStartQuiz}
+                                    style={{
+                                        margin: '10px auto',
+                                        backgroundColor: '#f0e68c',
+                                        color: 'black',
+                                        borderRadius: '20px',
+                                        textTransform: 'none', // Prevents uppercase transformation
+                                        fontSize: '16px' // Adjust the font size as needed
+                                    }}
+                                    className="quiz-button"
                                 >
-                                    Let's Go
+                                    Let's Begin
                                 </Button>
+
+
+
                             </Card>
                         </Grid>
 
                         {/* Hard Difficulty */}
-                        <Grid item xs={12} sm={6} md={4}>
+                        <Grid item>
                             <Card style={{
                                 display: 'flex',
                                 flexDirection: 'column',
-                                minHeight: '220px',  // Uniform minimum height
-                                minWidth: '150px',   // Uniform minimum width
-                                justifyContent: 'space-between'
-                            }}>  {/* Uniform height */}
-                                <CardContent style={{ textAlign: 'center', flexGrow: 1, fontFamily: 'Lato', }}> {/* Center content */}
-                                    <Typography variant="h5" align="center">Hard</Typography>
-                                    <Box display="flex" justifyContent="center" alignItems="center" mb={1}> {/* Box for centering */}
+                                height: '280px',  // Fixed height
+                                width: '200px',   // Fixed width
+                                justifyContent: 'space-between',
+                                borderRadius: '15px',
+                                margin: '0 auto',
+                                boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+                                transition: 'transform 0.3s, box-shadow 0.3s',
+
+                            }}
+                                  className="quiz-card"
+                                  onClick={() => handleDifficultySelection('Hard')}
+                            >
+                                <CardContent style={{ textAlign: 'center', flexGrow: 1, fontFamily: 'Lato' }}>
+                                    <Typography variant="h5" align="center" sx={{ marginBottom: 2 }}>Hard</Typography>
+                                    <Box display="flex" justifyContent="center" alignItems="center" mb={1}>
                                         <img src="/hardquiz.png" alt="Hard Quiz Icon" style={{ width: '70px', height: '70px' }} />
                                     </Box>
                                     <Typography variant="body2" align="center">
@@ -435,19 +553,80 @@ function FlashcardManagementUI() {
                                     </Typography>
                                 </CardContent>
                                 <Button
-                                    component={Link}
-                                    to="/quizsession"
                                     variant="contained"
                                     color="primary"
-                                    style={{ margin: '16px auto' }} // Center button horizontally
+                                    onClick={handleStartQuiz}
+                                    style={{
+                                        margin: '10px auto',
+                                        backgroundColor: '#f0e68c',
+                                        color: 'black',
+                                        borderRadius: '20px',
+                                        textTransform: 'none', // Prevents uppercase transformation
+                                        fontSize: '16px' // Adjust the font size as needed
+                                    }}
+                                    className="quiz-button"
                                 >
-                                    Let's Go
+                                    Let's Begin
                                 </Button>
+
+
                             </Card>
                         </Grid>
                     </Grid>
+
+
+
+                    {/* Drop-down menu for selecting number of questions */}
+                    <Grid container justifyContent="center" style={{ marginTop: '30px' }}>
+                        <Grid item xs={12} sm={6} md={4}>
+                            <FormControl fullWidth>
+                                <InputLabel
+                                    id="questions-select-label"
+                                    sx={{
+                                        color: '#B18A00',          // Label color
+                                        fontWeight: 'bold',        // Bold text
+                                        fontSize: '1rem',          // Adjust font size for the label
+                                    }}
+                                >
+                                    Choose no. of Questions
+                                </InputLabel>
+
+                                <Select
+                                    labelId="questions-select-label"
+                                    id="questions-select"
+                                    value={numQuestions}
+                                    onChange={handleQuestionChange}
+                                    sx={{
+                                        borderRadius: '10px',            // Rounded corners
+                                        fontSize: '1rem',                 // Adjust font size for text inside Select
+                                        width: '100%',                    // Adjust width to fit the container or set a specific value
+                                        minWidth: '120px',                // Set a minimum width if needed
+                                        '& .MuiSelect-icon': {
+                                            color: 'black',             // Icon color
+                                        },
+                                        '& .MuiSelect-select': {
+                                            color: 'black',              // Text color inside Select component
+                                        },
+                                        '& .MuiInputLabel-root': {
+                                            color: '#B18A00',           // Ensure label color matches
+                                            fontWeight: 'bold',         // Ensure label text is bold
+                                        }
+                                    }}
+                                >
+                                    <MenuItem value={5}>5 Questions</MenuItem>
+                                    <MenuItem value={10}>10 Questions</MenuItem>
+                                    <MenuItem value={15}>15 Questions</MenuItem>
+                                    <MenuItem value={20}>20 Questions</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                    </Grid>
+
+
+
                 </DialogContent>
             </Dialog>
+
 
             <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
                 <DialogTitle>Edit Flashcard</DialogTitle>

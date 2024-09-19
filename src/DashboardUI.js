@@ -480,7 +480,7 @@ const DashboardUI = ({onLogout}) => {
             </Grid>
           </Box>
 
-            <Box sx={{
+            {/* <Box sx={{
                     width: { xs: '73%', md: '52%' },
                     height: { xs: 'auto', md: 'auto' }, backgroundColor: 'white', position: 'absolute',
                     top: { xs: '55%', md: '58%' },
@@ -643,7 +643,7 @@ const DashboardUI = ({onLogout}) => {
                   ))}
               </Box>
 
-        </Box>
+        {/* </Box> */}
       </>
     );
 

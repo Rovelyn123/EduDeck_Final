@@ -1,3 +1,23 @@
+.quiz-card {
+    transition: all 0.3s ease;
+    border: 3px solid white;
+}
+
+.quiz-card:hover {
+    box-shadow: 0px 6px 20px rgba(255, 255, 0, 0.6);  /* Yellow shadow with some transparency */
+    border: 3px solid yellow;  /* Glowing yellow border */
+}
+
+
+.quiz-button {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.quiz-button:hover {
+    background-color: yellow;  /* Change button color to yellow on hover */
+    color: black;  /* Ensure text color is black for contrast */
+}
+
 .body {
     display: flex;
     height: 100vh;
@@ -123,3 +143,4 @@
     background-color: #FFD700 !important; /* Gold save button */
     color: black !important; 
 }
+

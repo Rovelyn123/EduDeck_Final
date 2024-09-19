@@ -3,11 +3,13 @@ import axios from 'axios';
 import "./QuizSessionUI.css";
 import { Typography, Box, TextField, Button, AppBar, Toolbar, useMediaQuery } from "@mui/material";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import '@fontsource/lato';
 import { Link } from 'react-router-dom';
 
 const QuizSessionUI = () => {
+    const location = useLocation();
+    const { quizId } = location.state || {};
     const [questions, setQuestions] = useState([]);
     const [totalQuestions, setTotalQuestions] = useState(0);
     const [title, setTitle] = useState('');
@@ -22,19 +24,22 @@ const QuizSessionUI = () => {
                 if (!selectedDeckId) {
                     throw new Error('No deck selected');
                 }
-                const response = await axios.get(`http://localhost:8080/api/flashcards/deck/${selectedDeckId}`);
-                const flashcards = response.data;
+                console.log(quizId);
+                const response = await axios.get(`http://localhost:8080/api/quizzes/${quizId}`);
 
-                const fetchedQuestions = flashcards.map(flashcard =>({
-                    id: flashcard.flashcardId,
-                    question: flashcard.question,
-                    answer: flashcard.answer
+                const quizItems = response.data.quizItems || [];
+
+                const fetchedQuestions = quizItems.map(quizItem =>({
+                    id: quizItem.quizItemId,
+                    question: quizItem.question,
+                    answer: quizItem.correctAnswer
 
                 }));
                 setQuestions(fetchedQuestions);
                 setTotalQuestions(fetchedQuestions.length);
                 setError(null);
             } catch (error) {
+                console.log(error);
                 setError('An error occurred while fetching questions. Please try again later.');
             }
         };
