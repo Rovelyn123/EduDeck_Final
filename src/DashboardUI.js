@@ -5,7 +5,11 @@ import { Typography, Divider, Button, Dialog, DialogActions, DialogContentText,
 import { AccountCircle, NotificationsNone } from "@mui/icons-material";
 import NavigationBarUI from './NavigationBarUI';
 import { Link, useLocation, useNavigate} from "react-router-dom";
-import axios from "axios";
+import axios from "axios"; 
+import '@fontsource/lato';
+import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { PieChart, Pie, Cell, Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
+
 
 const DashboardUI = ({onLogout}) => {
     const navigate = useNavigate();
@@ -22,6 +26,8 @@ const DashboardUI = ({onLogout}) => {
     const [score, setScore] = useState(80); // Example initial value
     const [targetScore, setTargetScore] = useState(60); // Example initial value
     const [open, setOpen] = useState(false);
+    const [flashcards, setFlashcards] = useState([]);
+    const [id, setId] = useState(1);
 
 
     useEffect(() => {
@@ -47,32 +53,6 @@ const DashboardUI = ({onLogout}) => {
             setStreak(savedStreak);
         }
     }, []);
-
-
-    // const handleActivityComplete = () => {
-    //     const currentDate = new Date();
-    //     const lastActiveDate = new Date(localStorage.getItem('lastActiveDate'));
-    //     const diffTime = Math.abs(currentDate - lastActiveDate);
-    //     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-    //     if (diffDays === 1) {
-    //         setStreak(prev => {
-    //             const newStreak = prev + 1;
-    //             localStorage.setItem('streak', newStreak);
-    //             return newStreak;
-    //         });
-    //     } else if (diffDays > 1) {
-    //         setStreak(1);
-    //         localStorage.setItem('streak', 1);
-    //     } else {
-    //         setStreak(prev => {
-    //             localStorage.setItem('streak', prev);
-    //             return prev;
-    //         });
-    //     }
-
-    //     localStorage.setItem('lastActiveDate', currentDate.toISOString());
-    // };  
     
     const handleTargetScoreChange = (event) => {
       setTargetScore(event.target.value);
@@ -86,7 +66,54 @@ const DashboardUI = ({onLogout}) => {
       setOpen(false);
     };
 
+    const data = [
+      { Week: 'Sun', Series1: 40, Series2: 24 },
+      { Week: 'Mon', Series1: 30, Series2: 13 },
+      { Week: 'Tue', Series1: 20, Series2: 98 },
+      { Week: 'wed', Series1: 27, Series2: 39 },
+      { Week: 'Thu', Series1: 18, Series2: 48 },
+      { Week: 'Fri', Series1: 23, Series2: 38 },
+      { Week: 'Sat', Series1: 34, Series2: 43 },
+      // Add more data points as needed
+    ];
 
+    const pieData = [
+      { name: 'Group A', value: 400 },
+      { name: 'Group B', value: 300 },
+      { name: 'Group C', value: 300 },
+      { name: 'Group D', value: 200 },
+      { name: 'Group E', value: 100 },
+    ];
+    
+    const radarData = [
+      { subject: 'Final exam grade', A: 120, fullMark: 150 },
+      { subject: 'Midterm grade', A: 98, fullMark: 150 },
+      { subject: 'Assignments completed', A: 86, fullMark: 150 },
+      { subject: 'Hours studying', A: 99, fullMark: 150 },
+      { subject: 'Classes attended', A: 85, fullMark: 150 },
+    ];
+    
+    const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#969696'];
+
+    //display flashcards
+    useEffect(() => {
+      const deckId = 1; // or however you get the deckId from your app
+      console.log('Deck ID:', deckId);  // Verify if this is valid
+
+      const fetchFlashcards = async () => {
+        try {
+          const response = await axios.get(`http://localhost:8080/api/flashcards/deck/${deckId}`); // ari karyme di ma fetch ambot if sakto ba na pag call hahaha
+          setFlashcards(response.data);
+        } catch (error) {
+          console.error('Error fetching flashcards', error);
+        }
+      };
+    
+     
+      fetchFlashcards();
+    }, []);
+    
+    
 
     useEffect(() => {
       const userid = localStorage.getItem('userid');
@@ -166,7 +193,7 @@ const DashboardUI = ({onLogout}) => {
                 <div style={{ marginLeft: "1em"}}>
                   <Typography variant="h4" sx={{textAlign: { xs: 'center', md: 'left' },
                                         fontSize: { xs: '.9em', md: '1em' },
-                                        fontFamily: 'Roboto Condensed', fontWeight: 'bold',
+                                        fontFamily: 'Lato', fontWeight: 'bold',
                                         position: 'absolute',
                                         top: { xs: '17%', md: '10%' },
                                         left: { xs: '2%', md: '-70%' },
@@ -177,6 +204,7 @@ const DashboardUI = ({onLogout}) => {
                   <Box
                     sx={{
                         fontWeight: 'bold',
+                        fontFamily: 'Lato',
                         fontSize: '1.8em',
                         marginRight: { xs: 'auto', md: 'auto' }, 
                         position: 'absolute', 
@@ -273,9 +301,9 @@ const DashboardUI = ({onLogout}) => {
             
             <Box sx={{
                 width: {xs: '83.5%', md:'55%'},
-                height: {xs: '26%', md:'25%'},
+                height: {xs: '26%', md:'21%'},
                 backgroundColor: '#FFD234', position: 'absolute',
-                top: {xs: '25%', md: '17%'},
+                top: {xs: '25%', md: '13%'},
                 marginLeft: {xs: '49%', md: '47%'},
                 transform: 'translate(-50%, -50%)',
                 borderRadius: '7px', overflow: 'hidden',
@@ -284,8 +312,8 @@ const DashboardUI = ({onLogout}) => {
 
             <Typography variant="h4" sx={{ 
                 textAlign: 'center', fontSize: '1.3em', position: 'absolute',fontWeight: 'bold', 
-                top:{xs: '.5em', md: '.7em'}, 
-                left: {xs: '3em', md: '10em'},
+                top:{xs: '.5em', md: '.2em'}, 
+                left: {xs: '3em', md: '10em'}, fontFamily: 'Lato',
                 }}>Recent Quiz Activity
             </Typography>
 
@@ -301,13 +329,13 @@ const DashboardUI = ({onLogout}) => {
             left: { xs: '7%', md: '2%' },
             boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
           }}>
-            <Typography sx={{ position: 'absolute', top: { xs: '1em', md: '1em' }, left: { xs: '1em', md: '1em' }, fontSize: '1em', fontWeight: 'bold' }}>
+            <Typography sx={{ fontFamily: 'Lato', position: 'absolute', top: { xs: '1em', md: '1em' }, left: { xs: '1em', md: '1em' }, fontSize: '1em', fontWeight: 'bold' }}>
               Rizal's Lovers
             </Typography>
-            <Typography sx={{ position: 'absolute', top: '3em', left: '3em', fontSize: '.8em', fontWeight: 'bold' }}>
+            <Typography sx={{ fontFamily: 'Lato', position: 'absolute', top: '3em', left: '3em', fontSize: '.8em', fontWeight: 'bold' }}>
               Total Questions: {totalQuestions}
             </Typography>
-            <Typography sx={{ position: 'absolute', top: '4.5em', left: '3.1em', fontSize: '.8em', fontWeight: 'bold' }}>
+            <Typography sx={{ fontFamily: 'Lato', position: 'absolute', top: '4.5em', left: '3.1em', fontSize: '.8em', fontWeight: 'bold' }}>
               Score: {score}%
             </Typography>
 
@@ -379,44 +407,83 @@ const DashboardUI = ({onLogout}) => {
           </Box>
           </Box>
 
-          <Box>
-                <Typography variant="h4"
-                sx={{
-                    textAlign: 'left', position: 'absolute', fontWeight: 'bold',
-                    top: { xs: '42%', md: '34%' },
-                    left: { xs: '11%', md: '22%' },
-                    fontSize: { xs: '1.2em', md: '1.7em' },
-                }}> Elevate your learning
-                </Typography>
-
-                <Typography
-                variant="h4" sx={{
-                    textAlign: 'center', position: 'absolute',
-                    top: { xs: '45%', md: '40%' },
-                    left: { xs: '10%', md: '22%' },
-                    fontSize: { xs: '1em', md: '1em' },
-                    width: { xs: '50%', md: 'auto' } 
-                }}> subscribe today, unlocking a world of interactive study materials
-                </Typography>
-
+          <Box sx={{
+            width: { xs: '73%', md: '52%' },
+            height: { xs: 'auto', md: 'auto' },
+            padding: '20px', position: 'absolute',
+            top: { xs: '55%', md: '22%' },
+            left: { xs: '50%', md: '18%' },
+            
+          }}>
+            <Grid container spacing={2}>
+              {/* Pie Chart Section */}
+              <Grid item xs={12} md={6}>
                 <Box sx={{
-                    backgroundColor: "#FFFFFF",
-                    width: { xs: '6em', md: '7%' },
-                    height: { xs: '5em', md: '14%' },
-                    borderRadius: '.5em', position: 'absolute',
-                    top: { xs: '42%', md: '31.5%' },
-                    left: { xs: '65%', md: '58%' },
-                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
-                    display: 'flex', justifyContent: 'center', alignItems: 'center'
+                  backgroundColor: 'white',
+                  padding: '20px',
+                  borderRadius: '7px',
+                  borderColor: '#FFD234', borderStyle: 'solid', borderWidth: '1.5px',
+                  boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: '46%',
+                  width: '90%',
                 }}>
-                <img src="dart.png" style={{ width: '80%', height: '80%' }}/>
+                  <ResponsiveContainer width="100%" height={300}>
+                    <PieChart>
+                      <Pie
+                        data={pieData}
+                        cx="50%"
+                        cy="50%"
+                        labelLine={false}
+                        outerRadius={80}
+                        fill="#8884d8"
+                        dataKey="value"
+                      >
+                        {pieData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        ))}
+                      </Pie>
+                    </PieChart>
+                  </ResponsiveContainer>
                 </Box>
-            </Box>
+              </Grid>
+
+              {/* Radar Chart Section */}
+              <Grid item xs={12} md={6}>
+                <Box sx={{
+                  backgroundColor: '#FFEAA0',
+                  padding: '20px',
+                  borderRadius: '7px',
+                  borderColor: '#FFD234', borderStyle: 'solid', borderWidth: '1.5px',
+                  boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  height: '46%',
+                  width: '100%', 
+                }}>
+                  {/* <Typography variant="h6" sx={{ mb: 2 }}>
+                    Arthur's grades
+                  </Typography> */}
+                  <ResponsiveContainer width="100%" height={200}>
+                  <RadarChart data={radarData}>
+                      <PolarGrid stroke="#969696" strokeDasharray="6 6" />
+                      <PolarAngleAxis dataKey="subject" tick={{ fill: '#555', fontSize: 12 }} />
+                      <PolarRadiusAxis angle={50} domain={[0, 150]} tick={{ fill: '#555', fontSize: 10 }} />
+                      <Radar name="Arthur" dataKey="A" stroke="#969696" fill="#82ca9d" fillOpacity={0.6} />
+                    </RadarChart>
+                  </ResponsiveContainer>
+                </Box>
+              </Grid>
+            </Grid>
+          </Box>
 
             <Box sx={{
                     width: { xs: '73%', md: '52%' },
                     height: { xs: 'auto', md: 'auto' }, backgroundColor: 'white', position: 'absolute',
-                    top: { xs: '55%', md: '47%' },
+                    top: { xs: '55%', md: '58%' },
                     left: { xs: '50%', md: '47%' },
                     transform: 'translateX(-50%)',
                     borderRadius: '7px', padding: '20px',
@@ -425,82 +492,30 @@ const DashboardUI = ({onLogout}) => {
                     flexDirection: 'column', 
                     alignItems: 'center'
                 }}>
-                <Typography variant="h4" sx={{
-                        textAlign: 'center',
-                        fontSize: { xs: '1.2em', md: '1.5em' },
-                        fontWeight: 'bold', mb: 2
-                }}> Document Upload Status
-                </Typography>
-                {/* <Grid container spacing={2} sx={{ width: '100%' }}>
-                   <div style={{background: '#FFE793', width: '40em', height: '6em', fontSize: '.5em', color: '#000000', 
-                      position: 'absolute', top: '7em', marginLeft: '1em', borderRadius: '1em',  boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)'}}>
-                      <div style={{ display: 'flex', alignItems: 'center' }}>
-                          <div style={{ position: 'relative', textAlign: 'center', marginLeft: 55, marginTop: 8}}>
-                              <span style={{ color: 'black', position: 'absolute', top: '1em', left: '50%', transform: 'translateX(-50%)', fontSize: '1.8em', fontWeight: 'bold' }}>{documentCount}</span>
-                              <img src="file.png" alt="file" style={{ width: '5em' }} />
-                          </div>
-                          <span style={{ marginLeft: '3em', fontSize: '.5em', fontWeight: 'bold', marginTop: 5}}>DOCUMENT UPLOADED</span>
-                      </div>
-                  </div>  */}
-               
-                <Grid item xs={12} md={6}>
-                    <Button sx={{
-                        background: '#FFE793', width: '100%', height: '6em', fontSize: '.5em', color: '#000000', borderRadius: '1em', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)', position: 'relative'
-                    }}> Documents uploaded
-                    <img src="file.png" alt="file"
-                        style={{ width: '5em', position: 'absolute', left: '1em', top: '50%', transform: 'translateY(-50%)'}}/>
-                     <span style={{ color: 'black', position: 'absolute', top: '1em', left: '10%', transform: 'translateX(-50%)', fontSize: '1.8em', fontWeight: 'bold' }}>{documentCount}</span>
-                    </Button>
-               
-                <Grid item xs={12} md={6}>
-                    <Button sx={{
-                        background: '#FFE793', width: '100%', height: '6em', fontSize: '.5em', color: '#000000', borderRadius: '1em', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)', position: 'relative'
-                    }}> Documents uploaded
-                    <img src="file.png" alt="file"
-                        style={{ width: '5em', position: 'absolute', left: '1em', top: '50%', transform: 'translateY(-50%)'}}/>
-                     <span style={{ color: 'black', position: 'absolute', top: '1em', left: '10%', transform: 'translateX(-50%)', fontSize: '1.8em', fontWeight: 'bold' }}>{documentCount}</span>
-                    </Button>
 
+                <Grid container spacing={2} sx={{ width: '100%' }}>
+                <ResponsiveContainer width="100%" height={130}>
+                <LineChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                  <CartesianGrid stroke="#e0e0e0" strokeDasharray="3 3" />
+                  <XAxis dataKey="Week" stroke="#555" tick={{ fontSize: 12 }} />
+                  <YAxis stroke="#555" tick={{ fontSize: 12 }} />
+                  <Tooltip 
+                    contentStyle={{ backgroundColor: '#f5f5f5', borderRadius: '8px', border: '1px solid #ddd' }}
+                    labelStyle={{ fontWeight: 'bold', color: '#333' }} 
+                  />
+                  <Legend verticalAlign="top" height={36} wrapperStyle={{ paddingBottom: '10px' }} />
+                  <Line type="monotone" dataKey="Series1" stroke="#1f77b4" strokeWidth={3} dot={{ r: 5 }} />
+                  <Line type="monotone" dataKey="Series2" stroke="#FFD234" strokeWidth={3} dot={{ r: 5 }} />
+                </LineChart>
+              </ResponsiveContainer>
                 </Grid>
-                  <Grid item xs={12} md={6}>
-                        <Button
-                        sx={{
-                            background: '#FFE793', width: '100%', height: '6em', fontSize: '.5em', color: '#000000', borderRadius: '1em', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)', position: 'relative'
-                            }}> Documents uploaded
-                        <img src="file.png" alt="file"
-                        style={{ width: '5em', position: 'absolute', left: '1em', top: '50%', transform: 'translateY(-50%)'}}/>
-                        <span style={{ color: 'black', position: 'absolute', top: '1em', left: '10%', transform: 'translateX(-50%)', fontSize: '1.8em', fontWeight: 'bold' }}>{documentCount}</span>
-                        </Button>
-                  </Grid>
-
-                <Grid item xs={12} md={6}>
-                  <Button sx={{
-                        background: '#FFE793', width: '100%', height: '6em', fontSize: '.5em', color: '#000000', borderRadius: '1em', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)', position: 'relative'
-                    }}> Documents uploaded
-                    <img src="file.png" alt="file"
-                        style={{ width: '5em', position: 'absolute', left: '1em', top: '50%', transform: 'translateY(-50%)'}}/>
-                    <span style={{ color: 'black', position: 'absolute', top: '1em', left: '10%', transform: 'translateX(-50%)', fontSize: '1.8em', fontWeight: 'bold' }}>{documentCount}</span>
-                  </Button>
-                </Grid>
-
-                <Grid item xs={12} md={6}>
-                    <Button
-                        sx={{
-                            background: '#FFE793', width: '100%', height: '6em', fontSize: '.5em', color: '#000000', borderRadius: '1em', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)', position: 'relative'
-                            }}> Documents uploaded
-                        <img src="file.png" alt="file"
-                        style={{ width: '5em', position: 'absolute', left: '1em', top: '50%', transform: 'translateY(-50%)'}}/>
-                        <span style={{ color: 'black', position: 'absolute', top: '1em', left: '10%', transform: 'translateX(-50%)', fontSize: '1.8em', fontWeight: 'bold' }}>{documentCount}</span>
-                    </Button>
-                </Grid>
-                   </Grid>
-                </Box>
+              </Box>
               
         <Box sx={{
             width: { xs: '73.5%', md: '52%' },
             height: 'auto', backgroundColor: 'white', borderColor: '#FAC712', borderStyle: 'solid', borderWidth: '3px',
             position: 'absolute',
-            top: { xs: '95%', md: '80%' },
+            top: { xs: '95%', md: '83%' },
             left: { xs: '50%', md: '47%' },
             transform: 'translateX(-50%)', borderRadius: '7px', padding: '10px 20px',
             boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', display: 'flex',
@@ -512,6 +527,7 @@ const DashboardUI = ({onLogout}) => {
             <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, alignItems: { xs: 'center', md: 'baseline' }, }}>
                 <Typography sx={{
                     fontSize: { xs: '1em', md: '1.5em' },
+                    fontFamily: 'Lato',
                     fontWeight: 'bold',
                     marginBottom: { xs: '0.5em', md: 0 },
                     marginRight: { xs: 0, md: '1em' },
@@ -519,7 +535,7 @@ const DashboardUI = ({onLogout}) => {
                 <Typography sx={{fontSize: { xs: '0.8em', md: '1em' }, color: '#989A9B', }}> CURRENT STREAK </Typography>
             </Box>
             <Typography sx={{
-                fontSize: { xs: '1em', md: '1.2em' },
+                fontSize: { xs: '1em', md: '1.2em' }, fontFamily: 'Lato',
                 textAlign: 'center',
                 marginTop: { xs: '1em', md: 0 }
             }}>
@@ -534,39 +550,98 @@ const DashboardUI = ({onLogout}) => {
             </Button> */}
         </Box>
 
-                <Box sx={{
-                      width: { xs: '85%', md: '21.5%' },
-                      height: { xs: '28%', md: '87%' },
-                      backgroundColor: 'white', position: 'absolute',
-                      top: { xs: '120%', md: '55%' },
-                      left: { xs: '50%', md: '87%' },
-                      transform: { xs: 'translateX(-50%)', md: 'translate(-50%, -50%)' },
-                      borderRadius: '7px', padding: '10px', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center',
-                      boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
-                      }}>
-                 
-                 <Typography variant="h4" sx={{
-                        textAlign: 'center',
-                        fontSize: { xs: '1.2em', md: '1.3em' },
-                        position: 'absolute',
-                        top: { xs: '1em', md: '4%' },
-                    }}> Recent Flashcard Activity
+              <Box sx={{
+                width: { xs: '85%', md: '21.5%' },
+                height: { xs: 'auto', md: '87%' },
+                maxHeight: '87%',
+                backgroundColor: 'white',
+                position: 'absolute',
+                top: { xs: '120%', md: '55%' },
+                left: { xs: '50%', md: '87%' },
+                transform: { xs: 'translateX(-50%)', md: 'translate(-50%, -50%)' },
+                borderRadius: '7px',
+                padding: '10px',
+                boxSizing: 'border-box',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'flex-start',
+                alignItems: 'center',
+                boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
+                overflowY: 'auto',
+              }}>
+                <Typography variant="h4" sx={{
+                  textAlign: 'center',
+                  fontSize: { xs: '1.2em', md: '1.3em' },
+                  position: 'sticky',
+                  top: '0',
+                  backgroundColor: 'white',
+                  zIndex: 1,
+                  width: '100%',
+                  py: 2,
+                  fontFamily: 'Lato',
+                }}>
+                  Recent Flashcard Activity
                 </Typography>
-                <Box sx={{
-                backgroundColor: '#FFE793',
-                width: { xs: '90%', md: '90%' },
-                height: { xs: '60%', md: '28%' },borderRadius: '.5em', position: 'absolute',
-                top: { xs: '4em', md: '4em' },
-                boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
-                display: 'flex', justifyContent: 'center', alignItems: 'center',
-            }}>
 
-            <Button sx={{ background: '#FFD234', width: '8em', height: '2em', fontSize: '1em', fontWeight: 'bold', 
-                        color: '#FFFFFF', borderRadius: '.5em', position: 'absolute', bottom: '1em', }}>cards
-            </Button>
-            </Box>
-       
-                </Box>
+
+                  {/* Flashcard Boxes */}
+                  {flashcards.map((flashcard, index) => (
+                    <Box key={index} sx={{
+                      backgroundColor: '#FFE793',
+                      width: { xs: '100%', md: '80%' },  
+                      height: 'auto',  
+                      borderRadius: '10px',
+                      padding: '20px',
+                      mb: { xs: 2, md: 3 }, 
+                      boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'space-between',
+                      gap: '10px', 
+                      position: 'relative',
+                    }}>
+
+<h2>{flashcard.question}</h2>
+<p>{flashcard.answer}</p>
+                      {/* Flashcard Title and Author */}
+                      <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+                        <Typography sx={{
+                          fontSize: { xs: '1.2em', md: '1.2em' }, 
+                          fontWeight: 'bold',
+                          color: '#333',
+                          mb: 1,
+                        }}>
+                          {flashcard.title}
+                        </Typography>
+                        <Typography sx={{
+                          fontSize: { xs: '0.9em', md: '1em' },
+                          color: '#666',
+                          fontStyle: 'italic',
+                        }}>
+                          by {flashcard.author}
+                        </Typography>
+                      </Box>
+
+                      {/* Card Count Button */}
+                      <Button sx={{
+                        background: '#FFD234',
+                        width: { xs: '100%', md: '9em' }, 
+                        height: '2.5em',
+                        fontSize: { xs: '0.9em', md: '1em' }, 
+                        fontWeight: 'bold',
+                        color: '#FFFFFF',
+                        borderRadius: '8px',
+                        alignSelf: 'center', 
+                        mt: 2,  
+                        '&:hover': {
+                          backgroundColor: '#FFB400',
+                        },
+                      }}>
+                        {flashcard.cardCount} cards
+                      </Button>
+                    </Box>
+                  ))}
+              </Box>
 
         </Box>
       </>

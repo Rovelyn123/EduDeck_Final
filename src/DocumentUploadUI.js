@@ -12,6 +12,7 @@ import Cookies from 'js-cookie';
 import { Link, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
+import '@fontsource/lato';
 
 function DocumentUploadUI() {
     const theme = useTheme();
@@ -405,7 +406,7 @@ function DocumentUploadUI() {
                         <Box display={'flex'} style={{ width: isMobile ? 50 : 230, backgroundColor: 'tranparent', alignItems: 'center', marginLeft: 0 }}>
                         <img src="/logo.png" alt="logo" style={{ height: isMobile ? 35 : 60 }} />
                         {!isMobile && (
-                            <Typography variant="h3" style={{ fontFamily: 'Poppin, sans-serif', fontWeight: '600', fontSize: '2em', color: '#B18A00' }}>
+                            <Typography variant="h3" style={{ fontFamily: 'Lato', fontWeight: '900', fontSize: '2em', color: '#B18A00' }}>
                             EduDeck
                             </Typography>
                         )}
@@ -521,18 +522,18 @@ function DocumentUploadUI() {
                                 <img src="/document icon.png" alt="Document Icon" style={{ width: isMobile ? 80 : 100, marginTop: isMobile ? '70px' : '130px', marginBottom: '30px' }} /> 
                                 )}
                             {selectedFile ? (
-                                <Typography variant="h4" style={{fontFamily: 'Roboto Condensed',fontSize: '20px',color: 'black',textAlign: 'center',fontWeight: 'bold',fontStyle: 'italic', marginTop: '15px',}}>
+                                <Typography variant="h4" style={{fontFamily: 'Lato',fontSize: '20px',color: 'black',textAlign: 'center',fontWeight: 'bold',fontStyle: 'italic', marginTop: '15px',}}>
                                     {selectedFile.name}
                                 </Typography>
                             ) : (
-                                <Typography variant="h4" style={{fontFamily: 'Roboto Condensed', fontSize: isMobile ? '15px' : '20px', color: 'black', textAlign: 'center', fontWeight: 'bold', marginTop: '10px'}}>
+                                <Typography variant="h4" style={{fontFamily: 'Lato', fontSize: isMobile ? '15px' : '20px', color: 'black', textAlign: 'center', fontWeight: 'bold', marginTop: '10px'}}>
                                     Supported document types: PDF, DOCX, PPTX, PNG, JPEG
                                 </Typography>
                             )}
 
                             <div style={{ marginTop: isMobile ? '40px' : '70px' }}>
                                 <Button style={{ background: '#FAC712', width: isMobile ? '130px' : '230px', height: '45px', borderRadius: '10px' }} onClick={handleBrowseClick}>
-                                    <Typography style={{ fontSize: isMobile ? '13px' : '20px', fontFamily: 'Nunito Sans, sans-serif', fontWeight: 'bold', color: '#332D2D', textTransform: 'none' }}>
+                                    <Typography style={{ fontSize: isMobile ? '13px' : '20px', fontFamily: 'Lato', fontWeight: 'bold', color: '#332D2D', textTransform: 'none' }}>
                                         Browse
                                     </Typography>
                                 </Button>
@@ -545,13 +546,13 @@ function DocumentUploadUI() {
                                 />
                             </div>
                             <Button style={{ background: '#FAC712', width: isMobile ? '130px' :'230px', height: '45px', borderRadius: '10px', marginTop: isMobile ? '50px' : '150px' }} onClick={handleUploadClick}>
-                                <Typography style={{ fontSize: isMobile ? '12px' : '20px', fontFamily: 'Nunito Sans, sans-serif', fontWeight: 'bold', color: '#332D2D', textTransform: 'none' }}>
+                                <Typography style={{ fontSize: isMobile ? '12px' : '20px', fontFamily: 'Lato', fontWeight: 'bold', color: '#332D2D', textTransform: 'none' }}>
                                     Upload Document
                                 </Typography>
                             </Button>
                             <Link to="/TextHighlighting" style={{ textDecoration: 'none' }}>
                             <Button style={{ background: '#FAC712', width: isMobile ? '130px' : '230px', height: '45px', borderRadius: '10px', marginTop: isMobile ? '50px' : '150px', marginLeft: '10px' }}>
-                                <Typography style={{ fontSize: isMobile ? '12px' : '20px', fontFamily: 'Nunito Sans, sans-serif', fontWeight: 'bold', color: '#332D2D', textTransform: 'none' }} >
+                                <Typography style={{ fontSize: isMobile ? '12px' : '20px', fontFamily: 'Lato', fontWeight: 'bold', color: '#332D2D', textTransform: 'none' }} >
                                     Text Highlighting
                                 </Typography>
                             </Button>
@@ -560,7 +561,7 @@ function DocumentUploadUI() {
 
                         {/* Right Panel for Displaying Uploaded Files */}
                         <div className="right-panel">
-                            <Typography variant="h4" style={{ fontFamily: 'Roboto Condensed', fontSize: isMobile ? '18px' : '30px', color: '#332D2D', textAlign: 'left', margin: '0px 10px 5px 10px' }}>
+                            <Typography variant="h4" style={{ fontFamily: 'lato', fontSize: isMobile ? '18px' : '30px', color: '#332D2D', textAlign: 'left', margin: '0px 10px 5px 10px' }}>
                                 Uploaded Documents
                             </Typography>
                             <div className="uploadedFilePanel">
@@ -582,7 +583,7 @@ function DocumentUploadUI() {
                                         )}
                                         {file.documentTitle && file.fileSize && (
                                         <div style={{ margin: '10px' }}>
-                                            <Typography variant= {isMobile ? 'body2' : "h6"} style={{ fontFamily: 'Roboto Condensed', fontWeight: 'bold', fontSize: isMobile ? '16px' : '18px', maxWidth: isMobile ? '150px' : '380px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{file.documentTitle}</Typography>
+                                            <Typography variant= {isMobile ? 'body2' : "h6"} style={{ fontFamily: 'Lato', fontWeight: 'bold', fontSize: isMobile ? '16px' : '18px', maxWidth: isMobile ? '150px' : '380px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{file.documentTitle}</Typography>
                                             <Typography variant="body2">{file.fileSize}</Typography>
                                         </div>
                                         )}
@@ -631,8 +632,8 @@ function DocumentUploadUI() {
 
                                 {showConfirmation && (
                                 <div className="confirmation-modal">
-                                    <h1 style={{ margin: '10px 10px 20px 50px', fontWeight: 'bold', fontFamily: "Roboto", fontSize: "30px" }}>Delete?</h1>
-                                    <p style={{ fontFamily: "Roboto", fontSize: "20px", marginRight: "20px" }}>Deleting this document will erase all data permanently <br /> Are you sure? This cannot be undone</p>
+                                    <h1 style={{ margin: '10px 10px 20px 50px', fontWeight: 'bold', fontFamily: "Lato", fontSize: "30px" }}>Delete?</h1>
+                                    <p style={{ fontFamily: "Lato", fontSize: "20px", marginRight: "20px" }}>Deleting this document will erase all data permanently <br /> Are you sure? This cannot be undone</p>
                                     <button onClick={() => setShowConfirmation(false)}>Cancel</button>
                                     <button style={{ background: '#FAC712' }} onClick={() => { confirmationCallback(); setShowConfirmation(false); }}>Confirm</button>
                                 </div>

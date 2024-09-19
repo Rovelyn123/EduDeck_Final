@@ -245,6 +245,7 @@ function PricingScreenUI() {
         >
 
             <Toolbar sx={{ mt: 2 }}>
+                  <Link to="/dashboard" style={{ textDecoration: 'none' }}>
                         <img src="/logo.png" alt="App Logo" sx={{  width: 100, marginLeft: '45%', '@media (max-width: 600px)': { marginLeft: '30%',}, }} />
                         <Typography
                             variant="h3"
@@ -252,6 +253,7 @@ function PricingScreenUI() {
                         >
                             EduDeck
                         </Typography>
+                    </Link>
                         <Box 
                               sx={{
                                 position: 'absolute',
