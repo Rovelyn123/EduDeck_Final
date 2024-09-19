@@ -228,7 +228,7 @@ function QuizManagementUI() {
                     
                     <Box sx={{ position: 'fixed', bottom: '5px', marginLeft: '1700px', width: '100%', height: '20%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <Button sx={{ backgroundColor: '#FFFFFF', color: '#000000', marginRight: '20px', width: '17%', height: '30%', boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)', borderRadius: '8px' }}
-                        onlick={()=> handleClickOpen('Start Test quiz')}>
+                        onClick={()=> handleClickOpen('Start Test quiz')}>
                         Start Test Quiz
                         </Button>
                         <Button sx={{ backgroundColor: '#FFD234', color: '#000000', marginRight: '20px', width: '17%', height: '30%', boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)', borderRadius: '8px' }}

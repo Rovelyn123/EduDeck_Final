@@ -18,15 +18,15 @@ import { Typography, SwipeableDrawer, useMediaQuery, useTheme, Divider, IconButt
 import MenuIcon from '@mui/icons-material/Menu';
 import { useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import '@fontsource/lato';
-
-function handleQuestionChange() {
-
-}
+import {toast } from 'react-toastify';
 
 function FlashcardManagementUI() {
     const userid = localStorage.getItem('userid');
+    const navigate = useNavigate();
+    const [difficultyLevel, setDifficultyLevel] = useState("");
+    const [numQuestions, setNumQuestions] = useState(5);
 
     const [openEditDialog, setOpenEditDialog] = useState(false);
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
@@ -48,6 +48,15 @@ function FlashcardManagementUI() {
     const [selectedDeckId, setSelectedDeckId] = useState(() => {
         return localStorage.getItem('selectedDeckId') || '';
     });
+    const [selectedDeckDocumentId, setSelectedDeckDocumentId] = useState(null);
+
+    const handleQuestionChange = (event) => {
+        setNumQuestions(event.target.value);
+    };
+
+    const handleDifficultySelection = (level) => {
+        setDifficultyLevel(level);
+      };
 
     useEffect(() => {
         const fetchDecks = async () => {
@@ -74,6 +83,43 @@ function FlashcardManagementUI() {
             fetchFlashcards();
         }
     }, [selectedDeckId]);
+
+    const [loading, setLoading] = useState(false);
+    const handleStartQuiz = async (index) => {
+        try {
+            handleClose();
+            setLoading(true);
+            
+            const documentTitle = localStorage.getItem('selectedDeck');
+            const selectedDeckId = localStorage.getItem('selectedDeckId');
+            const createDeckResponse = await axios.post('http://localhost:8080/api/quizzes/create', {
+                title: documentTitle,
+                passing_score: 60,
+                deck: {
+                    deckId: selectedDeckId
+                }
+            });
+            const newQuizId = createDeckResponse.data.quizId;
+            
+            const extractTextResponse = await axios.get(`http://localhost:8080/textextractor/document/${selectedDeckDocumentId}`);
+      
+            await axios.post(`http://localhost:8080/generate-quiz?quizId=${newQuizId}&difficultyLevel=${difficultyLevel}&numQuestions=${numQuestions}`, extractTextResponse.data, {
+              headers: {
+                'Content-Type': 'text/plain'
+              }
+            });
+            console.log(newQuizId);
+            setLoading(false);
+            navigate('/quizsession', { state: { quizId: newQuizId } });
+            console.log(newQuizId);
+        } catch (error) {
+            console.error('Error in Generating Quiz:', error);
+            toast.error(error.message, {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 1000,
+            });
+        }
+    };
 
     const toggleDrawer = (open) => (event) => {
         if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -205,8 +251,10 @@ function FlashcardManagementUI() {
     const handleDeckSelection = (deck) => {
         setSelectedDeck(deck.title);
         setSelectedDeckId(deck.deckId);
+        setSelectedDeckDocumentId(deck.document.documentID);
         localStorage.setItem('selectedDeck', deck.title);
         localStorage.setItem('selectedDeckId', deck.deckId);
+        localStorage.setItem('selectedDeckDocumentId', deck.document.documentID); 
     };
 
     const drawerContent = (
@@ -248,9 +296,21 @@ function FlashcardManagementUI() {
     );
 
     let selectedQuestions;
+
+    const generateQuizStyles = {
+        overlay: { position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, },
+        loadingText: { color: 'white', fontSize: '24px', fontWeight: 'bold', },
+    };
+
     return (
         <>
-            <div className="body">
+        {loading && (
+        <div style={generateQuizStyles.overlay}>
+          <div style={generateQuizStyles.loadingText}>Generating quiz...</div>
+        </div>
+      )}
+      <div className="body">
 
       <div style={{ backgroundImage: 'url(/crystalbackground.png)', minHeight: '100vh', overflow: 'hidden' }}>
       <Link to="/dashboard" style={{ textDecoration: 'none' }}>
@@ -385,6 +445,7 @@ function FlashcardManagementUI() {
 
                             }}
                                   className="quiz-card" // Adding class for hover effect
+                                  onClick={() => handleDifficultySelection('Easy')}
                             >
                                 <CardContent style={{ textAlign: 'center', flexGrow: 1, fontFamily: 'Lato' }}>
                                     <Typography variant="h5" align="center" sx={{ marginBottom: 2 }}>Easy</Typography>
@@ -398,8 +459,7 @@ function FlashcardManagementUI() {
                                 <Button
                                     variant="contained"
                                     color="primary"
-                                    component={Link}
-                                    to="/quizsession"
+                                    onClick={handleStartQuiz}
                                     style={{
                                         margin: '10px auto',
                                         backgroundColor: '#f0e68c',
@@ -432,6 +492,7 @@ function FlashcardManagementUI() {
 
                             }}
                                   className="quiz-card"
+                                  onClick={() => handleDifficultySelection('Medium')}
                             >
                                 <CardContent style={{ textAlign: 'center', flexGrow: 1, fontFamily: 'Lato' }}>
                                     <Typography variant="h5" align="center" sx={{ marginBottom: 2 }}>Medium</Typography>
@@ -446,8 +507,7 @@ function FlashcardManagementUI() {
                                 <Button
                                     variant="contained"
                                     color="primary"
-                                    component={Link}
-                                    to="/quizsession"
+                                    onClick={handleStartQuiz}
                                     style={{
                                         margin: '10px auto',
                                         backgroundColor: '#f0e68c',
@@ -481,6 +541,7 @@ function FlashcardManagementUI() {
 
                             }}
                                   className="quiz-card"
+                                  onClick={() => handleDifficultySelection('Hard')}
                             >
                                 <CardContent style={{ textAlign: 'center', flexGrow: 1, fontFamily: 'Lato' }}>
                                     <Typography variant="h5" align="center" sx={{ marginBottom: 2 }}>Hard</Typography>
@@ -494,8 +555,7 @@ function FlashcardManagementUI() {
                                 <Button
                                     variant="contained"
                                     color="primary"
-                                    component={Link}
-                                    to="/quizsession"
+                                    onClick={handleStartQuiz}
                                     style={{
                                         margin: '10px auto',
                                         backgroundColor: '#f0e68c',
@@ -534,7 +594,7 @@ function FlashcardManagementUI() {
                                 <Select
                                     labelId="questions-select-label"
                                     id="questions-select"
-                                    value={selectedQuestions}
+                                    value={numQuestions}
                                     onChange={handleQuestionChange}
                                     sx={{
                                         borderRadius: '10px',            // Rounded corners
