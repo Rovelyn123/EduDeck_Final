@@ -42,12 +42,14 @@ function FlashcardManagementUI() {
     const [isBoxVisible, setIsBoxVisible] = useState(false);
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-    const [selectedDeck, setSelectedDeck] = useState(() => {
-        return localStorage.getItem('selectedDeck') || '';
-    });
-    const [selectedDeckId, setSelectedDeckId] = useState(() => {
-        return localStorage.getItem('selectedDeckId') || '';
-    });
+    // const [selectedDeck, setSelectedDeck] = useState(() => {
+    //     return localStorage.getItem('selectedDeck') || '';
+    // });
+    // const [selectedDeckId, setSelectedDeckId] = useState(() => {
+    //     return localStorage.getItem('selectedDeckId') || '';
+    // });
+    const [selectedDeck, setSelectedDeck] = useState('');
+    const [selectedDeckId, setSelectedDeckId] = useState('');
     const [selectedDeckDocumentId, setSelectedDeckDocumentId] = useState(null);
 
     const handleQuestionChange = (event) => {
@@ -129,7 +131,7 @@ function FlashcardManagementUI() {
     };
 
     const handleEditClick = (flashcard) => {
-        setCurrentFlashcard(flashcard);
+        setCurrentFlashcard(flashcard.flashcardId);
         setNewQuestion(flashcard.question);
         setNewAnswer(flashcard.answer);
         localStorage.setItem('currentflashcardid', flashcard.flashcardId); // Add this line
@@ -143,17 +145,23 @@ function FlashcardManagementUI() {
     };
 
     const handleSaveEdit = async () => {
-        const currentflashcardid = localStorage.getItem('currentflashcardid'); // Correct variable name
         try {
+            const currentflashcardid = currentFlashcard; 
             const updatedFlashcard = {
-                ...currentFlashcard,
                 question: newQuestion,
                 answer: newAnswer
             };
-            await axios.put(`http://localhost:8080/api/flashcards/editFlashcard/${currentflashcardid}`, updatedFlashcard); // Correct variable name
-            setFlashcards(flashcards.map((fc) => (fc.id === currentFlashcard.id ? updatedFlashcard : fc)));
-            setOpenEditDialog(false);
-            setCurrentFlashcard(null);
+            const response = await axios.put(`http://localhost:8080/api/flashcards/editFlashcard/${currentflashcardid}`, updatedFlashcard);
+    
+            if (response.status === 200) {
+                // Update the flashcard in the local state immediately
+                setFlashcards(flashcards.map((fc) =>
+                    fc.flashcardId === currentflashcardid ? { ...fc, question: newQuestion, answer: newAnswer } : fc
+                ));
+                setOpenEditDialog(false);
+            } else {
+                console.error('Error: Flashcard not updated correctly.');
+            }
         } catch (error) {
             console.error('Error updating flashcard:', error);
         }
@@ -214,12 +222,23 @@ function FlashcardManagementUI() {
         }
     };
 
-    const handleDeleteAll = () => {
-        setFlashcards(flashcards.filter((fc) => fc.deck !== selectedDeck));
-        setDecks(decks.filter((deck) => deck.title !== selectedDeck));
-        setSelectedDeck('');
-        setSelectedDeckId('');
-        setOpenConfirmDeleteDeckDialog(false);
+    const handleDeleteAll = async () => {
+        try {
+            const response = await axios.put(`http://localhost:8080/api/decks/deleteFlashcardDeck/${selectedDeckId}`);
+    
+            if (response.status === 200) {
+                setDecks(decks.filter((deck) => deck.deckId !== selectedDeckId));
+                setFlashcards(flashcards.filter((fc) => fc.deckId !== selectedDeckId));
+
+                setSelectedDeck(''); // Reset the selected deck
+                setSelectedDeckId(''); // Reset the selected deck ID
+                setOpenConfirmDeleteDeckDialog(false); // Close the delete confirmation dialog
+            } else {
+                console.error('Failed to delete the deck from the server.');
+            }
+        } catch (error) {
+            console.error('Error deleting deck:', error);
+        }
     };
 
     const handleCloseAddDialog = () => {
@@ -386,7 +405,7 @@ function FlashcardManagementUI() {
                             <Button style={{borderRadius: '12px', boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', border: '.5px solid #D9D9D9', padding: '4px 8px', fontSize: '0.875rem', fontFamily: 'Lato', fontWeight: '700'}} variant="contained" className="title-button" onClick={handleOpenAddDialog}>Add Question</Button>
                             <Button style={{borderRadius: '12px', boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', border: '.5px solid #D9D9D9', padding: '4px 8px', fontSize: '0.875rem', fontFamily: 'Lato', fontWeight: '700'}} variant="contained" className="title-button" onClick={() => setOpenConfirmDeleteDeckDialog(true)}>Delete Deck</Button>
                         </div>
-                       <h1> {selectedDeck ? selectedDeck : "Flashcards"} </h1>
+                        <Typography variant= {isMobile ? 'body2' : "h5"} style={{fontWeight: 'bold', maxWidth: isMobile ? '150px' : '480px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{selectedDeck ? selectedDeck : "Flashcards"}</Typography>
                     </div>
                     <div className="flashcards">
                     {selectedDeck ? (
@@ -422,9 +441,9 @@ function FlashcardManagementUI() {
                     </div>
                 </div>
             </div>
-            <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth style={{ borderRadius: '20px', fontFamily: 'Lato' }}>
+            <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
                 <DialogTitle sx={{ marginBottom: 5 }}>
-                    <Typography variant="h4" align="center" sx={{ fontWeight: 'bold', fontFamily: 'Lato', fontWeight: '700' }}>
+                    <Typography variant="body1" align="center" sx={{ fontWeight: 'bold', fontSize: '1.5em', fontWeight: '700' }}>
                         Choose Your Difficulty Level
                     </Typography>
                 </DialogTitle>
@@ -442,12 +461,11 @@ function FlashcardManagementUI() {
                                 margin: '0 auto',
                                 boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',  // Subtle shadow
                                 transition: 'transform 0.3s, box-shadow 0.3s',  // Smooth transition
-
                             }}
                                   className="quiz-card" // Adding class for hover effect
                                   onClick={() => handleDifficultySelection('Easy')}
                             >
-                                <CardContent style={{ textAlign: 'center', flexGrow: 1, fontFamily: 'Lato' }}>
+                                <CardContent style={{ textAlign: 'center', flexGrow: 1, fontFamily: 'Lato'}}>
                                     <Typography variant="h5" align="center" sx={{ marginBottom: 2 }}>Easy</Typography>
                                     <Box display="flex" justifyContent="center" alignItems="center" mb={1}>
                                         <img src="/easyquiz.png" alt="Easy Quiz Icon" style={{ width: '70px', height: '70px' }} />
@@ -455,7 +473,6 @@ function FlashcardManagementUI() {
                                     <Typography variant="body2" align="center">
                                         Straightforward questions, ideal for beginners.
                                     </Typography>
-                                </CardContent>
                                 <Button
                                     variant="contained"
                                     color="primary"
@@ -472,7 +489,7 @@ function FlashcardManagementUI() {
                                 >
                                     Let's Begin
                                 </Button>
-
+                                </CardContent>
 
                             </Card>
                         </Grid>
@@ -503,7 +520,6 @@ function FlashcardManagementUI() {
                                         Requires some knowledge, insight, and thought to answer.
 
                                     </Typography>
-                                </CardContent>
                                 <Button
                                     variant="contained"
                                     color="primary"
@@ -520,6 +536,7 @@ function FlashcardManagementUI() {
                                 >
                                     Let's Begin
                                 </Button>
+                                </CardContent>
 
 
 
@@ -551,7 +568,6 @@ function FlashcardManagementUI() {
                                     <Typography variant="body2" align="center">
                                         Challenging questions that test in-depth understanding.
                                     </Typography>
-                                </CardContent>
                                 <Button
                                     variant="contained"
                                     color="primary"
@@ -568,6 +584,7 @@ function FlashcardManagementUI() {
                                 >
                                     Let's Begin
                                 </Button>
+                                </CardContent>
 
 
                             </Card>
@@ -577,7 +594,7 @@ function FlashcardManagementUI() {
 
 
                     {/* Drop-down menu for selecting number of questions */}
-                    <Grid container justifyContent="center" style={{ marginTop: '30px' }}>
+                    <Grid container justifyContent="center" style={{ marginTop: '30px', borderRadius: '1em'}}>
                         <Grid item xs={12} sm={6} md={4}>
                             <FormControl fullWidth>
                                 <InputLabel
@@ -585,7 +602,7 @@ function FlashcardManagementUI() {
                                     sx={{
                                         color: '#B18A00',          // Label color
                                         fontWeight: 'bold',        // Bold text
-                                        fontSize: '1rem',          // Adjust font size for the label
+                                        fontSize: '1rem',   // Adjust font size for the label
                                     }}
                                 >
                                     Choose no. of Questions
@@ -597,10 +614,11 @@ function FlashcardManagementUI() {
                                     value={numQuestions}
                                     onChange={handleQuestionChange}
                                     sx={{
-                                        borderRadius: '10px',            // Rounded corners
-                                        fontSize: '1rem',                 // Adjust font size for text inside Select
+                                        height: '2.65em',
+                                        borderRadius: '15px',            // Rounded corners
+                                        fontSize: '1em',                 // Adjust font size for text inside Select
                                         width: '100%',                    // Adjust width to fit the container or set a specific value
-                                        minWidth: '120px',                // Set a minimum width if needed
+                                        minWidth: '100px',                // Set a minimum width if needed
                                         '& .MuiSelect-icon': {
                                             color: 'black',             // Icon color
                                         },
