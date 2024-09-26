@@ -3,19 +3,18 @@ import axios from 'axios';
 import "./QuizSessionUI.css";
 import { Typography, Box, TextField, Button, AppBar, Toolbar, useMediaQuery } from "@mui/material";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import '@fontsource/lato';
 import { Link } from 'react-router-dom';
 
 const QuizSessionUI = () => {
-    const location = useLocation();
-    const { quizId } = location.state || {};
     const [questions, setQuestions] = useState([]);
     const [totalQuestions, setTotalQuestions] = useState(0);
     const [title, setTitle] = useState('');
     const [error, setError] = useState(null);
     const [userAnswers, setUserAnswers] = useState({});
     const navigate = useNavigate();
+    const [isTrueFalseQuestion, setIsTrueFalseQuestion] = useState(false);
 
     useEffect(() => {
         const fetchQuestions = async () => {
@@ -24,22 +23,19 @@ const QuizSessionUI = () => {
                 if (!selectedDeckId) {
                     throw new Error('No deck selected');
                 }
-                console.log(quizId);
-                const response = await axios.get(`http://localhost:8080/api/quizzes/${quizId}`);
+                const response = await axios.get(`http://localhost:8080/api/flashcards/deck/${selectedDeckId}`);
+                const flashcards = response.data;
 
-                const quizItems = response.data.quizItems || [];
-
-                const fetchedQuestions = quizItems.map(quizItem =>({
-                    id: quizItem.quizItemId,
-                    question: quizItem.question,
-                    answer: quizItem.correctAnswer
+                const fetchedQuestions = flashcards.map(flashcard =>({
+                    id: flashcard.flashcardId,
+                    question: flashcard.question,
+                    answer: flashcard.answer
 
                 }));
                 setQuestions(fetchedQuestions);
                 setTotalQuestions(fetchedQuestions.length);
                 setError(null);
             } catch (error) {
-                console.log(error);
                 setError('An error occurred while fetching questions. Please try again later.');
             }
         };
@@ -92,6 +88,77 @@ const QuizSessionUI = () => {
 
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
+    const renderAnswerField = (question) => {
+        // Check if the question contains "True or False:"
+        const isTrueFalseQuestion = question.question.includes('True or False:');
+    
+        if (isTrueFalseQuestion) {
+            return (
+                <div className="question-section">
+    
+                    {/* Render True/False buttons */}
+                    <div className="answer-options" style={{ marginLeft: '250px', marginTop: '20px'
+                    }}>
+                        <Button
+                            variant={userAnswers[question.id] === 'True' ? 'contained' : 'outlined'}
+                            onClick={() => handleInputChange(question.id, 'True')}
+                            sx={{ mr: 3, backgroundColor: '#F5F2D8', boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', color: '#CBBA61',
+                                width: '150px', height: '40px', fontFamily: 'Lato', fontSize: '18px', fontWeight: 'bold', borderStyle: 'none', borderRadius: '5px' }}
+                        >
+                            True
+                        </Button>
+                        <Button
+                            variant={userAnswers[question.id] === 'False' ? 'contained' : 'outlined'}
+                            onClick={() => handleInputChange(question.id, 'False')}
+                             sx={{ mr: 3, backgroundColor: '#F5F2D8', boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', color: '#CBBA61', 
+                                width: '150px', height: '40px', fontFamily: 'Lato', fontSize: '18px', fontWeight: 'bold', borderStyle: 'none', borderRadius: '5px' }}
+
+                        >
+                            False
+                        </Button>
+                    </div>
+                </div>
+            );
+        }
+    
+
+            switch (question.type) {
+                case 'multiplechoice':
+                    // Ensure question.options is an array before mapping
+                    if (Array.isArray(question.options)) {
+                        return (
+                            <div className="answer-options">
+                                {question.options.map((option, idx) => (
+                                    <Button
+                                        key={idx}
+                                        variant={userAnswers[question.id] === option ? 'contained' : 'outlined'}
+                                        onClick={() => handleInputChange(question.id, option)}
+                                        sx={{ mr: 2, mb: 2 }}
+                                        style={{ display: 'block' }} // Fallback style to ensure visibility
+                                    >
+                                        {option}
+                                    </Button>
+                                ))}
+                            </div>
+                        );
+                    } else {
+                        return <Typography color="error">Options not available</Typography>;
+                    }
+                case 'open-ended':
+                default:
+                    return (
+                        <TextField
+                            label="Your Answer"
+                            variant="outlined"
+                            value={userAnswers[question.id] || ''}
+                            onChange={(e) => handleInputChange(question.id, e.target.value)}
+                            sx={{ width: '100%' }}
+                        />
+                    );
+            }
+        };
+
+
     return (
         <ThemeProvider theme={theme}>
             <Box sx={{
@@ -103,86 +170,86 @@ const QuizSessionUI = () => {
                 justifyContent: 'space-between',
             }}>
                 <AppBar
-    position="static"
-    style={{
-        background: 'none',
-        boxShadow: 'none',
-        padding: '10px',
-        marginTop: '10px'
-    }}
->
-    <Toolbar style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', alignItems: 'center' }}>
-    <Link to="/dashboard" style={{ textDecoration: 'none' }}>
-        <Box style={{ display: 'flex', alignItems: 'center', width: 'auto' }}>
-            <img src="/logo.png" alt="App Logo" style={{ width: 70 }} />
-            <Typography
-                variant="h4"
-                style={{
-                    fontFamily: 'Lato',
-                    fontWeight: '900',
-                    fontSize: '30px',
-                    color: '#B18A00',
-                    marginLeft: '10px'
-                }}
-            >
-                EduDeck
-            </Typography>
-        </Box>
-        </Link>
-        <Box
-            style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: isMobile ? 'center' : 'flex-start',
-                flexGrow: 1,
-                marginLeft: '3em',
-                width: '30%'
-            }}
-        >
-            <Box
-                style={{
-                    background: 'white',
-                    borderRadius: '10px',
-                    textAlign: 'center',
-                    // padding: isMobile ? '5px 10px' : '10px 20px',  // Added padding
-                    minWidth: isMobile ? '100px' : '150px',  // Minimum width for responsiveness
-                    height: isMobile ? '30px' : '40px',
-                    // width: isMobile ? '100%' : 'calc(50% - 150px)',
-                    boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
-                    flexGrow: 1,
-                    flexShrink: 1,
-                    flexBasis: 'auto'
-                }}
-            >
-                <Typography
-                    variant="h5"
+                    position="static"
                     style={{
-                        fontFamily: "Lato",
-                        fontSize: isMobile ? '20px' : '30px',
-                        color: '#332D2D',
-                        textAlign: 'center',
-                        lineHeight: isMobile ? '30px' : '40px',
+                        background: 'none',
+                        boxShadow: 'none',
+                        padding: '10px',
+                        marginTop: '10px'
                     }}
                 >
-                    Test Quiz
-                </Typography>
-            </Box>
-        </Box>
-        {!isMobile && (
-            <Box
-                style={{
-                    display: 'flex',
-                    background: 'white',
-                    borderRadius: '10px',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginRight: '70px',
-                }}
-            >
-            </Box>
-        )}
-    </Toolbar>
-</AppBar>
+                    <Toolbar style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', alignItems: 'center' }}>
+                    <Link to="/dashboard" style={{ textDecoration: 'none' }}>
+                        <Box style={{ display: 'flex', alignItems: 'center', width: 'auto' }}>
+                            <img src="/logo.png" alt="App Logo" style={{ width: 70 }} />
+                            <Typography
+                                variant="h4"
+                                style={{
+                                    fontFamily: 'Lato',
+                                    fontWeight: '900',
+                                    fontSize: '30px',
+                                    color: '#B18A00',
+                                    marginLeft: '10px'
+                                }}
+                            >
+                                EduDeck
+                            </Typography>
+                        </Box>
+                        </Link>
+                        <Box
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: isMobile ? 'center' : 'flex-start',
+                                flexGrow: 1,
+                                marginLeft: '3em',
+                                width: '30%'
+                            }}
+                        >
+                            <Box
+                                style={{
+                                    background: 'white',
+                                    borderRadius: '10px',
+                                    textAlign: 'center',
+                                    // padding: isMobile ? '5px 10px' : '10px 20px',  // Added padding
+                                    minWidth: isMobile ? '100px' : '150px',  // Minimum width for responsiveness
+                                    height: isMobile ? '30px' : '40px',
+                                    // width: isMobile ? '100%' : 'calc(50% - 150px)',
+                                    boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+                                    flexGrow: 1,
+                                    flexShrink: 1,
+                                    flexBasis: 'auto'
+                                }}
+                            >
+                                <Typography
+                                    variant="h5"
+                                    style={{
+                                        fontFamily: "Lato",
+                                        fontSize: isMobile ? '20px' : '30px',
+                                        color: '#332D2D',
+                                        textAlign: 'center',
+                                        lineHeight: isMobile ? '30px' : '40px',
+                                    }}
+                                >
+                                    Test Quiz
+                                </Typography>
+                            </Box>
+                        </Box>
+                        {!isMobile && (
+                            <Box
+                                style={{
+                                    display: 'flex',
+                                    background: 'white',
+                                    borderRadius: '10px',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    marginRight: '70px',
+                                }}
+                            >
+                            </Box>
+                        )}
+                    </Toolbar>
+                </AppBar>
 
                 <Box className="welcome-back-page">
                     <div className="title">
@@ -193,22 +260,37 @@ const QuizSessionUI = () => {
                     <div className="question">
                         {error ? (
                             <Typography variant="h6" color="error">{error}</Typography>
-                        ) : questions.length > 0 ? questions.map((question, index) => (
-                            <div key={question.id} className="question-card">
-                                <div className="counter">{index + 1}/{totalQuestions}</div>
-                                <Typography variant="h6" className="question-label">Question</Typography>
-                                <span className="question-text">{question.question}</span>
-                                <div className="text-field-bottom">
-                                    <TextField label="Your Answer" variant="outlined" style={{ width: '800px', backgroundColor: '#f5f2d8', fontFamily: 'Lato', }} onChange={(e) => handleInputChange(question.id, e.target.value)}/>
+                        ) : questions.length > 0 ? (
+                            questions.map((question, index) => (
+                                <div key={question.id} className="question-card">
+                                    <div className="counter">{index + 1}/{totalQuestions}</div>
+                                    <Typography variant="h6" className="question-label">Question</Typography>
+                                    <span className="question-text">
+                                        {question.dynamicInfo
+                                            ? `${question.dynamicInfo} ${question.question}` // Add AI dynamic content
+                                            : question.question}
+                                    </span>
+                                    <div
+                                        className="text-field-bottom"
+                                        style={{
+                                            backgroundColor: question.type === 'multiplechoice' || question.question.includes('True or False:') 
+                                            ? 'transparent'  // Remove background color for multiple choice and True/False
+                                            : '#F5F2D8'      // Keep default background for other questions
+                                        }}
+                                        >
+                                        {renderAnswerField(question)}
+                                    </div>
+
+
                                 </div>
-                            </div>
-                        )) : (
+                            ))
+                        ) : (
                             <Typography>Loading questions...</Typography>
                         )}
                     </div>
                 </Box>
-                <Box sx={{ display: 'flex', justifyContent: 'center', paddingBottom: '20px' }}>
-                    <Button variant="contained" sx={{backgroundColor: '#FFD234', fontFamily: 'Lato',}} onClick={submitQuiz}>
+                <Box sx={{ display: 'flex', justifyContent: 'center', paddingBottom: '20px', }}>
+                    <Button className='submitButton' variant="contained" onClick={submitQuiz}>
                         <Typography>Submit</Typography>
                     </Button>
                 </Box>

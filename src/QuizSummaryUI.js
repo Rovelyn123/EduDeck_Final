@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 //import "./QuizSummary.css";
 import { Toolbar, Typography, Divider, Button, Dialog, DialogActions, 
-    DialogContent, TextField, DialogTitle, IconButton, Box, AppBar, useMediaQuery} from '@mui/material';
+    DialogContent, TextField, DialogTitle, IconButton, Box, AppBar, useMediaQuery, 
+    Slider} from '@mui/material';
 import { AccountCircle, NotificationsNone } from "@mui/icons-material";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
@@ -16,6 +17,9 @@ import SentimentNeutralIcon from '@mui/icons-material/SentimentNeutral';
 import SentimentSatisfiedIcon from '@mui/icons-material/SentimentSatisfied';
 import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
 import axios from 'axios';
+import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
+import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
+
 
 
 const QuizSummary = () => {
@@ -40,44 +44,40 @@ const QuizSummary = () => {
         navigate('/Dashboard');
     };
 
-    // Function to check if user scrolled to the bottom
-    const handleScroll = () => {
-        const scrollHeight = document.documentElement.scrollHeight;
-        const scrollTop = document.documentElement.scrollTop;
-        const clientHeight = document.documentElement.clientHeight;
-
-        // Check if user has scrolled down from the top
-        if (scrollTop > 0) {
-            setScrolled(true); // Mark that the user has scrolled
-        }
-
-        // If the user has scrolled to the bottom
-        if (scrolled && scrollTop + clientHeight >= scrollHeight - 5) {
-            setOpenFeedbackDialog(true);
-        }
+    const marks = [
+        {
+            value: 1,
+            label: "Didn't meet Expectations",
+        },
+        {
+            value: 3,
+            label: 'Met Expectations',
+        },
+        {
+            value: 5,
+            label: 'Exceeded Expectations',
+        },
+    ];
+    
+    // State to track slider value
+    const [feedbackValue, setFeedbackValue] = useState(3);
+    
+    // Function to handle slider change
+    const handleSliderChange = (event, newValue) => {
+        setFeedbackValue(newValue);
     };
-
-    // Add scroll event listener when component mounts
-    useEffect(() => {
-        window.addEventListener("scroll", handleScroll);
-        return () => {
-            window.removeEventListener("scroll", handleScroll); // Clean up on unmount
-        };
-    }, [scrolled]); // Rerun the effect when 'scrolled' changes
-
-    // Handles feedback selection and dialog close
-    const handleFeedback = async (feedback) => {
-        setSelectedFeedback(feedback);
-        console.log("Feedback selected:", feedback);
-
-        // Perform feedback submission logic here, e.g., send feedback to server
+    
+    // Handles feedback submission and dialog close
+    const handleFeedbackSubmission = async () => {
+        console.log("Feedback selected:", feedbackValue);
+    
         try {
-            const response = await axios.post('https://your-server-api.com/feedback', { //wala pa nako butangi api karyme kay di ko knows hehe
-                rating: feedback,
+            const response = await axios.post('https://your-server-api.com/feedback', { //karyme ikaw lng butang hehe
+                rating: feedbackValue,
                 quizId: '1234',
                 userId: '5678',
             });
-
+    
             if (response.status === 200) {
                 console.log('Feedback submitted successfully');
             } else {
@@ -86,10 +86,10 @@ const QuizSummary = () => {
         } catch (error) {
             console.error('Error submitting feedback:', error);
         }
-
-        // Close the feedback dialog after submission
-        setOpenFeedbackDialog(false);
+    
+        setOpenFeedbackDialog(false); // Close the dialog after feedback submission
     };
+    
 
 
     const theme = createTheme({
@@ -317,83 +317,118 @@ return (
                             Question {index + 1}: {result.question}
                         </Typography>
 
-                        {/* Flexbox container for the answer and icon */}
-                        <Box display="flex" alignItems="center">
-                            <Typography>
-                                Your Answer: {result.userAnswer}
-                            </Typography>
-                            {/* Conditional icon rendering based on correctness */}
-                            {result.userAnswer === result.correctAnswer ? (
-                                <CheckIcon style={{ color: 'green', marginLeft: '0.5em' }} />
-                            ) : (
-                                <CloseIcon style={{ color: 'red', marginLeft: '0.5em' }} />
-                            )}
+                        {/* Flexbox container for the answer, icon, and feedback buttons */}
+                        <Box display="flex" alignItems="center" justifyContent="space-between">
+                            <Box display="flex" alignItems="center">
+                                <Typography>Your Answer: {result.userAnswer}</Typography>
+                                {/* Conditional icon rendering based on correctness */}
+                                {result.userAnswer === result.correctAnswer ? (
+                                    <CheckIcon style={{ color: 'green', marginLeft: '0.5em', fontSize: '1.5rem' }} />
+                                ) : (
+                                    <CloseIcon style={{ color: 'red', marginLeft: '0.5em', fontSize: '1.5rem' }} />
+                                )}
+                            </Box>
+                            {/* Thumbs up/down icons for feedback */}
+                            <Box display="flex" alignItems="center">
+                                <IconButton
+                                    sx={{
+                                        transition: 'transform 0.2s ease-in-out',
+                                        '&:hover': {
+                                            transform: 'scale(1.2)',
+                                            color: 'green',
+                                        },
+                                        marginRight: '0.5em',
+                                    }}
+                                >
+                                    <ThumbUpAltIcon sx={{ fontSize: '1.5rem', color: '#4CAF50' }} /> {/* Softer green */}
+                                </IconButton>
+                                <IconButton
+                                    sx={{
+                                        transition: 'transform 0.2s ease-in-out',
+                                        '&:hover': {
+                                            transform: 'scale(1.2)',
+                                            color: 'red',
+                                        },
+                                    }}
+                                >
+                                    <ThumbDownAltIcon sx={{ fontSize: '1.5rem', color: '#E57373' }} /> {/* Softer red */}
+                                </IconButton>
+                            </Box>
                         </Box>
-                        <Box display="flex" alignItems="center">
-                        <Typography>Correct Answer: {result.correctAnswer}</Typography>
-                        <CheckIcon style={{ color: 'green', marginLeft: '0.5em' }} />
+
+                        <Box display="flex" alignItems="center" justifyContent="space-between">
+                            <Box display="flex" alignItems="center">
+                                <Typography>Correct Answer: {result.correctAnswer}</Typography>
+                                <CheckIcon style={{ color: 'green', marginLeft: '0.5em', fontSize: '1.5rem' }} />
+                            </Box>
+                        </Box>
+
                         <hr style={{ marginTop: '0.5em', marginBottom: '0.5em', borderColor: '#ddd' }} />
-                        </Box>
                     </Box>
                 ))}
             </Box>
         </div>
 
-            <Dialog
-                open={openFeedbackDialog}
-                onClose={() => setOpenFeedbackDialog(false)}
-                aria-labelledby="feedback-dialog-title"
-                aria-describedby="feedback-dialog-description"
-                fullWidth
-                maxWidth="sm"
-                PaperProps={{
-                    sx: {
-                        borderRadius: 3, // Rounded corners (higher value = more rounded)
-                        border: '1px solid #ccc', // Light gray border
-                        boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)', // Subtle shadow effect
-                        height: '280px',
-                    }
+        <Dialog
+            open={openFeedbackDialog}
+            onClose={() => setOpenFeedbackDialog(false)}
+            aria-labelledby="feedback-dialog-title"
+            aria-describedby="feedback-dialog-description"
+            fullWidth
+            maxWidth="md"
+            PaperProps={{
+                sx: {
+                    borderRadius: 3, 
+                    border: '1px solid #ccc', 
+                    boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)', 
+                    height: '320px', 
+                    overflow: 'hidden', 
+                },
+            }}
+        >
+            <DialogTitle
+                id="feedback-dialog-title"
+                style={{ textAlign: 'center', fontFamily: 'Lato', fontWeight: 'bold', marginTop: '30px' }}
+            >
+                How relevant are these questions to you? <br/> Please let us know your feedback to help us improve our system.
+            </DialogTitle>
+
+            <DialogContent
+                sx={{
+                    overflow: 'hidden', 
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '20px 0', 
                 }}
             >
-                <DialogTitle id="feedback-dialog-title" style={{ textAlign: 'center', fontFamily: 'Lato', marginTop: '30px' }}>
-                    How relevant are these questions to you? Please let us know your feedback to help us improve our system.
-                </DialogTitle>
-                <DialogContent>
-                    {/* Feedback Icons */}
-                    <Box style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-                        <IconButton onClick={() => handleFeedback(1)}>
-                            <SentimentVeryDissatisfiedIcon
-                                fontSize="inherit"
-                                sx={{ fontSize: 60, color: 'red' }} // Custom font size (60px)
-                            />
-                        </IconButton>
-                        <IconButton onClick={() => handleFeedback(2)}>
-                            <SentimentDissatisfiedIcon
-                                fontSize="inherit"
-                                sx={{ fontSize: 60, color: 'orange' }} // Custom font size (60px)
-                            />
-                        </IconButton>
-                        <IconButton onClick={() => handleFeedback(3)}>
-                            <SentimentNeutralIcon
-                                fontSize="inherit"
-                                sx={{ fontSize: 60, color: 'yellow' }} // Custom font size (60px)
-                            />
-                        </IconButton>
-                        <IconButton onClick={() => handleFeedback(4)}>
-                            <SentimentSatisfiedIcon
-                                fontSize="inherit"
-                                sx={{ fontSize: 60, color: 'lightgreen' }} // Custom font size (60px)
-                            />
-                        </IconButton>
-                        <IconButton onClick={() => handleFeedback(5)}>
-                            <SentimentVerySatisfiedIcon
-                                fontSize="inherit"
-                                sx={{ fontSize: 60, color: 'green' }} // Custom font size (60px)
-                            />
-                        </IconButton>
-                    </Box>
-                </DialogContent>
-            </Dialog>
+                {/* Slider for feedback */}
+                <Box sx={{ width: '100%', textAlign: 'center', mt: 3 }}>
+                    <Typography gutterBottom>How relevant are these questions to you?</Typography>
+                    <Slider
+                        value={feedbackValue}
+                        onChange={handleSliderChange}
+                        aria-labelledby="feedback-slider"
+                        step={1}
+                        marks={marks}
+                        min={1}
+                        max={5}
+                        sx={{
+                            color: 'green',
+                            height: 8,
+                            width: '80%',
+                        }}
+                    />
+                </Box>
+            </DialogContent>
+
+            <DialogActions>
+                <Button onClick={handleFeedbackSubmission} color="primary" variant="contained">
+                    Submit Feedback
+                </Button>
+            </DialogActions>
+        </Dialog>
 
 
 

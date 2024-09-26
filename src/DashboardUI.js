@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 //import './DashboardUI.css';
 import { Typography, Divider, Button, Dialog, DialogActions, DialogContentText,
     DialogContent, TextField, DialogTitle, IconButton, Box, Toolbar, Grid} from '@mui/material';
-import { AccountCircle, NotificationsNone } from "@mui/icons-material";
+import { AccountCircle, NotificationsNone, Score } from "@mui/icons-material";
 import NavigationBarUI from './NavigationBarUI';
 import { Link, useLocation, useNavigate} from "react-router-dom";
 import axios from "axios"; 
@@ -67,31 +67,30 @@ const DashboardUI = ({onLogout}) => {
     };
 
     const data = [
-      { Week: 'Sun', Series1: 40, Series2: 24 },
-      { Week: 'Mon', Series1: 30, Series2: 13 },
-      { Week: 'Tue', Series1: 20, Series2: 98 },
-      { Week: 'wed', Series1: 27, Series2: 39 },
-      { Week: 'Thu', Series1: 18, Series2: 48 },
-      { Week: 'Fri', Series1: 23, Series2: 38 },
-      { Week: 'Sat', Series1: 34, Series2: 43 },
+      { Week: 'Sun', Score: 50, Series2: 24 },
+      { Week: 'Mon', Score: 30, Series2: 13 },
+      { Week: 'Tue', Score: 40, Series2: 98 },
+      { Week: 'wed', Score: 27, Series2: 39 },
+      { Week: 'Thu', Score: 18, Series2: 48 },
+      { Week: 'Fri', Score: 23, Series2: 38 },
+      { Week: 'Sat', Score: 34, Series2: 43 },
       // Add more data points as needed
     ];
 
     const pieData = [
-      { name: 'Group A', value: 400 },
-      { name: 'Group B', value: 300 },
-      { name: 'Group C', value: 300 },
-      { name: 'Group D', value: 200 },
-      { name: 'Group E', value: 100 },
+      { name: 'Multiple Choice', value: 400 },
+      { name: 'True or False', value: 300 },
+      { name: 'Short Answer', value: 300 },
+      { name: 'Essay', value: 200 },
     ];
     
     const radarData = [
-      { subject: 'Final exam grade', A: 120, fullMark: 150 },
-      { subject: 'Midterm grade', A: 98, fullMark: 150 },
-      { subject: 'Assignments completed', A: 86, fullMark: 150 },
-      { subject: 'Hours studying', A: 99, fullMark: 150 },
-      { subject: 'Classes attended', A: 85, fullMark: 150 },
+      { subject: 'Math', A: 120 },
+      { subject: 'Science', A: 98 },
+      { subject: 'History', A: 86 },
+      // etc.
     ];
+    
     
     const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#969696'];
 
@@ -418,72 +417,97 @@ const DashboardUI = ({onLogout}) => {
             <Grid container spacing={2}>
               {/* Pie Chart Section */}
               <Grid item xs={12} md={6}>
-                <Box sx={{
-                  backgroundColor: 'white',
-                  padding: '20px',
-                  borderRadius: '7px',
-                  borderColor: '#FFD234', borderStyle: 'solid', borderWidth: '1.5px',
-                  boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  height: '46%',
-                  width: '90%',
-                }}>
-                  <ResponsiveContainer width="100%" height={300}>
-                    <PieChart>
-                      <Pie
-                        data={pieData}
-                        cx="50%"
-                        cy="50%"
-                        labelLine={false}
-                        outerRadius={80}
-                        fill="#8884d8"
-                        dataKey="value"
-                      >
-                        {pieData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                        ))}
-                      </Pie>
-                    </PieChart>
-                  </ResponsiveContainer>
-                </Box>
-              </Grid>
-
-              {/* Radar Chart Section */}
-              <Grid item xs={12} md={6}>
-                <Box sx={{
-                  backgroundColor: '#FFEAA0',
-                  padding: '20px',
-                  borderRadius: '7px',
-                  borderColor: '#FFD234', borderStyle: 'solid', borderWidth: '1.5px',
-                  boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
+              <Box sx={{
+                backgroundColor: 'white',
+                padding: '20px',
+                borderRadius: '7px',
+                borderColor: 'lightgray', 
+                borderStyle: 'solid', 
+                borderWidth: '1.5px',
+                boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
+                height: '55%',
+                width: '90%',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
-                  height: '46%',
-                  width: '100%', 
-                }}>
-                  {/* <Typography variant="h6" sx={{ mb: 2 }}>
-                    Arthur's grades
-                  </Typography> */}
-                  <ResponsiveContainer width="100%" height={200}>
+              }}>
+                <Typography align="center" gutterBottom>
+                  Average Time Spent Per Question Type
+                </Typography>
+                <ResponsiveContainer width="100%" height={250}>
+                  <PieChart>
+                  <Pie
+                    data={pieData}
+                    cx="50%"
+                    cy="30%"
+                    labelLine={true}
+                    label={({ name, x, y, fill, cx }) => (
+                      <text
+                        x={x}
+                        y={y}
+                        fill={fill}
+                        textAnchor={x > cx ? "start" : "end"}
+                        dominantBaseline="central"
+                        style={{ fontSize: '12px', fontWeight: 'bold', fontFamily: 'Lato', fill: '#333' }}
+                      >
+                        {name}
+                      </text>
+                    )}
+                    outerRadius={50}
+                    fill="#8884d8"
+                    dataKey="value"
+                  >
+                    {pieData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+
+                  </PieChart>
+                </ResponsiveContainer>
+                <Box sx={{ marginTop: 2 }}>
+                  <Legend />
+                </Box>
+              </Box>
+            </Grid>
+
+
+              {/* Radar Chart Section */}
+              <Grid item xs={12} md={6}>
+              <Box sx={{
+                backgroundColor: 'white',
+                padding: '20px',
+                borderRadius: '7px',
+                borderColor: 'lightgray', 
+                borderStyle: 'solid', 
+                borderWidth: '1.5px',
+                boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
+                height: '55%',
+                width: '100%',             
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+              }}>
+                <Typography align="center" gutterBottom>
+                Performance by Subject/Question
+                </Typography>
+                <ResponsiveContainer width="100%" height={200}>
                   <RadarChart data={radarData}>
                       <PolarGrid stroke="#969696" strokeDasharray="6 6" />
-                      <PolarAngleAxis dataKey="subject" tick={{ fill: '#555', fontSize: 12 }} />
+                      <PolarAngleAxis dataKey="subject" tick={{ fill: '#555', fontSize: 12, fontWeight: 'bold', fontFamily: 'Lato' }} />
                       <PolarRadiusAxis angle={50} domain={[0, 150]} tick={{ fill: '#555', fontSize: 10 }} />
                       <Radar name="Arthur" dataKey="A" stroke="#969696" fill="#82ca9d" fillOpacity={0.6} />
                     </RadarChart>
                   </ResponsiveContainer>
-                </Box>
-              </Grid>
+              </Box>
+            </Grid>
+
             </Grid>
           </Box>
 
-            {/* <Box sx={{
+            <Box sx={{
                     width: { xs: '73%', md: '52%' },
                     height: { xs: 'auto', md: 'auto' }, backgroundColor: 'white', position: 'absolute',
-                    top: { xs: '55%', md: '58%' },
+                    top: { xs: '55%', md: '62%' },
                     left: { xs: '50%', md: '47%' },
                     transform: 'translateX(-50%)',
                     borderRadius: '7px', padding: '20px',
@@ -496,16 +520,16 @@ const DashboardUI = ({onLogout}) => {
                 <Grid container spacing={2} sx={{ width: '100%' }}>
                 <ResponsiveContainer width="100%" height={130}>
                 <LineChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-                  <CartesianGrid stroke="#e0e0e0" strokeDasharray="3 3" />
-                  <XAxis dataKey="Week" stroke="#555" tick={{ fontSize: 12 }} />
+                  <CartesianGrid stroke="#969696" strokeDasharray="3 3" />
+                  <XAxis dataKey="Week" stroke="#555" tick={{ fontSize: 12, fontWeight: 'bold', fontFamily: 'Lato'  }} />
                   <YAxis stroke="#555" tick={{ fontSize: 12 }} />
                   <Tooltip 
                     contentStyle={{ backgroundColor: '#f5f5f5', borderRadius: '8px', border: '1px solid #ddd' }}
                     labelStyle={{ fontWeight: 'bold', color: '#333' }} 
                   />
-                  <Legend verticalAlign="top" height={36} wrapperStyle={{ paddingBottom: '10px' }} />
-                  <Line type="monotone" dataKey="Series1" stroke="#1f77b4" strokeWidth={3} dot={{ r: 5 }} />
-                  <Line type="monotone" dataKey="Series2" stroke="#FFD234" strokeWidth={3} dot={{ r: 5 }} />
+                  <Legend verticalAlign="top" height={20} wrapperStyle={{ paddingBottom: '10px' }} />
+                  <Line type="monotone" dataKey="Score" stroke="#FFD234" strokeWidth={3} dot={{ r: 5 }} />
+                  {/* <Line type="monotone" dataKey="Series2" stroke="#FFD234" strokeWidth={3} dot={{ r: 5 }} /> */}
                 </LineChart>
               </ResponsiveContainer>
                 </Grid>
@@ -513,9 +537,9 @@ const DashboardUI = ({onLogout}) => {
               
         <Box sx={{
             width: { xs: '73.5%', md: '52%' },
-            height: 'auto', backgroundColor: 'white', borderColor: '#FAC712', borderStyle: 'solid', borderWidth: '3px',
+            height: { xs: '73.5%', md: '8%' }, backgroundColor: 'white', borderColor: '#FAC712', borderStyle: 'solid', borderWidth: '3px',
             position: 'absolute',
-            top: { xs: '95%', md: '83%' },
+            top: { xs: '95%', md: '87%' },
             left: { xs: '50%', md: '47%' },
             transform: 'translateX(-50%)', borderRadius: '7px', padding: '10px 20px',
             boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', display: 'flex',
@@ -523,7 +547,7 @@ const DashboardUI = ({onLogout}) => {
             alignItems: 'center',
             justifyContent: { xs: 'center', md: 'space-between' },
         }}>
-            <img src="fire.png" alt="file" style={{ width: '4em', marginRight: '1em', marginBottom: { xs: '1em', md: 0 } }}/>
+            <img src="fire.png" alt="file" style={{ width: '3em', marginRight: '1em', marginBottom: { xs: '1em', md: 0 } }}/>
             <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, alignItems: { xs: 'center', md: 'baseline' }, }}>
                 <Typography sx={{
                     fontSize: { xs: '1em', md: '1.5em' },
@@ -545,7 +569,7 @@ const DashboardUI = ({onLogout}) => {
                     </span>
                 ))}
             </Typography>
-            {/* <Button variant="contained" color="primary" onClick={handleActivityComplete} sx={{ marginTop: { xs: '1em', md: 0 } }}>
+             {/* <Button variant="contained" color="primary" onClick={handleActivityComplete} sx={{ marginTop: { xs: '1em', md: 0 } }}>
                 Mark Activity Complete
             </Button> */}
         </Box>
@@ -601,8 +625,8 @@ const DashboardUI = ({onLogout}) => {
                       position: 'relative',
                     }}>
 
-<h2>{flashcard.question}</h2>
-<p>{flashcard.answer}</p>
+{/* <h2>{flashcard.question}</h2>
+<p>{flashcard.answer}</p> */}
                       {/* Flashcard Title and Author */}
                       <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
                         <Typography sx={{
@@ -643,7 +667,7 @@ const DashboardUI = ({onLogout}) => {
                   ))}
               </Box>
 
-        {/* </Box> */}
+        </Box>
       </>
     );
 
