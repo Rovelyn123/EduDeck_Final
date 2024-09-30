@@ -162,29 +162,39 @@ function ReviewSessionUI() {
   };
 
  // End the session and clean up the session data
-  const endSession = async () => {
-    try {
-      const endTime = new Date().toISOString();
+ const endSession = async () => {
+  try {
+    const endTime = new Date().toISOString();
 
-      await axios.put(`http://localhost:8080/api/ReviewSession/endSession`, null, {
-        params: {
-          reviewSessionId: sessionId,
-          endTime: endTime,
-        },
-      });
+    await axios.put(`http://localhost:8080/api/ReviewSession/endSession`, null, {
+      params: {
+        reviewSessionId: sessionId,
+        endTime: endTime,
+      },
+    });
 
-      // Clean up session-related local storage
-      localStorage.removeItem('reviewSessionId');
-      localStorage.removeItem('currentCardIndex');
-      localStorage.removeItem('memorizedCards');
+    // Clean up session-related local storage
+    localStorage.removeItem('reviewSessionId');
+    localStorage.removeItem('currentCardIndex');
+    localStorage.removeItem('memorizedCards');
 
-      // Mark the session as ended and navigate to review result
-      setIsSessionEnded(true);
-      navigate('/reviewresult', { state: { sessionId } });
-    } catch (error) {
-      console.error('Error ending the session:', error);
-    }
-  };
+    // Mark the session as ended and navigate to review result
+    setIsSessionEnded(true);
+    
+    // Pass flashcard data to ReviewResult
+    navigate('/reviewresult', { 
+      state: { 
+        sessionId,
+        totalFlashcards: flashcards.length, // pass the total number of flashcards
+        reviewedFlashcards: currentCardIndex + 1,// pass the number of reviewed flashcards
+        deckName: flashcardTitle
+      } 
+    });
+  } catch (error) {
+    console.error('Error ending the session:', error);
+  }
+};
+
 
   // Toggle the flashcard to show the answer or the question
   const showAnswer = () => {

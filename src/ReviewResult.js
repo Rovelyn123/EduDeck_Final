@@ -9,7 +9,7 @@ import '@fontsource/lato';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 function ReviewResult() {
   const [flashcardTitle, setFlashcardTitle] = useState('Review Session');
@@ -21,9 +21,11 @@ function ReviewResult() {
   const [memorizedCards, setMemorizedCards] = useState({});
   const [isCompleted, setIsCompleted] = useState(false); // Completion screen state
   const [percentage, setPercentage] = useState(100);
-  const [completedCards, setCompletedCards] = useState(0);
+  const location = useLocation();
   const [totalCards, setTotalCards] = useState(0);
   const [flashcardName, setFlashcardName] = useState('cards');
+  const { reviewedFlashcards, totalFlashcards, deckName } = location.state || {};
+  const navigate = useNavigate();
 
 
   // Save progress to localStorage
@@ -123,9 +125,41 @@ function ReviewResult() {
     },
 });
 
-  const isMemorized = memorizedCards[currentCardIndex] || false;
-  const currentFlashcard = flashcards[currentCardIndex];
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const handleRestart = async () => {
+    try {
+      // Create a new review session similar to how it's done in ReviewSessionUI
+      const userId = localStorage.getItem('userid');
+      const deckId = localStorage.getItem('selectedDeckId');
+  
+      if (!userId || !deckId) {
+        console.error('User ID or Deck ID is missing');
+        return;
+      }
+  
+      const startTime = new Date().toISOString();
+      const sessionData = {
+        user: { userid: userId },
+        flashcardDeck: { deckId: deckId },
+        startTime: startTime,
+      };
+  
+      // Create a new session and get the sessionId
+      const response = await axios.post('http://localhost:8080/api/ReviewSession/create', sessionData);
+      const { reviewSessionId } = response.data;
+  
+      // Reset session-related local storage
+      localStorage.setItem('reviewSessionId', reviewSessionId);
+      localStorage.setItem('currentCardIndex', 0); // Start from the beginning
+  
+      // Navigate back to the review session UI
+      navigate('/reviewsession', { state: { selectedDeckId: deckId } });
+    } catch (error) {
+      console.error('Error restarting the session:', error);
+    }
+  };
+  
 
     return (
       <div className="completion-screen" style={{ textAlign: 'center', background: '#f4f4f4', height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
@@ -202,7 +236,19 @@ function ReviewResult() {
                             overflowWrap: 'break-word',
                             fontFamily: 'Lato',
                         }}>
-                            {completedCards} / {totalCards} {flashcardName}
+                            {reviewedFlashcards} / {totalFlashcards} 
+                        </Typography>
+                        <Typography style={{
+                            marginLeft: isMobile ? '5%' : '50%',
+                            textAlign: isMobile ? 'center' : 0 ,
+                            color: '#000000',
+                            fontSize: isMobile ? '1.1em' : '1.3em',
+                            fontWeight: 'bolder',
+                            wordWrap: 'break-word',
+                            overflowWrap: 'break-word',
+                            fontFamily: 'Lato',
+                        }}>
+                          {deckName}
                         </Typography>
                     </Box>
               </div>
@@ -249,7 +295,7 @@ function ReviewResult() {
                                 variant="contained"
                                 style={{ height: 'auto', width: '100%', fontFamily: 'Lato', backgroundColor: '#fff', color: '#000', fontWeight: 'bold', borderRadius: '15px', padding: '15px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
                                 }}
-                                onClick={() => { /* Add logic to restart flashcards */ }}
+                                onClick={handleRestart}
                               >
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
                                   <img src="restart_icon.png" alt="icon" style={{ width: '30px', marginRight: '10px' }} />
