@@ -1,16 +1,6 @@
 import React, { useState } from "react";
 import './flashcardmanagement.css';
-import {
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogActions,
-    Button,
-    TextField,
-    Card,
-    CardContent,
-    MenuItem, InputLabel, FormControl, Select,
-} from '@mui/material';
+import {Dialog,DialogTitle,DialogContent,DialogActions,Button,TextField,Card,CardContent,MenuItem, InputLabel, FormControl, Select,} from '@mui/material';
 import { Edit, Delete } from '@mui/icons-material';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -18,15 +8,15 @@ import { Typography, SwipeableDrawer, useMediaQuery, useTheme, Divider, IconButt
 import MenuIcon from '@mui/icons-material/Menu';
 import { useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import '@fontsource/lato';
-
-function handleQuestionChange() {
-
-}
+import {toast } from 'react-toastify';
 
 function FlashcardManagementUI() {
     const userid = localStorage.getItem('userid');
+    const navigate = useNavigate();
+    const [difficultyLevel, setDifficultyLevel] = useState("");
+    const [numQuestions, setNumQuestions] = useState(5);
 
     const [openEditDialog, setOpenEditDialog] = useState(false);
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
@@ -42,23 +32,19 @@ function FlashcardManagementUI() {
     const [isBoxVisible, setIsBoxVisible] = useState(false);
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-    // const [selectedDeck, setSelectedDeck] = useState(() => {
-    //     return localStorage.getItem('selectedDeck') || '';
-    // });
-    // const [selectedDeckId, setSelectedDeckId] = useState(() => {
-    //     return localStorage.getItem('selectedDeckId') || '';
-    // });
     const [selectedDeck, setSelectedDeck] = useState('');
     const [selectedDeckId, setSelectedDeckId] = useState('');
     const [selectedDeckDocumentId, setSelectedDeckDocumentId] = useState(null);
+    const [isCompleted, setIsCompleted] = useState(false);
+    const [setCurrentCardIndex] = useState(0);
 
     const handleQuestionChange = (event) => {
-        setNewQuestion(event.target.value);
+        setNumQuestions(event.target.value);
     };
 
-    // const handleDifficultySelection = (level) => {
-    //     setDifficultyLevel(level);
-    //   };
+    const handleDifficultySelection = (level) => {
+        setDifficultyLevel(level);
+      };
 
     useEffect(() => {
         const fetchDecks = async () => {
@@ -85,6 +71,43 @@ function FlashcardManagementUI() {
             fetchFlashcards();
         }
     }, [selectedDeckId]);
+
+    const [loading, setLoading] = useState(false);
+    const handleStartQuiz = async (index) => {
+        try {
+            handleClose();
+            setLoading(true);
+            
+            const documentTitle = localStorage.getItem('selectedDeck');
+            const selectedDeckId = localStorage.getItem('selectedDeckId');
+            const createDeckResponse = await axios.post('http://localhost:8080/api/quizzes/create', {
+                title: documentTitle,
+                passing_score: 60,
+                deck: {
+                    deckId: selectedDeckId
+                }
+            });
+            const newQuizId = createDeckResponse.data.quizId;
+            
+            const extractTextResponse = await axios.get(`http://localhost:8080/textextractor/document/${selectedDeckDocumentId}`);
+      
+            await axios.post(`http://localhost:8080/generate-quiz?quizId=${newQuizId}&difficultyLevel=${difficultyLevel}&numQuestions=${numQuestions}`, extractTextResponse.data, {
+              headers: {
+                'Content-Type': 'text/plain'
+              }
+            });
+            console.log(newQuizId);
+            setLoading(false);
+            navigate('/quizsession', { state: { quizId: newQuizId } });
+            console.log(newQuizId);
+        } catch (error) {
+            console.error('Error in Generating Quiz:', error);
+            toast.error(error.message, {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 1000,
+            });
+        }
+    };
 
     const toggleDrawer = (open) => (event) => {
         if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -135,6 +158,7 @@ function FlashcardManagementUI() {
     const handleOpen = () => {
         setOpen(true);
     };
+
     const [selectedDifficulty, setSelectedDifficulty] = useState(null); // Track selected card
 
     const handleCardSelect = (difficulty) => {
@@ -237,10 +261,51 @@ function FlashcardManagementUI() {
     const handleDeckSelection = (deck) => {
         setSelectedDeck(deck.title);
         setSelectedDeckId(deck.deckId);
+        console.log(deck.deckId);
+      
+        // Clear the paused session data when switching decks
+        localStorage.removeItem(`reviewSessionId_${deck.deckId}`);
+      
         localStorage.setItem('selectedDeck', deck.title);
         localStorage.setItem('selectedDeckId', deck.deckId);
-    };
+      };
+      
+      
+      
 
+    const handleStartReviewSession = async () => {
+        const userId = localStorage.getItem('userid');
+        const deckId = selectedDeckId;
+      
+        if (!userId || !deckId) {
+          console.error('User ID or Deck ID is missing');
+          return;
+        }
+      
+        // Check if an active session exists
+        const existingSession = localStorage.getItem('reviewSessionId');
+        if (existingSession) {
+          navigate('/reviewsession', { state: { selectedDeckId, reviewSessionId: existingSession } });
+          return;
+        }
+      
+        const startTime = new Date().toISOString();
+        const sessionData = {
+          user: { userid: userId },
+          flashcardDeck: { deckId },
+          startTime
+        };
+      
+        try {
+          const response = await axios.post('http://localhost:8080/api/ReviewSession/create', sessionData);
+          const { reviewSessionId } = response.data;
+          localStorage.setItem('reviewSessionId', reviewSessionId);  // Save the session ID for future use
+          navigate('/reviewsession', { state: { selectedDeckId, reviewSessionId } });
+        } catch (error) {
+          console.error('Error creating review session:', error);
+        }
+      };
+      
     const drawerContent = (
         <Box sx={{ width: { xs: '50vw', sm: 230 }, height: '100vh', backgroundColor: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', paddingTop: 0, boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' }}>
             <Grid container>
@@ -280,9 +345,21 @@ function FlashcardManagementUI() {
     );
 
     let selectedQuestions;
+
+    const generateQuizStyles = {
+        overlay: { position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, },
+        loadingText: { color: 'white', fontSize: '24px', fontWeight: 'bold', },
+    };
+
     return (
         <>
-            <div className="body">
+        {loading && (
+        <div style={generateQuizStyles.overlay}>
+          <div style={generateQuizStyles.loadingText}>Generating quiz...</div>
+        </div>
+      )}
+      <div className="body">
 
       <div style={{ backgroundImage: 'url(/crystalbackground.png)', minHeight: '100vh', overflow: 'hidden' }}>
       <Link to="/dashboard" style={{ textDecoration: 'none' }}>
@@ -388,15 +465,21 @@ function FlashcardManagementUI() {
                 </div>
                     <div className="footer-buttons">
                         <Button style={{borderRadius: '20px', boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', border: '.5px solid #D9D9D9', backgroundColor: 'white', color: 'black', fontFamily: 'Lato', fontWeight: '700'}} variant="contained" onClick={handleOpen}>Start Quiz</Button>
-                        <Link to="/reviewsession">
-                        <Button style={{borderRadius: '20px', boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', border: '.5px solid #D9D9D9', backgroundColor: 'white', color: 'black', fontFamily: 'Lato', fontWeight: '700'}} variant="contained">Start Review Session</Button>
-                        </Link>
+                        <Button 
+                            style={{borderRadius: '20px', boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', border: '.5px solid #D9D9D9', backgroundColor: 'white', color: 'black', fontFamily: 'Lato', fontWeight: '700'}} 
+                            variant="contained" 
+                            onClick={handleStartReviewSession}  // Call the function to create the session and navigate
+                            >
+                            Start Review Session
+                        </Button>
+
+
                     </div>
                 </div>
             </div>
-            <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth sx={{ borderRadius: '20px', fontFamily: 'Lato' }}>
+            <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
                 <DialogTitle sx={{ marginBottom: 5 }}>
-                    <Typography variant="h4" align="center" sx={{ fontWeight: 'bold', fontFamily: 'Lato', fontWeight: '700' }}>
+                    <Typography variant="body1" align="center" sx={{ fontWeight: 'bold', fontSize: '1.5em', fontWeight: '700' }}>
                         Choose Your Difficulty Level
                     </Typography>
                 </DialogTitle>
@@ -416,10 +499,11 @@ function FlashcardManagementUI() {
                                 transition: 'transform 0.3s, box-shadow 0.3s',  // Smooth transition
                             }}
                                   className="quiz-card" // Adding class for hover effect
+                                  onClick={() => handleDifficultySelection('Easy')}
                             >
-                                <CardContent style={{ textAlign: 'center', flexGrow: 1, fontFamily: 'Lato' }}>
+                                <CardContent style={{ textAlign: 'center', flexGrow: 1, fontFamily: 'Lato'}}>
                                     <Typography variant="h5" align="center" sx={{ marginBottom: 2 }}>Easy</Typography>
-                                    <Box display="flex" justifyContent="center" alignItems="center" mb={2}>
+                                    <Box display="flex" justifyContent="center" alignItems="center" mb={1}>
                                         <img src="/easyquiz.png" alt="Easy Quiz Icon" style={{ width: '70px', height: '70px' }} />
                                     </Box>
                                     <Typography variant="body2" align="center">
@@ -428,8 +512,7 @@ function FlashcardManagementUI() {
                                 <Button
                                     variant="contained"
                                     color="primary"
-                                    component={Link}
-                                    to="/quizsession"
+                                    onClick={handleStartQuiz}
                                     style={{
                                         margin: '10px auto',
                                         backgroundColor: '#f0e68c',
@@ -443,6 +526,7 @@ function FlashcardManagementUI() {
                                     Let's Begin
                                 </Button>
                                 </CardContent>
+
                             </Card>
                         </Grid>
 
@@ -461,20 +545,21 @@ function FlashcardManagementUI() {
 
                             }}
                                   className="quiz-card"
+                                  onClick={() => handleDifficultySelection('Medium')}
                             >
                                 <CardContent style={{ textAlign: 'center', flexGrow: 1, fontFamily: 'Lato' }}>
                                     <Typography variant="h5" align="center" sx={{ marginBottom: 2 }}>Medium</Typography>
-                                    <Box display="flex" justifyContent="center" alignItems="center" mb={2}>
+                                    <Box display="flex" justifyContent="center" alignItems="center" mb={1}>
                                         <img src="/mediumquiz.png" alt="Medium Quiz Icon" style={{ width: '70px', height: '70px' }} />
                                     </Box>
                                     <Typography variant="body2" align="center">
                                         Requires some knowledge, insight, and thought to answer.
+
                                     </Typography>
                                 <Button
                                     variant="contained"
                                     color="primary"
-                                    component={Link}
-                                    to="/quizsession"
+                                    onClick={handleStartQuiz}
                                     style={{
                                         margin: '10px auto',
                                         backgroundColor: '#f0e68c',
@@ -488,6 +573,9 @@ function FlashcardManagementUI() {
                                     Let's Begin
                                 </Button>
                                 </CardContent>
+
+
+
                             </Card>
                         </Grid>
 
@@ -506,10 +594,11 @@ function FlashcardManagementUI() {
 
                             }}
                                   className="quiz-card"
+                                  onClick={() => handleDifficultySelection('Hard')}
                             >
                                 <CardContent style={{ textAlign: 'center', flexGrow: 1, fontFamily: 'Lato' }}>
                                     <Typography variant="h5" align="center" sx={{ marginBottom: 2 }}>Hard</Typography>
-                                    <Box display="flex" justifyContent="center" alignItems="center" mb={2}>
+                                    <Box display="flex" justifyContent="center" alignItems="center" mb={1}>
                                         <img src="/hardquiz.png" alt="Hard Quiz Icon" style={{ width: '70px', height: '70px' }} />
                                     </Box>
                                     <Typography variant="body2" align="center">
@@ -518,8 +607,7 @@ function FlashcardManagementUI() {
                                 <Button
                                     variant="contained"
                                     color="primary"
-                                    component={Link}
-                                    to="/quizsession"
+                                    onClick={handleStartQuiz}
                                     style={{
                                         margin: '10px auto',
                                         backgroundColor: '#f0e68c',
@@ -533,26 +621,29 @@ function FlashcardManagementUI() {
                                     Let's Begin
                                 </Button>
                                 </CardContent>
+
+
                             </Card>
                         </Grid>
                     </Grid>
 
-                    {/* Align dropdown and button with difficulty cards */}
-                    <Grid container spacing={3} alignItems="right" sx={{ marginTop: '18px', textAlign: 'center',marginBottom: '18px'}}>
 
-                        {/* Choose no. of Questions aligned with Easy card */}
+
+                    {/* Drop-down menu for selecting number of questions */}
+                    <Grid container spacing={3} alignItems="right" sx={{ marginTop: '18px', textAlign: 'center',marginBottom: '18px'}}>
                         <Grid item xs={12} sm={5} sx={{ textAlign: 'left' }}>
                             <FormControl fullWidth>
                                 <InputLabel
                                     id="questions-select-label"
                                     sx={{
-                                        color: '#B18A00',
-                                        fontWeight: 'bold',
-                                        fontSize: '1rem',
+                                        color: '#B18A00',          // Label color
+                                        fontWeight: 'bold',        // Bold text
+                                        fontSize: '1rem',   // Adjust font size for the label
                                     }}
                                 >
                                     Choose no. of Questions
                                 </InputLabel>
+
                                 <Select
                                     labelId="questions-select-label"
                                     id="questions-select"
@@ -574,7 +665,7 @@ function FlashcardManagementUI() {
                             </FormControl>
                         </Grid>
 
-                        {/* Let's Begin Button aligned with Hard card */}
+                                    {/* Let's Begin Button aligned with Hard card */}
                         <Grid item xs={10} sm={2} sx={{ textAlign: 'right' }}>
                             <Button
                                 variant="contained"
@@ -604,8 +695,11 @@ function FlashcardManagementUI() {
 
                     </Grid>
 
+
+
                 </DialogContent>
             </Dialog>
+
 
             <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
                 <DialogTitle>Edit Flashcard</DialogTitle>

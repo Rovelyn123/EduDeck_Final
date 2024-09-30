@@ -29,6 +29,7 @@ import QuizSummary from './QuizSummaryUI';
 import UserManagement from './UserManagementUI';
 import AdminProfile from './AdminProfileUI';
 import ErrorPageUI from './ErrorPageUI';
+import ReviewResult from './ReviewResult';
 
 export default function HomePageUI() {
     const [user, setUser] = React.useState(null);
@@ -122,6 +123,7 @@ export default function HomePageUI() {
                     <Route path='/quizsummary' element={<QuizSummary />} />
                     <Route path='/usermanagement' element={<UserManagement />} />
                     <Route path='/adminprofile' element={<AdminProfile />} />
+                    <Route path='/reviewresult' element={<ReviewResult />} />
                     <Route
                         path="/"
                         element={
