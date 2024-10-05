@@ -6,81 +6,8 @@ import { createTheme } from '@mui/material/styles';
 import '@fontsource/lato';
 import axios from 'axios';
 
-function PricingUI() {
-    const [settingClicked, setSettingClicked] = useState(false);
-    // const [userId, setUserId] = useState(''); // Replace with your logic to get the user ID
-    const userId = localStorage.getItem('userid');
-    const [email, setEmail] = useState('');
-    const navigate = useNavigate();
-    const [subscription, setSubscription] = useState('Free Plan');
+function PricingUISucessPage() {
 
-    // Function to fetch the user's email using the provided userId
-
-    const fetchEmail = async () => {
-        try {
-            const response = await axios.get(`http://localhost:8080/user/getEmail/${userId}`);
-            setEmail(response.data); // Set the email from the response
-        } catch (error) {
-            console.error('Error fetching email:', error);
-        }
-    };
-    // Fetch email when the component mounts
-    useEffect(() => {
-        fetchEmail();
-    }, [userId]);
-
-    // Fetch subscription status based on email
-    const fetchSubscription = async () => {
-        try {
-            const response = await axios.post(`http://localhost:8080/api/subscription`, {
-                email: email // Send the email in the request body
-            });
-            console.log('Subscription response:', response.data); // Log the response data
-
-            if (response.data.active) {
-                setSubscription('EduDeck Plus');
-            } else {
-                setSubscription('Free Plan!');
-            }
-        } catch (error) {
-            console.error('Error fetching subscription:', error);
-            // Optionally handle error state
-        }
-    };
-
-
-
-    useEffect(() => {
-        if (email) {
-            fetchSubscription();
-        }
-    }, [email]);
-
-        // Function to handle subscription
-        const getSubscription = async () => {
-            try {
-                // Make a POST request to the backend to create a Stripe checkout session
-                const response = await axios.post('http://localhost:8080/api/stripe/checkoutsession', {
-                    email: email, // Pass the email retrieved from the backend
-                });
-
-                // Redirect to the Stripe checkout URL
-                if (response.data.checkoutUrl) {
-                    window.location.href = response.data.checkoutUrl;
-                }
-            } catch (error) {
-                console.error('Error creating Stripe checkout session:', error);
-            }
-        };
-
-
-    //Subscription Set
-
-
-    //Stripe Button
-    //const stripeButtonRef = useRef(null);
-    // const [stripeLoaded, setStripeLoaded] = useState(false);
-    // handleClick
     const handleClick = () => {
         navigate('/Payment');
     };
@@ -96,98 +23,6 @@ function PricingUI() {
             },
         },
     });
-
-
-
-    //Stripe Button
-    // useEffect(() => {
-    //     const script = document.createElement('script');
-    //     script.src = 'https://js.stripe.com/v3/buy-button.js';
-    //     script.async = true;
-    //     script.onload = () => {
-    //         setStripeLoaded(true); // Stripe script has loaded
-    //     };
-    //     document.body.appendChild(script);
-    //
-    //     return () => {
-    //         document.body.removeChild(script); // Clean up the script when the component unmounts
-    //     };
-    // }, []);
-    //
-    // // Once Stripe has loaded, render the Stripe Buy Button
-    // useEffect(() => {
-    //     if (stripeLoaded && stripeButtonRef.current) {
-    //         stripeButtonRef.current.innerHTML = ''; // Clear ref in case of re-renders
-    //
-    //         const button = document.createElement('stripe-buy-button');
-    //         button.setAttribute('buy-button-id', 'buy_btn_1Q6XlEEWlqrSRLbypjZjYbaa');
-    //         button.setAttribute('publishable-key', 'pk_test_ayfRS9qp1qSRByurrhvvoeOn00juo8OF67');
-    //
-    //         stripeButtonRef.current.appendChild(button);
-    //     }
-    // }, [stripeLoaded]);
-    //
-    // const handleStripeClick = () => {
-    //     if (subscription !== 'EduDeck Plus') {
-    //         // Ensure the Stripe button exists before trying to trigger it
-    //         const stripeButton = stripeButtonRef.current?.querySelector('stripe-buy-button');
-    //         if (stripeButton && stripeButton.shadowRoot) {
-    //             const innerButton = stripeButton.shadowRoot.querySelector('button');
-    //             if (innerButton) {
-    //                 innerButton.click(); // Trigger the inner Stripe button
-    //             } else {
-    //                 console.error('Stripe Buy Button inner button not found.');
-    //             }
-    //         } else {
-    //             console.error('Stripe Buy Button not available yet.');
-    //         }
-    //     }
-    // };
-
-
-
-    // useEffect(() => {
-    //     const fetchUserDetails = async () => {
-    //         try {
-    //             const response = await fetch(`http://localhost:8080/user/getUserDetails/${userId}`);
-    //             if (response.ok) {
-    //                 const data = await response.json();
-    //                 setEmail(data.email);
-    //             } else {
-    //                 console.error('Failed to fetch user details');
-    //             }
-    //         } catch (error) {
-    //             console.error('Error fetching user details:', error);
-    //         }
-    //     };
-    //
-    //     if (!email) {
-    //         fetchUserDetails();
-    //     }
-    // }, [userId, email]);
-
-    // const getSubscription = async () => {
-    //     try {
-    //         const response = await axios.post('http://localhost:8080/api/stripe/create-checkout-session', {
-    //             email,
-    //             productId: 'price_1PNBLnEWlqrSRLbyYaDHGaHG' // EduDeck Plus product ID
-    //         });
-    //         window.location.href = response.data.checkoutUrl;
-    //     } catch (error) {
-    //         console.error('Error redirecting to Stripe Checkout:', error);
-    //     }
-    // };
-
-    const manageSubscription = async () => {
-        try {
-            const response = await axios.post('http://localhost:8080/api/stripe/create-customer-portal-session', {
-                email
-            });
-            window.location.href = response.data.portalUrl;
-        } catch (error) {
-            console.error('Error redirecting to Stripe Customer Portal:', error);
-        }
-    };
 
     return (
         <ThemeProvider theme={theme}>
@@ -499,12 +334,14 @@ function PricingUI() {
                                                     width: '48%',
                                                     boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
                                                 }}
-                                                onClick={getSubscription}
+                                                onClick={handleStripeClick}
                                                 disabled={subscription === 'EduDeck Plus'} // Disable if subscribed to EduDeck Plus
                                             >
                                                 Get EduDeck Plus
                                             </Button>
 
+                                            {/* Hidden Stripe button for linking */}
+                                            <div ref={stripeButtonRef} style={{ display: 'none' }} />
 
 
                                             {/* Disable the "Manage Subscription" button if the user is NOT subscribed to EduDeck Plus */}
