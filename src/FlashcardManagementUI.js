@@ -616,7 +616,17 @@ function FlashcardManagementUI() {
                         </div>
                     </div>
                 </div>
-                <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
+                <Dialog
+                    open={open}
+                    onClose={handleClose}
+                    maxWidth="md"
+                    fullWidth
+                    PaperProps={{
+                        sx: {
+                            borderRadius: '24px', // Adjust this value for more or less curvature
+                        },
+                    }}
+                >
                     <DialogTitle sx={{marginBottom: -2, marginTop: 1}}>
                         <Typography variant="body1" align="center"
                                     sx={{fontWeight: 'bold', fontSize: '1.5em', fontWeight: '700'}}>
@@ -635,11 +645,11 @@ function FlashcardManagementUI() {
                                         height: '280px',
                                         width: '200px',
                                         justifyContent: 'space-between',
-                                        borderRadius: '15px',
+                                        borderRadius: '25px',
                                         margin: '0 auto',
                                         boxShadow: selectedDifficulty === 'Easy' ? '0px 0px 20px rgba(255, 221, 102, 1)' : '0px 4px 12px rgba(0, 0, 0, 0.1)',
                                         transition: 'transform 0.3s, box-shadow 0.3s',
-                                        border: selectedDifficulty === 'Easy' ? '1px solid #FFDD66' : '1px solid #FFFFFF',
+                                        border: selectedDifficulty === 'Easy' ? '2px solid #FFDD66' : '2px solid #FFFFFF',
                                         cursor: 'pointer',  // Add cursor pointer to indicate clickability
                                     }}
                                     onClick={() => handleDifficultySelection('Easy')}
@@ -667,11 +677,11 @@ function FlashcardManagementUI() {
                                         height: '280px',
                                         width: '200px',
                                         justifyContent: 'space-between',
-                                        borderRadius: '15px',
+                                        borderRadius: '25px',
                                         margin: '0 auto',
                                         boxShadow: selectedDifficulty === 'Medium' ? '0px 0px 20px rgba(255, 221, 102, 1)' : '0px 4px 12px rgba(0, 0, 0, 0.1)',
                                         transition: 'transform 0.3s, box-shadow 0.3s',
-                                        border: selectedDifficulty === 'Medium' ? '1px solid #FFDD66' : '1px solid #FFFFFF',
+                                        border: selectedDifficulty === 'Medium' ? '2px solid #FFDD66' : '2px solid #FFFFFF',
                                         cursor: 'pointer',  // Add cursor pointer to indicate clickability
                                     }}
                                     onClick={() => handleDifficultySelection('Medium')}
@@ -699,11 +709,11 @@ function FlashcardManagementUI() {
                                         height: '280px',
                                         width: '200px',
                                         justifyContent: 'space-between',
-                                        borderRadius: '15px',
+                                        borderRadius: '25px',
                                         margin: '0 auto',
                                         boxShadow: selectedDifficulty === 'Hard' ? '0px 0px 20px rgba(255, 221, 102, 1)' : '0px 4px 12px rgba(0, 0, 0, 0.1)',
                                         transition: 'transform 0.3s, box-shadow 0.3s',
-                                        border: selectedDifficulty === 'Hard' ? '1px solid #FFDD66' : '1px solid #FFFFFF',
+                                        border: selectedDifficulty === 'Hard' ? '2px solid #FFDD66' : '2px solid #FFFFFF',
                                         cursor: 'pointer',  // Add cursor pointer to indicate clickability
                                     }}
                                     onClick={() => handleDifficultySelection('Hard')}
@@ -738,7 +748,13 @@ function FlashcardManagementUI() {
                                         }}
                                         shrink={false} // Keeps the label above the select when a value is selected
                                     >
-                                        Choose no. of Questions
+                                        {/* Display both the label and the selected question */}
+                                        <Box display="flex" alignItems="center">
+                                            Choose no. of Questions:
+                                            <Typography sx={{ marginLeft: '10px', color: '#000', fontWeight: 'bold' }}>
+                                                {selectedQuestions}
+                                            </Typography>
+                                        </Box>
                                     </InputLabel>
                                     <Box display="flex" justifyContent="space-between" alignItems="center">
                                         <Select
@@ -747,12 +763,12 @@ function FlashcardManagementUI() {
                                             value={selectedQuestions}
                                             onChange={handleQuestionChange}
                                             sx={{
-                                                borderRadius: '10px',
+                                                borderRadius: '25px',
                                                 fontSize: '1rem',
                                                 flex: 1,
-                                                '& .MuiSelect-icon': {color: 'black'},
-                                                '& .MuiSelect-select': {color: 'black'},
-                                                '& .MuiInputLabel-root': {color: '#B18A00', fontWeight: 'bold'},
+                                                '& .MuiSelect-icon': { color: 'black' },
+                                                '& .MuiSelect-select': { color: 'black' },
+                                                '& .MuiInputLabel-root': { color: '#B18A00', fontWeight: 'bold' },
                                             }}
                                         >
                                             <MenuItem value={5}>5 Questions</MenuItem>
@@ -762,6 +778,7 @@ function FlashcardManagementUI() {
                                         </Select>
                                     </Box>
                                 </FormControl>
+
                             </Grid>
                             <Button
                                 component={Link}
@@ -775,7 +792,7 @@ function FlashcardManagementUI() {
                                     color: '#555245',
                                     textTransform: 'none',
                                     padding: '10px',
-                                    borderRadius: '10px',
+                                    borderRadius: '25px',
                                     marginLeft: '40px',
                                     width: '25%',
                                     boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
