@@ -62,7 +62,7 @@ function PricingUI() {
             if (response.data.active) {
                 setSubscription('EduDeck Plus');
             } else {
-                setSubscription('Free Plan!');
+                setSubscription('Free Plan');
             }
         } catch (error) {
             console.error('Error fetching subscription:', error);
@@ -100,6 +100,10 @@ function PricingUI() {
         navigate('/Payment');
     };
 
+    const handleClickDashboard = () => {
+        navigate('/Dashboard');
+    };
+
     const theme = createTheme({
         breakpoints: {
             values: {
@@ -116,28 +120,28 @@ function PricingUI() {
 
 
 
-    const manageSubscription = async () => {
-        try {
-            const response = await axios.post('http://localhost:8080/api/stripe/create-customer-portal-session', {
-                email
-            });
-            window.location.href = response.data.portalUrl;
-        } catch (error) {
-            console.error('Error redirecting to Stripe Customer Portal:', error);
-        }
-    };
+    // const manageSubscription = async () => {
+    //     try {
+    //         const response = await axios.post('http://localhost:8080/api/stripe/create-customer-portal-session', {
+    //             email
+    //         });
+    //         window.location.href = response.data.portalUrl;
+    //     } catch (error) {
+    //         console.error('Error redirecting to Stripe Customer Portal:', error);
+    //     }
+    // };
 
     return (
         <ThemeProvider theme={theme}>
             <div style={{
-                backgroundColor: "#F5D56E",
+                backgroundColor: "#eecc9b",
                 minHeight: "100vh",
                 overflowY: "auto",
                 position: "relative"
             }}>
                 <div
                     style={{
-                        backgroundImage: `url('/pricebg.png')`,
+                        backgroundImage: `url('/crystalbackground.png')`,
                         width: "100%",
                         height: "100%",
                         position: "absolute",
@@ -150,21 +154,26 @@ function PricingUI() {
                 >
                     <Toolbar sx={{ mt: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop:'-2px' }}>
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <img
-                                src="/logo.png"
-                                alt="App Logo"
-                                style={{
-                                    width: 70,
-                                    marginLeft: '0%',
-                                    '@media (max-width: 400px)': { marginLeft: '25%' },
-                                }}
-                            />
+                            <div
+                                onClick={handleClickDashboard}
+                                style={{cursor: 'pointer'}} // Adds pointer cursor to indicate it's clickable
+                            >
+                                <img
+                                    src="/logo.png"
+                                    alt="App Logo"
+                                    style={{
+                                        width: 70,
+                                        marginLeft: '0%',
+                                        '@media (max-width: 400px)': {marginLeft: '25%'},
+                                    }}
+                                />
+                            </div>
                             <Typography
                                 variant="h3"
                                 sx={{
                                     fontFamily: 'Lato',
                                     fontWeight: '900',
-                                    fontSize: { xs: '25px', md: '30px' },
+                                    fontSize: {xs: '25px', md: '30px'},
                                     color: '#B18A00',
                                     ml: 2,
                                 }}
@@ -264,8 +273,7 @@ function PricingUI() {
                         left: '50%',
                         transform: 'translateX(-50%)',
                         width: {xs: '90%', md: '70%'},
-                        marginTop: '4px'
-
+                        marginTop: '4px',
                     }}>
                         <Grid item xs={12} md={6} sx={{pr: {md: 5}}}>
                             <Box sx={{
@@ -273,12 +281,13 @@ function PricingUI() {
                                 height: '90%',
                                 backgroundColor: '#FFFFFF',
                                 borderRadius: '20px',
-                                border: '1.5px solid black',
-                                boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
+                                border: subscription === 'Free Plan' ? '2px solid #FFDD66' : '2px solid #FFFFFF',
+                                boxShadow: subscription === 'Free Plan' ? '0px 0px 15px 5px rgba(250, 199, 18, 0.8)' : '0px 2px 8px rgba(0, 0, 0, 0.2)', // Glow for Free Plan
                                 display: 'flex',
                                 flexDirection: 'column',
                                 alignItems: 'flex-start',
-                                padding: '20px'
+                                padding: '20px',
+                                transition: 'box-shadow 0.3s ease' // Smooth transition between glow states
                             }}>
                                 <Typography sx={{
                                     fontFamily: 'Lato',
@@ -328,12 +337,14 @@ function PricingUI() {
                                 height: '90%',
                                 backgroundColor: '#FFFFFF',
                                 borderRadius: '20px',
-                                border: '1.5px solid black',
-                                boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+                                border: subscription === 'EduDeck Plus' ? '2px solid #FFDD66' : '2px solid #FFFFFF',
+                                boxShadow: subscription === 'EduDeck Plus' ? '0px 0px 15px 5px rgba(250, 199, 18, 0.8)' : '0px 4px 4px 0px rgba(0, 0, 0, 0.25)', // Glow for EduDeck Plus
                                 display: 'flex',
                                 flexDirection: 'column',
                                 alignItems: 'flex-start',
-                                padding: '20px'
+                                padding: '20px',
+                                transition: 'box-shadow 0.3s ease',
+
                             }}>
                                 <Typography sx={{
                                     fontFamily: 'Lato',
@@ -413,79 +424,31 @@ function PricingUI() {
                                 >
                                     &bull; Early access to new features.
                                 </Typography>
-
-                            </Box>
-                        </Grid>
-                        <Grid item xs={12} md={6} sx={{pr: {md: 5}}}>
-                            <Box sx={{
-                                width: '100%',
-                                height: '65.5%',
-                                backgroundColor: '#FFFFFF',
-                                borderRadius: '20px',
-                                border: '1.5px solid black',
-                                boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'flex-start',
-                                justifyContent: 'center',
-                                padding: '20px'
-                            }}>
-                                <Typography sx={{
-                                    fontFamily: 'Lato',
-                                    fontWeight: 'bolder',
-                                    color: '#B18A00',
-                                    fontSize: {xs: '20px', md: '20px'},
-                                    marginBottom: '10px'
-                                }}>
-                                    Current Subscription : {subscription}
-                                </Typography>
-
-
-                                <Box sx={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    width: '100%',
-                                    gap: '10px'
-                                }}>
-                                    {/* Disable the "Get EduDeck Plus" button if the user is already subscribed */}
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        justifyContent: 'center', // Center horizontally
+                                        alignItems: 'center',     // Center vertically
+                                        width: '100%',            // Make sure the container takes full width
+                                    }}
+                                >
                                     <Button
                                         sx={{
-                                            background: subscription === 'EduDeck Plus' ? '#DDDDDD' : '#FAC712', // Gray out if disabled
+                                            background: subscription === 'EduDeck Plus' ? '#FAC712' : '#FAC712',
                                             fontFamily: 'Lato',
-                                            fontSize: {xs: '18px', md: '20px'},
+                                            fontSize: { xs: '18px', md: '20px' },
                                             fontWeight: 'bold',
                                             color: '#555245',
                                             textTransform: 'none',
                                             padding: '10px',
                                             borderRadius: '10px',
+                                            marginTop: '25px',
                                             width: '48%',
                                             boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
                                         }}
-                                        onClick={getSubscription}
-                                        disabled={subscription === 'EduDeck Plus'} // Disable if subscribed to EduDeck Plus
+                                        onClick={subscription === 'EduDeck Plus' ? handleManageSubscription : getSubscription}
                                     >
-                                        Get EduDeck Plus
-                                    </Button>
-
-
-                                    {/* Disable the "Manage Subscription" button if the user is NOT subscribed to EduDeck Plus */}
-                                    <Button
-                                        sx={{
-                                            background: subscription === 'EduDeck Plus' ? '#FAC712' : '#DDDDDD', // Gray out if disabled
-                                            fontFamily: 'Lato',
-                                            fontSize: {xs: '18px', md: '20px'},
-                                            fontWeight: 'bold',
-                                            color: '#555245',
-                                            textTransform: 'none',
-                                            padding: '10px',
-                                            borderRadius: '10px',
-                                            width: '48%',
-                                            boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
-                                        }}
-                                        onClick={handleManageSubscription}
-                                        disabled={subscription !== 'EduDeck Plus'}  // Disable if NOT subscribed to EduDeck Plus
-                                    >
-                                        Manage Subscription
+                                        {subscription === 'EduDeck Plus' ? 'Manage Subscription' : 'Get EduDeck Plus'}
                                     </Button>
                                 </Box>
                             </Box>
@@ -499,6 +462,8 @@ function PricingUI() {
 
 export default PricingUI;
 
+
+//Current Subscription : {subscription}
 
 //OTHER CODES
 
