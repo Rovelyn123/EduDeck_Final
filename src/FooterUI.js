@@ -92,14 +92,14 @@ function FooterUI() {
         </IconButton>
     </Grid>
     </Grid>
-        <Typography variant="small" mt={2} style={{fontSize: isMobile ? '12px' : '16px'}}>
+        <Typography variant="small" mt={2} style={{fontSize: isMobile ? '12px' : '16px', fontFamily: 'Lato'}}>
             Privacy Policy &nbsp; | &nbsp; Cookie Policy &nbsp; | &nbsp; Legal Notice &nbsp; | &nbsp; Accessibility Policy &nbsp; | &nbsp; Cookie Settings
         </Typography>
-        <Typography variant="body2" mt={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+        <Typography variant="body2" mt={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Lato'}}>
             <LanguageIcon style={{ marginRight: '6px' }} />
             <strong>Philippines - English</strong>
         </Typography>
-        <Typography variant="body2" mt={2} style={{fontSize: isMobile ? '12px' : '16px'}}>
+        <Typography variant="body2" mt={2} style={{fontSize: isMobile ? '12px' : '16px', fontFamily: 'Lato'}}>
             © 2024 EduDeck Inc.
         </Typography>
 </div>

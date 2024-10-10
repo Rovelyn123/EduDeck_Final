@@ -192,7 +192,9 @@ function NavigationBarUI() {
           >
             Encountering problems with our service? Reach out to our customer support team for assistance.
           </Typography>
-          <Button style={{ backgroundColor: '#FFD234', width: '90%', boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' }}>
+          <Button component={Link}
+          to="/aboutus"
+          style={{ backgroundColor: '#FFD234', width: '90%', boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' }}>
             <Typography style={{ color: 'black', fontFamily: 'Lato', fontSize: '1em', textTransform: 'none' }}>
               Contact Us
             </Typography>
@@ -317,7 +319,9 @@ function NavigationBarUI() {
               <Typography style={{fontFamily: 'Lato', fontSize: '15px', fontWeight: 500, color: 'black', padding: '2px', textAlign: 'center'}}>
                 Encountering problems with our service? Reach out to our customer support team for assistance.
               </Typography>
-            <Button style={{backgroundColor: '#FFD234', width: '90%', height: '25%', boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)'}}>
+            <Button component={Link}
+            to="/aboutus"
+            style={{backgroundColor: '#FFD234', width: '90%', height: '25%', boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)'}}>
                 <Typography style={{color: 'black', fontFamily: 'Lato', fontWeight: 600, fontSize: '20px', textTransform: 'none'}}>
                   Contact Us
                 </Typography>

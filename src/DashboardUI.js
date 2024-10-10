@@ -22,12 +22,17 @@ const DashboardUI = ({onLogout}) => {
     const [streak, setStreak] = useState(0);
     const daysOfWeek = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
     const todayIndex = new Date().getDay();
-    const [totalQuestions, setTotalQuestions] = useState(10); // Example initial value
-    const [score, setScore] = useState(80); // Example initial value
-    const [targetScore, setTargetScore] = useState(60); // Example initial value
+    const [recentFlashcardTitle, setRecentFlashcardTitle] = useState('');
+    const [totalQuestions, setTotalQuestions] = useState(0); 
+    const [score, setScore] = useState(0); 
+    const [targetScore, setTargetScore] = useState(0); 
     const [open, setOpen] = useState(false);
     const [flashcards, setFlashcards] = useState([]);
     const [id, setId] = useState(1);
+    const [newQuestion, setNewQuestion] = useState(''); // Use the entered username
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [data, setData] = useState([]);
 
 
     useEffect(() => {
@@ -53,6 +58,36 @@ const DashboardUI = ({onLogout}) => {
             setStreak(savedStreak);
         }
     }, []);
+
+    // useEffect(() => {
+    //   const fetchRecentQuizActivity = async () => {
+    //     try {
+    //       setLoading(true);
+    //       console.log("Fetching flashcard with ID:", id);
+    
+    //       // API call to fetch flashcard data
+    //       const response = await axios.get(`http://localhost:8080/api/flashcards/getFlashcardById/${id}`);
+    
+    //       // Check if response data structure matches expected fields
+    //       console.log("Response data:", response.data);
+    
+    //       const data = response.data;
+    //       setRecentFlashcardTitle(data.title); // Make sure 'title' exists in the response
+    //       setTotalQuestions(data.totalQuestions); // Ensure 'totalQuestions' exists in the response
+    //       setScore(data.score); // Ensure 'score' exists in the response
+    //     } catch (err) {
+    //       console.error("API fetch error:", err);
+    //       setError('Failed to fetch recent quiz activity.');
+    //     } finally {
+    //       setLoading(false);
+    //     }
+    //   };
+    
+    //   if (id) {
+    //     fetchRecentQuizActivity(); // Fetch data only if ID exists
+    //   }
+    // }, [id]);
+    
     
     const handleTargetScoreChange = (event) => {
       setTargetScore(event.target.value);
@@ -66,16 +101,50 @@ const DashboardUI = ({onLogout}) => {
       setOpen(false);
     };
 
-    const data = [
-      { Week: 'Sun', Score: 50, Series2: 24 },
-      { Week: 'Mon', Score: 30, Series2: 13 },
-      { Week: 'Tue', Score: 40, Series2: 98 },
-      { Week: 'wed', Score: 27, Series2: 39 },
-      { Week: 'Thu', Score: 18, Series2: 48 },
-      { Week: 'Fri', Score: 23, Series2: 38 },
-      { Week: 'Sat', Score: 34, Series2: 43 },
+    const weekData = [
+      { Week: 'Sun', GeneralScore: 50, Series2: 24 },
+      { Week: 'Mon', GeneralScore: 30, Series2: 13 },
+      { Week: 'Tue', GeneralScore: 40, Series2: 98 },
+      { Week: 'wed', GeneralScore: 27, Series2: 39 },
+      { Week: 'Thu', GeneralScore: 18, Series2: 48 },
+      { Week: 'Fri', GeneralScore: 23, Series2: 38 },
+      { Week: 'Sat', GeneralScore: 34, Series2: 43 },
       // Add more data points as needed
     ];
+    // useEffect(() => {
+    //   const fetchQuizScores = async () => {
+    //     try {
+    //       setLoading(true);
+    //       // Fetch recent quiz activity data
+    //       const response = await axios.get(`http://localhost:8080/api/flashcards/getFlashcardById/${id}`);
+          
+    //       const quizData = response.data; // Assuming quizData contains the scores per week
+  
+    //       // Create data points for the week based on quizData. 
+    //       // Example assumes you have the score data structured by day.
+    //       const weekData = [
+    //         { Week: 'Sun', GeneralScore: quizData.scores.Sunday || 0 }, 
+    //         { Week: 'Mon', GeneralScore: quizData.scores.Monday || 0 },
+    //         { Week: 'Tue', GeneralScore: quizData.scores.Tuesday || 0 },
+    //         { Week: 'Wed', GeneralScore: quizData.scores.Wednesday || 0 },
+    //         { Week: 'Thu', GeneralScore: quizData.scores.Thursday || 0 },
+    //         { Week: 'Fri', GeneralScore: quizData.scores.Friday || 0 },
+    //         { Week: 'Sat', GeneralScore: quizData.scores.Saturday || 0 }
+    //       ];
+  
+    //       // Set the data state for the chart
+    //       setData(weekData);
+    //     } catch (err) {
+    //       console.error('Error fetching quiz scores:', err);
+    //     } finally {
+    //       setLoading(false);
+    //     }
+    //   };
+  
+    //   if (id) {
+    //     fetchQuizScores(); // Fetch data only if `id` exists
+    //   }
+    // }, [id]);
 
     const pieData = [
       { name: 'Multiple Choice', value: 400 },
@@ -95,22 +164,21 @@ const DashboardUI = ({onLogout}) => {
     const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#969696'];
 
     //display flashcards
-    useEffect(() => {
-      const deckId = 1; // or however you get the deckId from your app
-      console.log('Deck ID:', deckId);  // Verify if this is valid
+    // useEffect(() => {
+    //   const deckId = 1; // or however you get the deckId from your app
+    //   console.log('Deck ID:', deckId);  // Verify if this is valid
 
-      const fetchFlashcards = async () => {
-        try {
-          const response = await axios.get(`http://localhost:8080/api/flashcards/deck/${deckId}`); // ari karyme di ma fetch ambot if sakto ba na pag call hahaha
-          setFlashcards(response.data);
-        } catch (error) {
-          console.error('Error fetching flashcards', error);
-        }
-      };
+    //   const fetchFlashcards = async () => {
+    //     try {
+    //       const response = await axios.get(`http://localhost:8080/api/flashcards/deck/${deckId}`); // ari karyme di ma fetch ambot if sakto ba na pag call hahaha http://localhost:8080/api/decks/getFlashcardDeckById/${deckId}
+    //       setFlashcards(response.data);
+    //     } catch (error) {
+    //       console.error('Error fetching flashcards', error);
+    //     }
+    //   };
     
-     
-      fetchFlashcards();
-    }, []);
+    //   fetchFlashcards();
+    // }, []);
     
     
 
@@ -181,7 +249,7 @@ const DashboardUI = ({onLogout}) => {
             sx={{
               backgroundImage: `url('/crystalbackground.png')`,
               backgroundSize: 'cover',
-              minHeight: { xs: '150vh', md: '100vh', },
+              minHeight: { xs: '170vh', md: '100vh', },
               overflow: { xs: 'scroll', md: 'hidden' },
             }}
           >
@@ -303,7 +371,7 @@ const DashboardUI = ({onLogout}) => {
                 height: {xs: '26%', md:'21%'},
                 backgroundColor: '#FFD234', position: 'absolute',
                 top: {xs: '25%', md: '13%'},
-                marginLeft: {xs: '49%', md: '47%'},
+                marginLeft: {xs: '50%', md: '47%'},
                 transform: 'translate(-50%, -50%)',
                 borderRadius: '7px', overflow: 'hidden',
                 boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
@@ -316,7 +384,7 @@ const DashboardUI = ({onLogout}) => {
                 }}>Recent Quiz Activity
             </Typography>
 
-            <Box sx={{
+          <Box sx={{
             backgroundColor: "#FFFFFF",
             borderRadius: '.5em',
             position: 'absolute',
@@ -328,12 +396,16 @@ const DashboardUI = ({onLogout}) => {
             left: { xs: '7%', md: '2%' },
             boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
           }}>
+            {/* Flashcard Title */}
             <Typography sx={{ fontFamily: 'Lato', position: 'absolute', top: { xs: '1em', md: '1em' }, left: { xs: '1em', md: '1em' }, fontSize: '1em', fontWeight: 'bold' }}>
               Rizal's Lovers
+              {recentFlashcardTitle}
             </Typography>
+            {/* Total Questions */}
             <Typography sx={{ fontFamily: 'Lato', position: 'absolute', top: '3em', left: '3em', fontSize: '.8em', fontWeight: 'bold' }}>
               Total Questions: {totalQuestions}
             </Typography>
+            {/* Score */}
             <Typography sx={{ fontFamily: 'Lato', position: 'absolute', top: '4.5em', left: '3.1em', fontSize: '.8em', fontWeight: 'bold' }}>
               Score: {score}%
             </Typography>
@@ -360,7 +432,7 @@ const DashboardUI = ({onLogout}) => {
                 Target Score: {targetScore}%
               </Button>
 
-              <Button style={{
+            <Button style={{
                 background: '#FFE793',
                 width: '8em',
                 height: '2.2em',
@@ -406,108 +478,144 @@ const DashboardUI = ({onLogout}) => {
           </Box>
           </Box>
 
-          <Box sx={{
-            width: { xs: '73%', md: '52%' },
-            height: { xs: 'auto', md: 'auto' },
-            padding: '20px', position: 'absolute',
-            top: { xs: '55%', md: '22%' },
-            left: { xs: '50%', md: '18%' },
-            
-          }}>
-            <Grid container spacing={2}>
+          <Box
+            sx={{
+              width: { xs: '90%', md: '52%' },
+              height: { xs: 'auto', md: 'auto' },
+              padding: '20px',
+              position: 'absolute',
+              top: { xs: '38%', md: '22%' },
+              left: { xs: '.5%', md: '18%' },
+            }}
+          >
+            <Grid
+              container
+              spacing={2}
+              direction={{ xs: 'column', md: 'row' }}
+              justifyContent="center"
+              alignItems="center"
+            >
               {/* Pie Chart Section */}
               <Grid item xs={12} md={6}>
-              <Box sx={{
-                backgroundColor: 'white',
-                padding: '20px',
-                borderRadius: '7px',
-                borderColor: 'lightgray', 
-                borderStyle: 'solid', 
-                borderWidth: '1.5px',
-                boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
-                height: '55%',
-                width: '90%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-              }}>
-                <Typography align="center" gutterBottom>
-                  Average Time Spent Per Question Type
-                </Typography>
-                <ResponsiveContainer width="100%" height={250}>
-                  <PieChart>
-                  <Pie
-                    data={pieData}
-                    cx="50%"
-                    cy="30%"
-                    labelLine={true}
-                    label={({ name, x, y, fill, cx }) => (
-                      <text
-                        x={x}
-                        y={y}
-                        fill={fill}
-                        textAnchor={x > cx ? "start" : "end"}
-                        dominantBaseline="central"
-                        style={{ fontSize: '12px', fontWeight: 'bold', fontFamily: 'Lato', fill: '#333' }}
+                <Box
+                  sx={{
+                    backgroundColor: 'white',
+                    padding: '20px',
+                    borderRadius: '7px',
+                    borderColor: 'lightgray',
+                    borderStyle: 'solid',
+                    borderWidth: '1.5px',
+                    boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
+                    height: { xs: '20vh', md: '29vh' },
+                    width: { xs: '88.5%', md: '90%' },
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Typography align="center" gutterBottom>
+                    Average Time Spent Per Question Type
+                  </Typography>
+                  <ResponsiveContainer width="100%" height={200}>
+                    <PieChart>
+                      <Pie
+                        data={pieData}
+                        cx="50%"
+                        cy="40%"
+                        labelLine={true}
+                        label={({ name, x, y, fill, cx }) => (
+                          <text
+                            x={x}
+                            y={y}
+                            fill={fill}
+                            textAnchor={x > cx ? 'start' : 'end'}
+                            dominantBaseline="central"
+                            style={{
+                              fontSize: '12px',
+                              fontWeight: 'bold',
+                              fontFamily: 'Lato',
+                              fill: '#333',
+                            }}
+                          >
+                            {name}
+                          </text>
+                        )}
+                        outerRadius={50}
+                        fill="#8884d8"
+                        dataKey="value"
                       >
-                        {name}
-                      </text>
-                    )}
-                    outerRadius={50}
-                    fill="#8884d8"
-                    dataKey="value"
-                  >
-                    {pieData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                    ))}
-                  </Pie>
-
-                  </PieChart>
-                </ResponsiveContainer>
-                <Box sx={{ marginTop: 2 }}>
-                  <Legend />
+                        {pieData.map((entry, index) => (
+                          <Cell
+                            key={`cell-${index}`}
+                            fill={COLORS[index % COLORS.length]}
+                          />
+                        ))}
+                      </Pie>
+                    </PieChart>
+                  </ResponsiveContainer>
+                  <Box sx={{ marginTop: 2 }}>
+                    <Legend />
+                  </Box>
                 </Box>
-              </Box>
-            </Grid>
-
+              </Grid>
 
               {/* Radar Chart Section */}
               <Grid item xs={12} md={6}>
-              <Box sx={{
-                backgroundColor: 'white',
-                padding: '20px',
-                borderRadius: '7px',
-                borderColor: 'lightgray', 
-                borderStyle: 'solid', 
-                borderWidth: '1.5px',
-                boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
-                height: '55%',
-                width: '100%',             
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-              }}>
-                <Typography align="center" gutterBottom>
-                Performance by Subject/Question
-                </Typography>
-                <ResponsiveContainer width="100%" height={200}>
-                  <RadarChart data={radarData}>
+                <Box
+                  sx={{
+                    backgroundColor: 'white',
+                    padding: '20px',
+                    borderRadius: '7px',
+                    borderColor: 'lightgray',
+                    borderStyle: 'solid',
+                    borderWidth: '1.5px',
+                    boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
+                    height: { xs: 'auto', md: '29vh' },
+                    width: { xs: '88.5%', md: '100%' },
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Typography align="center" gutterBottom>
+                    Performance by Subject/Question
+                  </Typography>
+                  <ResponsiveContainer width="100%" height={200}>
+                    <RadarChart data={radarData}>
                       <PolarGrid stroke="#969696" strokeDasharray="6 6" />
-                      <PolarAngleAxis dataKey="subject" tick={{ fill: '#555', fontSize: 12, fontWeight: 'bold', fontFamily: 'Lato' }} />
-                      <PolarRadiusAxis angle={50} domain={[0, 150]} tick={{ fill: '#555', fontSize: 10 }} />
-                      <Radar name="Arthur" dataKey="A" stroke="#969696" fill="#82ca9d" fillOpacity={0.6} />
+                      <PolarAngleAxis
+                        dataKey="subject"
+                        tick={{
+                          fill: '#555',
+                          fontSize: 12,
+                          fontWeight: 'bold',
+                          fontFamily: 'Lato',
+                        }}
+                      />
+                      <PolarRadiusAxis
+                        angle={50}
+                        domain={[0, 150]}
+                        tick={{ fill: '#555', fontSize: 10 }}
+                      />
+                      <Radar
+                        name="Arthur"
+                        dataKey="A"
+                        stroke="#969696"
+                        fill="#82ca9d"
+                        fillOpacity={0.6}
+                      />
                     </RadarChart>
                   </ResponsiveContainer>
-              </Box>
-            </Grid>
-
+                </Box>
+              </Grid>
             </Grid>
           </Box>
 
+
             <Box sx={{
-                    width: { xs: '73%', md: '52%' },
+                    width: { xs: '75%', md: '52%' },
                     height: { xs: 'auto', md: 'auto' }, backgroundColor: 'white', position: 'absolute',
-                    top: { xs: '55%', md: '62%' },
+                    top: { xs: '98%', md: '62%' },
                     left: { xs: '50%', md: '47%' },
                     transform: 'translateX(-50%)',
                     borderRadius: '7px', padding: '20px',
@@ -519,7 +627,7 @@ const DashboardUI = ({onLogout}) => {
 
                 <Grid container spacing={2} sx={{ width: '100%' }}>
                 <ResponsiveContainer width="100%" height={130}>
-                <LineChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                <LineChart data={weekData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                   <CartesianGrid stroke="#969696" strokeDasharray="3 3" />
                   <XAxis dataKey="Week" stroke="#555" tick={{ fontSize: 12, fontWeight: 'bold', fontFamily: 'Lato'  }} />
                   <YAxis stroke="#555" tick={{ fontSize: 12 }} />
@@ -527,19 +635,43 @@ const DashboardUI = ({onLogout}) => {
                     contentStyle={{ backgroundColor: '#f5f5f5', borderRadius: '8px', border: '1px solid #ddd' }}
                     labelStyle={{ fontWeight: 'bold', color: '#333' }} 
                   />
-                  <Legend verticalAlign="top" height={20} wrapperStyle={{ paddingBottom: '10px' }} />
-                  <Line type="monotone" dataKey="Score" stroke="#FFD234" strokeWidth={3} dot={{ r: 5 }} />
-                  {/* <Line type="monotone" dataKey="Series2" stroke="#FFD234" strokeWidth={3} dot={{ r: 5 }} /> */}
+                  <Legend verticalAlign="top" height={20} wrapperStyle={{ paddingBottom: '5px' }} />
+                  <Line type="monotone" dataKey="GeneralScore" stroke="#FFD234" strokeWidth={3} dot={{ r: 5 }} />
+                  
                 </LineChart>
               </ResponsiveContainer>
                 </Grid>
+
+                 {/* <Grid container spacing={2} sx={{ width: '100%' }}>
+                  {loading ? (
+                    <p>Loading chart...</p>
+                  ) : (
+                    <ResponsiveContainer width="100%" height={130}>
+                      <LineChart
+                        data={data}
+                        margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+                      >
+                        <CartesianGrid stroke="#969696" strokeDasharray="3 3" />
+                        <XAxis dataKey="Week" stroke="#555" tick={{ fontSize: 12, fontWeight: 'bold', fontFamily: 'Lato' }} />
+                        <YAxis stroke="#555" tick={{ fontSize: 12 }} />
+                        <Tooltip
+                          contentStyle={{ backgroundColor: '#f5f5f5', borderRadius: '8px', border: '1px solid #ddd' }}
+                          labelStyle={{ fontWeight: 'bold', color: '#333' }}
+                        />
+                        <Legend verticalAlign="top" height={20} wrapperStyle={{ paddingBottom: '5px' }} />
+                        <Line type="monotone" dataKey="GeneralScore" stroke="#FFD234" strokeWidth={3} dot={{ r: 5 }} />
+                      </LineChart>
+                    </ResponsiveContainer>
+                  )}
+                </Grid> */}
+
               </Box>
               
         <Box sx={{
             width: { xs: '73.5%', md: '52%' },
-            height: { xs: '73.5%', md: '8%' }, backgroundColor: 'white', borderColor: '#FAC712', borderStyle: 'solid', borderWidth: '3px',
+            height: { xs: '15%', md: '8%' }, backgroundColor: 'white', borderColor: '#FAC712', borderStyle: 'solid', borderWidth: '3px',
             position: 'absolute',
-            top: { xs: '95%', md: '87%' },
+            top: { xs: '117%', md: '87%' },
             left: { xs: '50%', md: '47%' },
             transform: 'translateX(-50%)', borderRadius: '7px', padding: '10px 20px',
             boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', display: 'flex',
@@ -580,7 +712,7 @@ const DashboardUI = ({onLogout}) => {
                 maxHeight: '87%',
                 backgroundColor: 'white',
                 position: 'absolute',
-                top: { xs: '120%', md: '55%' },
+                top: { xs: '138%', md: '55%' },
                 left: { xs: '50%', md: '87%' },
                 transform: { xs: 'translateX(-50%)', md: 'translate(-50%, -50%)' },
                 borderRadius: '7px',

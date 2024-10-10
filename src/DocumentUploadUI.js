@@ -545,18 +545,58 @@ function DocumentUploadUI() {
                                     onChange={handleFileChange}
                                 />
                             </div>
-                            <Button style={{ background: '#FAC712', width: isMobile ? '130px' :'230px', height: '45px', borderRadius: '10px', marginTop: isMobile ? '50px' : '150px' }} onClick={handleUploadClick}>
-                                <Typography style={{ fontSize: isMobile ? '12px' : '20px', fontFamily: 'Lato', fontWeight: 'bold', color: '#332D2D', textTransform: 'none' }}>
+
+                            <Box display="flex" justifyContent="center" flexDirection={isMobile ? 'column' : 'row'} alignItems="center">
+                            <Button
+                                style={{
+                                    background: '#FAC712',
+                                    width: isMobile ? '130px' : '230px',
+                                    height: '45px',
+                                    borderRadius: '10px',
+                                    marginTop: isMobile ? '50px' : '110px',
+                                    marginRight: isMobile ? '150px' : '10px',  // To ensure space between buttons on desktop
+                                    marginBottom: isMobile ? '20px' : '0px', // To give space between buttons on mobile
+                                }}
+                                onClick={handleUploadClick}
+                            >
+                                <Typography
+                                    style={{
+                                        fontSize: isMobile ? '12px' : '20px',
+                                        fontFamily: 'Lato',
+                                        fontWeight: 'bold',
+                                        color: '#332D2D',
+                                        textTransform: 'none',
+                                    }}
+                                >
                                     Upload Document
                                 </Typography>
                             </Button>
                             <Link to="/TextHighlighting" style={{ textDecoration: 'none' }}>
-                            <Button style={{ background: '#FAC712', width: isMobile ? '130px' : '230px', height: '45px', borderRadius: '10px', marginTop: isMobile ? '50px' : '150px', marginLeft: '10px' }}>
-                                <Typography style={{ fontSize: isMobile ? '12px' : '20px', fontFamily: 'Lato', fontWeight: 'bold', color: '#332D2D', textTransform: 'none' }} >
-                                    Text Highlighting
-                                </Typography>
-                            </Button>
+                                <Button
+                                    style={{
+                                        background: '#FAC712',
+                                        width: isMobile ? '130px' : '230px',
+                                        height: '45px',
+                                        borderRadius: '10px',
+                                        marginTop: isMobile ? '-110px' : '110px',
+                                        marginLeft: isMobile ? '150px' : '0px',
+                                    }}
+                                >
+                                    <Typography
+                                        style={{
+                                            fontSize: isMobile ? '12px' : '20px',
+                                            fontFamily: 'Lato',
+                                            fontWeight: 'bold',
+                                            color: '#332D2D',
+                                            textTransform: 'none',
+                                        }}
+                                    >
+                                        Text Highlighting
+                                    </Typography>
+                                </Button>
                             </Link>
+                        </Box>
+
                         </div>
 
                         {/* Right Panel for Displaying Uploaded Files */}

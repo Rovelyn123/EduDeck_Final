@@ -4,6 +4,7 @@
     min-height: 100vh;
     background-image: url('/public/WebApp bg.png');
     background-size: cover;
+    font-family: 'Lato';
 }
 
 .team-member-container {

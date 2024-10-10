@@ -39,7 +39,7 @@ function AboutUsUI() {
                         <Box sx={{height: { xs: '35px', sm: '52px' }, width: 'auto'}}>
                         <img src='logo.png' alt='logo' className='logo' style={{height: '100%', width: 'auto'}} />
                     </Box>
-                    <Typography sx={{color: "#8c7111", fontFamily: 'Poppins, sans-serif', fontWeight: 600, fontSize: { xs: '1.2em', sm: '1.8em' }, display: { xs: "none", sm: "block" }}}>
+                    <Typography sx={{color: "#8c7111", fontFamily: 'Lato', fontWeight: 600, fontSize: { xs: '1.2em', sm: '1.8em' }, display: { xs: "none", sm: "block" }}}>
                         EduDeck
                     </Typography>
                     </Box>
@@ -54,17 +54,17 @@ function AboutUsUI() {
             </AppBar>
         <div>
                 <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', marginTop: '1.5rem'}}>
-                    <Typography gutterBottom sx={{color: 'black', fontFamily: 'Nunito Sans, sans-serif', fontWeight: 800, fontSize: { xs: '1rem', sm: '2rem' }}}>
+                    <Typography gutterBottom sx={{color: 'black', fontFamily: 'Lato', fontWeight: 800, fontSize: { xs: '1rem', sm: '2rem' }}}>
                         Meet Team DinoSure
                     </Typography>
-                    <Typography m={2} sx={{color: 'black', fontFamily: 'Nunito Sans, sans-serif', fontWeight: 600, textAlign: 'center', fontSize: { xs: '0.8rem', sm: '1.5rem' }}}>
+                    <Typography m={2} sx={{color: 'black', fontFamily: 'Lato', fontWeight: 600, textAlign: 'center', fontSize: { xs: '0.8rem', sm: '1.5rem' }}}>
                         We are Team DinoSure, a team of ambitious college students who developed EduDeck. We’re not just developers; <br/>we’re also students, just like you. 
                         We understand the challenges of college life firsthand, and <br/> we’re committed to making it a little bit easier.
                     </Typography>
-                    <Typography mt={2} gutterBottom sx={{color: 'black', fontFamily: 'Nunito Sans, sans-serif', fontWeight: 800, fontSize: { xs: '1rem', sm: '2rem' }}}>
+                    <Typography mt={2} gutterBottom sx={{color: 'black', fontFamily: 'Lato', fontWeight: 800, fontSize: { xs: '1rem', sm: '2rem' }}}>
                         Our Mission
                     </Typography>
-                    <Typography m={2} sx={{color: 'black', fontFamily: 'Nunito Sans, sans-serif', fontWeight: 600, textAlign: 'center', fontSize: { xs: '0.8rem', sm: '1.5rem' }}}>
+                    <Typography m={2} sx={{color: 'black', fontFamily: 'Lato', fontWeight: 600, textAlign: 'center', fontSize: { xs: '0.8rem', sm: '1.5rem' }}}>
                         Our mission is to leverage our skills in technology to enhance the academic journey for ourselves and our peers. <br/>
                         We believe in the power of technology to transform learning, and we’re dedicated to making it accessible to all students
                     </Typography>
@@ -76,10 +76,10 @@ function AboutUsUI() {
                         <Box sx={{height: { xs: 60, sm: 120 }, display: 'flex', borderRadius: '50%', alignItems: 'center', margin: '1rem', backgroundColor: 'white'}}>
                             <img src="/KarymeProfile.png" alt="Karyme Profile" style={{ width: '100%', height: '100%', objectFit: 'cover'}} />
                         </Box>
-                        <Typography variant="body1" style={{ fontFamily: 'Numans', color: 'white', fontWeight: 600, marginTop: '1rem'}}>
+                        <Typography variant="body1" style={{ fontFamily: 'Lato', color: 'white', fontWeight: 600, marginTop: '1rem'}}>
                             Karyme Fatima Crisologo
                         </Typography>
-                        <Typography variant="body1" style={{ fontFamily: 'Oleo Script', color: 'white', textAlign: 'center', margin: '.50rem'}}>
+                        <Typography variant="body1" style={{ fontFamily: 'Lato', color: 'white', textAlign: 'center', margin: '.50rem'}}>
                             “The best project you’ll ever work on is you”
                         </Typography>
                     </Paper>
@@ -89,10 +89,10 @@ function AboutUsUI() {
                         <Box sx={{height: { xs: 60, sm: 120 }, display: 'flex', borderRadius: '50%', alignItems: 'center', margin: '1rem', backgroundColor: 'white'}}>
                             <img src="/RovelynProfile.png" alt="Rovelyn Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                         </Box>
-                        <Typography variant="body1" style={{ fontFamily: 'Numans', color: 'white', fontWeight: 600, marginTop: '1rem'}}>
+                        <Typography variant="body1" style={{ fontFamily: 'Lato', color: 'white', fontWeight: 600, marginTop: '1rem'}}>
                             Rovelyn Aguinaldo
                         </Typography>
-                        <Typography variant="body1" style={{ fontFamily: 'Oleo Script', color: 'white', textAlign: 'center', margin: '.50rem'}}>
+                        <Typography variant="body1" style={{ fontFamily: 'Lato', color: 'white', textAlign: 'center', margin: '.50rem'}}>
                             “Do what makes your <br/> soul shine”
                         </Typography>
                     </Paper>
@@ -102,10 +102,10 @@ function AboutUsUI() {
                         <Box sx={{height: { xs: 60, sm: 120 }, display: 'flex', borderRadius: '50%', alignItems: 'center', margin: '1rem', backgroundColor: 'white'}}>
                             <img src="/KerchProfile.png" alt="Kerch Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                         </Box>
-                        <Typography variant="body1" style={{ fontFamily: 'Numans', color: 'white', fontWeight: 600, marginTop: '1rem'}}>
+                        <Typography variant="body1" style={{ fontFamily: 'Lato', color: 'white', fontWeight: 600, marginTop: '1rem'}}>
                             Kerch Cabo
                         </Typography>
-                        <Typography variant="body1" style={{ fontFamily: 'Oleo Script', color: 'white', textAlign: 'center', margin: '.50rem'}}>
+                        <Typography variant="body1" style={{ fontFamily: 'Lato', color: 'white', textAlign: 'center', margin: '.50rem'}}>
                             “Just trust the process”
                         </Typography>
                     </Paper>
@@ -115,10 +115,10 @@ function AboutUsUI() {
                         <Box sx={{height: { xs: 60, sm: 120 }, display: 'flex', borderRadius: '50%', alignItems: 'center', margin: '1rem', backgroundColor: 'white'}}>
                             <img src="/KateProfile.png" alt="Kate Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                         </Box>
-                        <Typography variant="body1" style={{ fontFamily: 'Numans', color: 'white', fontWeight: 600, marginTop: '1rem'}}>
+                        <Typography variant="body1" style={{ fontFamily: 'Lato', color: 'white', fontWeight: 600, marginTop: '1rem'}}>
                             Fame Kate Sagolili
                         </Typography>
-                        <Typography variant="body1" style={{ fontFamily: 'Oleo Script', color: 'white', textAlign: 'center', margin: '.50rem'}}>
+                        <Typography variant="body1" style={{ fontFamily: 'Lato', color: 'white', textAlign: 'center', margin: '.50rem'}}>
                             “The greatest lesson would be, there's nothing easy in life”
                         </Typography>
                     </Paper>
@@ -128,10 +128,10 @@ function AboutUsUI() {
                         <Box sx={{height: { xs: 60, sm: 120 }, display: 'flex', borderRadius: '50%', alignItems: 'center', margin: '1rem', backgroundColor: 'white'}}>
                             <img src="/MarcProfile.png" alt="Marc Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                         </Box>
-                        <Typography variant="body1" style={{ fontFamily: 'Numans', color: 'white', fontWeight: 600, marginTop: '1rem'}}>
+                        <Typography variant="body1" style={{ fontFamily: 'Lato', color: 'white', fontWeight: 600, marginTop: '1rem'}}>
                             Marc Angelo Baguion
                         </Typography>
-                        <Typography variant="body1" style={{ fontFamily: 'Oleo Script', color: 'white', textAlign: 'center', margin: '.50rem'}}>
+                        <Typography variant="body1" style={{ fontFamily: 'Lato', color: 'white', textAlign: 'center', margin: '.50rem'}}>
                             “The best project you’ll ever work on is you”
                         </Typography>
                     </Paper>

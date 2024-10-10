@@ -5,6 +5,7 @@
     padding: 10px; /* Add padding for better spacing */
     align-items: space-between;
     margin-left: 10rem;
+    font-family: 'Lato';
   }
   
   .grid-item {
@@ -12,6 +13,7 @@
     font-family: 'Inter';
     display:flex;
     flex-direction: column;
+    font-family: 'Lato';
   }
   
   .grid-item h2 {
@@ -34,6 +36,7 @@
     margin-top: 20px; /* Adjust margin-top as needed */
     text-align: center; /* Center-align the content within the footer */ 
     padding: 10px; /* Add padding for better spacing */
+    font-family: 'Lato';
   }
   
   .button-container {

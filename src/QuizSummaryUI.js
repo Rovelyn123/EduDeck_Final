@@ -405,7 +405,7 @@ return (
             >
                 {/* Slider for feedback */}
                 <Box sx={{ width: '100%', textAlign: 'center', mt: 3 }}>
-                    <Typography gutterBottom>How relevant are these questions to you?</Typography>
+                    {/* <Typography gutterBottom>How relevant are these questions to you?</Typography> */}
                     <Slider
                         value={feedbackValue}
                         onChange={handleSliderChange}
@@ -418,6 +418,8 @@ return (
                             color: 'green',
                             height: 8,
                             width: '80%',
+                            whiteSpace: 'normal', // Prevent text overflow on small screens
+                            wordWrap: 'break-word' // Ensure long words break into the next line
                         }}
                     />
                 </Box>

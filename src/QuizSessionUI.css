@@ -104,51 +104,61 @@
 
 @media (max-width: 480px) {
   .title {
-      width: fit-content;
-      padding: 5px 10px; /* Adjust padding as needed */
-      font-size: 14px; /* Adjust font size for smaller screens */
-      margin-top: 10px;
-      font-family: 'Lato';
+    width: fit-content;
+    padding: 5px 10px;
+    font-size: 14px; /* Adjusted font size for smaller screens */
+    margin-top: 5px;
+    font-family: 'Lato', sans-serif; /* Added fallback font */
+    text-align: center; /* Center title text */
   }
 
   .question-card {
-    width: 90%; /* Adjust width to fit the screen */
-    height: auto; /* Adjust height to fit the content */
-    padding: 20px; /* Add padding for better spacing */
+    width: 90%; /* Full width for mobile */
+    padding: 20px;
     background-color: #ffffff;
     border-radius: 15px;
-    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.25);
-    margin-bottom: 30px;
-    position: relative;
-    font-family: 'Lato';
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
+    margin-bottom: 20px; /* Reduced bottom margin for better spacing */
+    margin-right: 350px;
+    /* position: relative; */
+    font-family: 'Lato', sans-serif;
   }
 
   .question-label {
-      top: 10px;
-      left: 10px;
-      font-family: 'Lato';
-      /* font-size: 14px; Adjust font size for smaller screens */
+    position: absolute; /* Position label inside card */
+    top: 10px;
+    left: 10px;
+    font-family: 'Lato', sans-serif;
+    font-size: 12px; /* Slightly reduced font size */
+    color: #555; /* Softer label color for readability */
   }
 
   .question-text {
-      font-size: 20px; /* Adjust font size for smaller screens */
-      width: 90%; /* Adjust width to fit the screen */
-      font-family: 'Lato';
+    font-size: 18px; /* Slightly reduced for mobile */
+    width: 90%;
+    font-family: 'Lato', sans-serif;
+    line-height: 1.4; /* Improved readability with better line-height */
+    color: #333;
+    margin-top: 15px; /* Added margin for spacing */
   }
 
   .counter {
-      font-size: 14px; /* Adjust font size for smaller screens */
+    font-size: 14px; /* Adjusted font size */
+    color: #777; /* Softer color for counter */
   }
 
   .text-field-bottom {
-      bottom: 20px;
-      width: calc(100% - 32px); /* Adjusted width */
-      margin-left: 15px;
-      border-radius: 8px;
-      z-index: 1;
-      display: flex;
-      justify-content: center; /* Center horizontally */
-      align-items: center; /* Center vertically */
-      font-family: 'Lato';
+    bottom: 20px;
+    width: calc(100% - 70px);
+    /* margin-left: 5px; */
+    border-radius: 8px;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px; /* Added padding for comfort */
+    background-color: #f0f0f0; /* Subtle background to separate from content */
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
   }
 }
