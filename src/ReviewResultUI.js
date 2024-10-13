@@ -11,7 +11,7 @@ import 'react-circular-progressbar/dist/styles.css';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
-function ReviewResult() {
+function ReviewResultUI() {
   const [flashcardTitle, setFlashcardTitle] = useState('Review Session');
   const [isFlipped, setIsFlipped] = useState(false);
   const [flashcards, setFlashcards] = useState([]);
@@ -167,9 +167,10 @@ function ReviewResult() {
         <div className="completion-content" 
             style={{
                 backgroundColor: "#FFFFFF",
-                width: isMobile ? '90%' : '65%',
+                width: isMobile ? '80%' : '65%',
+                top: isMobile ? '5%' : '0%',
                 height: isMobile ? '420px' : '300px',
-                marginLeft: isMobile ? '5%' : '2%',
+                marginLeft: isMobile ? '0%' : '2%',
                 marginTop: isMobile ? '5%' : '5%',
                 borderRadius: '1em',
                 boxShadow: '0px 5px 10px 0px rgba(0, 0, 0, 0.25)',
@@ -204,7 +205,7 @@ function ReviewResult() {
             <Box style={{
                         position: 'absolute',
                         top: isMobile ? '65%' : '30%',
-                        left: isMobile ? '5%' : '-10%',
+                        left: isMobile ? '0%' : '-10%',
                         width: '100%',
                     }}>
                         <Typography style={{
@@ -222,8 +223,8 @@ function ReviewResult() {
                     </Box>
                     <Box style={{
                         position: 'absolute',
-                        top: isMobile ? '65%' : '50%',
-                        left: isMobile ? '5%' : '-10%',
+                        top: isMobile ? '75%' : '50%',
+                        left: isMobile ? '0%' : '-10%',
                         width: '100%',
                     }}>
                         <Typography style={{
@@ -253,78 +254,103 @@ function ReviewResult() {
                     </Box>
               </div>
 
-                    <div className="next-steps" style={{ 
-                              display: 'grid', 
-                              gap: '15px', 
-                              gridTemplateColumns: 'repeat(2, 1fr)', 
-                              marginTop: isMobile ? '5%' : '3%' 
-                          }}>
-                              <Button
-                                variant="contained"
-                                style={{ height: 'auto', width: '100%', fontFamily: 'Lato', backgroundColor: '#fff', color: '#000', fontWeight: 'bold', borderRadius: '15px', padding: '15px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
-                                }}
-                                onClick={() => { /* Add logic to study unmemorized cards */ }}
-                              >
-                                <div style={{ display: 'flex', alignItems: 'center' }}>
-                                  <img src="star_icon.png" alt="icon" style={{ width: '30px', marginRight: '10px' }} />
-                                  <div style={{ textAlign: 'left' }}>
-                                    <Typography style={{ fontWeight: 'bold', fontSize: '1em' }}>Study Unmemorized Cards</Typography>
-                                    <Typography style={{ fontSize: '0.8em', color: '#555' }}>Focus on the cards you unmark.</Typography>
-                                  </div>
-                                </div>
-                                <div style={{ fontSize: '1.5em', color: '#555' }}> &gt; </div>
-                              </Button>
+          <div 
+            className="next-steps" 
+            style={{ 
+              display: 'grid', 
+              gap: '15px', 
+              gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)', // Stack buttons on mobile, two columns on larger screens
+              marginTop: isMobile ? '15%' : '3%',
+              padding: isMobile ? '0 10px' : '0' // Add padding for mobile
+            }}
+          >
+            {/* Study Unmemorized Cards Button */}
+            <Button
+              variant="contained"
+              style={{ 
+                height: 'auto', 
+                width: '100%', 
+                fontFamily: 'Lato', 
+                backgroundColor: '#fff', 
+                color: '#000', 
+                fontWeight: 'bold', 
+                borderRadius: '15px', 
+                padding: '15px 20px', 
+                display: 'flex', 
+                justifyContent: 'space-between', 
+                alignItems: 'center', 
+                boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+              }}
+              onClick={() => { /* Add logic to study unmemorized cards */ }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <img src="star_icon.png" alt="icon" style={{ width: '30px', marginRight: '10px' }} />
+                <div style={{ textAlign: 'left' }}>
+                  <Typography style={{ fontWeight: 'bold', fontSize: '1em' }}>Study Unmemorized Cards</Typography>
+                  <Typography style={{ fontSize: '0.8em', color: '#555' }}>Focus on the cards you unmark.</Typography>
+                </div>
+              </div>
+              <div style={{ fontSize: '1.5em', color: '#555' }}> &gt; </div>
+            </Button>
 
-                              <Button
-                                variant="contained"
-                                style={{ height: 'auto', width: '100%', fontFamily: 'Lato', backgroundColor: '#fff', color: '#000', fontWeight: 'bold', borderRadius: '15px', padding: '15px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
-                                }}
-                                onClick={() => { /* Add logic to start a quiz */ }}
-                              >
-                                <div style={{ display: 'flex', alignItems: 'center' }}>
-                                  <img src="quiz_icon.png" alt="icon" style={{ width: '30px', marginRight: '10px' }} />
-                                  <div style={{ textAlign: 'left' }}>
-                                    <Typography style={{ fontWeight: 'bold', fontSize: '1em' }}>Start Quiz</Typography>
-                                    <Typography style={{ fontSize: '0.8em', color: '#555' }}>Test your knowledge now!</Typography>
-                                  </div>
-                                </div>
-                                <div style={{ fontSize: '1.5em', color: '#555' }}> &gt; </div>
-                              </Button>
+            {/* Start Quiz Button */}
+            <Button
+              variant="contained"
+              style={{ 
+                height: 'auto', width: '100%', fontFamily: 'Lato', backgroundColor: '#fff', color: '#000', fontWeight: 'bold', borderRadius: '15px', padding: '15px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+              }}
+              onClick={() => { /* Add logic to start a quiz */ }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <img src="quiz_icon.png" alt="icon" style={{ width: '30px', marginRight: '10px' }} />
+                <div style={{ textAlign: 'left' }}>
+                  <Typography style={{ fontWeight: 'bold', fontSize: '1em' }}>Start Quiz</Typography>
+                  <Typography style={{ fontSize: '0.8em', color: '#555' }}>Test your knowledge now!</Typography>
+                </div>
+              </div>
+              <div style={{ fontSize: '1.5em', color: '#555' }}> &gt; </div>
+            </Button>
 
-                              <Button
-                                variant="contained"
-                                style={{ height: 'auto', width: '100%', fontFamily: 'Lato', backgroundColor: '#fff', color: '#000', fontWeight: 'bold', borderRadius: '15px', padding: '15px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
-                                }}
-                                onClick={handleRestart}
-                              >
-                                <div style={{ display: 'flex', alignItems: 'center' }}>
-                                  <img src="restart_icon.png" alt="icon" style={{ width: '30px', marginRight: '10px' }} />
-                                  <div style={{ textAlign: 'left' }}>
-                                    <Typography style={{ fontWeight: 'bold', fontSize: '1em' }}>Restart Flashcards</Typography>
-                                    <Typography style={{ fontSize: '0.8em', color: '#555' }}>Study all the cards from the beginning.</Typography>
-                                  </div>
-                                </div>
-                                <div style={{ fontSize: '1.5em', color: '#555' }}> &gt; </div>
-                              </Button>
+            {/* Restart Flashcards Button */}
+            <Button
+              variant="contained"
+              style={{ 
+                height: 'auto', width: '100%', fontFamily: 'Lato',  backgroundColor: '#fff', color: '#000', fontWeight: 'bold', borderRadius: '15px', padding: '15px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+              }}
+              onClick={handleRestart}
+            >
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <img src="restart_icon.png" alt="icon" style={{ width: '30px', marginRight: '10px' }} />
+                <div style={{ textAlign: 'left' }}>
+                  <Typography style={{ fontWeight: 'bold', fontSize: '1em' }}>Restart Flashcards</Typography>
+                  <Typography style={{ fontSize: '0.8em', color: '#555' }}>Study all the cards from the beginning.</Typography>
+                </div>
+              </div>
+              <div style={{ fontSize: '1.5em', color: '#555' }}> &gt; </div>
+            </Button>
 
-                              <Button
-                                variant="contained"
-                                style={{ height: 'auto', width: '100%', fontFamily: 'Lato', backgroundColor: '#fff', color: '#000', fontWeight: 'bold', borderRadius: '15px', padding: '15px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
-                                }}
-                                component = {Link} to = "/flashcardsmgt"
-                              >
-                                <div style={{ display: 'flex', alignItems: 'center' }}>
-                                  <img src="deck_icon.png" alt="icon" style={{ width: '30px', marginRight: '10px' }} />
-                                  <div style={{ textAlign: 'left' }}>
-                                    <Typography style={{ fontWeight: 'bold', fontSize: '1em' }}>Select New Flashcard Deck</Typography>
-                                    <Typography style={{ fontSize: '0.8em', color: '#555' }}>Choose a new flashcard set.</Typography>
-                                  </div>
-                                </div>
-                                <div style={{ fontSize: '1.5em', color: '#555' }}> &gt; </div>
-                              </Button>
-                          </div>
+            {/* Select New Flashcard Deck Button */}
+            <Button
+              variant="contained"
+              style={{ 
+                height: 'auto', width: '100%', fontFamily: 'Lato', backgroundColor: '#fff', color: '#000', fontWeight: 'bold', borderRadius: '15px', padding: '15px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+              }}
+              component={Link} 
+              to="/flashcardsmgt"
+            >
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <img src="deck_icon.png" alt="icon" style={{ width: '30px', marginRight: '10px' }} />
+                <div style={{ textAlign: 'left' }}>
+                  <Typography style={{ fontWeight: 'bold', fontSize: '1em' }}>Select New Flashcard Deck</Typography>
+                  <Typography style={{ fontSize: '0.8em', color: '#555' }}>Choose a new flashcard set.</Typography>
+                </div>
+              </div>
+              <div style={{ fontSize: '1.5em', color: '#555' }}> &gt; </div>
+            </Button>
+          </div>
+
                 </div>
               );
 }
 
-export default ReviewResult;
+export default ReviewResultUI;

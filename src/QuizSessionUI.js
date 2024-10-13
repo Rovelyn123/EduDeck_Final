@@ -97,7 +97,7 @@ const QuizSessionUI = () => {
                 <div className="question-section">
     
                     {/* Render True/False buttons */}
-                    <div className="answer-options" style={{ marginLeft: '250px', marginTop: '20px'
+                    <div className="answer-options" style={{ marginLeft: isMobile ? '20px' : '250px', marginTop: '20px', display: 'flex', justifyContent: 'center'
                     }}>
                         <Button
                             variant={userAnswers[question.id] === 'True' ? 'contained' : 'outlined'}
@@ -275,7 +275,7 @@ const QuizSessionUI = () => {
                                         style={{
                                             backgroundColor: question.type === 'multiplechoice' || question.question.includes('True or False:') 
                                             ? 'transparent'  // Remove background color for multiple choice and True/False
-                                            : '#F5F2D8'      // Keep default background for other questions
+                                            : '#F5F2D8' ,     // Keep default background for other questions
                                         }}
                                         >
                                         {renderAnswerField(question)}
