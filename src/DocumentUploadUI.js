@@ -360,6 +360,9 @@ function DocumentUploadUI() {
                 title: documentTitle,
                 user: {
                 userid: userId
+                },
+                document: {
+                    documentID: documentID // Pass documentID here
                 }
             });
             const newDeckId = createDeckResponse.data.deckId;

@@ -42,6 +42,13 @@ function FlashcardManagementUI() {
         setNumQuestions(event.target.value);
     };
 
+    // const handleQuestionChange = (event) => {
+    //     const value = event.target.value;
+    //     if ([5, 10, 15, 20].includes(value)) {
+    //         setNumQuestions(value);  // Only set valid values
+    //     }
+    // };
+
     const [selectedDifficulty, setSelectedDifficulty] = useState('');
 
     const handleDifficultySelection = (difficulty) => {
@@ -262,13 +269,11 @@ function FlashcardManagementUI() {
         const handleDeckSelection = (deck) => {
             setSelectedDeck(deck.title);
             setSelectedDeckId(deck.deckId);
-            console.log(deck.deckId);
-
-            // Clear the paused session data when switching decks
-            localStorage.removeItem(`reviewSessionId_${deck.deckId}`);
-
+            setSelectedDeckDocumentId(deck.document.documentID);
+                
             localStorage.setItem('selectedDeck', deck.title);
             localStorage.setItem('selectedDeckId', deck.deckId);
+            localStorage.setItem('selectedDeckDocumentId', deck.document.documentID); 
         };
 
 
@@ -760,7 +765,7 @@ function FlashcardManagementUI() {
                                         <Select
                                             labelId="questions-select-label"
                                             id="questions-select"
-                                            value={selectedQuestions}
+                                            value={numQuestions || 5}
                                             onChange={handleQuestionChange}
                                             sx={{
                                                 borderRadius: '25px',
@@ -784,6 +789,7 @@ function FlashcardManagementUI() {
                                 component={Link}
                                 to="/quizsession"
                                 disabled={!selectedDifficulty}
+                                onClick={handleStartQuiz}
                                 sx={{
                                     backgroundColor: selectedDifficulty ? '#FAC712' : '#a1a0a0',
                                     fontFamily: 'Lato',
