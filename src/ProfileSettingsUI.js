@@ -31,10 +31,10 @@ const UserProfileUI = () => {
   });
   const userid = localStorage.getItem('userid');
 
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate("/login");
-  };
+  // const handleLogout = () => {
+  //   localStorage.clear();
+  //   navigate("/login");
+  // };
   const fetchEmail = async () => {
     try {
       const response = await axios.get(`http://localhost:8080/user/getEmail/${userId}`);
@@ -326,7 +326,7 @@ const UserProfileUI = () => {
               </div>
             </div>
           </div>
-          <button className="logout-button" onClick={handleLogout}><FaSignOutAlt /> Logout</button>
+          {/* <button className="logout-button" onClick={handleLogout}><FaSignOutAlt /> Logout</button> */}
         </div>
       </div>
 

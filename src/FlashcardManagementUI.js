@@ -415,27 +415,19 @@ function FlashcardManagementUI() {
                         minHeight: '100vh',
                         overflow: 'hidden'
                     }}>
-                        <Link to="/dashboard" style={{textDecoration: 'none'}}>
-                            <Box style={{display: 'flex', alignItems: 'center', marginTop: 15}}>
-                                <img src="/logo.png" alt="logo" style={{height: isMobile ? 35 : 50}}/>
-                                {!isMobile && (
-                                    <Typography variant="h3" style={{
-                                        fontFamily: 'Lato',
-                                        fontWeight: '900',
-                                        fontSize: '2em',
-                                        color: '#B18A00',
-                                        marginLeft: 10
-                                    }}>
-                                        EduDeck
-                                    </Typography>
-                                )}
-                                {isMobile && (
-                                    <IconButton onClick={toggleDrawer(true)} style={{marginLeft: 'auto'}}>
-                                        <MenuIcon/>
-                                    </IconButton>
-                                )}
-                            </Box>
-                        </Link>
+                        <Button style={{ display: 'flex', alignItems: 'center', marginTop: 5, zIndex: 100, textTransform: 'none'}} component = {Link} to = "/dashboard" >
+                            <img src="/logo.png" alt="logo" style={{ height: isMobile ? 35 : 50 }}  /> 
+                            {!isMobile && (
+                                <Typography variant="h3" style={{ fontFamily: 'Lato', fontWeight: '900', fontSize: '2.2em', color: '#B18A00', marginRight: '1em' }} > 
+                                EduDeck
+                                </Typography>
+                            )}
+                            {isMobile && (
+                                <IconButton onClick={toggleDrawer(true)} style={{ marginLeft: 'auto' }}>
+                                <MenuIcon />
+                                </IconButton>
+                            )}
+                        </Button>
                         {isMobile ? (
                             <SwipeableDrawer
                                 anchor="left"

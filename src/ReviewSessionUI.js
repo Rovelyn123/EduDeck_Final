@@ -442,23 +442,39 @@ function ReviewSessionUI() {
     }
   };
 
-const addRecentActivity = (deckTitle, flashcardCount) => {
-  const recentActivities = JSON.parse(localStorage.getItem('recentActivities')) || [];
-  
-  // Add the new deck activity at the beginning of the array
-  recentActivities.unshift({
-      deckTitle: deckTitle,
-      flashcardCount: flashcardCount,
-      timestamp: new Date().toISOString() // Optional for sorting or display
-  });
+  const addRecentActivity = (deckTitle, flashcardCount) => {
+    const userId = localStorage.getItem('userid');  // Get the logged-in user's ID
+    if (!userId) return;  // If userId is missing, don't save
 
-  // Save only the last 3 activities (or adjust the limit as needed)
-  if (recentActivities.length > 5) {
-      recentActivities.pop(); // Remove the oldest entry if the list exceeds 3 decks
-  }
+    // Get all user-specific activities from localStorage
+    const allUserActivities = JSON.parse(localStorage.getItem('recentActivities')) || {};
+    
+    // Initialize userActivities as an empty array if undefined
+    let userActivities = allUserActivities[userId] || [];
+    
+    if (!Array.isArray(userActivities)) {
+        userActivities = [];  // Ensure it's an array
+    }
 
-  localStorage.setItem('recentActivities', JSON.stringify(recentActivities));
+    // Add the new activity to this user's history
+    userActivities.unshift({
+        deckTitle: deckTitle,
+        flashcardCount: flashcardCount,
+        timestamp: new Date().toISOString(), // Timestamp for sorting or display
+    });
+
+    // Keep only the last 5 activities per user
+    if (userActivities.length > 5) {
+        userActivities.pop();  // Remove the oldest entry if the list exceeds 5 activities
+    }
+
+    // Update the user's activity in the all activities object
+    allUserActivities[userId] = userActivities;
+
+    // Save back to localStorage
+    localStorage.setItem('recentActivities', JSON.stringify(allUserActivities));
 };
+
 
   // Toggle the memorized status of a flashcard and persist the change
   const toggleMemorized = async () => {

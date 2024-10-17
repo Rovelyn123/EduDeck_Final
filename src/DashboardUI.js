@@ -36,6 +36,7 @@ const DashboardUI = ({onLogout}) => {
 
     const [recentQuizzes, setRecentQuizzes] = useState([]);
     const cardColors = ['#FAD34B', '#FFE070', '#FFEBA6']; 
+    const userid = localStorage.getItem('userid');
 
     useEffect(() => {
         const quizzes = JSON.parse(localStorage.getItem('recentQuizzes')) || [];
@@ -44,12 +45,23 @@ const DashboardUI = ({onLogout}) => {
   
     const [recentActivities, setRecentActivities] = useState([]);
     const colors = ['#F9D556', '#FF9D33']; 
+    
 
     useEffect(() => {
-      const recentActivities = JSON.parse(localStorage.getItem('recentActivities')) || [];
-      console.log(recentActivities);
-      setRecentActivities(recentActivities);
-  }, []);
+      const userId = localStorage.getItem('userid');  // Get the current user ID
+      if (userId) {
+          // Fetch all users' activities
+          const allUserActivities = JSON.parse(localStorage.getItem('recentActivities')) || {};
+          
+          // Get the current user's activities
+          const userActivities = allUserActivities[userId] || [];
+          
+          setRecentActivities(userActivities);  // Set the current user's recent activities
+      } else {
+          setRecentActivities([]);  // Clear activities if no user is logged in
+      }
+  }, []);  
+  
 
     useEffect(() => {
         const savedStreak = parseInt(localStorage.getItem('streak'), 10);
