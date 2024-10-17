@@ -622,14 +622,14 @@ const endSession = async () => {
         <IconButton className="action-button" onClick={handlePreviousClick} disabled={currentCardIndex === 0}>
           <ArrowBackIcon />
         </IconButton>
-        <Button className="showanswer" variant="contained" onClick={showAnswer} style={{ backgroundColor: '#ffd234', borderRadius: '2em', fontFamily: 'Lato', fontWeight: '600' }} sx={{ width: '150px', height: '35px' }}>
+        <Button className="showanswer" variant="contained" onClick={showAnswer} style={{ backgroundColor: '#ffd234', borderRadius: '2em', fontFamily: 'Lato', fontWeight: '600', width: '170px', height: '35px' }} >
           {buttonText}
         </Button>
         <IconButton className="action-button" onClick={handleNextClick}>
           <ArrowForwardIcon />
         </IconButton>
       </div>
-      <div className="Memorized" style={{ marginTop: 'auto', marginBottom: '20px', textAlign: 'center', fontFamily: 'Lato', fontWeight: '700' }}>
+      <div className="Memorized" style={{ textAlign: 'center', fontFamily: 'Lato', fontWeight: '700' }}>
         <Button variant="contained" onClick={toggleMemorized}>
           {isMemorized ? "Unmark as Memorized" : "Mark as Memorized"}
         </Button>

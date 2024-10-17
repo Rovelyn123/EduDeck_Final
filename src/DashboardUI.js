@@ -277,7 +277,7 @@ const DashboardUI = ({onLogout}) => {
             sx={{
               backgroundImage: `url('/crystalbackground.png')`,
               backgroundSize: 'cover',
-              minHeight: { xs: '170vh', md: '100vh', },
+              minHeight: { xs: '200vh', md: '100vh', },
               overflow: { xs: 'scroll', md: 'hidden' },
             }}
           >
@@ -736,13 +736,13 @@ const DashboardUI = ({onLogout}) => {
 
               <Box sx={{
                 width: { xs: '85%', md: '21.5%' },
-                height: { xs: 'auto', md: '87%' },
+                height: { xs: '60vh', md: '87%' },  
                 maxHeight: '87%',
                 backgroundColor: 'white',
-                position: 'absolute',
-                top: { xs: '138%', md: '55%' },
-                left: { xs: '50%', md: '87%' },
-                transform: { xs: 'translateX(-50%)', md: 'translate(-50%, -50%)' },
+                position: { xs: 'absolute', md: 'absolute' }, 
+                top: { xs: '138%', md: '55%' }, 
+                left: { xs: '8%', md: '87%' }, 
+                transform: { xs: 'none', md: 'translate(-50%, -50%)' }, 
                 borderRadius: '7px',
                 padding: '10px',
                 boxSizing: 'border-box',
@@ -751,7 +751,7 @@ const DashboardUI = ({onLogout}) => {
                 justifyContent: 'flex-start',
                 alignItems: 'center',
                 boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
-                overflowY: 'auto',
+                overflowY: 'auto',  
               }}>
                 <Typography variant="h4" sx={{
                   textAlign: 'center',
@@ -773,7 +773,7 @@ const DashboardUI = ({onLogout}) => {
                    recentActivities.map((activity, index) => (
                     <Box key={index} sx={{
                       backgroundColor: cardColors[index % cardColors.length],
-                      width: { xs: '100%', md: '80%' },  
+                      width: { xs: '80%', md: '80%' },  
                       height: 'auto',  
                       borderRadius: '10px',
                       padding: '20px',
