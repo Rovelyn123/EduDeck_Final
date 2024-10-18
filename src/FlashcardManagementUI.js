@@ -628,25 +628,27 @@ function FlashcardManagementUI() {
                         <div className="footer-buttons">
                             <Button style={{
                                 borderRadius: '20px',
-                                boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
+                                boxShadow: selectedDeck ? '0px 2px 8px rgba(0, 0, 0, 0.2)' : 'none',
                                 border: '.5px solid #D9D9D9',
                                 backgroundColor: 'white',
                                 color: 'black',
                                 fontFamily: 'Lato',
-                                fontWeight: '700'
-                            }} variant="contained" onClick={handleOpen}>Start Quiz</Button>
+                                fontWeight: '700',
+                                opacity: selectedDeck ? '1' : '0.5'
+                            }} variant="contained" onClick={handleOpen} disabled={!selectedDeck}>Start Quiz</Button>
                             <Button
                                 style={{
                                     borderRadius: '20px',
-                                    boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
+                                    boxShadow: selectedDeck ? '0px 2px 8px rgba(0, 0, 0, 0.2)' : 'none',
                                     border: '.5px solid #D9D9D9',
                                     backgroundColor: 'white',
                                     color: 'black',
                                     fontFamily: 'Lato',
-                                    fontWeight: '700'
+                                    fontWeight: '700',
+                                    opacity: selectedDeck ? '1' : '0.5'
                                 }}
                                 variant="contained"
-                                onClick={handleStartReviewSession}  // Call the function to create the session and navigate
+                                onClick={handleStartReviewSession} disabled={!selectedDeck}
                             >
                                 Start Review Session
                             </Button>
