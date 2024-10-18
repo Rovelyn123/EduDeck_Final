@@ -574,7 +574,7 @@ function FlashcardManagementUI() {
                                     fontWeight: '700',
                                     opacity: selectedDeck ? '1' : '0.5'
                                 }} variant="contained" className="title-button" onClick={handleOpenAddDialog} disabled={!selectedDeck} >
-                                    Add Question</Button>
+                                    Add Flashcard</Button>
                                 <Button style={{
                                     borderRadius: '12px',
                                     boxShadow: selectedDeck ? '0px 2px 8px rgba(0, 0, 0, 0.2)' : 'none',

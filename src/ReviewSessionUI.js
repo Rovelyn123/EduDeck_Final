@@ -579,7 +579,7 @@ const endSession = async () => {
     setIsFlipped(!isFlipped);
   };
 
-  const buttonText = isFlipped ? 'Show Question' : 'Show Answer';
+  const buttonText = isFlipped ? 'FLIP' : 'FLIP';
   const isMemorized = memorizedCards[currentCardIndex] || false;
   const currentFlashcard = flashcards[currentCardIndex];
 
@@ -600,6 +600,7 @@ const endSession = async () => {
               )}
               <div className="flashcard-container">
                 <div className="flashcard">
+                {isFlipped ? <p className="answerlabel">ANSWER</p> : <p className="questionlabel">QUESTION</p>}
                   <div className="front">
                     <Typography variant="h5">{currentFlashcard?.question || 'Loading...'}</Typography>
                   </div>
