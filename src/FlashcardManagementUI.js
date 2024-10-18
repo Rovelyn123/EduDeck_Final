@@ -48,6 +48,25 @@ function FlashcardManagementUI() {
         setSelectedDifficulty(difficulty);
     };
 
+    // const deckContainerRef = useRef(null);
+
+    // const handleClickOutside = (event) => {
+    //     if (deckContainerRef.current && !deckContainerRef.current.contains(event.target)) {
+    //         // Deselect the deck and reset background
+    //         setSelectedDeck('');
+    //         setSelectedDeckId('');
+    //     }
+    // };
+
+    // useEffect(() => {
+    //     // Add the event listener to detect clicks on the document
+    //     document.addEventListener('mousedown', handleClickOutside);
+
+    //     return () => {
+    //         // Clean up the event listener on component unmount
+    //         document.removeEventListener('mousedown', handleClickOutside);
+    //     };
+    // }, [deckContainerRef]);
 
     useEffect(() => {
             const fetchDecks = async () => {
@@ -259,16 +278,34 @@ function FlashcardManagementUI() {
             setOpenNewDeckDialog(false);
         };
 
+        // const handleDeckSelection = (deck) => {
+        //     setSelectedDeck(deck.title);
+        //     setSelectedDeckId(deck.deckId);
+        //     console.log(deck.deckId);
+
+        //     // Clear the paused session data when switching decks
+        //     localStorage.removeItem(`reviewSessionId_${deck.deckId}`);
+
+        //     localStorage.setItem('selectedDeck', deck.title);
+        //     localStorage.setItem('selectedDeckId', deck.deckId);
+        // };
         const handleDeckSelection = (deck) => {
-            setSelectedDeck(deck.title);
-            setSelectedDeckId(deck.deckId);
-            console.log(deck.deckId);
-
-            // Clear the paused session data when switching decks
-            localStorage.removeItem(`reviewSessionId_${deck.deckId}`);
-
-            localStorage.setItem('selectedDeck', deck.title);
-            localStorage.setItem('selectedDeckId', deck.deckId);
+            // If the selected deck is clicked again, deselect it
+            if (selectedDeck === deck.title && selectedDeckId === deck.deckId && selectedDeckDocumentId === deck.document.documentId) {
+                setSelectedDeck('');
+                setSelectedDeckId('');
+                setSelectedDeckDocumentId('');
+            } else {
+                // Select the deck
+                setSelectedDeck(deck.title);
+                setSelectedDeckId(deck.deckId);
+                setSelectedDeckDocumentId(deck.document.documentId);
+        
+                localStorage.removeItem(`reviewSessionId_${deck.deckId}`);
+                localStorage.setItem('selectedDeck', deck.title);
+                localStorage.setItem('selectedDeckId', deck.deckId);
+                localStorage.setItem('selectedDeckDocumentId', deck.document.documentId);
+            }
         };
 
 
@@ -410,22 +447,19 @@ function FlashcardManagementUI() {
                         minHeight: '100vh',
                         overflow: 'hidden'
                     }}>
-                        <Link to="/dashboard" style={{textDecoration: 'none'}}>
-                            <Box style={{display: 'flex', alignItems: 'center', marginTop: 15}}>
-                                <img src="/logo.png" alt="logo" style={{height: isMobile ? 35 : 50}}/>
-                                {!isMobile && (
-                                    <Typography variant="h3" style={{
-                                        fontFamily: 'Lato',
-                                        fontWeight: '900',
-                                        fontSize: '2em',
-                                        color: '#B18A00',
-                                        marginLeft: 10
-                                    }}>
-                                        EduDeck
-                                    </Typography>
-                                )}    
-                            </Box>
-                        </Link>
+                        <Button style={{textTransform: 'none' ,display: 'flex', alignItems: 'center', marginTop: 5, zIndex: 100, marginRight: 20}} component = {Link} to = "/dashboard" >
+                            <img src="/logo.png" alt="logo" style={{ height: isMobile ? 35 : 50 }}  /> 
+                            {!isMobile && (
+                                <Typography variant="h3" style={{ fontFamily: 'Lato', fontWeight: '900', fontSize: '2.3em', color: '#B18A00' }} > 
+                                EduDeck
+                                </Typography>
+                            )}
+                            {isMobile && (
+                                <IconButton onClick={toggleDrawer(true)} style={{ marginLeft: 'auto' }}>
+                                <MenuIcon />
+                                </IconButton>
+                            )}
+                            </Button>       
                         {isMobile && (
                             <IconButton onClick={toggleDrawer(true)} style={{marginLeft: 'auto', }}>
                                 <MenuIcon/>
@@ -532,24 +566,26 @@ function FlashcardManagementUI() {
                             <div className="left-buttons">
                                 <Button style={{
                                     borderRadius: '12px',
-                                    boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
+                                    boxShadow: selectedDeck ? '0px 2px 8px rgba(0, 0, 0, 0.2)' : 'none',
                                     border: '.5px solid #D9D9D9',
                                     padding: '4px 8px',
                                     fontSize: '0.875rem',
                                     fontFamily: 'Lato',
-                                    fontWeight: '700'
-                                }} variant="contained" className="title-button" onClick={handleOpenAddDialog}>Add
-                                    Question</Button>
+                                    fontWeight: '700',
+                                    opacity: selectedDeck ? '1' : '0.5'
+                                }} variant="contained" className="title-button" onClick={handleOpenAddDialog} disabled={!selectedDeck} >
+                                    Add Question</Button>
                                 <Button style={{
                                     borderRadius: '12px',
-                                    boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
+                                    boxShadow: selectedDeck ? '0px 2px 8px rgba(0, 0, 0, 0.2)' : 'none',
                                     border: '.5px solid #D9D9D9',
                                     padding: '4px 8px',
                                     fontSize: '0.875rem',
                                     fontFamily: 'Lato',
-                                    fontWeight: '700'
+                                    fontWeight: '700',
+                                    opacity: selectedDeck ? '1' : '0.5'
                                 }} variant="contained" className="title-button"
-                                        onClick={() => setOpenConfirmDeleteDeckDialog(true)}>Delete Deck</Button>
+                                        onClick={() => setOpenConfirmDeleteDeckDialog(true)} disabled={!selectedDeck}>Delete Deck</Button>
                             </div>
                             <Typography variant={isMobile ? 'body2' : "h5"} style={{
                                 fontWeight: 'bold',

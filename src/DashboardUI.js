@@ -808,7 +808,8 @@ const DashboardUI = ({onLogout}) => {
                       </Box>
 
                       {/* Card Count Button */}
-                      <Button sx={{
+                      <Button component={Link} to="/flashcardsmgt"
+                      sx={{
                         background: '#FFffff',
                         width: { xs: '100%', md: '9em' }, 
                         height: '2.5em',
