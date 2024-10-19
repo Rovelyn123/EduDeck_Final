@@ -9,7 +9,7 @@ import axios from "axios";
 import '@fontsource/lato';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { PieChart, Pie, Cell, Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
-
+import BASE_URL from "./config.js";
 
 const DashboardUI = ({onLogout}) => {
     const navigate = useNavigate();
@@ -198,7 +198,7 @@ const DashboardUI = ({onLogout}) => {
 
       const fetchFlashcards = async () => {
         try {
-          const response = await axios.get(`http://localhost:8080/api/flashcards/deck/${deckId}`); // ari karyme di ma fetch ambot if sakto ba na pag call hahaha http://localhost:8080/api/decks/getFlashcardDeckById/${deckId}
+          const response = await axios.get(`${BASE_URL}/api/flashcards/deck/${deckId}`); // ari karyme di ma fetch ambot if sakto ba na pag call hahaha http://localhost:8080/api/decks/getFlashcardDeckById/${deckId}
           setFlashcards(response.data);
         } catch (error) {
           console.error('Error fetching flashcards', error);
@@ -213,7 +213,7 @@ const DashboardUI = ({onLogout}) => {
     useEffect(() => {
       const userid = localStorage.getItem('userid');
   
-      axios.get(`http://localhost:8080/api/document/files/${userid}`)
+      axios.get(`${BASE_URL}/api/document/files/${userid}`)
           .then(response => {
               setUserData(response.data);
               setDocumentCount(response.data.length);
@@ -234,7 +234,7 @@ const DashboardUI = ({onLogout}) => {
       console.log(storedUsername);
       // setUserName(newEnteredUsername || "Guest");
   
-      axios.get('http://localhost:8080/user/getAllUsers')
+      axios.get(`${BASE_URL}/user/getAllUsers`)
           .then(response => {
               setUserData(response.data);
           })
@@ -250,7 +250,7 @@ const DashboardUI = ({onLogout}) => {
         const userid = localStorage.getItem('userid');
 
         // Check if the user has uploaded a profile picture
-        axios.get(`http://localhost:8080/user/getProfilePicture/${userid}`, { responseType: 'blob' }) // Specify responseType as 'blob'
+        axios.get(`${BASE_URL}/user/getProfilePicture/${userid}`, { responseType: 'blob' }) // Specify responseType as 'blob'
             .then((response) => {
                 // If the response is successful and contains data, set the selected image
                 if (response.data && response.data.size > 0) {

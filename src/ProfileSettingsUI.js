@@ -6,6 +6,7 @@ import { FaEdit, FaSignOutAlt } from 'react-icons/fa';
 import { useLocation, useNavigate } from 'react-router-dom';
 import '@fontsource/lato';
 import axios from "axios";
+import BASE_URL from './config';
 
 const UserProfileUI = () => {
   const location = useLocation();
@@ -37,7 +38,7 @@ const UserProfileUI = () => {
   // };
   const fetchEmail = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/user/getEmail/${userId}`);
+      const response = await axios.get(`${BASE_URL}/user/getEmail/${userId}`);
       setEmail(response.data); // Set the email from the response
     } catch (error) {
       console.error('Error fetching email:', error);
@@ -50,7 +51,7 @@ const UserProfileUI = () => {
 
   const fetchSubscription = async () => {
     try {
-      const response = await axios.post(`http://localhost:8080/api/subscription`, {
+      const response = await axios.post(`${BASE_URL}/api/subscription`, {
         email: email // Send the email in the request body
       });
       console.log('Subscription response:', response.data); // Log the response data
@@ -75,7 +76,7 @@ const UserProfileUI = () => {
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/user/getUserDetails/${userid}`);
+        const response = await fetch(`${BASE_URL}/user/getUserDetails/${userid}`);
         if (response.ok) {
           const data = await response.json();
           setUserDetails({
@@ -102,7 +103,7 @@ const UserProfileUI = () => {
 
   const fetchProfilePicture = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/user/getProfilePicture/${userid}`);
+      const response = await fetch(`${BASE_URL}/user/getProfilePicture/${userid}`);
       if (response.ok) {
         const imageBlob = await response.blob();
         setProfilePic(URL.createObjectURL(imageBlob));
@@ -123,7 +124,7 @@ const UserProfileUI = () => {
     formData.append('file', file);
 
     try {
-      const response = await fetch(`http://localhost:8080/user/uploadProfilePicture/${userid}`, {
+      const response = await fetch(`${BASE_URL}/user/uploadProfilePicture/${userid}`, {
         method: 'POST',
         body: formData,
       });
@@ -144,7 +145,7 @@ const UserProfileUI = () => {
   const handleProfilePicDelete = async () => {
     const userid = localStorage.getItem('userid');
     try {
-      const response = await fetch(`http://localhost:8080/user/deleteProfilePicture/${userid}`, {
+      const response = await fetch(`${BASE_URL}/user/deleteProfilePicture/${userid}`, {
         method: 'DELETE',
       });
 
@@ -183,21 +184,21 @@ const UserProfileUI = () => {
 
     if (editDialogType === 'bio') {
       setBio(tempValue);
-      url = `http://localhost:8080/user/updateBio/${userid}`;
+      url = `${BASE_URL}/user/updateBio/${userid}`;
       payload = { bio: tempValue };
     } else if (editDialogType === 'name') {
       setUserName(tempValue);
       localStorage.setItem('username', tempValue);
-      url = `http://localhost:8080/user/updateName/${userid}`;
+      url = `${BASE_URL}/user/updateName/${userid}`;
       payload = { username: tempValue };
     } else if (editDialogType === 'mobileNumber') {
       setMobileNumber(tempValue);
-      url = `http://localhost:8080/user/updateMobileNumber/${userid}`;
+      url = `${BASE_URL}/user/updateMobileNumber/${userid}`;
       payload = { mobileNumber: tempValue };
     } else if (editDialogType === 'password') {
       setPassword(tempValue);
       localStorage.setItem('password', tempValue);
-      url = `http://localhost:8080/user/changePassword/${userid}`;
+      url = `${BASE_URL}/user/changePassword/${userid}`;
       payload = { password: tempValue };
     }
 

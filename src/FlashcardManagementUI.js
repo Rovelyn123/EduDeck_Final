@@ -11,7 +11,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import '@fontsource/lato';
 import {toast } from 'react-toastify';
-import CloseIcon from '@mui/icons-material/Close'; 
+import BASE_URL from "./config.js";
 
 function FlashcardManagementUI() {
     const userid = localStorage.getItem('userid');
@@ -72,7 +72,7 @@ function FlashcardManagementUI() {
     useEffect(() => {
             const fetchDecks = async () => {
                 try {
-                    const response = await axios.get(`http://localhost:8080/api/decks/getDecksByUser/${userid}`);
+                    const response = await axios.get(`${BASE_URL}/api/decks/getDecksByUser/${userid}`);
                     setDecks(response.data);
                 } catch (error) {
                     console.error("Error fetching decks:", error);
@@ -85,7 +85,7 @@ function FlashcardManagementUI() {
             if (selectedDeckId) {
                 const fetchFlashcards = async () => {
                     try {
-                        const flashcardsResponse = await axios.get(`http://localhost:8080/api/flashcards/deck/${selectedDeckId}`);
+                        const flashcardsResponse = await axios.get(`${BASE_URL}/api/flashcards/deck/${selectedDeckId}`);
                         setFlashcards(flashcardsResponse.data);
                     } catch (error) {
                         console.error('Error fetching flashcards:', error);
@@ -103,7 +103,7 @@ function FlashcardManagementUI() {
 
                 const documentTitle = localStorage.getItem('selectedDeck');
                 const selectedDeckId = localStorage.getItem('selectedDeckId');
-                const createDeckResponse = await axios.post('http://localhost:8080/api/quizzes/create', {
+                const createDeckResponse = await axios.post(`${BASE_URL}/api/quizzes/create`, {
                     title: documentTitle,
                     passing_score: 60,
                     deck: {
@@ -112,9 +112,9 @@ function FlashcardManagementUI() {
                 });
                 const newQuizId = createDeckResponse.data.quizId;
 
-                const extractTextResponse = await axios.get(`http://localhost:8080/textextractor/document/${selectedDeckDocumentId}`);
+                const extractTextResponse = await axios.get(`${BASE_URL}/textextractor/document/${selectedDeckDocumentId}`);
 
-                await axios.post(`http://localhost:8080/generate-quiz?quizId=${newQuizId}&difficultyLevel=${difficultyLevel}&numQuestions=${numQuestions}`, extractTextResponse.data, {
+                await axios.post(`${BASE_URL}/generate-quiz?quizId=${newQuizId}&difficultyLevel=${difficultyLevel}&numQuestions=${numQuestions}`, extractTextResponse.data, {
                     headers: {
                         'Content-Type': 'text/plain'
                     }
@@ -160,7 +160,7 @@ function FlashcardManagementUI() {
                     question: newQuestion,
                     answer: newAnswer
                 };
-                const response = await axios.put(`http://localhost:8080/api/flashcards/editFlashcard/${currentflashcardid}`, updatedFlashcard);
+                const response = await axios.put(`${BASE_URL}/api/flashcards/editFlashcard/${currentflashcardid}`, updatedFlashcard);
 
                 if (response.status === 200) {
                     // Update the flashcard in the local state immediately
@@ -192,7 +192,7 @@ function FlashcardManagementUI() {
         const handleConfirmDelete = async () => {
             const currentflashcardid = localStorage.getItem('currentflashcardid'); // Retrieve the current flashcard ID
             try {
-                await axios.put(`http://localhost:8080/api/flashcards/deleteFlashcard/${currentflashcardid}`); // Use the API endpoint to delete the flashcard
+                await axios.put(`${BASE_URL}/api/flashcards/deleteFlashcard/${currentflashcardid}`); // Use the API endpoint to delete the flashcard
                 setFlashcards(flashcards.filter(fc => fc !== currentFlashcard));
                 setOpenDeleteDialog(false);
                 setCurrentFlashcard(null);
@@ -204,7 +204,7 @@ function FlashcardManagementUI() {
         const handleAddFlashcard = async () => {
             if (selectedDeck) {
                 try {
-                    const response = await axios.post('http://localhost:8080/api/flashcards/createFlashcard', {
+                    const response = await axios.post(`${BASE_URL}/api/flashcards/createFlashcard`, {
                         question: newQuestion,
                         answer: newAnswer,
                         flashcardDeck: {
@@ -236,7 +236,7 @@ function FlashcardManagementUI() {
 
         const handleDeleteAll = async () => {
             try {
-                const response = await axios.put(`http://localhost:8080/api/decks/deleteFlashcardDeck/${selectedDeckId}`);
+                const response = await axios.put(`${BASE_URL}/api/decks/deleteFlashcardDeck/${selectedDeckId}`);
 
                 if (response.status === 200) {
                     setDecks(decks.filter((deck) => deck.deckId !== selectedDeckId));
@@ -334,7 +334,7 @@ function FlashcardManagementUI() {
             };
 
             try {
-                const response = await axios.post('http://localhost:8080/api/ReviewSession/create', sessionData);
+                const response = await axios.post(`${BASE_URL}/api/ReviewSession/create`, sessionData);
                 const {reviewSessionId} = response.data;
                 localStorage.setItem('reviewSessionId', reviewSessionId);  // Save the session ID for future use
                 navigate('/reviewsession', {state: {selectedDeckId, reviewSessionId}});

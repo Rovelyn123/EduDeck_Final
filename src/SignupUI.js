@@ -5,6 +5,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import "./SignupUI.css";
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import BASE_URL from './config.js';
 
 function SignupUI({ onSignup }) {
   const [username, setUsername] = useState('');
@@ -62,7 +63,7 @@ function SignupUI({ onSignup }) {
     }
 
     try {
-      const response = await fetch("http://localhost:8080/signup", {
+      const response = await fetch(`${BASE_URL}/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

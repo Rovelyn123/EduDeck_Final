@@ -13,6 +13,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import '@fontsource/lato';
+import BASE_URL from "./config.js";
 
 function DocumentUploadUI() {
     const theme = useTheme();
@@ -38,7 +39,7 @@ function DocumentUploadUI() {
 
         const fetchUploadedFiles = async () => {
             try {
-                const filesResponse = await fetch(`http://localhost:8080/api/document/files/${userid}`);
+                const filesResponse = await fetch(`${BASE_URL}/api/document/files/${userid}`);
                 if (!filesResponse.ok) {
                     throw new Error('Failed to fetch uploaded files.');
                 }
@@ -54,7 +55,7 @@ function DocumentUploadUI() {
         useEffect(() => {
             const fetchUploadedFiles = async () => {
                 try {
-                    const response = await fetch(`http://localhost:8080/api/document/files/${userid}`);
+                    const response = await fetch(`${BASE_URL}/api/document/files/${userid}`);
                     if (!response.ok) {
                         throw new Error('Failed to fetch uploaded files.');
                     }
@@ -78,7 +79,7 @@ function DocumentUploadUI() {
                 const userid = localStorage.getItem('userid');
         
                 // Check if the user has uploaded a profile picture
-                axios.get(`http://localhost:8080/user/getProfilePicture/${userid}`, { responseType: 'blob' }) // Specify responseType as 'blob'
+                axios.get(`${BASE_URL}/user/getProfilePicture/${userid}`, { responseType: 'blob' }) // Specify responseType as 'blob'
                     .then((response) => {
                         // If the response is successful and contains data, set the selected image
                         if (response.data && response.data.size > 0) {
@@ -152,7 +153,7 @@ function DocumentUploadUI() {
                     })], { type: 'application/json' }));
                     formData.append('file', selectedFile);
     
-                    const response = await fetch(`http://localhost:8080/api/document/upload/${userid}`, {
+                    const response = await fetch(`${BASE_URL}/api/document/upload/${userid}`, {
                         method: 'POST',
                         body: formData,
                         headers: {},
@@ -266,7 +267,7 @@ function DocumentUploadUI() {
                 formData.append("newFile", replacementFile);
             }
             const response = await fetch(
-                `http://localhost:8080/api/document/update/${documentID}`,
+                `${BASE_URL}/api/document/update/${documentID}`,
                 {
                     method: "PUT",
                     body: formData,
@@ -319,7 +320,7 @@ function DocumentUploadUI() {
 
       const handleDeleteConfirmation = async (documentID) => {
         try {
-            const response = await fetch(`http://localhost:8080/api/document/delete/${documentID}`, {
+            const response = await fetch(`${BASE_URL}/api/document/delete/${documentID}`, {
                 method: 'DELETE',
             });
     
@@ -356,7 +357,7 @@ function DocumentUploadUI() {
             const documentID = uploadedFiles[index]?.documentID;
             const documentTitle = uploadedFiles[index]?.documentTitle; 
             const userId = localStorage.getItem('userid');
-            const createDeckResponse = await axios.post('http://localhost:8080/api/decks/createFlashcardDeck', {
+            const createDeckResponse = await axios.post(`${BASE_URL}/api/decks/createFlashcardDeck`, {
                 title: documentTitle,
                 user: {
                 userid: userId
@@ -369,10 +370,10 @@ function DocumentUploadUI() {
             setDeckId(newDeckId);
             setDeckCreated(true);
 
-            const extractTextResponse = await axios.get(`http://localhost:8080/textextractor/document/${documentID}`);
+            const extractTextResponse = await axios.get(`${BASE_URL}/textextractor/document/${documentID}`);
             setExtractedText(extractTextResponse.data);
       
-            await axios.post(`http://localhost:8080/generate-flashcards/${newDeckId}`, extractTextResponse.data, {
+            await axios.post(`${BASE_URL}/generate-flashcards/${newDeckId}`, extractTextResponse.data, {
               headers: {
                 'Content-Type': 'text/plain'
               }

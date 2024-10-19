@@ -350,6 +350,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import TopAppBar from './TopAppBarUI';
 import '@fontsource/lato';
 import { useLocation, useNavigate } from 'react-router-dom';
+import BASE_URL from "./config";
 
 function ReviewSessionUI() {
   const [flashcardTitle, setFlashcardTitle] = useState('Review Session');
@@ -407,7 +408,7 @@ function ReviewSessionUI() {
       };
 
       try {
-        const response = await axios.post('http://localhost:8080/api/ReviewSession/create', sessionData);
+        const response = await axios.post(`${BASE_URL}/api/ReviewSession/create`, sessionData);
         const { reviewSessionId } = response.data;
         setSessionId(reviewSessionId);
         localStorage.setItem('reviewSessionId', reviewSessionId); // Persist session ID
@@ -430,11 +431,11 @@ function ReviewSessionUI() {
 
     if (deckId) {
       try {
-        const response = await axios.get(`http://localhost:8080/api/flashcards/deck/${deckId}`);
+        const response = await axios.get(`${BASE_URL}/api/flashcards/deck/${deckId}`);
         setFlashcards(response.data);
         setTotalFlashcards(response.data.length);
 
-        const deckResponse = await axios.get(`http://localhost:8080/api/decks/getFlashcardDeckById/${deckId}`);
+        const deckResponse = await axios.get(`${BASE_URL}/api/decks/getFlashcardDeckById/${deckId}`);
         setFlashcardTitle(deckResponse.data.title);
       } catch (error) {
         console.error('Error fetching flashcards or deck title:', error);
@@ -481,7 +482,7 @@ function ReviewSessionUI() {
     const isMemorized = !memorizedCards[currentCardIndex];
 
     try {
-      await axios.put(`http://localhost:8080/api/ReviewSession/markMemorized`, null, {
+      await axios.put(`${BASE_URL}/api/ReviewSession/markMemorized`, null, {
         params: {
           reviewSessionId: sessionId,
           flashcardId: flashcards[currentCardIndex]?.id,
@@ -509,7 +510,7 @@ function ReviewSessionUI() {
       localStorage.setItem('currentCardIndex', newIndex); // Persist current card index
 
       try {
-        await axios.put(`http://localhost:8080/api/ReviewSession/updateCurrentIndex`, null, {
+        await axios.put(`${BASE_URL}/api/ReviewSession/updateCurrentIndex`, null, {
           params: {
             reviewSessionId: sessionId,
             currentCardIndex: newIndex,
@@ -542,7 +543,7 @@ const endSession = async () => {
   try {
     const endTime = new Date().toISOString();
 
-    await axios.put(`http://localhost:8080/api/ReviewSession/endSession`, null, {
+    await axios.put(`${BASE_URL}/api/ReviewSession/endSession`, null, {
       params: {
         reviewSessionId: sessionId,
         endTime: endTime,
