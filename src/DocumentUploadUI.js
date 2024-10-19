@@ -34,8 +34,52 @@ function DocumentUploadUI() {
     const [loading, setLoading] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
     const location = useLocation();
-
+    const userId = localStorage.getItem('userid');
+    const [subscription, setSubscription] = useState('Free Plan');
+    const [email, setEmail] = useState('');
     const userid = localStorage.getItem('userid');
+
+    //Subscription Fetch
+    const fetchEmail = async () => {
+
+
+        try {
+            const response = await axios.get(`${BASE_URL}/user/getEmail/${userId}`);
+            setEmail(response.data); // Set the email from the response
+        } catch (error) {
+            console.error('Error fetching email:', error);
+        }
+    };
+    // Fetch email when the component mounts
+    useEffect(() => {
+        fetchEmail();
+    }, [userId]);
+
+    const fetchSubscription = async () => {
+        try {
+            const response = await axios.post(`${BASE_URL}/api/subscription`, {
+                email: email // Send the email in the request body
+            });
+            console.log('Subscription response:', response.data); // Log the response data
+
+            if (response.data.active) {
+                setSubscription('EduDeck Plus');
+            } else {
+                setSubscription('Free Plan');
+            }
+        } catch (error) {
+            console.error('Error fetching subscription:', error);
+            // Optionally handle error state
+        }
+    };
+
+
+
+    useEffect(() => {
+        if (email) {
+            fetchSubscription();
+        }
+    }, [email]);
 
         const fetchUploadedFiles = async () => {
             try {
@@ -407,11 +451,15 @@ function DocumentUploadUI() {
                 <AppBar position="sticky" style={{backgroundColor: 'transparent', boxShadow: 'none', justifyContent: 'center'}}>
                     <Toolbar style={{marginLeft: 0, paddingLeft: 0, display: 'flex', justifyContent: 'space-between'}}>
                     <Link to="/dashboard" style={{ textDecoration: 'none' }}>
-                        <Box display={'flex'} style={{ width: isMobile ? 50 : 230, backgroundColor: 'tranparent', alignItems: 'center', marginLeft: 0 }}>
+                        <Box display={'flex'} style={{ width: isMobile ? 50 : 250, backgroundColor: 'tranparent', alignItems: 'center', marginLeft: 0 }}>
                         <img src="/logo.png" alt="logo" style={{ height: isMobile ? 35 : 60 }} />
                         {!isMobile && (
                             <Typography variant="h3" style={{ fontFamily: 'Lato', fontWeight: '900', fontSize: '2em', color: '#B18A00' }}>
-                            EduDeck
+                                EduDeck {subscription === 'EduDeck Plus' ? (
+                                <sup style={{ color: 'black', fontSize: '0.5em' }}>Plus</sup>
+                            ) : (
+                                <sup style={{ fontSize: '0.5em', color: '#888' }}>Free</sup>
+                            )}
                             </Typography>
                         )}
                         </Box>

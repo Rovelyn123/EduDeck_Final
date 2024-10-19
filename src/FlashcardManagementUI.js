@@ -39,7 +39,9 @@ function FlashcardManagementUI() {
     const [selectedDeckDocumentId, setSelectedDeckDocumentId] = useState(null);
     const [isCompleted, setIsCompleted] = useState(false);
     const [setCurrentCardIndex] = useState(0);
-
+    const userId = localStorage.getItem('userid');
+    const [subscription, setSubscription] = useState('Free Plan');
+    const [email, setEmail] = useState('');
     const handleQuestionChange = (event) => {
         setNumQuestions(event.target.value);
     };
@@ -69,6 +71,50 @@ function FlashcardManagementUI() {
     //         document.removeEventListener('mousedown', handleClickOutside);
     //     };
     // }, [deckContainerRef]);
+
+
+    //Subscription Fetch
+    const fetchEmail = async () => {
+
+
+        try {
+            const response = await axios.get(`${BASE_URL}/user/getEmail/${userId}`);
+            setEmail(response.data); // Set the email from the response
+        } catch (error) {
+            console.error('Error fetching email:', error);
+        }
+    };
+    // Fetch email when the component mounts
+    useEffect(() => {
+        fetchEmail();
+    }, [userId]);
+
+    const fetchSubscription = async () => {
+        try {
+            const response = await axios.post(`${BASE_URL}/api/subscription`, {
+                email: email // Send the email in the request body
+            });
+            console.log('Subscription response:', response.data); // Log the response data
+
+            if (response.data.active) {
+                setSubscription('EduDeck Plus');
+            } else {
+                setSubscription('Free Plan');
+            }
+        } catch (error) {
+            console.error('Error fetching subscription:', error);
+            // Optionally handle error state
+        }
+    };
+
+
+
+    useEffect(() => {
+        if (email) {
+            fetchSubscription();
+        }
+    }, [email]);
+
 
     useEffect(() => {
             const fetchDecks = async () => {
@@ -452,8 +498,12 @@ function FlashcardManagementUI() {
                         <Button style={{textTransform: 'none' ,display: 'flex', alignItems: 'center', marginTop: 5, zIndex: 100, marginRight: 20}} component = {Link} to = "/dashboard" >
                             <img src="/logo.png" alt="logo" style={{ height: isMobile ? 35 : 50 }}  /> 
                             {!isMobile && (
-                                <Typography variant="h3" style={{ fontFamily: 'Lato', fontWeight: '900', fontSize: '2.3em', color: '#B18A00' }} > 
-                                EduDeck
+                                <Typography variant="h3" style={{ fontFamily: 'Lato', fontWeight: '900', fontSize: '2.3em', color: '#B18A00' }} >
+                                    EduDeck {subscription === 'EduDeck Plus' ? (
+                                    <sup style={{ color: 'black', fontSize: '0.5em' }}>Plus</sup>
+                                ) : (
+                                    <sup style={{ fontSize: '0.5em', color: '#888' }}>Free</sup>
+                                )}
                                 </Typography>
                             )}
                             {isMobile && (
