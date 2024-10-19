@@ -12,6 +12,7 @@ import { Link, useNavigate } from "react-router-dom";
 import '@fontsource/lato';
 import {toast } from 'react-toastify';
 import BASE_URL from "./config.js";
+import CloseIcon from '@mui/icons-material/Close';
 
 function FlashcardManagementUI() {
     const userid = localStorage.getItem('userid');
