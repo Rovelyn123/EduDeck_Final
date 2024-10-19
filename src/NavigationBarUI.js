@@ -22,6 +22,7 @@ import axios from "axios";
 
 // Import the Stepper component
 import NavBarStepperUI from './NavBarStepperUI';
+import BASE_URL from "./config";
 
 // Remove the import for CloseIcon
 // import CloseIcon from '@mui/icons-material/CloseIcon';
@@ -55,21 +56,22 @@ function NavigationBarUI() {
 
     //Subscription Fetch
     const fetchEmail = async () => {
+
         try {
-            const response = await axios.get(`http://localhost:8080/user/getEmail/${userId}`);
+            const response = await axios.get(`${BASE_URL}/user/getEmail/${userId}`);
             setEmail(response.data); // Set the email from the response
         } catch (error) {
             console.error('Error fetching email:', error);
         }
     };
-
+    // Fetch email when the component mounts
     useEffect(() => {
         fetchEmail();
     }, [userId]);
 
     const fetchSubscription = async () => {
         try {
-            const response = await axios.post(`http://localhost:8080/api/subscription`, {
+            const response = await axios.post(`${BASE_URL}/api/subscription`, {
                 email: email // Send the email in the request body
             });
             console.log('Subscription response:', response.data); // Log the response data
@@ -84,6 +86,8 @@ function NavigationBarUI() {
             // Optionally handle error state
         }
     };
+
+
 
     useEffect(() => {
         if (email) {
@@ -108,12 +112,21 @@ function NavigationBarUI() {
         >
             <Box sx={{ width: '100%', height: '90%', overflowY: 'auto', paddingBottom: '5em' }}>
                 <Box sx={{ display: 'flex', padding: 1 }}>
-                    <img src="/logo.png" alt="logo" style={{ height: 50 }} />
-                    <Typography variant="h3" style={{ marginRight: '.5em',fontFamily: 'Lato', fontWeight: '900', fontSize: '2em', color: '#B18A00', }}>
-                        EduDeck {subscription === 'EduDeck Plus' && (
+                    <img src="/logo.png" alt="logo" style={{ height: 60,marginTop:'5px' }} />
+                    <Typography
+                        variant="h3"
+                        style={{
+                            marginRight: '.5em',
+                            fontFamily: 'Lato',
+                            fontWeight: '900',
+                            fontSize: '2em',
+                            color: '#B18A00'
+                        }}>
+                        EduDeck {subscription === 'EduDeck Plus' ? (
                         <sup style={{ color: 'black', fontSize: '0.5em' }}>Plus</sup>
+                    ) : (
+                        <sup style={{ fontSize: '0.5em', color: '#888' }}>Free</sup>
                     )}
-
                     </Typography>
                 </Box>
                 <Divider style={{ marginLeft: '1em', backgroundColor: '#BCA860', width: '80%', marginTop: 10 }} />
@@ -253,13 +266,22 @@ function NavigationBarUI() {
             <div style={{backgroundImage: 'url(/crystalbackground.png)', minHeight: '100vh', overflow: 'hidden' }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                     <Box sx={{ display: 'flex', alignItems: 'center', marginLeft: -1}}>
-                        <img src="/logo.png" alt="logo" style={{ height: isMobile ? 35 : 50 }} />
+                        <img src="/logo.png" alt="logo" style={{ height: isMobile ? 35 : 50, marginTop:'5px', marginLeft:'5px',marginBottom:'-5px'}} />
                         {!isMobile && (
-                            <Typography variant="h3" style={{ fontFamily: 'Lato', fontWeight: '900', fontSize: '2em', color: '#B18A00', ml: 1 }}>
-                                EduDeck {subscription === 'EduDeck Plus' && (
+                            <Typography
+                                variant="h3"
+                                style={{
+                                    marginRight: '.5em',
+                                    fontFamily: 'Lato',
+                                    fontWeight: '900',
+                                    fontSize: '2em',
+                                    color: '#B18A00'
+                                }}>
+                                EduDeck {subscription === 'EduDeck Plus' ? (
                                 <sup style={{ color: 'black', fontSize: '0.5em' }}>Plus</sup>
+                            ) : (
+                                <sup style={{ fontSize: '0.5em', color: '#888' }}>Free</sup>
                             )}
-
                             </Typography>
                         )}
                     </Box>
