@@ -337,33 +337,31 @@ function PricingUI() {
                     </Box>
                     <Grid container justifyContent="center" spacing={5} sx={{
                         position: 'absolute',
-                        top: { xs: '260px', md: '180px' },
-                        left: '51.1%',
+                        left: '50%',
+                        marginLeft:'15px',
                         transform: 'translateX(-50%)',
-                        width: { xs: '90%', md: '70%' },
+                        width: {md: '60%'},
                         marginTop: '10px'
                     }}>
-                        <Grid item xs={12} md={5} sx={{ pr: { md: 5 }, mb: 2.5 }}>
+                        <Grid item xs={12} md={6}>
                             <Box sx={{
-                                width: '100%',
-                                maxWidth: '250px', // Max width to keep it portrait on larger screens
-                                aspectRatio: '3/4', // Maintain a portrait rectangle aspect ratio (3:4)
+                                width: '60%',
+                                height:'100%',
                                 backgroundColor: '#FFFFFF',
                                 borderRadius: '20px',
                                 border: '1px solid #000000',
-                                boxShadow: subscription === 'Free Plan' ? '0px 0px 15px 5px rgba(250, 199, 18, 0.8)' : '0px 2px 8px rgba(0, 0, 0, 0.2)',
+                                boxShadow: subscription === 'Free Plan' ? '0px 0px 15px 5px rgba(250, 199, 18, 0.8)' : '0px 2px 8px rgba(0, 0, 0, 0.2)', // Glow for Free Plan
                                 display: 'flex',
                                 flexDirection: 'column',
                                 alignItems: 'flex-start',
                                 padding: '20px',
-                                transition: 'box-shadow 0.3s ease',
-                                marginTop: '10px' // Ensure the margin is added here
+                                transition: 'box-shadow 0.3s ease' // Smooth transition between glow states
                             }}>
                                 <Typography sx={{
                                     fontFamily: 'Lato',
                                     fontWeight: 'bolder',
                                     color: '#B18A00',
-                                    fontSize: { xs: '30px', md: '30px' },
+                                    fontSize: {xs: '30px', md: '30px'},
                                     marginBottom: '25px',
                                     marginTop: '20px'
                                 }}>
@@ -401,21 +399,20 @@ function PricingUI() {
                             </Box>
                         </Grid>
 
-                        <Grid item xs={12} md={6} sx={{ pr: { md: 5 }, mb: 2.5 }}>
-                            <Box sx={{
-                                width: '100%',
-                                maxWidth: '250px',
-                                aspectRatio: '3/4', // Same aspect ratio for the second box
+                        <Grid item xs={12} md={6} >
+
+                        <Box sx={{
+                                width: '60%',
+                                height:'100%',
                                 backgroundColor: '#FFFFFF',
                                 borderRadius: '20px',
                                 border: '1px solid #000000',
-                                boxShadow: subscription === 'EduDeck Plus' ? '0px 0px 15px 5px rgba(250, 199, 18, 0.8)' : '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+                                boxShadow: subscription === 'EduDeck Plus' ? '0px 0px 15px 5px rgba(250, 199, 18, 0.8)' : '0px 4px 4px 0px rgba(0, 0, 0, 0.25)', // Glow for EduDeck Plus
                                 display: 'flex',
                                 flexDirection: 'column',
                                 alignItems: 'flex-start',
                                 padding: '20px',
                                 transition: 'box-shadow 0.3s ease',
-                                marginTop: '10px'
                             }}>
                                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', marginBottom: '5px' }}>
                                     <Typography sx={{
@@ -500,12 +497,14 @@ function PricingUI() {
                                 >
                                     &bull; Early access to new features.
                                 </Typography>
-                                <Box sx={{
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    width: '100%',
-                                }}>
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        justifyContent: 'center', // Center horizontally
+                                        alignItems: 'center',     // Center vertically
+                                        width: '100%',            // Make sure the container takes full width
+                                    }}
+                                >
                                     <Button
                                         sx={{
                                             background: subscription === 'EduDeck Plus' ? '#FAC712' : '#FAC712',
@@ -516,10 +515,8 @@ function PricingUI() {
                                             textTransform: 'none',
                                             padding: '10px',
                                             borderRadius: '10px',
-                                            marginTop: '20px',
-                                            width: '90%',
-                                            height: '40px',
-                                            marginBottom: '-35px',
+                                            marginTop: '25px',
+                                            width:'90%', height:'40px',marginBottom:'-35px',
                                             boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
                                         }}
                                         onClick={() => handleOpenModal(
@@ -544,3 +541,5 @@ function PricingUI() {
 export default PricingUI;
 
 //{showThankYou && <PurchasePopout onClose={handleClosePopout} />}
+
+

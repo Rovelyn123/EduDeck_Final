@@ -90,14 +90,14 @@ function NavigationBarUI() {
     >
       <Box sx={{ width: '100%', height: '90%', overflowY: 'auto', paddingBottom: '5em' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 1 }}>
-          <img src="/logo.png" alt="logo" style={{ height: 50 }} />
+          <img src="/logo.png" alt="logo" style={{ height: 60 }} />
             <Typography
                 variant="h3"
                 style={{
                     marginRight: '.5em',
                     fontFamily: 'Lato',
                     fontWeight: '900',
-                    fontSize: '2em',
+                    fontSize: '2em',marginTop:'1px',
                     color: '#B18A00',
                 }}
             >
@@ -198,7 +198,6 @@ function NavigationBarUI() {
                       display: 'flex',
                       justifyContent: 'flex-start',
                       alignItems: 'center',
-                      padding: '0.5em 1em', // Add padding for better alignment
                       textAlign: 'left' // Ensure text is aligned left
                   }}
                   onClick={() => {
@@ -397,13 +396,22 @@ function NavigationBarUI() {
               </Typography>
             </Button> */}
 
-            <Button component={Link} to="/pricing"
-              style={{backgroundColor: clicked === 'pricing' ? '#FFEAA0' : 'transparent', width: '100%', boxShadow: clicked === 'pricing' ? '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' : 'none', marginBottom: '3%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}
+                <Button
+                    style={{
+                        backgroundColor: clicked === 'pricing' ? '#FFEAA0' : 'transparent',
+                        width: '100%',
+                        boxShadow: clicked === 'pricing' ? '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' : 'none',
+                        marginBottom: 2,
+                        display: 'flex',
+                        justifyContent: 'flex-start',
+                        alignItems: 'center',
+                        textAlign: 'left'
+                    }}
                     onClick={() => {
                         window.open('/pricing', '_blank');
                         handleButtonClick('pricing');
                     }}
-            >
+                >
               <img src="/pricing.png" alt="pricing" style={{height: '100%', marginRight: '.5em'}} />
               <Typography style={{color: 'black', fontFamily: 'Lato', fontWeight: 300, fontSize: '15px', textTransform: 'none', flexGrow: 1}}>
                 Subscription
