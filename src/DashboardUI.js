@@ -9,6 +9,8 @@ import axios from "axios";
 import '@fontsource/lato';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { PieChart, Pie, Cell, Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import BASE_URL from "./config.js";
 
 const DashboardUI = ({onLogout}) => {
@@ -25,7 +27,7 @@ const DashboardUI = ({onLogout}) => {
     const [recentFlashcardTitle, setRecentFlashcardTitle] = useState('');
     const [totalQuestions, setTotalQuestions] = useState(0); 
     const [score, setScore] = useState(20); 
-    const [targetScore, setTargetScore] = useState(0); 
+    const [targetScore, setTargetScore] = useState(30); 
     const [open, setOpen] = useState(false);
     const [flashcards, setFlashcards] = useState([]);
     const [id, setId] = useState(1);
@@ -126,7 +128,7 @@ const DashboardUI = ({onLogout}) => {
     };
     
     const percentage = targetScore > 0 ? Math.min((score / targetScore) * 100, 100) : 0;
-    
+
     const handleClickOpen = () => {
       setOpen(true);
     };
@@ -528,8 +530,8 @@ const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
           </Box>
 
           <Box style={{
-                width: isMobile ? '180px' : '50px',
-                height: isMobile ? '180px' : '50px',
+                width: isMobile ? '50px' : '50px',
+                height: isMobile ? '50px' : '50px',
                 position: 'relative',
                 top: isMobile ? '20px' : '17px',
                 marginLeft: isMobile ? 'calc(50% - 100px)' : '84%'
