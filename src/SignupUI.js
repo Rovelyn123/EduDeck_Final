@@ -90,7 +90,7 @@ function SignupUI({ onSignup }) {
       <div className='logocontainer'>
         <img src="logo.png" alt="Logo" style={{ width: '25%', height: '15%', position: 'absolute', 
         top: '22.5%', left: '22%', transform: 'translate(-50%, -50%)' }} />
-        <Typography variant="h3" style={{ fontFamily: 'Poppin, sans-serif', fontWeight: '650', 
+        <Typography variant="h3" style={{ fontFamily: 'lato', fontWeight: '650', 
         fontSize: '50px', color: '#B18A00', position: 'absolute', top: '23%', left: '53%', 
         transform: 'translate(-50%, -50%)' }}>
           EduDeck</Typography>

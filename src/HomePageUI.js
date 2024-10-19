@@ -1,6 +1,20 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import { AppBar, IconButton, Grid, Typography, Toolbar, Button, Box, ButtonGroup, Container, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
+import { 
+  AppBar, 
+  IconButton, 
+  Grid, 
+  Typography, 
+  Toolbar, 
+  Button, 
+  Box, 
+  ButtonGroup, 
+  Container, 
+  Dialog, 
+  DialogTitle, 
+  DialogContent, 
+  DialogActions 
+} from '@mui/material';
 import './HomePageUI.css'; 
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Footer from './FooterUI';
@@ -30,11 +44,11 @@ import UserManagement from './UserManagementUI';
 import AdminProfile from './AdminProfileUI';
 import ErrorPageUI from './ErrorPageUI';
 import ReviewResultUI from './ReviewResultUI';
+import '@fontsource/lato';
 
 export default function HomePageUI() {
     const [user, setUser] = React.useState(null);
     const [showLogin, setShowLogin] = React.useState(false);
-    const [hideAppBar, setHideAppBar] = React.useState(false);
     const [isSignInView, setIsSignInView] = React.useState(false);
     const [showHometoabout, setShowHometoabout] = React.useState(true);
     const [openDialog, setOpenDialog] = React.useState(false);
@@ -49,16 +63,36 @@ export default function HomePageUI() {
         },
     });
 
+    // Custom button styles
+    const buttonStyle = {
+        backgroundColor: '#FFFEF9', 
+        boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
+        fontFamily: 'lato',
+        fontWeight: 600,
+        fontSize: { xs: '1em', sm: '1.4em' },
+        padding: '1.5em 2em',  // Adjust padding as needed
+        '&:hover': {
+            opacity: 0.8 
+        }, 
+    };
+
+    // Image container styles
+    const imageContainerStyle = {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '10em', // Adjust height as needed
+        width: 'auto',
+    };
+
     const handleLoginClick = () => {
         setShowLogin(true);
-        setHideAppBar(true);
         setIsSignInView(true);
         setShowHometoabout(false);
     };
 
     const handleSignInClick = () => {
         setShowLogin(true);
-        setHideAppBar(true);
         setIsSignInView(false);
         setShowHometoabout(false);
     };
@@ -102,130 +136,291 @@ export default function HomePageUI() {
     return (
         <Router>
             <ThemeProvider theme={theme}>
-            <div>
-                <Routes>
-                    <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path='/uploaddocument' element={<DocumentUploadUI />} />
-                    <Route path='/flashcardsmgt' element={<FlashcardManagementUI />} />
-                    <Route path='/reviewsession' element={<ReviewSession/>} />
-                    <Route path='/aboutus' element={<AboutUs />} />
-                    <Route path='/aboutedudeck' element={<AboutEdudeck />} />
-                    <Route path='/pricing' element={<Pricing />} />
-                    <Route path='/payment' element={<PaymentScreen />} />
-                    <Route path='/billing' element={<BillingScreen />} />
-                    <Route path='/summary' element={<SummaryScreen />} />
-                    <Route path="/login" element={<Login isSignInView={isSignInView} setIsSignInView={setIsSignInView} />} />
-                    <Route path="/signup" element={<Signup handleToggle={() => setShowLogin(false)} />} />
-                    <Route path='/profilesettings' element={<ProfileSettings/>} />
-                    <Route path='/TextHighlighting' element={<TextHighlighting/>} />
-                    <Route path='/quiz' element={<QuizManagement />} />
-                    <Route path='/quizsession' element={<QuizSession />} />
-                    <Route path='/quizsummary' element={<QuizSummary />} />
-                    <Route path='/usermanagement' element={<UserManagement />} />
-                    <Route path='/adminprofile' element={<AdminProfile />} />
-                    <Route path='/reviewresult' element={<ReviewResultUI />} />
-                    <Route
-                        path="/"
-                        element={
-                            <div className='bd'>
-                                {!hideAppBar && (
-                                    <AppBar position="sticky" sx={{background: 'white'}}>
-                                    <Toolbar sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-                                        <Box sx={{display: 'flex', alignItems: 'center', margin: '0 0 0 -0.7rem '}}>
-                                            <Box sx={{height: { xs: '35px', sm: '52px' }, width: 'auto'}}>
-                                            <img src='logo.png' alt='logo' className='logo' style={{height: '100%', width: 'auto'}} />
-                                        </Box>
-                                        <Typography sx={{color: "#8c7111", fontFamily: 'Poppins, sans-serif', fontWeight: 600, fontSize: { xs: '1.2em', sm: '1.8em' }, display: { xs: "none", sm: "block" }}}>
-                                            EduDeck
-                                        </Typography>
-                                        </Box>
-                                        <Box sx={{display: 'flex', alignItems: 'center'}}>
-                                        <ButtonGroup color="secondary" variant="text" aria-label="Button group">
-                                        <Link to="/signup" style={{ textDecoration: 'none' }}><Button sx={{color: '#8C7111', fontWeight: 'bold', fontSize: { xs: '0.8em', sm: '1em' }}}>Signup</Button></Link>
-                                        <Link to="/Login" style={{ textDecoration: 'none' }}>   <Button sx={{color: '#8C7111', fontWeight: 'bold', fontSize: { xs: '0.8em', sm: '1em' }}}>Login</Button></Link>
-                                        </ButtonGroup>
-                                        </Box>
-                                    </Toolbar>
-                                </AppBar>
-                                )}
-                                {!hideAppBar && ( 
-                                    <Container>
-                                    <Grid container spacing={3}>
-                                      <Grid item xs={12} md={6}>
-                                        <Box sx={{textAlign: 'left', mt: { xs: 6, sm: 10 }, marginLeft: '5em'}}>
-                                          <Typography variant="h4" sx={{color: "#8c7111", width: '90%' , fontWeight: 600, fontSize: { xs: '2.4em', sm: '2.8em' }}}>
-                                            Elevating College Life for Holistic Success
-                                          </Typography>
-                                          <Typography variant="body1" sx={{color: "#666666", mt: 2, width: '70%'}}>
-                                            Transforming Academic Journey with Integrated Flashcards, Quiz and Text Highlighting.
-                                          </Typography>
-                                        </Box>
-                                      </Grid>
-                                      <Grid item xs={12} md={6}>
-                                        <Box sx={{textAlign: 'right', mt: { xs: 6, sm: 0 }}}>
-                                          <img src="/homebackgrounds.png" alt="homepagebackground" style={{ marginRight: '5em', width: '90%', height: 'auto'}}/>   
-                                        </Box>
-                                      </Grid>
-                                    </Grid>
-                                  </Container>
-
-                                    
-                                )}
-                                {showHometoabout && (
-                                    <>  
-                                        <Container sx={{textAlign: 'center', mt: { xs: 6, sm: 10 }}}>
-                                        <Typography variant="h5" sx={{color: "#666666", fontFamily: 'Poppins, sans-serif', fontWeight: 600, fontSize: { xs: '2em', sm: '2.4em' }}}>
-                                            Excel in your courses using our latest set of study resources.
-                                        </Typography>
-                                        </Container>
-
-                                            <Container sx={{ textAlign: 'center', mt: { xs: 6, sm: 10 } }}>
-                                                <Grid container spacing={3}>
-                                                    <Grid item xs={12} md={4}>
-                                                        <Button
-                                                            sx={{ backgroundColor: '#FFFEF9', width: '80%', height: '100%', boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)' }}
-                                                            onClick={() => handleOpenDialog('Document to Flashcard')}
-                                                        >
-                                                            <img src="/document to flashcard.png" alt="Button Image" style={{ width: '50%', height: 'auto' }} />
-                                                        </Button>
-                                                    </Grid>
-                                                    <Grid item xs={12} md={4}>
-                                                        <Button
-                                                            sx={{ backgroundColor: '#FFFEF9', width: '80%', height: '100%', boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)' }}
-                                                            onClick={() => handleOpenDialog('Text Highlighting')}
-                                                        >
-                                                            <img src="/quizzes.png" alt="Button Image" style={{ width: '50%', height: 'auto' }} />
-                                                        </Button>
-                                                    </Grid>
-                                                    <Grid item xs={12} md={4}>
-                                                        <Button
-                                                            sx={{ backgroundColor: '#FFFEF9', width: '80%', height: '100%', boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)' }}
-                                                            onClick={() => handleOpenDialog('AI generated Quiz')}
-                                                        >
-                                                            <img src="/ai.png" alt="Button Image" style={{ width: '50%', height: 'auto' }} />
-                                                        </Button>
-                                                    </Grid>
+                <div className='bd' style={{ overflow: 'hidden' }}>
+                    <Routes>
+                        {/* Homepage route with AppBar */}
+                        <Route
+                            path="/"
+                            element={
+                                <>
+                                    <AppBar position="fixed" sx={{background: 'white', zIndex: 1000 }}>
+                                        <Toolbar sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                                            <Box sx={{display: 'flex', alignItems: 'center', margin: '0 0 0 -0.7rem '}}>
+                                                <Box sx={{height: { xs: '35px', sm: '52px' }, width: 'auto'}}>
+                                                    <img src='logo.png' alt='logo' className='logo' style={{height: '100%', width: 'auto'}} />
+                                                </Box>
+                                                <Typography sx={{color: "#8c7111", fontFamily: 'Lato', fontWeight: 600, fontSize: { xs: '1.2em', sm: '1.8em' }, display: { xs: "none", sm: "block" }}}>
+                                                    EduDeck
+                                                </Typography>
+                                            </Box>
+                                            <Box sx={{display: 'flex', alignItems: 'center'}}>
+                                                <ButtonGroup color="secondary" variant="text" aria-label="Button group">
+                                                    <Link to="/signup" style={{ textDecoration: 'none' }}><Button sx={{color: '#8C7111', fontWeight: 'bold', fontSize: { xs: '0.8em', sm: '1em' }}}>Signup</Button></Link>
+                                                    <Link to="/Login" style={{ textDecoration: 'none' }}>   <Button sx={{color: '#8C7111', fontWeight: 'bold', fontSize: { xs: '0.8em', sm: '1em' }}}>Login</Button></Link>
+                                                </ButtonGroup>
+                                            </Box>
+                                        </Toolbar>
+                                    </AppBar>
+                                    <div className='bd' style={{ overflow: 'hidden' }}>
+                                        <img src='homebackgrounds.png' alt='Home Background' className='home-background' style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.3}} />
+                                        <div style={{ position: 'relative', zIndex: 10 }}> 
+                                            <Container sx={{textAlign: 'center', mt: { xs: 6, sm: 10 }}}>
+                                                <Grid style={{margin: '10%', marginTop: `13%`, marginBottom: `15%`}}>
+                                                    <Typography variant="h3" sx={{color: "#967501", fontSize: '4.5em', fontFamily: 'Lato', fontWeight: 600}}>
+                                                        Elevating College Life for Holistic Success
+                                                    </Typography>
+                                                    <Typography variant="h6" sx={{color: "#787878", fontFamily: 'Lato', fontSize: '1.5em', fontWeight: 300}}>
+                                                        Transforming the Academic Journey with Integrated Flashcards and Personalized Study Tools for Long-Term Success
+                                                    </Typography>
+                                                    <Link to="/login" style={{ textDecoration: 'none', fontFamily: 'Lato' }}><Button style={{backgroundColor:'#FAC712', color: '#332D2D', marginTop: '2em',  fontWeight: 600, borderRadius: '5em', width: '12em', height: '2.5em', border: 'black 1px solid'}}>
+                                                        Get Started
+                                                    </Button></Link>
                                                 </Grid>
                                             </Container>
 
-                                            <Container sx={{ marginBottom: '5em', textAlign: 'center', mt: { xs: 6, sm: 10 } }}>
-                                                <Button sx={{
-                                                    backgroundColor: '#FFD234', width: '12em', height: '2.5em', color: "#666666", boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
-                                                    fontFamily: 'Poppins', fontWeight: 600, fontSize: { xs: '1em', sm: '1.4em' }
-                                                }} variant="contained">Get Started</Button>
-                                                <Typography sx={{ mt: 2, color: "#666666", fontFamily: 'Poppins, sans-serif', fontWeight: 600, fontSize: { xs: '2em', sm: '2.4em' } }}>
-                                                    Prepare yourself for the day of the test.
-                                                </Typography>
-                                                <Typography sx={{ mt: 1, color: "#666666", fontFamily: 'Poppins, sans-serif', fontWeight: 300, fontSize: { xs: '.6em', sm: '1em' } }}>
-                                                    Transform your PowerPoint slides into flashcards for accelerated outcomes.
-                                                </Typography>
-                                            </Container>
-                                            <Footer />
-                                        </>
-                                    )}
-                                </div>
+
+                                            {showHometoabout && (
+                                                <>  
+                                                    <Container sx={{textAlign: 'center', mt: { xs: 3, sm: 5 }}}>
+                                                        <Typography variant="h5" sx={{ paddingLeft: `10%`, fontFamily: 'Lato', paddingRight: `10%`, color: `#333333`, fontWeight: 600, fontSize: { xs: '2em', sm: '2.4em' }}}>
+                                                            Excel in your courses using our latest set of study resources and with our exceptional features.
+                                                        </Typography>
+                                                        <Typography variant="h5" sx={{ paddingLeft: `10%`, fontFamily: 'Lato', paddingRight: `10%`, color: "#666666", fontSize: { xs: '1em', sm: '.5 em' }}}>
+                                                        Utilize our flashcard tool for quick and effective memorization, text highlighting for easier note-taking and comprehension, and quizzes to 
+                                                        test your understanding and reinforce your knowledge. Join our live learning sessions for personalized support from experienced tutors. With EduDeck, 
+                                                        </Typography>
+                                                    </Container>
+
+                                                    <Container sx={{ textAlign: 'center', mt: { xs: 3, sm: 5 } }}>
+                                                        <Grid container>
+                                                            <Grid
+                                                                item
+                                                                xs={12}
+                                                                md={4}
+                                                                sx={{
+                                                                    display: 'flex',
+                                                                    justifyContent: 'center',
+                                                                    alignItems: 'center',
+                                                                }}
+                                                            >
+                                                                <Button
+                                                                    sx={{
+                                                                        ...buttonStyle,
+                                                                        display: 'flex',
+                                                                        justifyContent: 'center',
+                                                                        alignItems: 'center',
+                                                                        textTransform: 'none',
+                                                                        width: '50%',
+                                                                        height: 'auto',
+                                                                        border: 'black 1px solid',
+
+                                                                        // Add margin between buttons
+                                                                        margin: '0 5px',  // Adjust this value to control space between buttons
+
+                                                                        '&:hover': {
+                                                                            boxShadow: 'none',
+                                                                        },
+
+                                                                        '&:active': {
+                                                                            boxShadow: '0 0 10px 5px gold',
+                                                                        },
+                                                                    }}
+                                                                    onClick={() => handleOpenDialog('Document to Flashcard')}
+                                                                >
+                                                                    <img
+                                                                        src="/document to flashcard.png"
+                                                                        alt="Button Image"
+                                                                        style={{
+                                                                            width: '100%',
+                                                                            height: 'auto',
+                                                                            objectFit: 'contain',
+                                                                            transition: 'opacity 0.3s ease',
+                                                                        }}
+                                                                        onMouseOver={(e) => (e.currentTarget.style.opacity = 0.5)}
+                                                                        onMouseOut={(e) => (e.currentTarget.style.opacity = 1)}
+                                                                    />
+                                                                </Button>
+                                                            </Grid>
+
+                                                            <Grid
+                                                                item
+                                                                xs={12}
+                                                                md={4}
+                                                                sx={{
+                                                                    display: 'flex',
+                                                                    justifyContent: 'center',
+                                                                    alignItems: 'center',
+                                                                }}
+                                                            >
+                                                                <Button
+                                                                    sx={{
+                                                                        ...buttonStyle,
+                                                                        display: 'flex',
+                                                                        justifyContent: 'center',
+                                                                        alignItems: 'center',
+                                                                        textTransform: 'none',
+                                                                        width: '50%',
+                                                                        height: 'auto',
+                                                                        border: 'black 1px solid',
+
+                                                                        // Add margin between buttons
+                                                                        margin: '0 5px',  // Adjust this value to control space between buttons
+
+                                                                        '&:hover': {
+                                                                            boxShadow: 'none',
+                                                                        },
+
+                                                                        '&:active': {
+                                                                            boxShadow: '0 0 10px 5px gold',
+                                                                        },
+                                                                    }}
+                                                                    onClick={() => handleOpenDialog('AI generated Quiz')}
+                                                                >
+                                                                    <img
+                                                                        src="/ai.png"
+                                                                        alt="Button Image"
+                                                                        style={{
+                                                                            width: '100%',
+                                                                            height: 'auto',
+                                                                            objectFit: 'contain',
+                                                                            transition: 'opacity 0.3s ease',
+                                                                        }}
+                                                                        onMouseOver={(e) => (e.currentTarget.style.opacity = 0.5)}
+                                                                        onMouseOut={(e) => (e.currentTarget.style.opacity = 1)}
+                                                                    />
+                                                                </Button>
+                                                            </Grid>
+
+                                                            <Grid
+                                                                item
+                                                                xs={12}
+                                                                md={4}
+                                                                sx={{
+                                                                    display: 'flex',
+                                                                    justifyContent: 'center',
+                                                                    alignItems: 'center',
+                                                                }}
+                                                            >
+                                                                <Button
+                                                                    sx={{
+                                                                        ...buttonStyle,
+                                                                        display: 'flex',
+                                                                        justifyContent: 'center',
+                                                                        alignItems: 'center',
+                                                                        textTransform: 'none',
+                                                                        width: '50%',
+                                                                        height: 'auto',
+                                                                        border: 'black 1px solid',
+
+                                                                        // Add margin between buttons
+                                                                        margin: '0 5px',  // Adjust this value to control space between buttons
+
+                                                                        '&:hover': {
+                                                                            boxShadow: 'none',
+                                                                        },
+
+                                                                        '&:active': {
+                                                                            boxShadow: '0 0 10px 5px gold',
+                                                                        },
+                                                                    }}
+                                                                    onClick={() => handleOpenDialog('Text Highlighting')}
+                                                                >
+                                                                    <img
+                                                                        src="/quizzes.png"
+                                                                        alt="Button Image"
+                                                                        style={{
+                                                                            width: '100%',
+                                                                            height: 'auto',
+                                                                            objectFit: 'contain',
+                                                                            transition: 'opacity 0.3s ease',
+                                                                        }}
+                                                                        onMouseOver={(e) => (e.currentTarget.style.opacity = 0.5)}
+                                                                        onMouseOut={(e) => (e.currentTarget.style.opacity = 1)}
+                                                                    />
+                                                                </Button>
+                                                            </Grid>
+                                                        </Grid>
+                                                    </Container>
+
+                                                    <Container
+                                                        sx={{
+                                                            display: 'flex',
+                                                            flexDirection: 'column',
+                                                            justifyContent: 'center',
+                                                            alignItems: 'center',
+                                                            marginBottom: '5em',
+                                                            textAlign: 'center',
+                                                            mt: { xs: 6, sm: 10 },
+                                                            backgroundColor: '#332D2D',
+                                                            height: '13em',
+                                                            padding: '1em 0'  // Add padding to balance top and bottom spacing
+                                                        }}
+                                                        >
+                                                        <Typography sx={{ mt: 0, color: "white", fontFamily: 'Lato', fontWeight: 600, fontSize: { xs: '2em', sm: '2.4em' } }}>
+                                                            Prepare yourself for the day of the test.
+                                                        </Typography>
+                                                        <Typography sx={{ mt: 1, mb: 2, color: "white", fontFamily: 'Lato', fontWeight: 300, fontSize: { xs: '.6em', sm: '1em' } }}>
+                                                            Transform your PowerPoint slides into flashcards for accelerated outcomes.
+                                                        </Typography>
+                                                        <Link to="/signup" style={{ textDecoration: 'none', fontFamily: 'Lato' }}></Link><Button style={{backgroundColor:'#FAC712', color: `#333333`, borderRadius: '5em',  fontWeight: 600, width: '12em', height: '2.5em', border: 'black 1px solid'}}>
+                                                            Create Account
+                                                        </Button>
+                                                    </Container>
+
+                                                    <Container sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', flexWrap: 'wrap' }}>
+                                                        <img 
+                                                            src='studying.jpg' 
+                                                            alt='studying' 
+                                                            className='studying' 
+                                                            style={{
+                                                            borderRadius: '.5em',
+                                                            width: '40%',
+                                                            height: 'auto',
+                                                            maxWidth: '600px',
+                                                            margin: '0px 70px 90px 70px',
+                                                            boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
+                                                            }} 
+                                                        />
+                                                        
+                                                        <div style={{ flex: 1, marginLeft: '20px', textAlign: 'right', marginRight: `80px` }}>
+                                                            <Typography variant="h5" sx={{ color: `#333333`, mb: 2, fontFamily: 'Lato', fontWeight: 'bold', fontSize: `4em`, lineHeight: '1'}}>Your Journey Starts Here!</Typography>
+                                                            <Typography sx={{ fontSize: '1rem', fontFamily: 'Lato', color: `#333333`, }}>
+                                                            Discover tools and connections that will transform your academic and personal journey. Take the first step toward achieving your academic goals with EduDeck by your side.
+                                                            </Typography>
+                                                        </div>
+                                                    </Container>
+
+
+
+
+                                                    <Footer/>
+                                                </>
+                                            )}
+                                        </div>
+                                    </div>
+                                </>
                             }
                         />
+                        <Route path="/dashboard" element={<Dashboard />} />
+                        <Route path='/uploaddocument' element={<DocumentUploadUI />} />
+                        <Route path='/flashcardsmgt' element={<FlashcardManagementUI />} />
+                        <Route path='/reviewsession' element={<ReviewSession/>} />
+                        <Route path='/aboutus' element={<AboutUs />} />
+                        <Route path='/aboutedudeck' element={<AboutEdudeck />} />
+                        <Route path='/pricing' element={<Pricing />} />
+                        <Route path='/payment' element={<PaymentScreen />} />
+                        <Route path='/billing' element={<BillingScreen />} />
+                        <Route path='/summary' element={<SummaryScreen />} />
+                        <Route path="/login" element={<Login isSignInView={isSignInView} setIsSignInView={setIsSignInView} />} />
+                        <Route path="/signup" element={<Signup handleToggle={() => setShowLogin(false)} />} />
+                        <Route path='/profilesettings' element={<ProfileSettings/>} />
+                        <Route path='/TextHighlighting' element={<TextHighlighting/>} />
+                        <Route path='/quiz' element={<QuizManagement />} />
+                        <Route path='/quizsession' element={<QuizSession />} />
+                        <Route path='/quizsummary' element={<QuizSummary />} />
+                        <Route path='/usermanagement' element={<UserManagement />} />
+                        <Route path='/adminprofile' element={<AdminProfile />} />
+                        <Route path='/reviewresult' element={<ReviewResultUI />} />
                         <Route path="*" element={<ErrorPageUI />} />
                     </Routes>
 
@@ -250,4 +445,4 @@ export default function HomePageUI() {
             </ThemeProvider>
         </Router>
     );
-}
+} 

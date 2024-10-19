@@ -60,7 +60,7 @@ function LoginUI() {
     <div className='lsbody'>
       <div className='logocontainer'>
         <img src="logo.png" alt="Logo" style={{ height: 90, position: 'absolute', top: '22%', left: '22%', transform: 'translate(-50%, -50%)' }} />
-        <Typography variant="h3" style={{ fontFamily: 'Poppin, sans-serif', fontWeight: '650', fontSize: '50px', color: '#B18A00', position: 'absolute', top: '23%', left: '53%', transform: 'translate(-50%, -50%)' }}>
+        <Typography variant="h3" style={{ fontFamily: 'lato', fontWeight: '650', fontSize: '50px', color: '#B18A00', position: 'absolute', top: '23%', left: '53%', transform: 'translate(-50%, -50%)' }}>
           EduDeck
         </Typography>
         <Typography style={{ color: 'white', fontWeight: '650', fontSize: '30px', position: 'absolute', top: '35%', left: '27%', transform: 'translate(-50%, -50%)' }}>
