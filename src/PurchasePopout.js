@@ -1,7 +1,10 @@
 import React from "react";
 import { Box, Typography, Button, Backdrop } from "@mui/material";
+// Import your images
+import successImage from "./payment/paymentsuccess.png";
+import failureImage from "./payment/paymentsuccess.png";
 
-const PurchasePopout = ({ isSuccess, popoutOpen, handleClosePopOut}) => {
+const PurchasePopout = ({ isSuccess, popoutOpen, handleClosePopOut }) => {
     return (
         <Backdrop
             sx={{
@@ -11,10 +14,10 @@ const PurchasePopout = ({ isSuccess, popoutOpen, handleClosePopOut}) => {
                 position: "fixed",
                 top: 0,
                 left: 0,
-                width: '100vw',     // Full width
-                height: '100vh',   // Full height
+                width: '100vw',
+                height: '100vh',
             }}
-            open={popoutOpen}  // Use the prop to control visibility
+            open={popoutOpen}
             onClick={handleClosePopOut}
         >
             <Box
@@ -29,21 +32,37 @@ const PurchasePopout = ({ isSuccess, popoutOpen, handleClosePopOut}) => {
                     borderRadius: "1em",
                     boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.2)",
                     padding: { xs: "20px", md: "30px" },
-                    zIndex: 1301, // Ensure it is above the backdrop
+                    zIndex: 1301,
                 }}
-                onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the box
+                onClick={(e) => e.stopPropagation()}
             >
-                {/* Conditionally render message based on payment status */}
+                {/* Conditionally render the image based on isSuccess */}
+                <Box
+                    component="img"
+                    src={isSuccess ? successImage : failureImage}
+                    alt={isSuccess ? "Success Image" : "Failure Image"}
+                    sx={{
+                        width: "30%",
+                        height: "auto",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        marginBottom: { xs: "20px", md: "30px" },
+                        margin: "0 auto"  // Centers the image horizontally
+                    }}
+                />
+
+
                 <Typography
                     sx={{
                         color: "#000000",
-                        fontSize: { xs: "1.5em", md: "2em" },
-                        fontWeight: "bolder",
+                        fontSize: { xs: "1em", md: "1.5em" },
+                        fontWeight: "bold",
                         textAlign: "center",
                         marginBottom: { xs: "20px", md: "30px" },
                     }}
                 >
-                    {isSuccess ? "Payment Successful!" : "Payment Failed or Cancelled!"}
+                    {isSuccess ? "Thank You for Subscribing!" : "Payment Failed or Cancelled!"}
                 </Typography>
 
                 <Typography
@@ -51,7 +70,7 @@ const PurchasePopout = ({ isSuccess, popoutOpen, handleClosePopOut}) => {
                         color: "#000000",
                         fontSize: { xs: "1em", md: "1em" },
                         textAlign: "center",
-                        marginBottom: { xs: "20px", md: "15px" },
+                        marginBottom: { xs: "15px", md: "5px" },
                     }}
                 >
                     {isSuccess

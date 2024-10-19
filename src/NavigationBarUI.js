@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { Typography, Drawer, useMediaQuery, useTheme, Divider, Button, IconButton } from "@mui/material";
@@ -6,6 +6,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { FaSignOutAlt } from 'react-icons/fa';
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import '@fontsource/lato';
+import axios from "axios";
 
 function NavigationBarUI() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -14,7 +15,9 @@ function NavigationBarUI() {
   const [clicked, setClicked] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
-
+  const userId = localStorage.getItem('userid');
+  const [subscription, setSubscription] = useState('Free Plan');
+  const [email, setEmail] = useState('');
   const toggleDrawer = (open) => () => {
     setIsDrawerOpen(open);
   };
@@ -28,7 +31,50 @@ function NavigationBarUI() {
     navigate("/login");
   };
 
-  const drawerContent = (
+  //Subscription Fetch
+    const fetchEmail = async () => {
+        try {
+            const response = await axios.get(`http://localhost:8080/user/getEmail/${userId}`);
+            setEmail(response.data); // Set the email from the response
+        } catch (error) {
+            console.error('Error fetching email:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchEmail();
+    }, [userId]);
+
+    const fetchSubscription = async () => {
+        try {
+            const response = await axios.post(`http://localhost:8080/api/subscription`, {
+                email: email // Send the email in the request body
+            });
+            console.log('Subscription response:', response.data); // Log the response data
+
+            if (response.data.active) {
+                setSubscription('EduDeck Plus');
+            } else {
+                setSubscription('Free Plan');
+            }
+        } catch (error) {
+            console.error('Error fetching subscription:', error);
+            // Optionally handle error state
+        }
+    };
+
+    useEffect(() => {
+        if (email) {
+            fetchSubscription();
+        }
+    }, [email]);
+
+
+
+
+
+
+    const drawerContent = (
     <Box
       sx={{
         width: '100%',
@@ -45,9 +91,21 @@ function NavigationBarUI() {
       <Box sx={{ width: '100%', height: '90%', overflowY: 'auto', paddingBottom: '5em' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 1 }}>
           <img src="/logo.png" alt="logo" style={{ height: 50 }} />
-            <Typography variant="h3" style={{ marginRight: '.5em',fontFamily: 'Lato', fontWeight: '900', fontSize: '2em', color: '#B18A00', }}>
-                EduDeck
-              </Typography>
+            <Typography
+                variant="h3"
+                style={{
+                    marginRight: '.5em',
+                    fontFamily: 'Lato',
+                    fontWeight: '900',
+                    fontSize: '2em',
+                    color: '#B18A00',
+                }}
+            >
+                EduDeck {subscription === 'EduDeck Plus' && (
+                <sup style={{ color: 'black', fontSize: '0.5em' }}>Plus</sup>
+            )}
+            </Typography>
+
         </Box>
         <Divider style={{ marginLeft: '1em', backgroundColor: '#BCA860', width: '80%', marginTop: 10 }} />
         <Grid container spacing={1} sx={{ paddingTop: 2 }}>
@@ -131,24 +189,38 @@ function NavigationBarUI() {
             </Button>
           </Grid> */}
           <Grid item xs={12}>
-            <Button component={Link}
-            to="/pricing"
-              style={{
-                backgroundColor: clicked === 'pricing' ? '#FFEAA0' : 'transparent',
-                width: '100%',
-                boxShadow: clicked === 'pricing' ? '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' : 'none',
-                marginBottom: 2,
-                display: 'flex',
-                justifyContent: 'flex-start',
-                alignItems: 'center',
-              }} 
-              // onClick={() => handleButtonClick('pricing')}
-            >
-              <img src="/pricing.png" alt="pricing" style={{ height: 25, marginLeft: '1.3em' }} />
-              <Typography style={{ color: 'black', fontFamily: 'Lato',  fontSize: '1.1em', textTransform: 'none', flexGrow: 1, marginLeft: '2em' }}>
-                Pricing
-              </Typography>
-            </Button>
+              <Button
+                  style={{
+                      backgroundColor: clicked === 'pricing' ? '#FFEAA0' : 'transparent',
+                      width: '100%',
+                      boxShadow: clicked === 'pricing' ? '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' : 'none',
+                      marginBottom: 2,
+                      display: 'flex',
+                      justifyContent: 'flex-start',
+                      alignItems: 'center',
+                      padding: '0.5em 1em', // Add padding for better alignment
+                      textAlign: 'left' // Ensure text is aligned left
+                  }}
+                  onClick={() => {
+                      window.open('/pricing', '_blank');
+                      handleButtonClick('pricing');
+                  }}
+              >
+                  <img src="/pricing.png" alt="pricing" style={{ height: 25, marginRight: '1em' }} />
+                  <Typography
+                      style={{
+                          color: 'black',
+                          fontFamily: 'Lato',
+                          fontSize: '1.1em',
+                          textTransform: 'none',
+                          flexGrow: 1,
+                          marginLeft: '0.5em', // Adjust spacing between the image and text
+                      }}
+                  >
+                      Subscription
+                  </Typography>
+              </Button>
+
           </Grid>
           <Grid item xs={12}>
             <Button component={Link}
@@ -236,9 +308,21 @@ function NavigationBarUI() {
           <Box sx={{ display: 'flex', alignItems: 'center', marginLeft: -1}}>
             <img src="/logo.png" alt="logo" style={{ height: isMobile ? 35 : 50 }} />
             {!isMobile && (
-              <Typography variant="h3" style={{ fontFamily: 'Lato', fontWeight: '900', fontSize: '2em', color: '#B18A00', ml: 1 }}>
-                EduDeck
-              </Typography>
+                <Typography
+                    variant="h3"
+                    style={{
+                        marginRight: '.5em',
+                        fontFamily: 'Lato',
+                        fontWeight: '900',
+                        fontSize: '2em',
+                        color: '#B18A00',
+                    }}
+                >
+                    EduDeck {subscription === 'EduDeck Plus' && (
+                    <sup style={{ color: 'black', fontSize: '0.5em' }}>Plus</sup>
+                )}
+                </Typography>
+
             )}
           </Box>
           
@@ -312,15 +396,17 @@ function NavigationBarUI() {
               Quiz
               </Typography>
             </Button> */}
-             
-            <Button component={Link}
-            to="/pricing"
+
+            <Button component={Link} to="/pricing"
               style={{backgroundColor: clicked === 'pricing' ? '#FFEAA0' : 'transparent', width: '100%', boxShadow: clicked === 'pricing' ? '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' : 'none', marginBottom: '3%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}
-              onClick={() => handleButtonClick('pricing')}
+                    onClick={() => {
+                        window.open('/pricing', '_blank');
+                        handleButtonClick('pricing');
+                    }}
             >
               <img src="/pricing.png" alt="pricing" style={{height: '100%', marginRight: '.5em'}} />
               <Typography style={{color: 'black', fontFamily: 'Lato', fontWeight: 300, fontSize: '15px', textTransform: 'none', flexGrow: 1}}>
-                Pricing
+                Subscription
               </Typography>
             </Button>
 
