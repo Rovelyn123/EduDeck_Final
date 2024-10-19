@@ -99,7 +99,7 @@
 
 /* Memorized button styles */
 .Memorized {
-  margin-top: auto;
+  /* margin-top: auto; */
   margin-bottom: 20px;
   text-align: center;
   font-family: 'Lato';
@@ -111,7 +111,7 @@
   color: rgb(82, 75, 0);
   font-weight: bold;
   border-radius: 20px;
-  margin: 7px;
+  margin: 13px;
   padding: 6px 10px;
   font-size: 12px;
 }
@@ -119,6 +119,32 @@
 .action-button {
   margin: 0 5px;
 }
+
+.action-check-button{
+  margin: 0 12px;
+}
+
+.finish-session-button {
+  background-color: #ffd234; 
+  border-radius: 150px !important; 
+  font-family: 'Lato';
+  font-weight: 600; 
+  width: 170px; 
+  height: 33px;
+  top: 5px;
+  left: 595px;
+}
+
+/* .finish-session-button {
+  background-color: #ffd234;
+  border-radius: 150px !important; 
+  font-family: 'Lato';
+  font-weight: 600; 
+  width: auto; 
+  height: auto;
+  top: 5px;
+  left: 595px;
+} */
 
 /* Flashcard styles */
 .flashcard-container {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 //import './DashboardUI.css';
 import { Typography, Divider, Button, Dialog, DialogActions, DialogContentText,
-    DialogContent, TextField, DialogTitle, IconButton, Box, Toolbar, Grid} from '@mui/material';
+    DialogContent, TextField, DialogTitle, IconButton, Box, Toolbar, Grid, useMediaQuery} from '@mui/material';
 import { AccountCircle, NotificationsNone, Score } from "@mui/icons-material";
 import NavigationBarUI from './NavigationBarUI';
 import { Link, useLocation, useNavigate} from "react-router-dom";
@@ -24,7 +24,7 @@ const DashboardUI = ({onLogout}) => {
     const todayIndex = new Date().getDay();
     const [recentFlashcardTitle, setRecentFlashcardTitle] = useState('');
     const [totalQuestions, setTotalQuestions] = useState(0); 
-    const [score, setScore] = useState(0); 
+    const [score, setScore] = useState(20); 
     const [targetScore, setTargetScore] = useState(0); 
     const [open, setOpen] = useState(false);
     const [flashcards, setFlashcards] = useState([]);
@@ -118,8 +118,14 @@ const DashboardUI = ({onLogout}) => {
     
     
     const handleTargetScoreChange = (event) => {
-      setTargetScore(event.target.value);
+      // setTargetScore(event.target.value);
+      setTargetScore(Number(event.target.value));
+      // const value = Number(event.target.value); // Convert input to number
+      // setTargetScore(value > 0 ? value : 0); // Ensure targetScore is positive
+
     };
+    
+    const percentage = targetScore > 0 ? (score / targetScore) * 10 : 0;
   
     const handleClickOpen = () => {
       setOpen(true);
@@ -270,6 +276,21 @@ const DashboardUI = ({onLogout}) => {
 
     fetchProfilePicture();
 }, [location.pathname, location.state?.enteredUsername]);
+
+const theme = createTheme({
+  breakpoints: {
+      values: {
+          xs: 0,
+          sm: 600,
+          md: 960,
+          lg: 1280,
+          xl: 1920,
+      },
+  },
+});
+
+const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
         
     return (
         <>
@@ -438,6 +459,7 @@ const DashboardUI = ({onLogout}) => {
               Score: {score}%
             </Typography>
 
+
             <Box sx={{
               display: 'flex', flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'flex-end', position: 'absolute', bottom: 0, right: 0, p: 2, width: '100%', boxSizing: 'border-box'
             }}>
@@ -473,7 +495,7 @@ const DashboardUI = ({onLogout}) => {
               sx={{
                 '@media (max-width: 600px)': { width: '17em', height: '3em', fontSize: '.75em' }
               }}>
-              {score >= targetScore ? 'FAILED!' : 'PASSED!'}
+              {score >= targetScore ? 'PASSED!' : 'FAILED!'}
             </Button>
             </Box>
 
@@ -504,6 +526,34 @@ const DashboardUI = ({onLogout}) => {
               </DialogActions>
             </Dialog>
           </Box>
+
+          <Box style={{
+                width: isMobile ? '180px' : '50px',
+                height: isMobile ? '180px' : '50px',
+                position: 'relative',
+                top: isMobile ? '20px' : '17px',
+                marginLeft: isMobile ? 'calc(50% - 100px)' : '84%'
+            }}>
+                <div style={{
+                    width: '150%',
+                    height: '150%',
+                    backgroundColor: '#ffffff',
+                    borderRadius: '50%',
+                    padding: 15
+                }}>
+                    <CircularProgressbar
+                       value={percentage} // Use the correct percentage value
+                       text={`${Math.round(percentage)}%`} // Display rounded percentage
+                       styles={buildStyles({
+                         textColor: '#FFD234',
+                         pathColor: '#ffffff',
+                         trailColor: '#FFD234',
+                         textSize: '20px'
+                        })}
+                    />
+                </div>
+            </Box> 
+      
           </Box>
 
           <Box
@@ -739,7 +789,7 @@ const DashboardUI = ({onLogout}) => {
                 height: { xs: '60vh', md: '87%' },  
                 maxHeight: '87%',
                 backgroundColor: 'white',
-                position: { xs: 'absolute', md: 'absolute' }, 
+                position: 'absolute', 
                 top: { xs: '138%', md: '55%' }, 
                 left: { xs: '8%', md: '87%' }, 
                 transform: { xs: 'none', md: 'translate(-50%, -50%)' }, 
@@ -751,7 +801,7 @@ const DashboardUI = ({onLogout}) => {
                 justifyContent: 'flex-start',
                 alignItems: 'center',
                 boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
-                overflowY: 'auto',  
+                // overflowY: 'auto',  
               }}>
                 <Typography variant="h4" sx={{
                   textAlign: 'center',
@@ -767,7 +817,12 @@ const DashboardUI = ({onLogout}) => {
                   Recent Flashcard Activity
                 </Typography>
 
-
+                <Box sx={{
+                  width: '100%',
+                  overflowY: 'auto',
+                  scrollbarWidth: 'none',
+                  marginLeft: '10px',
+                }}>
                   {/* Flashcard Boxes */}
                   {recentActivities.length > 0 ? (
                    recentActivities.map((activity, index) => (
@@ -786,8 +841,6 @@ const DashboardUI = ({onLogout}) => {
                       position: 'relative',
                     }}>
 
-{/* <h2>{flashcard.question}</h2>
-<p>{flashcard.answer}</p> */}
                       {/* Flashcard Title and Author */}
                       <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
                         <Typography sx={{
@@ -833,7 +886,7 @@ const DashboardUI = ({onLogout}) => {
                     </Typography>
                 )}
               </Box>
-
+</Box>
         </Box>
       </>
     );

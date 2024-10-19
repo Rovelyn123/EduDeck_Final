@@ -522,11 +522,15 @@ function ReviewSessionUI() {
       }
     } else {
       // If at the last flashcard, end the session and navigate to the review result page
-      if (!isSessionEnding.current) {
-        isSessionEnding.current = true; // Prevent multiple calls to end session
-        endSession();
+      // if (!isSessionEnding.current) {
+      //   isSessionEnding.current = true; // Prevent multiple calls to end session
+      //   endSession();
+      navigateToReviewResults();
       }
-    }
+  };
+
+  const navigateToReviewResults = () => {
+    navigate('/reviewresult'); // Use the navigate function instead of history.push
   };
 
   // Navigate to the previous flashcard and persist the current index
@@ -627,10 +631,25 @@ const endSession = async () => {
         <Button className="showanswer" variant="contained" onClick={showAnswer} style={{ backgroundColor: '#ffd234', borderRadius: '2em', fontFamily: 'Lato', fontWeight: '600', width: '170px', height: '35px' }} >
           {buttonText}
         </Button>
-        <IconButton className="action-button" onClick={handleNextClick}>
+          {/* {currentCardIndex === flashcards.length - 1 ? (
+            <CheckIcon className="action-check-button" onClick={navigateToReviewResults}>
+            </CheckIcon>
+          ) : (
+            <IconButton className="action-button" onClick={handleNextClick}>
+              <ArrowForwardIcon />
+            </IconButton>
+          )} */}
+       
+        <IconButton className="action-button" onClick={handleNextClick} disabled={currentCardIndex === flashcards.length - 1}>
           <ArrowForwardIcon />
-        </IconButton>
-      </div>
+        </IconButton>        
+        </div>
+        {currentCardIndex === flashcards.length - 1 && (
+          <Button className="finish-session-button" variant="contained" onClick={navigateToReviewResults}>
+            DONE
+          </Button>
+        )}
+      
       <div className="Memorized" style={{ textAlign: 'center', fontFamily: 'Lato', fontWeight: '700' }}>
         <Button variant="contained" onClick={toggleMemorized}>
           {isMemorized ? "Unmark as Memorized" : "Mark as Memorized"}
