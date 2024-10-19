@@ -1,6 +1,7 @@
 /* Base styles */
 .lsbody {
     width: 100%;
+ 
     margin: 0 auto;
     font-family: 'Lato';
   }
@@ -210,6 +211,8 @@
       display: flex;
       flex-direction: column;
       font-family: 'Lato';
+      height: 120vh;
+      
     }
   
     .containerbox{
@@ -219,13 +222,14 @@
     .profile-picture {
       width: 90%;
       left: 50%;
+      top: 19%;
       transform: translate(-50%, -50%);
       margin-bottom: 10%;
     }
   
     .bios {
       width: 90%;
-      top: 50%;
+      top: 40%;
       left: 50%;
       transform: translate(-50%, -50%);
       height: auto; /* Adjust height based on content */
@@ -240,7 +244,7 @@
   
     .personal-info {
       width: 82%;
-      top: 93%;
+      top: 75%;
       left: 50%;
       transform: translate(-50%, -50%);
       height: auto; /* Adjust height based on content */  

@@ -1,8 +1,11 @@
 import React, {useState, useEffect, useRef} from "react";
-import { Toolbar, Typography, Button, Box, IconButton, ThemeProvider, Grid } from "@mui/material";
+import { Dialog, DialogTitle, DialogContent, DialogActions,Toolbar, Typography, Button, Box, IconButton, ThemeProvider, Grid, Backdrop } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
 import { AccountCircle } from "@mui/icons-material";
 import { createTheme } from '@mui/material/styles';
+import { useLocation } from 'react-router-dom';
+import PurchasePopout from './PurchasePopout';
+import InfoStripePopOut from "./InfoStripePopOut";
 import '@fontsource/lato';
 import axios from 'axios';
 
@@ -14,9 +17,33 @@ function PricingUI() {
     const navigate = useNavigate();
     const [subscription, setSubscription] = useState('Free Plan');
     const [loading, setLoading] = useState(false);
+    const [open, setOpen] = useState(false);
+    const [dialogContent, setDialogContent] = useState('');
+    const [action, setAction] = useState(null);
+    //Purchase Popout
+    const location = useLocation();
+    const [paymentSuccess, setPaymentSuccess] = useState(null);
+    const [popoutOpen, setPopoutOpen] = useState(false);
 
+    useEffect(() => {
+        const queryParams = new URLSearchParams(location.search);
+        const paymentSuccessQuery = queryParams.get("success");
+
+        if (paymentSuccessQuery === "true") {
+            setPaymentSuccess(true);
+            setPopoutOpen(true);  // Show popout when payment is successful
+        } else if (paymentSuccessQuery === "false") {
+            setPaymentSuccess(false);
+            setPopoutOpen(true);  // Show popout when payment failed
+        }
+    }, [location.search]); // Re-run whenever the query params change
+
+    const handleClosePopOut = () => {
+        setPopoutOpen(false);  // Close the popout
+    };
 
     const fetchEmail = async () => {
+
         try {
             const response = await axios.get(`http://localhost:8080/user/getEmail/${userId}`);
             setEmail(response.data); // Set the email from the response
@@ -47,8 +74,22 @@ function PricingUI() {
         }
     };
 
-    // Function to fetch the user's email using the provided userId
+    const handleOpenModal = (message, callback) => {
+        setDialogContent(message);
+        setOpen(true);
+    };
 
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const handleProceed = () => {
+        if (subscription === 'EduDeck Plus') {
+            handleManageSubscription(); // Manage subscription if the user is on EduDeck Plus
+        } else {
+            getSubscription(); // Call getSubscription if the user is not subscribed
+        }
+    };
 
 
     // Fetch subscription status based on email
@@ -62,7 +103,7 @@ function PricingUI() {
             if (response.data.active) {
                 setSubscription('EduDeck Plus');
             } else {
-                setSubscription('Free Plan!');
+                setSubscription('Free Plan');
             }
         } catch (error) {
             console.error('Error fetching subscription:', error);
@@ -100,6 +141,10 @@ function PricingUI() {
         navigate('/Payment');
     };
 
+    const handleClickDashboard = () => {
+        navigate('/Dashboard');
+    };
+
     const theme = createTheme({
         breakpoints: {
             values: {
@@ -116,28 +161,47 @@ function PricingUI() {
 
 
 
-    const manageSubscription = async () => {
-        try {
-            const response = await axios.post('http://localhost:8080/api/stripe/create-customer-portal-session', {
-                email
-            });
-            window.location.href = response.data.portalUrl;
-        } catch (error) {
-            console.error('Error redirecting to Stripe Customer Portal:', error);
-        }
-    };
+    // const manageSubscription = async () => {
+    //     try {
+    //         const response = await axios.post('http://localhost:8080/api/stripe/create-customer-portal-session', {
+    //             email
+    //         });
+    //         window.location.href = response.data.portalUrl;
+    //     } catch (error) {
+    //         console.error('Error redirecting to Stripe Customer Portal:', error);
+    //     }
+    // };
 
     return (
+
         <ThemeProvider theme={theme}>
             <div style={{
-                backgroundColor: "#F5D56E",
+                backgroundColor: "antiquewhite",
                 minHeight: "100vh",
                 overflowY: "auto",
-                position: "relative"
+                position: "relative",
             }}>
+
+
+                <PurchasePopout //Modals
+                    isSuccess={paymentSuccess}
+                    popoutOpen={popoutOpen}
+                    handleClosePopOut={handleClosePopOut}
+                />
+                <InfoStripePopOut //Modals
+                    open={open}
+                    handleClose={handleClose}
+                    dialogContent={dialogContent}
+                    handleProceed={handleProceed}
+                />
+
+
                 <div
                     style={{
-                        backgroundImage: `url('/pricebg.png')`,
+                        backgroundImage: `url('/img.png')`,
+                        backgroundSize: "cover", // Ensures the image covers the entire container
+                        backgroundPosition: "center", // Centers the image
+                        backgroundRepeat: "no-repeat", // Prevents the image from repeating
                         width: "100%",
                         height: "100%",
                         position: "absolute",
@@ -145,31 +209,45 @@ function PricingUI() {
                         left: 0,
                         justifyContent: "center",
                         alignItems: "center",
-                        overflowY: "auto"
+                        overflowY: "auto",
                     }}
                 >
-                    <Toolbar sx={{ mt: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop:'-2px' }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <img
-                                src="/logo.png"
-                                alt="App Logo"
-                                style={{
-                                    width: 70,
-                                    marginLeft: '0%',
-                                    '@media (max-width: 400px)': { marginLeft: '25%' },
-                                }}
-                            />
+
+                    <Toolbar sx={{
+                        mt: 2,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        marginTop: '-2px'
+                    }}>
+                        <Box sx={{display: 'flex', alignItems: 'center'}}>
+                            <div
+                                onClick={handleClickDashboard}
+                                style={{cursor: 'pointer'}} // Adds pointer cursor to indicate it's clickable
+                            >
+                                <img
+                                    src="/logo.png"
+                                    alt="App Logo"
+                                    style={{
+                                        width: 70,
+                                        marginLeft: '0%',
+                                        '@media (max-width: 400px)': {marginLeft: '25%'},
+                                    }}
+                                />
+                            </div>
                             <Typography
                                 variant="h3"
                                 sx={{
                                     fontFamily: 'Lato',
                                     fontWeight: '900',
-                                    fontSize: { xs: '25px', md: '30px' },
+                                    fontSize: {xs: '25px', md: '30px'},
                                     color: '#B18A00',
                                     ml: 2,
                                 }}
                             >
-                                EduDeck
+                                EduDeck {subscription === 'EduDeck Plus' && (
+                                <span style={{ color: 'black' }}>Plus</span>
+                            )}
                             </Typography>
                         </Box>
 
@@ -211,13 +289,13 @@ function PricingUI() {
                     </Toolbar>
 
                     <Box sx={{
-                        width: {xs: '300px', md: '300px'},
+                        width: {xs: '260px', md: '260px'},
                         height: {xs: '50px', md: '50px'},
                         position: 'relative',
                         top: {xs: '5%', md: '1%'},
-                        left: '50%',
+                        left: '49.8%',
                         transform: 'translateX(-50%)',
-                        borderRadius: '20px',
+                        borderRadius: '10px',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -244,7 +322,7 @@ function PricingUI() {
                         position: 'relative',
                         top: {xs: '6%', md: '2%'},
                         left: '50%',
-                        marginTop:'0.5%',
+                        marginTop:'0.8%',
                         transform: 'translateX(-50%)',
                         textAlign: 'center'
                     }}>
@@ -257,28 +335,27 @@ function PricingUI() {
                             Excel in your courses using our latest set of study resources.
                         </Typography>
                     </Box>
-
                     <Grid container justifyContent="center" spacing={5} sx={{
                         position: 'absolute',
                         top: {xs: '260px', md: '180px'},
-                        left: '50%',
+                        left: '51.1%',
                         transform: 'translateX(-50%)',
                         width: {xs: '90%', md: '70%'},
-                        marginTop: '4px'
-
+                        marginTop: '10px'
                     }}>
-                        <Grid item xs={12} md={6} sx={{pr: {md: 5}}}>
+                        <Grid item xs={12} md={6} sx={{ pr: { md: 5 }, mb: 2.5 }}>
                             <Box sx={{
                                 width: '100%',
                                 height: '90%',
                                 backgroundColor: '#FFFFFF',
                                 borderRadius: '20px',
-                                border: '1.5px solid black',
-                                boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
+                                border: subscription === 'Free Plan' ? '2px solid #FFDD66' : '2px solid #FFFFFF',
+                                boxShadow: subscription === 'Free Plan' ? '0px 0px 15px 5px rgba(250, 199, 18, 0.8)' : '0px 2px 8px rgba(0, 0, 0, 0.2)', // Glow for Free Plan
                                 display: 'flex',
                                 flexDirection: 'column',
                                 alignItems: 'flex-start',
-                                padding: '20px'
+                                padding: '20px',
+                                transition: 'box-shadow 0.3s ease' // Smooth transition between glow states
                             }}>
                                 <Typography sx={{
                                     fontFamily: 'Lato',
@@ -322,37 +399,43 @@ function PricingUI() {
                             </Box>
                         </Grid>
 
-                        <Grid item xs={12} md={6} sx={{pr: {md: 5}}}>
-                            <Box sx={{
+                        <Grid item xs={12} md={6} sx={{ pr: { md: 5 }, mb: 2.5 }}>
+
+                        <Box sx={{
                                 width: '100%',
                                 height: '90%',
                                 backgroundColor: '#FFFFFF',
                                 borderRadius: '20px',
-                                border: '1.5px solid black',
-                                boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+                                border: subscription === 'EduDeck Plus' ? '2px solid #FFDD66' : '2px solid #FFFFFF',
+                                boxShadow: subscription === 'EduDeck Plus' ? '0px 0px 15px 5px rgba(250, 199, 18, 0.8)' : '0px 4px 4px 0px rgba(0, 0, 0, 0.25)', // Glow for EduDeck Plus
                                 display: 'flex',
                                 flexDirection: 'column',
                                 alignItems: 'flex-start',
-                                padding: '20px'
+                                padding: '20px',
+                                transition: 'box-shadow 0.3s ease',
                             }}>
-                                <Typography sx={{
-                                    fontFamily: 'Lato',
-                                    fontWeight: 'bolder',
-                                    color: '#B18A00',
-                                    fontSize: {xs: '30px', md: '30px'},
-                                    marginBottom: '5px'
-                                }}>
-                                    EduDeck Plus
+                                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', marginBottom: '5px' }}>
+                                    <Typography sx={{
+                                        fontFamily: 'Lato',
+                                        fontWeight: 'bolder',
+                                        color: '#B18A00',
+                                        fontSize: { xs: '30px', md: '30px' },
+                                    }}>
+                                        EduDeck Plus
+                                    </Typography>
+                                    <Box component="img" src="bestdeal.png" alt="Best Deal" sx={{ width: '80px', height: 'auto' }} />
+                                </Box>
                                     <Typography sx={{
                                         fontFamily: 'Lato',
                                         fontWeight: 'bolder',
                                         color: '#B18A00',
                                         fontSize: {xs: '30px', md: '20px'},
-                                        marginBottom: '25px'
+                                        marginBottom: '20px',
+                                        marginTop: '-25px'
                                     }}>
-                                        (₱30/month):
+                                        (₱30/month)
                                     </Typography>
-                                </Typography>
+
                                 <Typography
                                     sx={{
                                         fontFamily: 'Lato',
@@ -413,79 +496,36 @@ function PricingUI() {
                                 >
                                     &bull; Early access to new features.
                                 </Typography>
-
-                            </Box>
-                        </Grid>
-                        <Grid item xs={12} md={6} sx={{pr: {md: 5}}}>
-                            <Box sx={{
-                                width: '100%',
-                                height: '65.5%',
-                                backgroundColor: '#FFFFFF',
-                                borderRadius: '20px',
-                                border: '1.5px solid black',
-                                boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'flex-start',
-                                justifyContent: 'center',
-                                padding: '20px'
-                            }}>
-                                <Typography sx={{
-                                    fontFamily: 'Lato',
-                                    fontWeight: 'bolder',
-                                    color: '#B18A00',
-                                    fontSize: {xs: '20px', md: '20px'},
-                                    marginBottom: '10px'
-                                }}>
-                                    Current Subscription : {subscription}
-                                </Typography>
-
-
-                                <Box sx={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    width: '100%',
-                                    gap: '10px'
-                                }}>
-                                    {/* Disable the "Get EduDeck Plus" button if the user is already subscribed */}
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        justifyContent: 'center', // Center horizontally
+                                        alignItems: 'center',     // Center vertically
+                                        width: '100%',            // Make sure the container takes full width
+                                    }}
+                                >
                                     <Button
                                         sx={{
-                                            background: subscription === 'EduDeck Plus' ? '#DDDDDD' : '#FAC712', // Gray out if disabled
+                                            background: subscription === 'EduDeck Plus' ? '#FAC712' : '#FAC712',
                                             fontFamily: 'Lato',
-                                            fontSize: {xs: '18px', md: '20px'},
+                                            fontSize: { xs: '18px', md: '20px' },
                                             fontWeight: 'bold',
                                             color: '#555245',
                                             textTransform: 'none',
                                             padding: '10px',
                                             borderRadius: '10px',
+                                            marginTop: '25px',
                                             width: '48%',
                                             boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
                                         }}
-                                        onClick={getSubscription}
-                                        disabled={subscription === 'EduDeck Plus'} // Disable if subscribed to EduDeck Plus
+                                        onClick={() => handleOpenModal(
+                                            subscription === 'EduDeck Plus'
+                                                ? 'You will be redirected to Stripe, a secure third-party customer billing portal provider. All information processed through Stripe is safeguarded and protected.'
+                                                : 'You will be redirected to Stripe, a secure third-party payment provider. Please be assured that all information processed through Stripe is secure and protected.',
+                                            subscription === 'EduDeck Plus' ? handleManageSubscription : getSubscription
+                                        )}
                                     >
-                                        Get EduDeck Plus
-                                    </Button>
-
-
-                                    {/* Disable the "Manage Subscription" button if the user is NOT subscribed to EduDeck Plus */}
-                                    <Button
-                                        sx={{
-                                            background: subscription === 'EduDeck Plus' ? '#FAC712' : '#DDDDDD', // Gray out if disabled
-                                            fontFamily: 'Lato',
-                                            fontSize: {xs: '18px', md: '20px'},
-                                            fontWeight: 'bold',
-                                            color: '#555245',
-                                            textTransform: 'none',
-                                            padding: '10px',
-                                            borderRadius: '10px',
-                                            width: '48%',
-                                            boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
-                                        }}
-                                        onClick={handleManageSubscription}
-                                        disabled={subscription !== 'EduDeck Plus'}  // Disable if NOT subscribed to EduDeck Plus
-                                    >
-                                        Manage Subscription
+                                        {subscription === 'EduDeck Plus' ? 'Manage Subscription' : 'Get EduDeck Plus'}
                                     </Button>
                                 </Box>
                             </Box>
@@ -499,92 +539,4 @@ function PricingUI() {
 
 export default PricingUI;
 
-
-//OTHER CODES
-
-//Stripe Button
-// useEffect(() => {
-//     const script = document.createElement('script');
-//     script.src = 'https://js.stripe.com/v3/buy-button.js';
-//     script.async = true;
-//     script.onload = () => {
-//         setStripeLoaded(true); // Stripe script has loaded
-//     };
-//     document.body.appendChild(script);
-//
-//     return () => {
-//         document.body.removeChild(script); // Clean up the script when the component unmounts
-//     };
-// }, []);
-//
-// // Once Stripe has loaded, render the Stripe Buy Button
-// useEffect(() => {
-//     if (stripeLoaded && stripeButtonRef.current) {
-//         stripeButtonRef.current.innerHTML = ''; // Clear ref in case of re-renders
-//
-//         const button = document.createElement('stripe-buy-button');
-//         button.setAttribute('buy-button-id', 'buy_btn_1Q6XlEEWlqrSRLbypjZjYbaa');
-//         button.setAttribute('publishable-key', 'pk_test_ayfRS9qp1qSRByurrhvvoeOn00juo8OF67');
-//
-//         stripeButtonRef.current.appendChild(button);
-//     }
-// }, [stripeLoaded]);
-//
-// const handleStripeClick = () => {
-//     if (subscription !== 'EduDeck Plus') {
-//         // Ensure the Stripe button exists before trying to trigger it
-//         const stripeButton = stripeButtonRef.current?.querySelector('stripe-buy-button');
-//         if (stripeButton && stripeButton.shadowRoot) {
-//             const innerButton = stripeButton.shadowRoot.querySelector('button');
-//             if (innerButton) {
-//                 innerButton.click(); // Trigger the inner Stripe button
-//             } else {
-//                 console.error('Stripe Buy Button inner button not found.');
-//             }
-//         } else {
-//             console.error('Stripe Buy Button not available yet.');
-//         }
-//     }
-// };
-
-
-
-// useEffect(() => {
-//     const fetchUserDetails = async () => {
-//         try {
-//             const response = await fetch(`http://localhost:8080/user/getUserDetails/${userId}`);
-//             if (response.ok) {
-//                 const data = await response.json();
-//                 setEmail(data.email);
-//             } else {
-//                 console.error('Failed to fetch user details');
-//             }
-//         } catch (error) {
-//             console.error('Error fetching user details:', error);
-//         }
-//     };
-//
-//     if (!email) {
-//         fetchUserDetails();
-//     }
-// }, [userId, email]);
-
-// const getSubscription = async () => {
-//     try {
-//         const response = await axios.post('http://localhost:8080/api/stripe/create-checkout-session', {
-//             email,
-//             productId: 'price_1PNBLnEWlqrSRLbyYaDHGaHG' // EduDeck Plus product ID
-//         });
-//         window.location.href = response.data.checkoutUrl;
-//     } catch (error) {
-//         console.error('Error redirecting to Stripe Checkout:', error);
-//     }
-// };
-
-//Subscription Set
-
-
-//Stripe Button
-//const stripeButtonRef = useRef(null);
-// const [stripeLoaded, setStripeLoaded] = useState(false);
-// handleClick
+//{showThankYou && <PurchasePopout onClose={handleClosePopout} />}

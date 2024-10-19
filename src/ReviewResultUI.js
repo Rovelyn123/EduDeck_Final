@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
-import "./ReviewSessionUI.css";
+//import "./ReviewSessionUI.css";
 import { Typography, IconButton, Button, Box, useMediaQuery } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -162,7 +162,7 @@ function ReviewResultUI() {
   
 
     return (
-      <div className="completion-screen" style={{ textAlign: 'center', background: '#f4f4f4', height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+      <div className="completion-screen" style={{ textAlign: 'center', background: '#f4f4f4', backgroundImage: `url('/crystalbackground.png')`, height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
         <TopAppBar />
         <div className="completion-content" 
             style={{
@@ -290,7 +290,7 @@ function ReviewResultUI() {
                   <Typography style={{ fontSize: '0.8em', color: '#555' }}>Focus on the cards you unmark.</Typography>
                 </div>
               </div>
-              <div style={{ fontSize: '1.5em', color: '#555' }}> &gt; </div>
+              <div style={{ fontSize: '1.5em', color: '#555' }}> </div>
             </Button>
 
             {/* Start Quiz Button */}
@@ -308,7 +308,7 @@ function ReviewResultUI() {
                   <Typography style={{ fontSize: '0.8em', color: '#555' }}>Test your knowledge now!</Typography>
                 </div>
               </div>
-              <div style={{ fontSize: '1.5em', color: '#555' }}> &gt; </div>
+              <div style={{ fontSize: '1.5em', color: '#555' }}> </div>
             </Button>
 
             {/* Restart Flashcards Button */}
@@ -326,7 +326,7 @@ function ReviewResultUI() {
                   <Typography style={{ fontSize: '0.8em', color: '#555' }}>Study all the cards from the beginning.</Typography>
                 </div>
               </div>
-              <div style={{ fontSize: '1.5em', color: '#555' }}> &gt; </div>
+              <div style={{ fontSize: '1.5em', color: '#555' }}> </div>
             </Button>
 
             {/* Select New Flashcard Deck Button */}
@@ -345,7 +345,7 @@ function ReviewResultUI() {
                   <Typography style={{ fontSize: '0.8em', color: '#555' }}>Choose a new flashcard set.</Typography>
                 </div>
               </div>
-              <div style={{ fontSize: '1.5em', color: '#555' }}> &gt; </div>
+              <div style={{ fontSize: '1.5em', color: '#555' }}></div>
             </Button>
           </div>
 

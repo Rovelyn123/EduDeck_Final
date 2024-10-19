@@ -1,7 +1,7 @@
 /* General styles */
 .lsbody {
   width: 100%;
-  margin: 0 auto;
+  /* margin: 0 auto; */
   font-family: 'Lato';
 }
 
@@ -38,14 +38,6 @@
   font-family: 'Lato';
 }
 
-@media (max-width: 768px) {
-  .center-panel {
-    height: auto;
-    width: 80%;
-    margin-top: 35%;
-    padding: 5px;
-  }
-}
 
 /* Inner panel styles */
 .inner-panel {
@@ -66,13 +58,6 @@
 .inner-panel.flipped .flashcard {
   transform: rotateY(180deg);
 }
-
-@media (max-width: 768px) {
-  .inner-panel {
-    height: 200px;
-    width: 95%;
-  }
-} 
 
 /* Progress bar styles */
 .progress-bar {
@@ -96,14 +81,6 @@
   max-width: 100%;
 }
 
-@media (max-width: 768px) {
-  .progress-bar {
-    width: 90%;
-    height: 1%;
-  }
-
-}
-
 .showanswer{
   background-color: rgb(255, 255, 255);
   color: rgb(82, 75, 0);
@@ -119,18 +96,6 @@
   justify-content: center;
   align-items: center;
 }
-
-/* @media (max-width: 768px) {
-  .show-answer-button {
-    flex-direction: column;
-  }
-
-  .show-answer-button button,
-  .action-button {
-    width: 50%;
-    margin-bottom: 5px;
-  }
-} */
 
 /* Memorized button styles */
 .Memorized {
@@ -149,12 +114,6 @@
   margin: 7px;
   padding: 6px 10px;
   font-size: 12px;
-}
-
-@media (max-width: 768px) {
-  .Memorized button{
-    width: 40%;
-  }
 }
 
 .action-button {
@@ -185,49 +144,107 @@
   font-family: 'Lato';
 }
 
-@media (max-width: 768px) {
-  .flashcard-container {
-    height: auto;
-    font-family: 'Lato';
-  }
-}
-
 .front,
 .back {
-  width: 100%;
+  width: 150%;
   backface-visibility: hidden;
   transition: transform 0.6s ease;
   transform-style: preserve-3d;
   display: flex;
   justify-content: center;
-  align-items: center;
-  text-align: center;
-  overflow: hidden;
+  /* align-items: center; */
+  /* text-align: center; */
+  /* overflow: hidden; */
   position: absolute;
-  top: 0;
-  left: 0;
-  padding: 20px; /* Added padding for content */
-  box-sizing: border-box; /* Ensure padding is included in total width/height */
+  /* top: 0;
+  left: 0; */
+  /* padding: 20px; Added padding for content */
+  box-sizing: border-box; 
+}
+
+.answerlabel {
+  font-size: 18px; 
+  font-weight: bold;
+  margin-bottom: 35%;
+  text-align: center;
+  backface-visibility: hidden;
+}
+.questionlabel {
+  backface-visibility: hidden;
+  font-size: 18px; 
+  font-weight: bold;
+  margin-bottom: 35%;
+  text-align: center;
 }
 
 .front h5,
 .back h5 {
-  margin: 0;
+  margin-top: 20;
   padding: 0;
   font-size: 1.2em; /* Adjust font size for better readability */
 }
 
-.front {
+.front, .questionlabel {
   transform: rotateY(0deg);
   z-index: 2;
 }
 
-.back {
+.back, .answerlabel{
   transform: rotateY(180deg);
   z-index: 1;
 }
 
 @media (max-width: 768px) {
+
+
+  .center-panel {
+    height: 50%;
+    width: 80%;
+    margin-top: 35%;
+    padding: 5px;
+  }
+
+  .inner-panel {
+    height: 70%;
+    width: 95%;
+  }
+
+  .progress-bar {
+    width: 90%;
+    height: 1%;
+  }
+
+  .show-answer-button {
+    text-align: center;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    
+  }
+
+  .Memorized {
+    text-align: center;
+    font-family: 'Lato';
+    margin: 10px;
+  }
+  
+  .Memorized button {
+    background-color: white;
+    width: 50%;
+    color: rgb(82, 75, 0);
+    font-weight: bold;
+    border-radius: 20px;
+    font-size: 12px;
+  }
+  
+  .flashcard-container {
+    height: 30%;
+    font-family: 'Lato';
+    font-size: 25px;
+  }
+  
   .indicator {
     top: 3px;
     right: 3px;

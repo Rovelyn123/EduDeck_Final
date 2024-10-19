@@ -34,6 +34,34 @@ const DashboardUI = ({onLogout}) => {
     const [error, setError] = useState(null);
     const [data, setData] = useState([]);
 
+    const [recentQuizzes, setRecentQuizzes] = useState([]);
+    const cardColors = ['#FAD34B', '#FFE070', '#FFEBA6']; 
+    const userid = localStorage.getItem('userid');
+
+    useEffect(() => {
+        const quizzes = JSON.parse(localStorage.getItem('recentQuizzes')) || [];
+        setRecentQuizzes(quizzes);
+    }, []);
+  
+    const [recentActivities, setRecentActivities] = useState([]);
+    const colors = ['#F9D556', '#FF9D33']; 
+    
+
+    useEffect(() => {
+      const userId = localStorage.getItem('userid');  // Get the current user ID
+      if (userId) {
+          // Fetch all users' activities
+          const allUserActivities = JSON.parse(localStorage.getItem('recentActivities')) || {};
+          
+          // Get the current user's activities
+          const userActivities = allUserActivities[userId] || [];
+          
+          setRecentActivities(userActivities);  // Set the current user's recent activities
+      } else {
+          setRecentActivities([]);  // Clear activities if no user is logged in
+      }
+  }, []);  
+  
 
     useEffect(() => {
         const savedStreak = parseInt(localStorage.getItem('streak'), 10);
@@ -163,22 +191,22 @@ const DashboardUI = ({onLogout}) => {
     
     const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#969696'];
 
-    //display flashcards
-    // useEffect(() => {
-    //   const deckId = 1; // or however you get the deckId from your app
-    //   console.log('Deck ID:', deckId);  // Verify if this is valid
+    // display flashcards
+    useEffect(() => {
+      const deckId = 1; // or however you get the deckId from your app
+      console.log('Deck ID:', deckId);  // Verify if this is valid
 
-    //   const fetchFlashcards = async () => {
-    //     try {
-    //       const response = await axios.get(`http://localhost:8080/api/flashcards/deck/${deckId}`); // ari karyme di ma fetch ambot if sakto ba na pag call hahaha http://localhost:8080/api/decks/getFlashcardDeckById/${deckId}
-    //       setFlashcards(response.data);
-    //     } catch (error) {
-    //       console.error('Error fetching flashcards', error);
-    //     }
-    //   };
+      const fetchFlashcards = async () => {
+        try {
+          const response = await axios.get(`http://localhost:8080/api/flashcards/deck/${deckId}`); // ari karyme di ma fetch ambot if sakto ba na pag call hahaha http://localhost:8080/api/decks/getFlashcardDeckById/${deckId}
+          setFlashcards(response.data);
+        } catch (error) {
+          console.error('Error fetching flashcards', error);
+        }
+      };
     
-    //   fetchFlashcards();
-    // }, []);
+      fetchFlashcards();
+    }, []);
     
     
 
@@ -249,7 +277,7 @@ const DashboardUI = ({onLogout}) => {
             sx={{
               backgroundImage: `url('/crystalbackground.png')`,
               backgroundSize: 'cover',
-              minHeight: { xs: '170vh', md: '100vh', },
+              minHeight: { xs: '200vh', md: '100vh', },
               overflow: { xs: 'scroll', md: 'hidden' },
             }}
           >
@@ -708,13 +736,13 @@ const DashboardUI = ({onLogout}) => {
 
               <Box sx={{
                 width: { xs: '85%', md: '21.5%' },
-                height: { xs: 'auto', md: '87%' },
+                height: { xs: '60vh', md: '87%' },  
                 maxHeight: '87%',
                 backgroundColor: 'white',
-                position: 'absolute',
-                top: { xs: '138%', md: '55%' },
-                left: { xs: '50%', md: '87%' },
-                transform: { xs: 'translateX(-50%)', md: 'translate(-50%, -50%)' },
+                position: { xs: 'absolute', md: 'absolute' }, 
+                top: { xs: '138%', md: '55%' }, 
+                left: { xs: '8%', md: '87%' }, 
+                transform: { xs: 'none', md: 'translate(-50%, -50%)' }, 
                 borderRadius: '7px',
                 padding: '10px',
                 boxSizing: 'border-box',
@@ -723,7 +751,7 @@ const DashboardUI = ({onLogout}) => {
                 justifyContent: 'flex-start',
                 alignItems: 'center',
                 boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
-                overflowY: 'auto',
+                overflowY: 'auto',  
               }}>
                 <Typography variant="h4" sx={{
                   textAlign: 'center',
@@ -741,10 +769,11 @@ const DashboardUI = ({onLogout}) => {
 
 
                   {/* Flashcard Boxes */}
-                  {flashcards.map((flashcard, index) => (
+                  {recentActivities.length > 0 ? (
+                   recentActivities.map((activity, index) => (
                     <Box key={index} sx={{
-                      backgroundColor: '#FFE793',
-                      width: { xs: '100%', md: '80%' },  
+                      backgroundColor: cardColors[index % cardColors.length],
+                      width: { xs: '80%', md: '80%' },  
                       height: 'auto',  
                       borderRadius: '10px',
                       padding: '20px',
@@ -767,25 +796,26 @@ const DashboardUI = ({onLogout}) => {
                           color: '#333',
                           mb: 1,
                         }}>
-                          {flashcard.title}
+                          {activity.deckTitle}
                         </Typography>
                         <Typography sx={{
                           fontSize: { xs: '0.9em', md: '1em' },
                           color: '#666',
                           fontStyle: 'italic',
                         }}>
-                          by {flashcard.author}
+                          Reviewed on: {new Date(activity.timestamp).toLocaleString()}
                         </Typography>
                       </Box>
 
                       {/* Card Count Button */}
-                      <Button sx={{
-                        background: '#FFD234',
+                      <Button component={Link} to="/flashcardsmgt"
+                      sx={{
+                        background: '#FFffff',
                         width: { xs: '100%', md: '9em' }, 
                         height: '2.5em',
                         fontSize: { xs: '0.9em', md: '1em' }, 
                         fontWeight: 'bold',
-                        color: '#FFFFFF',
+                        color: '#000000',
                         borderRadius: '8px',
                         alignSelf: 'center', 
                         mt: 2,  
@@ -793,10 +823,15 @@ const DashboardUI = ({onLogout}) => {
                           backgroundColor: '#FFB400',
                         },
                       }}>
-                        {flashcard.cardCount} cards
+                        {activity.flashcardCount} cards
                       </Button>
                     </Box>
-                  ))}
+                   ))
+                  ):(
+                    <Typography variant="body1">
+                        No recent activity.
+                    </Typography>
+                )}
               </Box>
 
         </Box>

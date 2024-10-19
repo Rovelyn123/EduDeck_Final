@@ -16,6 +16,7 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton'; // Keep only one import for IconButton
 import MenuIcon from '@mui/icons-material/Menu';
+import { FaSignOutAlt } from 'react-icons/fa';
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import '@fontsource/lato';
 
@@ -48,6 +49,11 @@ function NavigationBarUI() {
 
   const handleStepperClose = () => {
     setOpenStepper(false); // Close the stepper dialog
+  };
+
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/login");
   };
 
   const drawerContent = (
@@ -190,6 +196,25 @@ function NavigationBarUI() {
               <Typography style={{ color: 'black', fontFamily: 'Lato', fontSize: '1.1em', textTransform: 'none', flexGrow: 1, marginLeft: '2em' }}>
                 Settings
               </Typography>
+            </Button>
+          </Grid>
+          <Grid item xs={12}>
+            <Button component={Link}
+              to="/logout"
+              style={{
+                width: '100%',
+                marginBottom: 2,
+                display: 'flex',
+                justifyContent: 'flex-start',
+                alignItems: 'center',
+              }}
+              onClick={handleLogout}  // Assuming `handleLogout` is implemented
+            >
+              <img src="/logout.png" alt="logout icon" style={{ height: 20, marginLeft: '1.3em' }} />
+              <Typography style={{ color: 'black', fontFamily: 'Lato', fontSize: '1.1em', textTransform: 'none', flexGrow: 1, marginLeft: '2em' }}>
+                Logout
+              </Typography>
+              {/* <button className="logout-button" onClick={handleLogout}><FaSignOutAlt /> Logout</button> */}
             </Button>
           </Grid>
         </Grid>

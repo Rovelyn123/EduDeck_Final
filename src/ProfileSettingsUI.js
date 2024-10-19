@@ -5,11 +5,12 @@ import React, { useEffect, useState } from 'react';
 import { FaEdit, FaSignOutAlt } from 'react-icons/fa';
 import { useLocation, useNavigate } from 'react-router-dom';
 import '@fontsource/lato';
+import axios from "axios";
 
 const UserProfileUI = () => {
   const location = useLocation();
   const navigate = useNavigate();
-
+  const userId = localStorage.getItem('userid');
   const [openDialog, setOpenDialog] = useState(false);
   const [editDialogType, setEditDialogType] = useState('');
   const [tempValue, setTempValue] = useState('');
@@ -21,7 +22,7 @@ const UserProfileUI = () => {
   const [mobileNumber, setMobileNumber] = useState('');
   const [password, setPassword] = useState(localStorage.getItem('password') || 'password123');
   const [accountCreated, setAccountCreated] = useState('2024-01-01');
-  const [subscriptionPlan, setSubscriptionPlan] = useState('Free Plan');
+  const [subscription, setSubscription] = useState('Free Plan');
   const [userDetails, setUserDetails] = useState({
     email: '',
     creationDate: '',
@@ -30,10 +31,46 @@ const UserProfileUI = () => {
   });
   const userid = localStorage.getItem('userid');
 
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate("/login");
+  // const handleLogout = () => {
+  //   localStorage.clear();
+  //   navigate("/login");
+  // };
+  const fetchEmail = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8080/user/getEmail/${userId}`);
+      setEmail(response.data); // Set the email from the response
+    } catch (error) {
+      console.error('Error fetching email:', error);
+    }
   };
+
+  useEffect(() => {
+    fetchEmail();
+  }, [userId]);
+
+  const fetchSubscription = async () => {
+    try {
+      const response = await axios.post(`http://localhost:8080/api/subscription`, {
+        email: email // Send the email in the request body
+      });
+      console.log('Subscription response:', response.data); // Log the response data
+
+      if (response.data.active) {
+        setSubscription('EduDeck Plus');
+      } else {
+        setSubscription('Free Plan');
+      }
+    } catch (error) {
+      console.error('Error fetching subscription:', error);
+      // Optionally handle error state
+    }
+  };
+
+  useEffect(() => {
+    if (email) {
+      fetchSubscription();
+    }
+  }, [email]);
 
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -285,11 +322,11 @@ const UserProfileUI = () => {
                 <Typography variant="body1" sx={{ marginTop: '2.3em' }}>Account Created: {accountCreated}</Typography>
               </div>
               <div className="info-item1">
-                <Typography variant="body1" sx={{ marginTop: '2.5em' }}>Subscription Plan: {subscriptionPlan}</Typography>
+                <Typography variant="body1" sx={{ marginTop: '2.5em' }}>Subscription Plan: {subscription}</Typography>
               </div>
             </div>
           </div>
-          <button className="logout-button" onClick={handleLogout}><FaSignOutAlt /> Logout</button>
+          {/* <button className="logout-button" onClick={handleLogout}><FaSignOutAlt /> Logout</button> */}
         </div>
       </div>
 
