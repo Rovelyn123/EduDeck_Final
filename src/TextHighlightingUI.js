@@ -8,7 +8,9 @@ import * as pdfjsLib from "pdfjs-dist";
 import mammoth from "mammoth";
 import JSZip from "jszip";
 import { GlobalWorkerOptions } from 'pdfjs-dist';
+import BASE_URL from "./config";
 GlobalWorkerOptions.workerSrc = '/path/to/pdf.worker.js';
+
 
 function TextHighlightingUI() {
   const [isBoxVisible, setIsBoxVisible] = useState(false);
@@ -26,7 +28,7 @@ function TextHighlightingUI() {
   useEffect(() => {
     const fetchFileNames = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/document/files/${userid}`);
+        const response = await axios.get(`${BASE_URL}/api/document/files/${userid}`);
         setFileNames(response.data);
       } catch (error) {
         console.error("Error fetching file names:", error);
@@ -41,7 +43,7 @@ function TextHighlightingUI() {
         const userid = localStorage.getItem('userid');
 
         // Check if the user has uploaded a profile picture
-        axios.get(`http://localhost:8080/user/getProfilePicture/${userid}`, { responseType: 'blob' }) // Specify responseType as 'blob'
+        axios.get(`${BASE_URL}/user/getProfilePicture/${userid}`, { responseType: 'blob' }) // Specify responseType as 'blob'
             .then((response) => {
                 // If the response is successful and contains data, set the selected image
                 if (response.data && response.data.size > 0) {
@@ -76,7 +78,7 @@ function TextHighlightingUI() {
         setSelectedFile(documentTitle);  
         setSelectedDocumentID(documentID); 
 
-        const response = await axios.get(`http://localhost:8080/api/document/files/content/${documentID}`, { responseType: 'blob' });
+        const response = await axios.get(`${BASE_URL}/api/document/files/content/${documentID}`, { responseType: 'blob' });
         const fileBlob = response.data;
         const fileType = getFileType(documentTitle);
 
@@ -273,7 +275,7 @@ function TextHighlightingUI() {
 
     console.log("Creating flashcard deck with title:", documentTitle);
 
-      const createDeckResponse = await axios.post('http://localhost:8080/api/decks/createFlashcardDeck', {
+      const createDeckResponse = await axios.post(`${BASE_URL}/api/decks/createFlashcardDeck`, {
         title: documentTitle,
         user: {
           userid: userId
@@ -288,7 +290,7 @@ function TextHighlightingUI() {
         throw new Error("No text highlighted");
       }
   
-      await axios.post(`http://localhost:8080/generate-flashcards/${newDeckId}`, highlightedText, {
+      await axios.post(`${BASE_URL}/generate-flashcards/${newDeckId}`, highlightedText, {
         headers: {
           'Content-Type': 'text/plain'
         }

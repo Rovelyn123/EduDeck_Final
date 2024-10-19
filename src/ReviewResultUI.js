@@ -10,6 +10,7 @@ import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import BASE_URL from "./config";
 
 function ReviewResultUI() {
   const [flashcardTitle, setFlashcardTitle] = useState('Review Session');
@@ -50,7 +51,7 @@ function ReviewResultUI() {
         if (!selectedDeckId) {
           throw new Error('No deck selected');
         }
-        const response = await axios.get(`http://localhost:8080/api/flashcards/deck/${selectedDeckId}`);
+        const response = await axios.get(`${BASE_URL}/api/flashcards/deck/${selectedDeckId}`);
         const flashcardsData = response.data;
 
         const mappedFlashcards = flashcardsData.map(card => ({
@@ -146,7 +147,7 @@ function ReviewResultUI() {
       };
   
       // Create a new session and get the sessionId
-      const response = await axios.post('http://localhost:8080/api/ReviewSession/create', sessionData);
+      const response = await axios.post(`${BASE_URL}/api/ReviewSession/create`, sessionData);
       const { reviewSessionId } = response.data;
   
       // Reset session-related local storage

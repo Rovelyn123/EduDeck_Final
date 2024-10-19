@@ -8,6 +8,7 @@ import PurchasePopout from './PurchasePopout';
 import InfoStripePopOut from "./InfoStripePopOut";
 import '@fontsource/lato';
 import axios from 'axios';
+import BASE_URL from "./config";
 
 function PricingUI() {
     const [settingClicked, setSettingClicked] = useState(false);
@@ -45,7 +46,7 @@ function PricingUI() {
     const fetchEmail = async () => {
 
         try {
-            const response = await axios.get(`http://localhost:8080/user/getEmail/${userId}`);
+            const response = await axios.get(`${BASE_URL}/user/getEmail/${userId}`);
             setEmail(response.data); // Set the email from the response
         } catch (error) {
             console.error('Error fetching email:', error);
@@ -64,7 +65,7 @@ function PricingUI() {
                 console.error('Email not yet loaded');
                 return;
             }
-            const response = await fetch(`http://localhost:8080/create-customer-portal?email=${email}`);
+            const response = await fetch(`${BASE_URL}/create-customer-portal?email=${email}`);
             const portalUrl = await response.text();
             window.location.href = portalUrl; // Redirect to the Stripe customer portal
         } catch (error) {
@@ -95,7 +96,7 @@ function PricingUI() {
     // Fetch subscription status based on email
     const fetchSubscription = async () => {
         try {
-            const response = await axios.post(`http://localhost:8080/api/subscription`, {
+            const response = await axios.post(`${BASE_URL}/api/subscription`, {
                 email: email // Send the email in the request body
             });
             console.log('Subscription response:', response.data); // Log the response data
@@ -123,7 +124,7 @@ function PricingUI() {
         const getSubscription = async () => {
             try {
                 // Make a POST request to the backend to create a Stripe checkout session
-                const response = await axios.post('http://localhost:8080/api/stripe/checkoutsession', {
+                const response = await axios.post(`${BASE_URL}/api/stripe/checkoutsession`, {
                     email: email, // Pass the email retrieved from the backend
                 });
 
