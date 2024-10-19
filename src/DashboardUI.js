@@ -125,8 +125,8 @@ const DashboardUI = ({onLogout}) => {
 
     };
     
-    const percentage = targetScore > 0 ? (score / targetScore) * 10 : 0;
-  
+    const percentage = targetScore > 0 ? Math.min((score / targetScore) * 100, 100) : 0;
+    
     const handleClickOpen = () => {
       setOpen(true);
     };
