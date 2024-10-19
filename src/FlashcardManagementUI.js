@@ -11,6 +11,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import '@fontsource/lato';
 import {toast } from 'react-toastify';
+import CloseIcon from '@mui/icons-material/Close'; 
 
 function FlashcardManagementUI() {
     const userid = localStorage.getItem('userid');
@@ -664,19 +665,34 @@ function FlashcardManagementUI() {
                     fullWidth
                     PaperProps={{
                         sx: {
-                            borderRadius: '24px', // Adjust this value for more or less curvature
+                            borderRadius: '12px', // Adjust this value for more or less curvature
                         },
                     }}
                 >
-                    <DialogTitle sx={{marginBottom: -2, marginTop: 1}}>
+                    <DialogTitle sx={{ marginBottom: -2, marginTop: 1, position: 'relative', paddingRight: '40px' }}>
                         <Typography variant="body1" align="center"
-                                    sx={{fontWeight: 'bold', fontSize: '1.5em', fontWeight: '700'}}>
+                            sx={{ fontWeight: 'bold', fontSize: '1.5em', fontWeight: '700' }}>
                             Choose Your Difficulty Level
                         </Typography>
+
+                        {/* Close Icon Button */}
+                        <IconButton
+                            aria-label="close"
+                            onClick={handleClose}
+                            sx={{
+                                position: 'absolute',
+                                right: 8,
+                                top: 8,
+                                color: (theme) => theme.palette.grey[500],
+                            }}
+                        >
+                            <CloseIcon />
+                        </IconButton>
                     </DialogTitle>
+                    
                     <DialogContent>
-                        <Grid container spacing={3} justifyContent="center" alignItems="center"
-                              style={{textAlign: 'center'}} marginTop={0.01}>
+                        <Grid container spacing={3} justifyContent="center" alignItems="center" style={{ textAlign: 'center' }} marginTop={0.01}>
+                            
                             {/* Easy Difficulty */}
                             <Grid item>
                                 <Card
@@ -686,21 +702,19 @@ function FlashcardManagementUI() {
                                         height: '280px',
                                         width: '200px',
                                         justifyContent: 'space-between',
-                                        borderRadius: '25px',
+                                        borderRadius: '10px',
                                         margin: '0 auto',
                                         boxShadow: selectedDifficulty === 'Easy' ? '0px 0px 20px rgba(255, 221, 102, 1)' : '0px 4px 12px rgba(0, 0, 0, 0.1)',
                                         transition: 'transform 0.3s, box-shadow 0.3s',
-                                        border: selectedDifficulty === 'Easy' ? '2px solid #FFDD66' : '2px solid #FFFFFF',
-                                        cursor: 'pointer',  // Add cursor pointer to indicate clickability
+                                        border: selectedDifficulty === 'Easy' ? '2px solid #FFDD66' : '2px solid #DEDEDE',
+                                        cursor: 'pointer',
                                     }}
                                     onClick={() => handleDifficultySelection('Easy')}
                                 >
-                                    <CardContent style={{textAlign: 'center', flexGrow: 1, fontFamily: 'Lato'}}>
-                                        <Typography variant="h5" align="center"
-                                                    sx={{marginBottom: 2, marginTop: 2}}>Easy</Typography>
+                                    <CardContent style={{ textAlign: 'center', flexGrow: 1, fontFamily: 'Lato' }}>
+                                        <Typography variant="h5" align="center" sx={{ marginBottom: 2, marginTop: 2 }}>Easy</Typography>
                                         <Box display="flex" justifyContent="center" alignItems="center" mb={1}>
-                                            <img src="/easyquiz.png" alt="Easy Quiz Icon"
-                                                 style={{width: '70px', height: '70px'}}/>
+                                            <img src="/easyquiz.png" alt="Easy Quiz Icon" style={{ width: '70px', height: '70px' }} />
                                         </Box>
                                         <Typography variant="body2" align="center" marginTop={3}>
                                             Straightforward questions, ideal for beginners.
@@ -718,21 +732,19 @@ function FlashcardManagementUI() {
                                         height: '280px',
                                         width: '200px',
                                         justifyContent: 'space-between',
-                                        borderRadius: '25px',
+                                        borderRadius: '10px',
                                         margin: '0 auto',
                                         boxShadow: selectedDifficulty === 'Medium' ? '0px 0px 20px rgba(255, 221, 102, 1)' : '0px 4px 12px rgba(0, 0, 0, 0.1)',
                                         transition: 'transform 0.3s, box-shadow 0.3s',
-                                        border: selectedDifficulty === 'Medium' ? '2px solid #FFDD66' : '2px solid #FFFFFF',
-                                        cursor: 'pointer',  // Add cursor pointer to indicate clickability
+                                        border: selectedDifficulty === 'Medium' ? '2px solid #FFDD66' : '2px solid #DEDEDE',
+                                        cursor: 'pointer',
                                     }}
                                     onClick={() => handleDifficultySelection('Medium')}
                                 >
-                                    <CardContent style={{textAlign: 'center', flexGrow: 1, fontFamily: 'Lato'}}>
-                                        <Typography variant="h5" align="center"
-                                                    sx={{marginBottom: 2, marginTop: 2}}>Medium</Typography>
+                                    <CardContent style={{ textAlign: 'center', flexGrow: 1, fontFamily: 'Lato' }}>
+                                        <Typography variant="h5" align="center" sx={{ marginBottom: 2, marginTop: 2 }}>Medium</Typography>
                                         <Box display="flex" justifyContent="center" alignItems="center" mb={1}>
-                                            <img src="/mediumquiz.png" alt="Medium Quiz Icon"
-                                                 style={{width: '70px', height: '70px'}}/>
+                                            <img src="/mediumquiz.png" alt="Medium Quiz Icon" style={{ width: '70px', height: '70px' }} />
                                         </Box>
                                         <Typography variant="body2" align="center" marginTop={3}>
                                             Requires some knowledge, insight, and thought to answer.
@@ -750,21 +762,19 @@ function FlashcardManagementUI() {
                                         height: '280px',
                                         width: '200px',
                                         justifyContent: 'space-between',
-                                        borderRadius: '25px',
+                                        borderRadius: '10px',
                                         margin: '0 auto',
                                         boxShadow: selectedDifficulty === 'Hard' ? '0px 0px 20px rgba(255, 221, 102, 1)' : '0px 4px 12px rgba(0, 0, 0, 0.1)',
                                         transition: 'transform 0.3s, box-shadow 0.3s',
-                                        border: selectedDifficulty === 'Hard' ? '2px solid #FFDD66' : '2px solid #FFFFFF',
-                                        cursor: 'pointer',  // Add cursor pointer to indicate clickability
+                                        border: selectedDifficulty === 'Hard' ? '2px solid #FFDD66' : '2px solid #DEDEDE',
+                                        cursor: 'pointer',
                                     }}
                                     onClick={() => handleDifficultySelection('Hard')}
                                 >
-                                    <CardContent style={{textAlign: 'center', flexGrow: 1, fontFamily: 'Lato'}}>
-                                        <Typography variant="h5" align="center"
-                                                    sx={{marginBottom: 2, marginTop: 2}}>Hard</Typography>
+                                    <CardContent style={{ textAlign: 'center', flexGrow: 1, fontFamily: 'Lato' }}>
+                                        <Typography variant="h5" align="center" sx={{ marginBottom: 2, marginTop: 2 }}>Hard</Typography>
                                         <Box display="flex" justifyContent="center" alignItems="center" mb={1}>
-                                            <img src="/hardquiz.png" alt="Hard Quiz Icon"
-                                                 style={{width: '70px', height: '70px'}}/>
+                                            <img src="/hardquiz.png" alt="Hard Quiz Icon" style={{ width: '70px', height: '70px' }} />
                                         </Box>
                                         <Typography variant="body2" align="center" marginTop={3}>
                                             Challenging questions that test in-depth understanding.
@@ -775,51 +785,36 @@ function FlashcardManagementUI() {
                         </Grid>
 
                         {/* Drop-down menu for selecting number of questions */}
-                        <Grid container justifyContent="center"
-                              sx={{marginTop: '25px', marginBottom: '18px', textAlign: 'center'}}>
+                        <Grid container justifyContent="center" sx={{ marginTop: '25px', marginBottom: '18px', textAlign: 'center' }}>
                             <Grid item xs={12} sm={5}>
-                                <FormControl fullWidth>
-                                    <InputLabel
-                                        id="questions-select-label"
-                                        sx={{
-                                            color: '#B18A00',
-                                            fontWeight: 'bold',
-                                            fontSize: '1rem',
-                                            marginBottom: '8px',
-                                        }}
-                                        shrink={false} // Keeps the label above the select when a value is selected
-                                    >
-                                        {/* Display both the label and the selected question */}
-                                        <Box display="flex" alignItems="center">
-                                            Choose no. of Questions:
-                                            <Typography sx={{ marginLeft: '10px', color: '#000', fontWeight: 'bold' }}>
-                                                {selectedQuestions}
-                                            </Typography>
-                                        </Box>
+                                <FormControl style={{ width: '100%' }}>
+                                    <InputLabel id="questions-select-label" sx={{ color: '#B18A00', fontSize: '1rem' }}>
+                                        <span style={{ textDecoration: 'none', color: '#B18A00', fontSize: '1rem'}}>Choose no. of Questions</span>
                                     </InputLabel>
-                                    <Box display="flex" justifyContent="space-between" alignItems="center">
-                                        <Select
-                                            labelId="questions-select-label"
-                                            id="questions-select"
-                                            value={selectedQuestions}
-                                            onChange={handleQuestionChange}
-                                            sx={{
-                                                borderRadius: '25px',
-                                                fontSize: '1rem',
-                                                flex: 1,
-                                                '& .MuiSelect-icon': { color: 'black' },
-                                                '& .MuiSelect-select': { color: 'black' },
-                                                '& .MuiInputLabel-root': { color: '#B18A00', fontWeight: 'bold' },
-                                            }}
-                                        >
-                                            <MenuItem value={5}>5 Questions</MenuItem>
-                                            <MenuItem value={10}>10 Questions</MenuItem>
-                                            <MenuItem value={15}>15 Questions</MenuItem>
-                                            <MenuItem value={20}>20 Questions</MenuItem>
-                                        </Select>
-                                    </Box>
+                                    <Select
+                                        labelId="questions-select-label"
+                                        id="questions-select"
+                                        value={selectedQuestions}
+                                        onChange={handleQuestionChange}
+                                        displayEmpty
+                                        sx={{
+                                            height: '42px',
+                                            width: '300px',
+                                            borderRadius: '25px',
+                                            fontSize: '1rem',
+                                            '& .MuiSelect-icon': { color: 'black' },
+                                            '& .MuiSelect-select': { color: 'black'},
+                                        }}
+                                    >
+                                        <MenuItem value="" disabled>
+                                            <em>Select no. of Questions</em>
+                                        </MenuItem>
+                                        <MenuItem value={5}>5 Questions</MenuItem>
+                                        <MenuItem value={10}>10 Questions</MenuItem>
+                                        <MenuItem value={15}>15 Questions</MenuItem>
+                                        <MenuItem value={20}>20 Questions</MenuItem>
+                                    </Select>
                                 </FormControl>
-
                             </Grid>
                             <Button
                                 component={Link}
@@ -828,16 +823,18 @@ function FlashcardManagementUI() {
                                 sx={{
                                     backgroundColor: selectedDifficulty ? '#FAC712' : '#a1a0a0',
                                     fontFamily: 'Lato',
-                                    fontSize: {xs: '18px', md: '20px'},
-                                    fontWeight: 'bold',
+                                    fontSize: { xs: '18px', md: '20px' },
                                     color: '#555245',
                                     textTransform: 'none',
                                     padding: '10px',
                                     borderRadius: '25px',
+                                    marginLeft: '40px',
+                                    width: '20%',
                                     marginLeft: {xs: '1%', md: '40px'},
                                     marginTop: {xs: '18px', md: '0px'},
                                     width: {xs: '40%', md: '25%'},
                                     boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
+                                    height: '2em',
                                 }}
                             >
                                 Let's Begin
@@ -847,15 +844,8 @@ function FlashcardManagementUI() {
                 </Dialog>
 
 
-                <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)}
-                                fullWidth={isMobile}
-                                maxWidth={isMobile ? 'xs' : 'sm'}
-                                PaperProps={{
-                                    style: {
-                                        padding: isMobile ? '2px' : '0px', // Adjust padding for mobile
-                                        borderRadius: isMobile ? '5px' : '0px',
-                                    }
-                                }}>
+
+                <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
                     <DialogTitle>Edit Flashcard</DialogTitle>
                     <DialogContent>
                         <TextField label="Question" fullWidth value={newQuestion}

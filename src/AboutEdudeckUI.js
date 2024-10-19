@@ -1,5 +1,5 @@
 import React from "react";
-import { AppBar, Toolbar, Typography, Button, Box, useMediaQuery, Grid } from "@mui/material";
+import { AppBar, Toolbar, Typography, Button, Box, useMediaQuery, Grid, ButtonGroup } from "@mui/material";
 import { Link } from "react-router-dom";
 import Footer from "./FooterUI";
 import { useTheme } from "@mui/material/styles";
@@ -30,38 +30,22 @@ function AboutEdudeckUI() {
                     paddingBottom: isMobile ? '50px' : '70px',
                 }}
             >
-                <AppBar position="fixed" style={{ background: 'white' }}>
-                    <Toolbar
-                        sx={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                        }}
-                    >
-                        <Link to="/" style={{ textDecoration: 'none' }}>
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <img src="/logo.png" alt="App Logo" style={{ width: isMobile ? 40 : 60 }} />
-                            <Typography
-                                variant="h4"
-                                sx={{
-                                    fontFamily: 'Lato',
-                                    fontWeight: '600',
-                                    fontSize: isMobile ? '25px' : '35px',
-                                    color: '#8c7111',
-                                    ml: isMobile ? 1 : 2,
-                                }}
-                            >
+                <AppBar position="fixed" sx={{background: 'white', zIndex: 1000 }}>
+                    <Toolbar sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                        <Box sx={{display: 'flex', alignItems: 'center', margin: '0 0 0 -0.7rem '}}>
+                            <Box sx={{height: { xs: '35px', sm: '52px' }, width: 'auto'}}>
+                                <img src='logo.png' alt='logo' className='logo' style={{height: '100%', width: 'auto'}} />
+                            </Box>
+                            <Typography sx={{color: "#8c7111", fontFamily: 'lato', fontWeight: 600, fontSize: { xs: '1.2em', sm: '1.8em' }, display: { xs: "none", sm: "block" }}}>
                                 EduDeck
                             </Typography>
-                        </div>
-                        </Link>
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <Link to="/signup" style={{ textDecoration: 'none' }}>
-                            <Button style={{ color: '#8C7111', fontWeight: 'bold' }}>Sign up</Button> </Link>
-                            <Box sx={{ marginX: '8px', color: '#8C7111' }}>|</Box>
-                            <Link to="/login" style={{ textDecoration: 'none' }}>
-                            <Button style={{ color: '#8C7111', fontWeight: 'bold' }}>Login</Button> </Link>
-                        </div>
+                        </Box>
+                        <Box sx={{display: 'flex', alignItems: 'center'}}>
+                            <ButtonGroup color="secondary" variant="text" aria-label="Button group">
+                                <Link to="/signup" style={{ textDecoration: 'none' }}><Button sx={{color: '#8C7111', fontWeight: 'bold', fontSize: { xs: '0.8em', sm: '1em' }}}>Signup</Button></Link>
+                                <Link to="/Login" style={{ textDecoration: 'none' }}>   <Button sx={{color: '#8C7111', fontWeight: 'bold', fontSize: { xs: '0.8em', sm: '1em' }}}>Login</Button></Link>
+                            </ButtonGroup>
+                        </Box>
                     </Toolbar>
                 </AppBar>
 
