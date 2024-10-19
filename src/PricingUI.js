@@ -159,20 +159,6 @@ function PricingUI() {
     });
 
 
-
-
-
-    // const manageSubscription = async () => {
-    //     try {
-    //         const response = await axios.post('http://localhost:8080/api/stripe/create-customer-portal-session', {
-    //             email
-    //         });
-    //         window.location.href = response.data.portalUrl;
-    //     } catch (error) {
-    //         console.error('Error redirecting to Stripe Customer Portal:', error);
-    //     }
-    // };
-
     return (
 
         <ThemeProvider theme={theme}>
@@ -293,8 +279,8 @@ function PricingUI() {
                         width: {xs: '260px', md: '260px'},
                         height: {xs: '50px', md: '50px'},
                         position: 'relative',
-                        top: {xs: '5%', md: '1%'},
-                        left: '49.8%',
+                        // top: {xs: '5%', md: '1%'},
+                        left: '50%',
                         transform: 'translateX(-50%)',
                         borderRadius: '10px',
                         display: 'flex',
@@ -321,9 +307,9 @@ function PricingUI() {
                     <Box sx={{
                         width: {xs: '100%', md: 'auto'},
                         position: 'relative',
-                        top: {xs: '6%', md: '2%'},
+                        // top: {xs: '6%', md: '2%'},
                         left: '50%',
-                        marginTop:'0.8%',
+                        marginTop:'2%',
                         transform: 'translateX(-50%)',
                         textAlign: 'center'
                     }}>
@@ -336,33 +322,44 @@ function PricingUI() {
                             Excel in your courses using our latest set of study resources.
                         </Typography>
                     </Box>
-                    <Grid container justifyContent="center" spacing={5} sx={{
-                        position: 'absolute',
-                        left: '50%',
-                        marginLeft:'15px',
-                        transform: 'translateX(-50%)',
-                        width: {md: '60%'},
-                        marginTop: '10px'
-                    }}>
-                        <Grid item xs={12} md={6}>
+                    <Grid
+                        container
+                        justifyContent="center"
+                        alignItems="center"
+                        spacing={5}
+                        sx={{
+                            position: 'relative', // Switch from absolute to relative positioning for better alignment
+                            // width: { md: '30%' },
+                            marginTop: '5px',
+                            // marginLeft:'-15px',
+                            // marginRight:'5px',
+                            marginBottom:'10px',
+                            transform: 'translateX(-50%)',
+                            left: '50%',
+                        }}
+                    >
+                        {/* Free Plan Box */}
+                        <Grid item xs={9} md={2.5}>
                             <Box sx={{
-                                width: '60%',
-                                height:'100%',
+                                width: 'auto', // Full width inside its grid item
+                                height: '325px', // Allow dynamic height based on content
                                 backgroundColor: '#FFFFFF',
-                                borderRadius: '20px',
+                                borderRadius: '10px',
                                 border: '1px solid #000000',
-                                boxShadow: subscription === 'Free Plan' ? '0px 0px 15px 5px rgba(250, 199, 18, 0.8)' : '0px 2px 8px rgba(0, 0, 0, 0.2)', // Glow for Free Plan
+                                boxShadow: subscription === 'Free Plan'
+                                    ? '0px 0px 15px 5px rgba(250, 199, 18, 0.8)'
+                                    : '0px 2px 8px rgba(0, 0, 0, 0.2)', // Glow effect for Free Plan
                                 display: 'flex',
                                 flexDirection: 'column',
                                 alignItems: 'flex-start',
                                 padding: '20px',
-                                transition: 'box-shadow 0.3s ease' // Smooth transition between glow states
+                                transition: 'box-shadow 0.3s ease', // Smooth transition between glow states
                             }}>
                                 <Typography sx={{
                                     fontFamily: 'Lato',
                                     fontWeight: 'bolder',
                                     color: '#B18A00',
-                                    fontSize: {xs: '30px', md: '30px'},
+                                    fontSize: { xs: '30px', md: '30px' },
                                     marginBottom: '25px',
                                     marginTop: '20px'
                                 }}>
@@ -371,141 +368,131 @@ function PricingUI() {
                                 <Typography sx={{
                                     fontFamily: 'Lato',
                                     color: '#9FA0A0',
-                                    fontSize: {xs: '18px', md: '15px'}
+                                    fontSize: { xs: '18px', md: '15px' }
                                 }}>
                                     &bull; Limited number of document uploads per month (5 documents).
                                 </Typography>
                                 <Typography sx={{
                                     fontFamily: 'Lato',
                                     color: '#9FA0A0',
-                                    fontSize: {xs: '18px', md: '15px'}
+                                    fontSize: { xs: '18px', md: '15px' }
                                 }}>
-                                    &bull; Limited number of flashcards generation per month (100
-                                    flashcards).
+                                    &bull; Limited number of flashcards generation per month (100 flashcards).
                                 </Typography>
                                 <Typography sx={{
                                     fontFamily: 'Lato',
                                     color: '#9FA0A0',
-                                    fontSize: {xs: '18px', md: '15px'}
+                                    fontSize: { xs: '18px', md: '15px' }
                                 }}>
                                     &bull; Basic quiz generation with limited number of questions.
                                 </Typography>
                                 <Typography sx={{
                                     fontFamily: 'Lato',
                                     color: '#9FA0A0',
-                                    fontSize: {xs: '18px', md: '15px'}
+                                    fontSize: { xs: '18px', md: '15px' }
                                 }}>
                                     &bull; Basic progress analytics.
                                 </Typography>
                             </Box>
                         </Grid>
 
-                        <Grid item xs={12} md={6} >
-
-                        <Box sx={{
-                                width: '60%',
-                                height:'100%',
+                        {/* EduDeck Plus Plan Box */}
+                        <Grid item xs={9} md={2.5}>
+                            <Box sx={{
+                                width: 'auto', // Full width inside its grid item
+                                height: '325px',
                                 backgroundColor: '#FFFFFF',
-                                borderRadius: '20px',
+                                borderRadius: '10px',
                                 border: '1px solid #000000',
-                                boxShadow: subscription === 'EduDeck Plus' ? '0px 0px 15px 5px rgba(250, 199, 18, 0.8)' : '0px 4px 4px 0px rgba(0, 0, 0, 0.25)', // Glow for EduDeck Plus
+                                boxShadow: subscription === 'EduDeck Plus'
+                                    ? '0px 0px 15px 5px rgba(250, 199, 18, 0.8)'
+                                    : '0px 4px 4px rgba(0, 0, 0, 0.25)', // Glow effect for EduDeck Plus
                                 display: 'flex',
                                 flexDirection: 'column',
                                 alignItems: 'flex-start',
                                 padding: '20px',
-                                transition: 'box-shadow 0.3s ease',
+                                transition: 'box-shadow 0.3s ease', // Smooth transition
                             }}>
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', marginBottom: '5px' }}>
+                                <Box sx={{
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                    width: '100%',
+                                    marginBottom: '5px'
+                                }}>
                                     <Typography sx={{
                                         fontFamily: 'Lato',
                                         fontWeight: 'bolder',
+                                        marginTop: '-5px',
                                         fontSize: { xs: '30px', md: '30px' }
                                     }}>
                                         <span style={{ color: '#B18A00' }}>EduDeck</span>
                                         <span style={{ color: '#000000' }}> Plus</span>
                                     </Typography>
                                 </Box>
-                                    <Typography sx={{
-                                        fontFamily: 'Lato',
-                                        fontWeight: 'bolder',
-                                        color: '#B18A00',
-                                        fontSize: { xs: '25px', md: '25px' }, // Set to 25px for both xs and md
-                                        marginBottom: '20px',
-                                        marginTop: '-10px'
-                                    }}>
-                                        ₱30.00
-                                        <span style={{ color: '#9FA0A0', fontSize: '15px' }}> / month </span>
-                                    </Typography>
 
+                                <Typography sx={{
+                                    fontFamily: 'Lato',
+                                    fontWeight: 'bolder',
+                                    color: '#B18A00',
+                                    fontSize: { xs: '25px', md: '25px' },
+                                    marginBottom: '20px',
+                                    marginTop: '-10px'
+                                }}>
+                                    ₱30.00
+                                    <span style={{ color: '#9FA0A0', fontSize: '15px' }}> / month </span>
+                                </Typography>
 
-                            <Typography
-                                    sx={{
-                                        fontFamily: 'Lato',
-                                        color: '#9FA0A0',
-                                        fontSize: {xs: '18px', md: '15px'},
-                                        textAlign: 'left'
-                                    }}
-                                >
+                                <Typography sx={{
+                                    fontFamily: 'Lato',
+                                    color: '#9FA0A0',
+                                    fontSize: { xs: '18px', md: '15px' }
+                                }}>
                                     &bull; Unlimited document uploads.
                                 </Typography>
-                                <Typography
-                                    sx={{
-                                        fontFamily: 'Lato',
-                                        color: '#9FA0A0',
-                                        fontSize: {xs: '18px', md: '15px'},
-                                        textAlign: 'left'
-                                    }}
-                                >
+                                <Typography sx={{
+                                    fontFamily: 'Lato',
+                                    color: '#9FA0A0',
+                                    fontSize: { xs: '18px', md: '15px' }
+                                }}>
                                     &bull; Unlimited flashcard generation.
                                 </Typography>
-                                <Typography
-                                    sx={{
-                                        fontFamily: 'Lato',
-                                        color: '#9FA0A0',
-                                        fontSize: {xs: '18px', md: '15px'},
-                                        textAlign: 'left'
-                                    }}
-                                >
+                                <Typography sx={{
+                                    fontFamily: 'Lato',
+                                    color: '#9FA0A0',
+                                    fontSize: { xs: '18px', md: '15px' }
+                                }}>
                                     &bull; Advanced quiz generation with more questions.
                                 </Typography>
-                                <Typography
-                                    sx={{
-                                        fontFamily: 'Lato',
-                                        color: '#9FA0A0',
-                                        fontSize: {xs: '18px', md: '15px'},
-                                        textAlign: 'left'
-                                    }}
-                                >
+                                <Typography sx={{
+                                    fontFamily: 'Lato',
+                                    color: '#9FA0A0',
+                                    fontSize: { xs: '18px', md: '15px' }
+                                }}>
                                     &bull; Detailed progress and performance analytics.
                                 </Typography>
-                                <Typography
-                                    sx={{
-                                        fontFamily: 'Lato',
-                                        color: '#9FA0A0',
-                                        fontSize: {xs: '18px', md: '15px'},
-                                        textAlign: 'left'
-                                    }}
-                                >
+                                <Typography sx={{
+                                    fontFamily: 'Lato',
+                                    color: '#9FA0A0',
+                                    fontSize: { xs: '18px', md: '15px' }
+                                }}>
                                     &bull; Priority customer support.
                                 </Typography>
-                                <Typography
-                                    sx={{
-                                        fontFamily: 'Lato',
-                                        color: '#9FA0A0',
-                                        fontSize: {xs: '18px', md: '15px'},
-                                        textAlign: 'left'
-                                    }}
-                                >
+                                <Typography sx={{
+                                    fontFamily: 'Lato',
+                                    color: '#9FA0A0',
+                                    fontSize: { xs: '18px', md: '15px' }
+                                }}>
                                     &bull; Early access to new features.
                                 </Typography>
-                                <Box
-                                    sx={{
-                                        display: 'flex',
-                                        justifyContent: 'center', // Center horizontally
-                                        alignItems: 'center',     // Center vertically
-                                        width: '100%',            // Make sure the container takes full width
-                                    }}
-                                >
+
+                                <Box sx={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    width: '100%',
+                                    marginTop: '5px'
+                                }}>
                                     <Button
                                         sx={{
                                             background: subscription === 'EduDeck Plus' ? '#FAC712' : '#FAC712',
@@ -516,8 +503,9 @@ function PricingUI() {
                                             textTransform: 'none',
                                             padding: '10px',
                                             borderRadius: '10px',
-                                            marginTop: '25px',
-                                            width:'90%', height:'40px',marginBottom:'-35px',
+                                            marginTop: '10px',
+                                            position:'relative',
+                                            width:'90%', height:'40px',
                                             boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
                                         }}
                                         onClick={() => handleOpenModal(
