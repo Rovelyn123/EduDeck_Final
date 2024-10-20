@@ -121,9 +121,9 @@ const DashboardUI = ({onLogout}) => {
     
     const handleTargetScoreChange = (event) => {
       // setTargetScore(event.target.value);
-      setTargetScore(Number(event.target.value));
-      // const value = Number(event.target.value); // Convert input to number
-      // setTargetScore(value > 0 ? value : 0); // Ensure targetScore is positive
+      // setTargetScore(Number(event.target.value));
+      const value = parseFloat(event.target.value); // Convert input to number
+      setTargetScore(value > 0 ? value : 0); // Ensure targetScore is positive
 
     };
     

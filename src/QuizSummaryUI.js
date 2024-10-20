@@ -439,6 +439,8 @@ return (
                         ? 'red'
                         : feedbackValue === 3
                         ? 'yellow'
+                        : feedbackValue === 4
+                        ? 'yellowgreen'
                         : 'green', // Dynamic color for low, medium, and high
                     height: 8,
                     width: '80%',
