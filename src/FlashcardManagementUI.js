@@ -495,7 +495,7 @@ function FlashcardManagementUI() {
                         minHeight: '100vh',
                         overflow: 'hidden'
                     }}>
-                        <Button style={{textTransform: 'none' ,display: 'flex', alignItems: 'center', marginTop: 5, zIndex: 100, marginRight: 20}} component = {Link} to = "/dashboard" >
+                        <Button style={{textTransform: 'none' ,display: 'flex', alignItems: 'center', marginTop: 5, zIndex: 100, marginRight:20,marginLeft:-12 }} component = {Link} to = "/dashboard" >
                             <img src="/logo.png" alt="logo" style={{ height: isMobile ? 35 : 50 }}  /> 
                             {!isMobile && (
                                 <Typography variant="h3" style={{ fontFamily: 'Lato', fontWeight: '900', fontSize: '2.3em', color: '#B18A00' }} >

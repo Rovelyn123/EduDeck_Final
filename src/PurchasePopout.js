@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Typography, Button, Backdrop } from "@mui/material";
 // Import your images
 import successImage from "./payment/paymentsuccess.png";
-import failureImage from "./payment/paymentsuccess.png";
+import failureImage from "./payment/paymentfailure.png";
 
 const PurchasePopout = ({ isSuccess, popoutOpen, handleClosePopOut }) => {
     return (
