@@ -279,6 +279,9 @@ function TextHighlightingUI() {
         title: documentTitle,
         user: {
           userid: userId
+        },
+        document:{
+          documentID: documentID
         }
       });
       const newDeckId = createDeckResponse.data.deckId;

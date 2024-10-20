@@ -158,10 +158,10 @@ function FlashcardManagementUI() {
                     }
                 });
                 const newQuizId = createDeckResponse.data.quizId;
-
+                
                 const extractTextResponse = await axios.get(`${BASE_URL}/textextractor/document/${selectedDeckDocumentId}`);
-
-                await axios.post(`${BASE_URL}/generate-quiz?quizId=${newQuizId}&difficultyLevel=${difficultyLevel}&numQuestions=${numQuestions}`, extractTextResponse.data, {
+                
+                await axios.post(`${BASE_URL}/generate-quiz?quizId=${newQuizId}&difficultyLevel=${selectedDifficulty}&numQuestions=${numQuestions}`, extractTextResponse.data, {
                     headers: {
                         'Content-Type': 'text/plain'
                     }
@@ -339,7 +339,7 @@ function FlashcardManagementUI() {
         // };
         const handleDeckSelection = (deck) => {
             // If the selected deck is clicked again, deselect it
-            if (selectedDeck === deck.title && selectedDeckId === deck.deckId && selectedDeckDocumentId === deck.document?.documentId) {
+            if (selectedDeck === deck.title && selectedDeckId === deck.deckId && selectedDeckDocumentId === deck.document.documentID) {
                 setSelectedDeck('');
                 setSelectedDeckId('');
                 setSelectedDeckDocumentId('');
@@ -347,12 +347,12 @@ function FlashcardManagementUI() {
                 // Select the deck
                 setSelectedDeck(deck.title);
                 setSelectedDeckId(deck.deckId);
-                setSelectedDeckDocumentId(deck.document.documentId);
+                setSelectedDeckDocumentId(deck.document.documentID);
         
                 localStorage.removeItem(`reviewSessionId_${deck.deckId}`);
                 localStorage.setItem('selectedDeck', deck.title);
                 localStorage.setItem('selectedDeckId', deck.deckId);
-                localStorage.setItem('selectedDeckDocumentId', deck.document.documentId);
+                localStorage.setItem('selectedDeckDocumentId', deck.document.documentID);
             }
         };
 
@@ -506,11 +506,11 @@ function FlashcardManagementUI() {
                                 )}
                                 </Typography>
                             )}
-                            {isMobile && (
+                            {/* {isMobile && (
                                 <IconButton onClick={toggleDrawer(true)} style={{ marginLeft: 'auto' }}>
                                 <MenuIcon />
                                 </IconButton>
-                            )}
+                            )} */}
                             </Button>       
                         {isMobile && (
                             <IconButton onClick={toggleDrawer(true)} style={{marginLeft: 'auto', }}>
@@ -868,9 +868,8 @@ function FlashcardManagementUI() {
                                 </FormControl>
                             </Grid>
                             <Button
-                                component={Link}
-                                to="/quizsession"
                                 disabled={!selectedDifficulty}
+                                onClick={handleStartQuiz}
                                 sx={{
                                     backgroundColor: selectedDifficulty ? '#FAC712' : '#a1a0a0',
                                     fontFamily: 'Lato',
