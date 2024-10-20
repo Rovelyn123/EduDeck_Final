@@ -1,8 +1,8 @@
 import './ProfileSettingsUI.css';
 import NavigationBar from './NavigationBarUI';
-import { Typography, Button, Dialog, DialogActions, DialogContent, TextField, DialogTitle } from '@mui/material';
+import { Typography, Button, Dialog, DialogActions, DialogContent, TextField, DialogTitle, IconButton } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { FaEdit, FaSignOutAlt } from 'react-icons/fa';
+import { FaEdit, FaSignOutAlt, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useLocation, useNavigate } from 'react-router-dom';
 import '@fontsource/lato';
 import axios from "axios";
@@ -14,6 +14,8 @@ const UserProfileUI = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const [editDialogType, setEditDialogType] = useState('');
   const [tempValue, setTempValue] = useState('');
+  const [showPassword, setShowPassword] = useState(false); // State to control password visibility
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false); // State to control confirm password visibility
 
   const [profilePic, setProfilePic] = useState('');
   const [bio, setBio] = useState('');
@@ -21,6 +23,7 @@ const UserProfileUI = () => {
   const [email, setEmail] = useState(localStorage.getItem('email') || 'john.doe@example.com');
   const [mobileNumber, setMobileNumber] = useState('');
   const [password, setPassword] = useState(localStorage.getItem('password') || 'password123');
+  const [maskedPassword, setMaskedPassword] = useState('********'); 
   const [accountCreated, setAccountCreated] = useState('2024-01-01');
   const [subscription, setSubscription] = useState('Free Plan');
   const [userDetails, setUserDetails] = useState({
@@ -167,13 +170,15 @@ const UserProfileUI = () => {
       field === 'bio' ? bio :
       field === 'name' ? userName :
       field === 'mobileNumber' ? mobileNumber :
-      field === 'password' ? password : ''
+      field === 'password' ? '' : '' // Clear tempValue for password
     );
     setOpenDialog(true);
   };
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
+    setShowPassword(false);
+    setShowConfirmPassword(false);
   };
 
   const handleSave = async () => {
@@ -195,6 +200,12 @@ const UserProfileUI = () => {
       url = `http://localhost:8080/user/updateMobileNumber/${userid}`;
       payload = { mobileNumber: tempValue };
     } else if (editDialogType === 'password') {
+      // Validate passwords
+      if (tempValue !== document.getElementById('confirm-password').value) {
+        alert('Passwords do not match!');
+        return;
+      }
+
       setPassword(tempValue);
       localStorage.setItem('password', tempValue);
       url = `http://localhost:8080/user/changePassword/${userid}`;
@@ -219,6 +230,11 @@ const UserProfileUI = () => {
     handleCloseDialog();
   };
 
+  useEffect(() => {
+    // Create masked password based on the actual password length
+    setMaskedPassword('*'.repeat(password.length)); 
+  }, [password]); 
+
   const renderDialogContent = () => {
     if (editDialogType === 'bio') {
       return (
@@ -231,6 +247,50 @@ const UserProfileUI = () => {
             multiline
             rows={4}
             sx={{
+              '& .MuiOutlinedInput-root': { borderRadius: '10px' },
+              '& .MuiInputLabel-root': { fontSize: '14px' },
+              '& .MuiOutlinedInput-input': { fontSize: '16px' }
+            }}
+          />
+        </div>
+      );
+    } else if (editDialogType === 'password') {
+      return (
+        <div>
+          <Typography variant="body1" style={{ marginBottom: '1em', fontFamily: 'Lato', }}>Edit Password</Typography>
+          <TextField
+            fullWidth
+            type={showPassword ? 'text' : 'password'}
+            label="Password" // Added the label here
+            value={tempValue}
+            onChange={(e) => setTempValue(e.target.value)}
+            InputProps={{
+              endAdornment: (
+                <IconButton onClick={() => setShowPassword(!showPassword)}>
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </IconButton>
+              ),
+            }}
+            sx={{
+              '& .MuiOutlinedInput-root': { borderRadius: '10px' },
+              '& .MuiInputLabel-root': { fontSize: '14px' },
+              '& .MuiOutlinedInput-input': { fontSize: '16px' }
+            }}
+          />
+          <TextField
+            fullWidth
+            type={showConfirmPassword ? 'text' : 'password'} 
+            label="Confirm Password"
+            InputProps={{
+              endAdornment: (
+                <IconButton onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+                  {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                </IconButton>
+              ),
+            }}
+            id="confirm-password" 
+            sx={{
+              marginTop: '1em', 
               '& .MuiOutlinedInput-root': { borderRadius: '10px' },
               '& .MuiInputLabel-root': { fontSize: '14px' },
               '& .MuiOutlinedInput-input': { fontSize: '16px' }
@@ -263,7 +323,7 @@ const UserProfileUI = () => {
         <NavigationBar />
         <div className='containerbox'>
           <div className="profile-picture">
-            <div className='profilepicturecontainer' onClick={() => document.getElementById('profile-pic-input').click()} style={{ backgroundImage: `url(${profilePic})` }}>
+            <div className='profilepicturecontainer' onClick={() => document.getElementById('profile-pic-input').click()} style={{ boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', backgroundImage: `url(${profilePic})` }}>
               <input
                 type="file"
                 accept="image/*"
@@ -315,7 +375,7 @@ const UserProfileUI = () => {
             <div className="info-field2">
               <Typography variant="subtitle1" sx={{ fontSize: '12px' }}>Password</Typography>
               <div className="info-item">
-                <Typography variant="body5">{password}</Typography>
+                <Typography variant="body5">{maskedPassword}</Typography> {/* Display the masked password */}
                 <button onClick={() => handleEdit('password')} className="edit-button"><FaEdit /></button>
               </div>
               <div className="info-item1">
@@ -344,9 +404,6 @@ const UserProfileUI = () => {
 };
 
 export default UserProfileUI;
-
-
-
 
 
 // import './Profile.css';

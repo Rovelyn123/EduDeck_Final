@@ -59,14 +59,15 @@ function LoginUI() {
   return (
     <div className='lsbody'>
       <div className='logocontainer'>
-        <img src="logo.png" alt="Logo" style={{ height: 90, position: 'absolute', top: '22%', left: '22%', transform: 'translate(-50%, -50%)' }} />
-        <Typography variant="h3" style={{ fontFamily: 'lato', fontWeight: '650', fontSize: '50px', color: '#B18A00', position: 'absolute', top: '23%', left: '53%', transform: 'translate(-50%, -50%)' }}>
+        <img src="logo.png" alt="Logo" style={{ width: '25%', height: '15%', position: 'absolute', 
+        top: '22.5%', left: '22%', transform: 'translate(-50%, -50%)' }} />
+        <Typography variant="h3" style={{ fontFamily: 'lato', fontWeight: '650', fontSize: '50px', color: '#B18A00', position: 'absolute', top: '23%', left: '48%', transform: 'translate(-50%, -50%)' }}>
           EduDeck
         </Typography>
         <Typography style={{ color: 'white', fontWeight: '650', fontSize: '30px', position: 'absolute', top: '35%', left: '27%', transform: 'translate(-50%, -50%)' }}>
           Welcome!
         </Typography>
-        <Typography style={{ color: 'white', fontSize: '15px', position: 'absolute', top: '41.5%', left: '42%', transform: 'translate(-50%, -50%)' }}>
+        <Typography style={{ color: 'white', fontSize: '15px', position: 'absolute', top: '41.5%', left: '40%', transform: 'translate(-50%, -50%)' }}>
           Elevating College Life for Holistic Success
         </Typography>
         <img src="studying.png" alt="Studying" style={{ width: '80%', height: '50%', position: 'absolute', top: '70%', left: '50%', transform: 'translate(-50%, -50%)' }} />
@@ -146,7 +147,7 @@ function LoginUI() {
               </div>
             </div>
             <div className='buttoncontainer' style={{ position: 'absolute', top: '69%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-              <button type="submit" style={{ height: '2.3em', width: '14.2em', fontWeight: '600', color: 'white', borderRadius: '.2em', position: 'absolute', top: '71%', left: '49%', transform: 'translate(-50%, -50%)' }}>
+              <button type="submit" style={{ height: '2.3em', width: '14.2em', fontWeight: '600', color: 'white', borderRadius: '.2em', position: 'absolute', top: '71%', left: '49%', transform: 'translate(-50%, -50%)', boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', }}>
                 Login
               </button>
             </div>

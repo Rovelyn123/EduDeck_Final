@@ -9,10 +9,10 @@
 .logocontainer {
   position: absolute;
   top: 50%; /* Adjust this to control the vertical overlap */
-  left: 30%; /* Centers the square horizontally, adjust as needed */
+  left: 32%; /* Centers the square horizontally, adjust as needed */
   transform: translate(-50%, -50%); /* Adjusts the positioning to center the square */
-  width: 480px; /* Size of the square */
   height: 100%; /* Size of the square */
+  max-width: 580px; /* Adjusted width to ensure space on the right */
   background-color: #FFD234; /* Example color */
   z-index: 5; /* Adjust z-index as needed to ensure it overlaps properly */
   }
@@ -26,7 +26,7 @@
   justify-content: right;
   align-items: center;
   height: 79vh;
-  max-width: 1150px; /* Adjusted width to ensure space on the right */
+  max-width: 1350px; /* Adjusted width to ensure space on the right */
   box-shadow: 0 2px 8px rgba(0.2, 0.2, 0.2, 0.2);
   background-color: white;
   border-radius: 8px;
@@ -34,7 +34,7 @@
 
 
 .secondcontainer {
-  margin: 37px;
+  margin: 70px;
   padding: 20px;
   background-color: white;
   border-radius: 8px;

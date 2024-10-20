@@ -391,13 +391,11 @@ function NavigationBarUI() {
               Quiz
               </Typography>
             </Button> */}
-
-            <Button component={Link} to="/pricing"
+             
+            <Button component={Link}
+            to="/pricing"
               style={{backgroundColor: clicked === 'pricing' ? '#FFEAA0' : 'transparent', width: '100%', boxShadow: clicked === 'pricing' ? '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' : 'none', marginBottom: '3%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}
-                    onClick={() => {
-                        window.open('/pricing', '_blank');
-                        handleButtonClick('pricing');
-                    }}
+              onClick={() => handleButtonClick('pricing')}
             >
               <img src="/pricing.png" alt="pricing" style={{height: '100%', marginRight: '.5em'}} />
               <Typography style={{color: 'black', fontFamily: 'Lato', fontWeight: 300, fontSize: '15px', textTransform: 'none', flexGrow: 1}}>
@@ -439,27 +437,27 @@ function NavigationBarUI() {
 
         {/* Stepper Dialog */}
         <Dialog open={openStepper} onClose={handleStepperClose} fullWidth maxWidth="lg">
-  <DialogTitle>
-    User Guide
-    <IconButton
-      aria-label="close"
-      onClick={handleStepperClose}
-      sx={{
-        position: 'absolute',
-        right: 8,
-        top: 8,
-        color: (theme) => theme.palette.grey[500],
-      }}
-    >
-      <CloseIcon />
-    </IconButton>
-  </DialogTitle>
-  <DialogContent>
-    <DialogContentText>
-      <NavBarStepperUI />
-    </DialogContentText>
-  </DialogContent>
-</Dialog>
+          <DialogTitle>
+            User Guide
+            <IconButton
+              aria-label="close"
+              onClick={handleStepperClose}
+              sx={{
+                position: 'absolute',
+                right: 8,
+                top: 8,
+                color: (theme) => theme.palette.grey[500],
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              <NavBarStepperUI />
+            </DialogContentText>
+          </DialogContent>
+        </Dialog>
 
       </div>
     </>

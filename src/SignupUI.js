@@ -91,13 +91,13 @@ function SignupUI({ onSignup }) {
         <img src="logo.png" alt="Logo" style={{ width: '25%', height: '15%', position: 'absolute', 
         top: '22.5%', left: '22%', transform: 'translate(-50%, -50%)' }} />
         <Typography variant="h3" style={{ fontFamily: 'lato', fontWeight: '650', 
-        fontSize: '50px', color: '#B18A00', position: 'absolute', top: '23%', left: '53%', 
+        fontSize: '50px', color: '#B18A00', position: 'absolute', top: '23%', left: '48%', 
         transform: 'translate(-50%, -50%)' }}>
           EduDeck</Typography>
         <Typography style={{ color: 'white', fontWeight: '650', fontSize: '30px', position: 'absolute', 
-        top: '35%', left: '40%', transform: 'translate(-50%, -50%)' }}>Create an Account</Typography>
+        top: '35%', left: '37%', transform: 'translate(-50%, -50%)' }}>Create an Account</Typography>
         <Typography style={{ color: 'white', fontSize: '15px', position: 'absolute', top: '41.5%', 
-        left: '42.5%', transform: 'translate(-50%, -50%)' }}>Elevating College Life for Holistic 
+        left: '40%', transform: 'translate(-50%, -50%)' }}>Elevating College Life for Holistic 
         Success</Typography>
         <img src="studying.png" alt="Studying" style={{ width: '80%', height: '50%', 
         position: 'absolute', top: '70%', left: '50%', transform: 'translate(-50%, -50%)' }} />
@@ -254,7 +254,7 @@ function SignupUI({ onSignup }) {
             </div>
             <div className='buttoncontainer' style={{position: 'absolute', top: '85%', 
             left: '50%', transform: 'translate(-50%, -50%)'}}>
-              <button type="submit" style={{ width: '100%',fontWeight: '600', color: 'white' }}>
+              <button type="submit" style={{ width: '100%',fontWeight: '600', color: 'white', boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', }}>
                 Create Account
               </button>
             </div>

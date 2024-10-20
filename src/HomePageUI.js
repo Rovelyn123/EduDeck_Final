@@ -165,14 +165,14 @@ export default function HomePageUI() {
                                         <img src='homebackgrounds.png' alt='Home Background' className='home-background' style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.3}} />
                                         <div style={{ position: 'relative', zIndex: 10 }}> 
                                             <Container sx={{textAlign: 'center', mt: { xs: 6, sm: 10 }}}>
-                                                <Grid style={{margin: '10%', marginTop: `13%`, marginBottom: `15%`}}>
-                                                    <Typography variant="h3" sx={{color: "#967501", fontSize: '4.5em', fontFamily: 'Lato', fontWeight: 600}}>
+                                                <Grid style={{margin: '10%', marginTop: `18%`, marginBottom: `20%`}}>
+                                                    <Typography variant="h3" sx={{color: "#967501", fontSize: '5.5em', fontFamily: 'Lato', fontWeight: 600}}>
                                                         Elevating College Life for Holistic Success
                                                     </Typography>
                                                     <Typography variant="h6" sx={{color: "#787878", fontFamily: 'Lato', fontSize: '1.5em', fontWeight: 300}}>
                                                         Transforming the Academic Journey with Integrated Flashcards and Personalized Study Tools for Long-Term Success
                                                     </Typography>
-                                                    <Link to="/login" style={{ textDecoration: 'none', fontFamily: 'Lato' }}><Button style={{backgroundColor:'#FAC712', color: '#332D2D', marginTop: '2em',  fontWeight: 600, borderRadius: '5em', width: '12em', height: '2.5em', border: 'black 1px solid'}}>
+                                                    <Link to="/login" style={{ textDecoration: 'none', fontFamily: 'Lato' }}><Button style={{backgroundColor:'#FAC712', color: '#332D2D', marginTop: '2em',  fontWeight: 600, borderRadius: '5em', width: '15em', height: '3em', border: 'black 1px solid'}}>
                                                         Get Started
                                                     </Button></Link>
                                                 </Grid>
@@ -181,8 +181,8 @@ export default function HomePageUI() {
 
                                             {showHometoabout && (
                                                 <>  
-                                                    <Container sx={{textAlign: 'center', mt: { xs: 3, sm: 5 }}}>
-                                                        <Typography variant="h5" sx={{ paddingLeft: `10%`, fontFamily: 'Lato', paddingRight: `10%`, color: `#333333`, fontWeight: 600, fontSize: { xs: '2em', sm: '2.4em' }}}>
+                                                    <Container sx={{ textAlign: 'center', mt: { xs: 3 , sm: 5 }}}>
+                                                        <Typography variant="h5" sx={{ paddingLeft: `10%`, fontFamily: 'Lato', paddingRight: `10%`, color: `#333333`, fontWeight: 600, fontSize: { xs: '3em', sm: '2.8em' }}}>
                                                             Excel in your courses using our latest set of study resources and with our exceptional features.
                                                         </Typography>
                                                         <Typography variant="h5" sx={{ paddingLeft: `10%`, fontFamily: 'Lato', paddingRight: `10%`, color: "#666666", fontSize: { xs: '1em', sm: '.5 em' }}}>
@@ -343,6 +343,7 @@ export default function HomePageUI() {
                                                     </Container>
 
                                                     <Container
+                                                        maxWidth={false}  // Ensures the container takes up the full width
                                                         sx={{
                                                             display: 'flex',
                                                             flexDirection: 'column',
@@ -352,20 +353,51 @@ export default function HomePageUI() {
                                                             textAlign: 'center',
                                                             mt: { xs: 6, sm: 10 },
                                                             backgroundColor: '#332D2D',
-                                                            height: '13em',
-                                                            padding: '1em 0'  // Add padding to balance top and bottom spacing
+                                                            height: '16em',
+                                                            width: '100%',  // Makes sure the container spans 100% of the screen
+                                                            padding: 0,     // Removes any default padding applied by MUI
                                                         }}
                                                         >
-                                                        <Typography sx={{ mt: 0, color: "white", fontFamily: 'Lato', fontWeight: 600, fontSize: { xs: '2em', sm: '2.4em' } }}>
+                                                        <Typography 
+                                                            sx={{ 
+                                                            mt: 0, 
+                                                            color: "white", 
+                                                            fontFamily: 'Lato', 
+                                                            fontWeight: 600, 
+                                                            fontSize: { xs: '2em', sm: '2.4em' } 
+                                                            }}
+                                                        >
                                                             Prepare yourself for the day of the test.
                                                         </Typography>
-                                                        <Typography sx={{ mt: 1, mb: 2, color: "white", fontFamily: 'Lato', fontWeight: 300, fontSize: { xs: '.6em', sm: '1em' } }}>
+                                                        <Typography 
+                                                            sx={{ 
+                                                            mt: 1, 
+                                                            mb: 2, 
+                                                            color: "white", 
+                                                            fontFamily: 'Lato', 
+                                                            fontWeight: 300, 
+                                                            fontSize: { xs: '.6em', sm: '1em' } 
+                                                            }}
+                                                        >
                                                             Transform your PowerPoint slides into flashcards for accelerated outcomes.
                                                         </Typography>
-                                                        <Link to="/signup" style={{ textDecoration: 'none', fontFamily: 'Lato' }}></Link><Button style={{backgroundColor:'#FAC712', color: `#333333`, borderRadius: '5em',  fontWeight: 600, width: '12em', height: '2.5em', border: 'black 1px solid'}}>
+                                                        <Link to="/signup" style={{ textDecoration: 'none', fontFamily: 'Lato' }}>
+                                                            <Button 
+                                                            style={{
+                                                                backgroundColor:'#FAC712', 
+                                                                color: '#333333', 
+                                                                borderRadius: '5em',  
+                                                                fontWeight: 600, 
+                                                                width: '12em', 
+                                                                height: '2.5em', 
+                                                                border: 'black 1px solid'
+                                                            }}
+                                                            >
                                                             Create Account
-                                                        </Button>
-                                                    </Container>
+                                                            </Button>
+                                                        </Link>
+                                                        </Container>
+
 
                                                     <Container sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', flexWrap: 'wrap' }}>
                                                         <img 
