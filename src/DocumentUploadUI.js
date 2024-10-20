@@ -665,7 +665,7 @@ function DocumentUploadUI() {
                                         {/* Conditionally render file icons based on screen size */}
                                         {!isMobile && (
                                         <>
-                                            {file.fileType === 'pdf' && <img src="/pdf.png" alt="PDF Icon" style={{ width: '60px', margin: '5px 10px 5px 15px' }} />}
+                                            {file.fileType === 'pdf' && <img src="/PDF.png" alt="PDF Icon" style={{ width: '60px', margin: '5px 10px 5px 15px' }} />}
                                             {file.fileType === 'docx' && <img src="/docxIcon.png" alt="DOCX Icon" style={{ width: '60px', margin: '5px 10px 5px 15px' }} />}
                                             {(file.fileType === 'pptx' || file.fileType === 'ppt') && <img src="/pptx.png" alt="PPT Icon" style={{ width: '60px', margin: '5px 10px 5px 15px' }} />}
                                             {file.fileType === 'txt' && <img src="/txtIcon.png" alt="TXT Icon" style={{ width: '55px', margin: '8px 10px 8px 15px' }} />}

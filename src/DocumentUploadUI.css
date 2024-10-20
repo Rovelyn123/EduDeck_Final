@@ -38,7 +38,7 @@
     border-radius: 15px;
     padding: 20px;
     width: 700px;
-    height: 540px;
+    height: 570px;
     margin-left: 30px;
     box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.25);
   }
@@ -56,7 +56,7 @@
   .uploadedFilePanel {
     padding: 20px;
     width: 95%;
-    height: 540px;
+    height: 500px;
     overflow-y: auto;
   }
 
