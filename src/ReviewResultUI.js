@@ -266,8 +266,9 @@ function ReviewResultUI() {
             }}
           >
             {/* Study Unmemorized Cards Button */}
-            <Button
+            {/* <Button
               variant="contained"
+              sx={{'&:hover': {transform: 'scale(1.05)'}}}
               style={{ 
                 height: 'auto', 
                 width: '100%', 
@@ -282,7 +283,7 @@ function ReviewResultUI() {
                 alignItems: 'center', 
                 boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
               }}
-              onClick={() => { /* Add logic to study unmemorized cards */ }}
+              onClick={() => {}}
             >
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <img src="star_icon.png" alt="icon" style={{ width: '30px', marginRight: '10px' }} />
@@ -292,15 +293,16 @@ function ReviewResultUI() {
                 </div>
               </div>
               <div style={{ fontSize: '1.5em', color: '#555' }}> </div>
-            </Button>
+            </Button> */}
 
             {/* Start Quiz Button */}
-            <Button
+            {/* <Button
               variant="contained"
+              sx={{'&:hover': {transform: 'scale(1.05)'}}}
               style={{ 
                 height: 'auto', width: '100%', fontFamily: 'Lato', backgroundColor: '#fff', color: '#000', fontWeight: 'bold', borderRadius: '15px', padding: '15px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
               }}
-              onClick={() => { /* Add logic to start a quiz */ }}
+              onClick={() => {}}
             >
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <img src="quiz_icon.png" alt="icon" style={{ width: '30px', marginRight: '10px' }} />
@@ -310,11 +312,12 @@ function ReviewResultUI() {
                 </div>
               </div>
               <div style={{ fontSize: '1.5em', color: '#555' }}> </div>
-            </Button>
+            </Button> */}
 
             {/* Restart Flashcards Button */}
             <Button
               variant="contained"
+              sx={{'&:hover': {transform: 'scale(1.05)'}}}
               style={{ 
                 height: 'auto', width: '100%', fontFamily: 'Lato',  backgroundColor: '#fff', color: '#000', fontWeight: 'bold', borderRadius: '15px', padding: '15px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
               }}
@@ -333,9 +336,9 @@ function ReviewResultUI() {
             {/* Select New Flashcard Deck Button */}
             <Button
               variant="contained"
+              sx={{'&:hover': {transform: 'scale(1.05)'}}}
               style={{ 
-                height: 'auto', width: '100%', fontFamily: 'Lato', backgroundColor: '#fff', color: '#000', fontWeight: 'bold', borderRadius: '15px', padding: '15px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
-              }}
+                height: 'auto', width: '100%', fontFamily: 'Lato', backgroundColor: '#fff', color: '#000', fontWeight: 'bold', borderRadius: '15px', padding: '15px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)'}}
               component={Link} 
               to="/flashcardsmgt"
             >
