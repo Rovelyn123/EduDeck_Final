@@ -3,12 +3,14 @@ import axios from 'axios';
 import "./QuizSessionUI.css";
 import { Typography, Box, TextField, Button, AppBar, Toolbar, useMediaQuery } from "@mui/material";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import '@fontsource/lato';
 import { Link } from 'react-router-dom';
 import BASE_URL from './config';
 
 const QuizSessionUI = () => {
+    const location = useLocation();
+    const { quizId } = location.state || {};
     const [questions, setQuestions] = useState([]);
     const [totalQuestions, setTotalQuestions] = useState(0);
     const [title, setTitle] = useState('');
@@ -24,13 +26,13 @@ const QuizSessionUI = () => {
                 if (!selectedDeckId) {
                     throw new Error('No deck selected');
                 }
-                const response = await axios.get(`${BASE_URL}/api/flashcards/deck/${selectedDeckId}`);
-                const flashcards = response.data;
+                const response = await axios.get(`${BASE_URL}/api/quizzes/${quizId}`);
+                const quizItems = response.data.quizItems || [];
 
-                const fetchedQuestions = flashcards.map(flashcard =>({
-                    id: flashcard.flashcardId,
-                    question: flashcard.question,
-                    answer: flashcard.answer
+                const fetchedQuestions = quizItems.map(quizItem =>({
+                    id: quizItem.quizItemId,
+                    question: quizItem.question,
+                    answer: quizItem.correctAnswer
 
                 }));
                 setQuestions(fetchedQuestions);
