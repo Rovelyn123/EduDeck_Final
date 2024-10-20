@@ -506,11 +506,11 @@ function FlashcardManagementUI() {
                                 )}
                                 </Typography>
                             )}
-                            {isMobile && (
+                            {/* {isMobile && (
                                 <IconButton onClick={toggleDrawer(true)} style={{ marginLeft: 'auto' }}>
                                 <MenuIcon />
                                 </IconButton>
-                            )}
+                            )} */}
                             </Button>       
                         {isMobile && (
                             <IconButton onClick={toggleDrawer(true)} style={{marginLeft: 'auto', }}>

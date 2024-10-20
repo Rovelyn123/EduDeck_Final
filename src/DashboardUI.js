@@ -25,9 +25,9 @@ const DashboardUI = ({onLogout}) => {
     const daysOfWeek = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
     const todayIndex = new Date().getDay();
     const [recentFlashcardTitle, setRecentFlashcardTitle] = useState('');
-    const [totalQuestions, setTotalQuestions] = useState(0); 
-    const [score, setScore] = useState(20); 
-    const [targetScore, setTargetScore] = useState(30); 
+    const [totalQuestions, setTotalQuestions] = useState(20); 
+    const [score, setScore] = useState(50); 
+    const [targetScore, setTargetScore] = useState(20); 
     const [open, setOpen] = useState(false);
     const [flashcards, setFlashcards] = useState([]);
     const [id, setId] = useState(1);
@@ -183,16 +183,16 @@ const DashboardUI = ({onLogout}) => {
     // }, [id]);
 
     const pieData = [
-      { name: 'Multiple Choice', value: 400 },
-      { name: 'True or False', value: 300 },
-      { name: 'Short Answer', value: 300 },
-      { name: 'Essay', value: 200 },
+      { name: 'Multiple Choice', value: 40 },
+      { name: 'True or False', value: 30 },
+      { name: 'Short Answer', value: 30 },
+      { name: 'Essay', value: 20 },
     ];
     
     const radarData = [
-      { subject: 'Math', A: 120 },
-      { subject: 'Science', A: 98 },
-      { subject: 'History', A: 86 },
+      { subject: 'Math', A: 90 },
+      { subject: 'Science', A: 88 },
+      { subject: 'History', A: 76 },
       // etc.
     ];
     
@@ -530,10 +530,10 @@ const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
           </Box>
 
           <Box style={{
-                width: isMobile ? '50px' : '50px',
-                height: isMobile ? '50px' : '50px',
+                width: isMobile ? '40px' : '50px',
+                height: isMobile ? '40px' : '50px',
                 position: 'relative',
-                top: isMobile ? '20px' : '17px',
+                top: isMobile ? '22px' : '17px',
                 marginLeft: isMobile ? 'calc(50% - 100px)' : '84%'
             }}>
                 <div style={{

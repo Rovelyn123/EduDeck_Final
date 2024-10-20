@@ -435,6 +435,8 @@ return (
                     color:
                         feedbackValue <= 1
                         ? 'red'
+                        : feedbackValue === 2
+                        ? 'red'
                         : feedbackValue === 3
                         ? 'yellow'
                         : 'green', // Dynamic color for low, medium, and high
@@ -448,10 +450,16 @@ return (
             </DialogContent>
 
             <DialogActions>
-                <Button onClick={handleFeedbackSubmission} color="primary" variant="contained">
-                Submit Feedback
+                <Button
+                    onClick={handleFeedbackSubmission} color="primary" variant="contained"
+                    style={{ backgroundColor: "#FFD234" }} // Default color
+                    onMouseEnter={(e) => e.target.style.backgroundColor = "#FFD234"} // Darker on hover
+                    onMouseLeave={(e) => e.target.style.backgroundColor = "#FFD234"} // Back to original
+                >
+                    Submit Feedback
                 </Button>
             </DialogActions>
+
             </Dialog>
 
 
