@@ -35,10 +35,6 @@ const UserProfileUI = () => {
   });
   const userid = localStorage.getItem('userid');
 
-  // const handleLogout = () => {
-  //   localStorage.clear();
-  //   navigate("/login");
-  // };
   const fetchEmail = async () => {
     try {
       const response = await axios.get(`${BASE_URL}/user/getEmail/${userId}`);
@@ -86,12 +82,12 @@ const UserProfileUI = () => {
             email: data.email,
             creationDate: data.creationDate,
             mobileNumber: data.mobileNumber || '123-456-7890', // Default value
-            bio: data.bio || 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', // Default value
+            bio: data.bio || 'Describe yourself as a learner: what motivates you?', // Default value
           });
           setEmail(data.email);
           setAccountCreated(data.creationDate);
           setMobileNumber(data.mobileNumber || '123-456-7890');
-          setBio(data.bio || 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
+          setBio(data.bio || 'Describe yourself as a learner: what motivates you?');
           if (data.profilePicture) {
             setProfilePic(`data:image/jpeg;base64,${data.profilePicture}`);
           }
@@ -268,7 +264,7 @@ const UserProfileUI = () => {
             InputProps={{
               endAdornment: (
                 <IconButton onClick={() => setShowPassword(!showPassword)}>
-                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                  {showPassword ? <FaEye /> : <FaEyeSlash />}
                 </IconButton>
               ),
             }}
@@ -285,7 +281,7 @@ const UserProfileUI = () => {
             InputProps={{
               endAdornment: (
                 <IconButton onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
-                  {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                  {showConfirmPassword ? <FaEye /> : <FaEyeSlash />}
                 </IconButton>
               ),
             }}
@@ -387,7 +383,6 @@ const UserProfileUI = () => {
               </div>
             </div>
           </div>
-          {/* <button className="logout-button" onClick={handleLogout}><FaSignOutAlt /> Logout</button> */}
         </div>
       </div>
 

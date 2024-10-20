@@ -132,7 +132,7 @@ function LoginUI() {
                           color: '#B18A00'
                         }}
                       >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                        {showPassword ? <Visibility /> : <VisibilityOff />}
                       </span>
                     )}
                   </div>

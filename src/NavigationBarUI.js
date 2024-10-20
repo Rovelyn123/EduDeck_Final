@@ -46,6 +46,11 @@ function NavigationBarUI() {
         setClicked(buttonName === clicked ? null : buttonName);
     };
 
+    const handleLogout = () => {
+        localStorage.clear();
+        navigate("/login");
+      };
+
     const handleUserGuideClick = () => {
         setOpenStepper(true); // Open the stepper dialog
     };
@@ -254,6 +259,25 @@ function NavigationBarUI() {
                             </Typography>
                         </Button>
                     </Grid>
+                    <Grid item xs={12}>
+                        <Button component={Link}
+                        to="/logout"
+                        style={{
+                            width: '100%',
+                            marginBottom: 2,
+                            display: 'flex',
+                            justifyContent: 'flex-start',
+                            alignItems: 'center',
+                        }}
+                        onClick={handleLogout}  // Assuming `handleLogout` is implemented
+                        >
+                        <img src="/logout.png" alt="logout icon" style={{ height: 20, marginLeft: '1.3em' }} />
+                        <Typography style={{ color: 'black', fontFamily: 'Lato', fontSize: '1.1em', textTransform: 'none', flexGrow: 1, marginLeft: '2em' }}>
+                            Logout
+                        </Typography>
+                        {/* <button className="logout-button" onClick={handleLogout}><FaSignOutAlt /> Logout</button> */}
+                        </Button>
+                    </Grid>
                 </Grid>
                 <Divider style={{ marginLeft: '1em', backgroundColor: '#BCA860', width: '80%', marginTop: 10 }} />
 
@@ -389,6 +413,16 @@ function NavigationBarUI() {
                                 <Typography style={{color: 'black', fontFamily: 'Lato', fontWeight: 300, fontSize: '15px', textTransform: 'none', flexGrow: 1}}>
                                     Settings
                                 </Typography>
+                            </Button>
+                            <Button
+                                style={{width: '100%', marginBottom: '3%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}
+                                onClick={handleLogout}  // Assuming `handleLogout` is implemented
+                                >
+                                <img src="/logout.png" alt="logout icon" style={{height: '100%', marginRight: '.5em'}} />
+                                <Typography style={{color: 'black', fontFamily: 'Lato', fontWeight: 300, fontSize: '15px', textTransform: 'none', flexGrow: 1, marginRight: '9.5em'}}>
+                                    Logout
+                                </Typography>
+                                {/* <FaSignOutAlt /> Logout */}
                             </Button>
                         </Grid>
                         <Button
