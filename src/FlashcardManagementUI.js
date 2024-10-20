@@ -339,7 +339,7 @@ function FlashcardManagementUI() {
         // };
         const handleDeckSelection = (deck) => {
             // If the selected deck is clicked again, deselect it
-            if (selectedDeck === deck.title && selectedDeckId === deck.deckId && selectedDeckDocumentId === deck.document.documentId) {
+            if (selectedDeck === deck.title && selectedDeckId === deck.deckId && selectedDeckDocumentId === deck.document?.documentId) {
                 setSelectedDeck('');
                 setSelectedDeckId('');
                 setSelectedDeckDocumentId('');
