@@ -39,22 +39,22 @@ const InfoStripePopOut = ({ open, handleClose, dialogContent, handleProceed }) =
                         fontSize: { xs: "1.3em", md: "1.8em" },
                         fontWeight: "bolder",
                         textAlign: "center",
-                        marginBottom: "-50px",
+                        marginBottom: "0px",
                     }}
                 >
                     Important Information
                 </DialogTitle>
                 <DialogContent sx={{ textAlign: "center" }}>
                     <img
-                        src="/Stripe.png"
+                        src="/poweredbystripe.png"
                         alt="Stripe Logo"
                         style={{
                             width: "100%",  // Set the width to 100% to take the full width of its container
-                            maxWidth: "250px",  // Limit the maximum width to 250px
+                            maxWidth: "500px",  // Limit the maximum width to 250px
                             height: "auto",  // Automatically adjust height to maintain the aspect ratio
                             display: "block",
                             margin: "0 auto",
-                            marginBottom: "-35px"
+                            marginBottom: "10px"
                         }}
                     />
 
@@ -63,7 +63,7 @@ const InfoStripePopOut = ({ open, handleClose, dialogContent, handleProceed }) =
                             color: "#000000",
                             fontSize: {xs: "1em", md: "1.1em"},
                             textAlign: "center",
-                            marginBottom:'5px',
+                            marginBottom:'0px',
                         }}
                     >
                         {dialogContent}
