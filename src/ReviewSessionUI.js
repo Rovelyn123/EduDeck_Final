@@ -350,6 +350,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import TopAppBar from './TopAppBarUI';
 import '@fontsource/lato';
 import { useLocation, useNavigate } from 'react-router-dom';
+import BASE_URL from "./config";
 
 function ReviewSessionUI() {
   const [flashcardTitle, setFlashcardTitle] = useState('Review Session');
@@ -407,7 +408,7 @@ function ReviewSessionUI() {
       };
 
       try {
-        const response = await axios.post('http://localhost:8080/api/ReviewSession/create', sessionData);
+        const response = await axios.post(`${BASE_URL}/api/ReviewSession/create`, sessionData);
         const { reviewSessionId } = response.data;
         setSessionId(reviewSessionId);
         localStorage.setItem('reviewSessionId', reviewSessionId); // Persist session ID
@@ -430,11 +431,11 @@ function ReviewSessionUI() {
 
     if (deckId) {
       try {
-        const response = await axios.get(`http://localhost:8080/api/flashcards/deck/${deckId}`);
+        const response = await axios.get(`${BASE_URL}/api/flashcards/deck/${deckId}`);
         setFlashcards(response.data);
         setTotalFlashcards(response.data.length);
 
-        const deckResponse = await axios.get(`http://localhost:8080/api/decks/getFlashcardDeckById/${deckId}`);
+        const deckResponse = await axios.get(`${BASE_URL}/api/decks/getFlashcardDeckById/${deckId}`);
         setFlashcardTitle(deckResponse.data.title);
       } catch (error) {
         console.error('Error fetching flashcards or deck title:', error);
@@ -481,7 +482,7 @@ function ReviewSessionUI() {
     const isMemorized = !memorizedCards[currentCardIndex];
 
     try {
-      await axios.put(`http://localhost:8080/api/ReviewSession/markMemorized`, null, {
+      await axios.put(`${BASE_URL}/api/ReviewSession/markMemorized`, null, {
         params: {
           reviewSessionId: sessionId,
           flashcardId: flashcards[currentCardIndex]?.id,
@@ -509,7 +510,7 @@ function ReviewSessionUI() {
       localStorage.setItem('currentCardIndex', newIndex); // Persist current card index
 
       try {
-        await axios.put(`http://localhost:8080/api/ReviewSession/updateCurrentIndex`, null, {
+        await axios.put(`${BASE_URL}/api/ReviewSession/updateCurrentIndex`, null, {
           params: {
             reviewSessionId: sessionId,
             currentCardIndex: newIndex,
@@ -521,11 +522,15 @@ function ReviewSessionUI() {
       }
     } else {
       // If at the last flashcard, end the session and navigate to the review result page
-      if (!isSessionEnding.current) {
-        isSessionEnding.current = true; // Prevent multiple calls to end session
-        endSession();
+      // if (!isSessionEnding.current) {
+      //   isSessionEnding.current = true; // Prevent multiple calls to end session
+      //   endSession();
+      navigateToReviewResults();
       }
-    }
+  };
+
+  const navigateToReviewResults = () => {
+    navigate('/reviewresult'); // Use the navigate function instead of history.push
   };
 
   // Navigate to the previous flashcard and persist the current index
@@ -542,7 +547,7 @@ const endSession = async () => {
   try {
     const endTime = new Date().toISOString();
 
-    await axios.put(`http://localhost:8080/api/ReviewSession/endSession`, null, {
+    await axios.put(`${BASE_URL}/api/ReviewSession/endSession`, null, {
       params: {
         reviewSessionId: sessionId,
         endTime: endTime,
@@ -626,10 +631,25 @@ const endSession = async () => {
         <Button className="showanswer" variant="contained" onClick={showAnswer} style={{ backgroundColor: '#ffd234', borderRadius: '2em', fontFamily: 'Lato', fontWeight: '600', width: '170px', height: '35px' }} >
           {buttonText}
         </Button>
-        <IconButton className="action-button" onClick={handleNextClick}>
+          {/* {currentCardIndex === flashcards.length - 1 ? (
+            <CheckIcon className="action-check-button" onClick={navigateToReviewResults}>
+            </CheckIcon>
+          ) : (
+            <IconButton className="action-button" onClick={handleNextClick}>
+              <ArrowForwardIcon />
+            </IconButton>
+          )} */}
+       
+        <IconButton className="action-button" onClick={handleNextClick} disabled={currentCardIndex === flashcards.length - 1}>
           <ArrowForwardIcon />
-        </IconButton>
-      </div>
+        </IconButton>        
+        </div>
+        {currentCardIndex === flashcards.length - 1 && (
+          <Button className="finish-session-button" variant="contained" onClick={navigateToReviewResults}>
+            DONE
+          </Button>
+        )}
+      
       <div className="Memorized" style={{ textAlign: 'center', fontFamily: 'Lato', fontWeight: '700' }}>
         <Button variant="contained" onClick={toggleMemorized}>
           {isMemorized ? "Unmark as Memorized" : "Mark as Memorized"}

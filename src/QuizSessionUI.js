@@ -6,6 +6,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import '@fontsource/lato';
 import { Link } from 'react-router-dom';
+import BASE_URL from './config';
 
 const QuizSessionUI = () => {
     const [questions, setQuestions] = useState([]);
@@ -23,7 +24,7 @@ const QuizSessionUI = () => {
                 if (!selectedDeckId) {
                     throw new Error('No deck selected');
                 }
-                const response = await axios.get(`http://localhost:8080/api/flashcards/deck/${selectedDeckId}`);
+                const response = await axios.get(`${BASE_URL}/api/flashcards/deck/${selectedDeckId}`);
                 const flashcards = response.data;
 
                 const fetchedQuestions = flashcards.map(flashcard =>({

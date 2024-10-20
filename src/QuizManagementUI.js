@@ -251,6 +251,7 @@ import { Typography, Box, TextField, Button, AppBar, Toolbar, useMediaQuery } fr
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import '@fontsource/lato';
+import BASE_URL from './config';
 
 function QuizManagementUI() {
     const [questions, setQuestions] = useState([]);
@@ -269,7 +270,7 @@ function QuizManagementUI() {
                 }
 
                 // Fetch questions - AI-generated or from your API
-                const response = await axios.get(`http://localhost:8080/api/flashcards/deck/${selectedDeckId}`);
+                const response = await axios.get(`${BASE_URL}/api/flashcards/deck/${selectedDeckId}`);
                 const flashcards = response.data;
 
                 const fetchedQuestions = flashcards.map(flashcard => ({

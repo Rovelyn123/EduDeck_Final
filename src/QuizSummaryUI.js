@@ -47,15 +47,15 @@ const QuizSummary = () => {
     const marks = [
         {
             value: 1,
-            label: "Didn't meet Expectations",
+            label: "Not Relevant",
         },
         {
             value: 3,
-            label: 'Met Expectations',
+            label: 'Relevant',
         },
         {
             value: 5,
-            label: 'Exceeded Expectations',
+            label: 'Very Relevant',
         },
     ];
     
@@ -378,59 +378,82 @@ return (
             maxWidth="md"
             PaperProps={{
                 sx: {
-                    borderRadius: 3, 
-                    border: '1px solid #ccc', 
-                    boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)', 
-                    height: '320px', 
-                    overflow: 'hidden', 
+                borderRadius: 3,
+                border: '1px solid #ccc',
+                boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)',
+                height: '320px',
+                overflow: 'hidden',
+                position: 'relative' // Important to position the close button correctly
                 },
             }}
-        >
+            >
+            {/* Close Icon */}
+            <IconButton
+                onClick={() => setOpenFeedbackDialog(false)}
+                sx={{
+                position: 'absolute',
+                top: 8,
+                right: 8,
+                }}
+            >
+                <CloseIcon />
+            </IconButton>
+
             <DialogTitle
                 id="feedback-dialog-title"
-                style={{ textAlign: 'center', fontFamily: 'Lato', fontWeight: 'bold', marginTop: '30px' }}
+                style={{
+                textAlign: 'center',
+                fontFamily: 'Lato',
+                fontWeight: 'bold',
+                marginTop: '30px',
+                }}
             >
-                How relevant are these questions to you? <br/> Please let us know your feedback to help us improve our system.
+                How relevant are these questions to you? <br /> Please let us know your feedback to help us improve our system.
             </DialogTitle>
 
             <DialogContent
                 sx={{
-                    overflow: 'hidden', 
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: '20px 0', 
+                overflow: 'hidden',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '20px 0',
                 }}
             >
                 {/* Slider for feedback */}
                 <Box sx={{ width: '100%', textAlign: 'center', mt: 3 }}>
-                    {/* <Typography gutterBottom>How relevant are these questions to you?</Typography> */}
-                    <Slider
-                        value={feedbackValue}
-                        onChange={handleSliderChange}
-                        aria-labelledby="feedback-slider"
-                        step={1}
-                        marks={marks}
-                        min={1}
-                        max={5}
-                        sx={{
-                            color: 'green',
-                            height: 8,
-                            width: '80%',
-                            whiteSpace: 'normal', // Prevent text overflow on small screens
-                            wordWrap: 'break-word' // Ensure long words break into the next line
-                        }}
-                    />
+                <Slider
+                    value={feedbackValue}
+                    onChange={handleSliderChange}
+                    aria-labelledby="feedback-slider"
+                    step={1}
+                    marks={marks}
+                    min={1}
+                    max={5}
+                    sx={{
+                    color:
+                        feedbackValue <= 1
+                        ? 'red'
+                        : feedbackValue === 3
+                        ? 'yellow'
+                        : 'green', // Dynamic color for low, medium, and high
+                    height: 8,
+                    width: '80%',
+                    whiteSpace: 'normal', // Prevent text overflow on small screens
+                    wordWrap: 'break-word', // Ensure long words break into the next line
+                    }}
+                />
                 </Box>
             </DialogContent>
 
             <DialogActions>
                 <Button onClick={handleFeedbackSubmission} color="primary" variant="contained">
-                    Submit Feedback
+                Submit Feedback
                 </Button>
             </DialogActions>
-        </Dialog>
+            </Dialog>
+
 
 
 

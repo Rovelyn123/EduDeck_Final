@@ -3,6 +3,7 @@ import "./LoginUI.css";
 import { Typography, Divider } from '@mui/material';
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import BASE_URL from './config.js';
 
 function LoginUI() {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ function LoginUI() {
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch("http://localhost:8080/login", {
+      const response = await fetch(`${BASE_URL}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
