@@ -25,6 +25,8 @@ function PricingUI() {
     const location = useLocation();
     const [paymentSuccess, setPaymentSuccess] = useState(null);
     const [popoutOpen, setPopoutOpen] = useState(false);
+    const [nextBillingDateFormatted, setNextBillingDateFormatted] = useState(null);
+    const [subscriptionData, setSubscriptionData] = useState(null);
 
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search);
@@ -38,6 +40,7 @@ function PricingUI() {
             setPopoutOpen(true);  // Show popout when payment failed
         }
     }, [location.search]); // Re-run whenever the query params change
+
 
     const handleClosePopOut = () => {
         setPopoutOpen(false);  // Close the popout
@@ -59,19 +62,18 @@ function PricingUI() {
 
     // Handle Manage Subscription
     const handleManageSubscription = async () => {
-        setLoading(true);
         try {
-            if (!email) {
-                console.error('Email not yet loaded');
-                return;
-            }
-            const response = await fetch(`${BASE_URL}/create-customer-portal?email=${email}`);
-            const portalUrl = await response.text();
-            window.location.href = portalUrl; // Redirect to the Stripe customer portal
+            const response = await axios.get(`${BASE_URL}/api/create-customer-portal`, {
+                params: {
+                    email: email,  // User's email
+                    returnUrl: `${window.location.origin}/pricing`  // Dynamic return URL
+                }
+            });
+
+            // Redirect to Stripe portal
+            window.location.href = response.data;
         } catch (error) {
-            console.error('Error creating customer portal session:', error);
-        } finally {
-            setLoading(false);
+            console.error('Error creating customer portal:', error);
         }
     };
 
@@ -94,21 +96,24 @@ function PricingUI() {
 
 
     // Fetch subscription status based on email
-    const fetchSubscription = async () => {
+    const fetchSubscription = async (email) => {
         try {
-            const response = await axios.post(`${BASE_URL}/api/subscription`, {
-                email: email // Send the email in the request body
-            });
-            console.log('Subscription response:', response.data); // Log the response data
+            const response = await axios.post(`${BASE_URL}/api/subscription`, { email });
+            const data = response.data;
+            setSubscription(data.active ? 'EduDeck Plus' : 'Free Plan'); // Set subscription based on active status
 
-            if (response.data.active) {
-                setSubscription('EduDeck Plus');
-            } else {
-                setSubscription('Free Plan');
+            if (data.nextBillingDate) {
+                // Convert Unix timestamp to readable format
+                const date = new Date(data.nextBillingDate * 1000);
+                const formattedDate = date.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                });
+                setNextBillingDateFormatted(formattedDate); // Set the formatted date
             }
         } catch (error) {
             console.error('Error fetching subscription:', error);
-            // Optionally handle error state
         }
     };
 
@@ -342,7 +347,7 @@ function PricingUI() {
                         <Grid item xs={9} md={2.5}>
                             <Box sx={{
                                 width: 'auto', // Full width inside its grid item
-                                height: '325px', // Allow dynamic height based on content
+                                height: '356px', // Allow dynamic height based on content
                                 backgroundColor: '#FFFFFF',
                                 borderRadius: '10px',
                                 border: '1px solid #000000',
@@ -400,7 +405,7 @@ function PricingUI() {
                         <Grid item xs={9} md={2.5}>
                             <Box sx={{
                                 width: 'auto', // Full width inside its grid item
-                                height: '325px',
+                                height: '356px',
                                 backgroundColor: '#FFFFFF',
                                 borderRadius: '10px',
                                 border: '1px solid #000000',
@@ -485,6 +490,20 @@ function PricingUI() {
                                 }}>
                                     &bull; Early access to new features.
                                 </Typography>
+
+                                {/* Conditionally render the next billing date if subscribed to EduDeck Plus */}
+                                {subscription === 'EduDeck Plus' && nextBillingDateFormatted && (
+                                    <Typography sx={{
+                                        fontFamily: 'Lato',
+                                        color: '#B18A00',
+                                        fontWeight: 'bold',
+                                        fontSize: { xs: '15px', md: '13px' },
+                                        marginTop: '10px',
+                                        justifyContent:'center'
+                                    }}>
+                                        Next Billing Date: {nextBillingDateFormatted}
+                                    </Typography>
+                                )}
 
                                 <Box sx={{
                                     display: 'flex',
