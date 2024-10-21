@@ -26,7 +26,6 @@ function PricingUI() {
     const [paymentSuccess, setPaymentSuccess] = useState(null);
     const [popoutOpen, setPopoutOpen] = useState(false);
     const [nextBillingDateFormatted, setNextBillingDateFormatted] = useState(null);
-    const [subscriptionData, setSubscriptionData] = useState(null);
 
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search);
@@ -62,18 +61,19 @@ function PricingUI() {
 
     // Handle Manage Subscription
     const handleManageSubscription = async () => {
+        setLoading(true);
         try {
-            const response = await axios.get(`${BASE_URL}/api/create-customer-portal`, {
-                params: {
-                    email: email,  // User's email
-                    returnUrl: `${window.location.origin}/pricing`  // Dynamic return URL
-                }
-            });
-
-            // Redirect to Stripe portal
-            window.location.href = response.data;
+            if (!email) {
+                console.error('Email not yet loaded');
+                return;
+            }
+            const response = await fetch(`http://localhost:8080/create-customer-portal?email=${email}`);
+            const portalUrl = await response.text();
+            window.location.href = portalUrl; // Redirect to the Stripe customer portal
         } catch (error) {
-            console.error('Error creating customer portal:', error);
+            console.error('Error creating customer portal session:', error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -96,7 +96,7 @@ function PricingUI() {
 
 
     // Fetch subscription status based on email
-    const fetchSubscription = async (email) => {
+    const fetchSubscription = async () => {
         try {
             const response = await axios.post(`${BASE_URL}/api/subscription`, { email });
             const data = response.data;
@@ -548,6 +548,5 @@ function PricingUI() {
 
 export default PricingUI;
 
-//{showThankYou && <PurchasePopout onClose={handleClosePopout} />}
 
 
