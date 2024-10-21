@@ -347,7 +347,7 @@ function PricingUI() {
                         <Grid item xs={9} md={2.5}>
                             <Box sx={{
                                 width: 'auto', // Full width inside its grid item
-                                height: '356px', // Allow dynamic height based on content
+                                height: '343px', // Allow dynamic height based on content
                                 backgroundColor: '#FFFFFF',
                                 borderRadius: '10px',
                                 border: '1px solid #000000',
@@ -405,7 +405,7 @@ function PricingUI() {
                         <Grid item xs={9} md={2.5}>
                             <Box sx={{
                                 width: 'auto', // Full width inside its grid item
-                                height: '356px',
+                                height: '343px',
                                 backgroundColor: '#FFFFFF',
                                 borderRadius: '10px',
                                 border: '1px solid #000000',
@@ -490,21 +490,6 @@ function PricingUI() {
                                 }}>
                                     &bull; Early access to new features.
                                 </Typography>
-
-                                {/* Conditionally render the next billing date if subscribed to EduDeck Plus */}
-                                {subscription === 'EduDeck Plus' && nextBillingDateFormatted && (
-                                    <Typography sx={{
-                                        fontFamily: 'Lato',
-                                        color: '#B18A00',
-                                        fontWeight: 'bold',
-                                        fontSize: { xs: '15px', md: '13px' },
-                                        marginTop: '10px',
-                                        justifyContent:'center'
-                                    }}>
-                                        Next Billing Date: {nextBillingDateFormatted}
-                                    </Typography>
-                                )}
-
                                 <Box sx={{
                                     display: 'flex',
                                     justifyContent: 'center',
@@ -537,6 +522,21 @@ function PricingUI() {
                                         {subscription === 'EduDeck Plus' ? 'Manage Subscription' : 'Get EduDeck Plus'}
                                     </Button>
                                 </Box>
+                                {subscription === 'EduDeck Plus' && nextBillingDateFormatted && (
+                                    <Typography
+                                        sx={{
+                                            fontFamily: 'Lato',
+                                            color: '#B18A00',
+                                            fontWeight: 'bold',
+                                            fontSize: { xs: '15px', md: '13px' },
+                                            marginTop: '10px',
+                                            textAlign: 'center',
+                                            marginLeft:'13px'
+                                        }}
+                                    >
+                                        <span style={{ color: 'black' }}>Next Billing Date:</span> {nextBillingDateFormatted}
+                                    </Typography>
+                                )}
                             </Box>
                         </Grid>
                     </Grid>
