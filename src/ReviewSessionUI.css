@@ -84,9 +84,12 @@
 .showanswer{
   background-color: rgb(255, 255, 255);
   color: rgb(82, 75, 0);
-  width: 20%;
+  width: 10%;
+  border-radius: 2em;
+  font-weight: bold;
+  height: 5%;
+  
 }
-
 /* Show answer button styles */
 .show-answer-button {
   text-align: center;
@@ -129,10 +132,10 @@
   border-radius: 150px !important; 
   font-family: 'Lato';
   font-weight: 600; 
-  width: 170px; 
-  height: 33px;
+  width: 150px; 
+  height: 35px;
   top: 5px;
-  left: 595px;
+  left: 660px;
 }
 
 /* .finish-session-button {
