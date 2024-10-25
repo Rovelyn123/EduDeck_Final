@@ -29,6 +29,10 @@ const QuizSummary = () => {
     const [selectedFeedback, setSelectedFeedback] = useState(null);
     const [openFeedbackDialog, setOpenFeedbackDialog] = useState(true);
     const [scrolled, setScrolled] = useState(false);
+    const [quizTitle, setQuizTitle] = useState('');  
+    const [title, setTitle] = useState('');
+    const [targetScore, setTargetScore] = useState(0);
+    // const title = localStorage.getItem('quizTitle');
 
     const { correctAnswers, wrongAnswers, detailedResults } = location.state || { correctAnswers: 0, wrongAnswers: 0, detailedResults: [] };
 
@@ -39,6 +43,24 @@ const QuizSummary = () => {
     const totalQuestions = correctAnswers + wrongAnswers;
     const percentage = (correctAnswers / totalQuestions) * 100;
     const successMessage = percentage >= 60 ? "Great job! You're on the right track." : "Keep trying! Review your answers and improve.";
+    // const storedTitle = localStorage.getItem('quizTitle'); // Retrieve the title
+    // const title = location.state?.title || storedTitle || 'Untitled Quiz';
+
+
+      // Store percentage in localStorage
+      useEffect(() => {
+        localStorage.setItem('quizPercentage', percentage);
+        localStorage.setItem('totalQuestions', totalQuestions);
+        localStorage.setItem('correctAnswers', correctAnswers);  // Score
+        // localStorage.setItem('quizTitle', quizTitle);  // Title of the quiz
+        localStorage.setItem('targetScore', targetScore);  // Target score (passing score)
+      }, [percentage, totalQuestions, correctAnswers, quizTitle, targetScore]);
+    
+      useEffect(() => {
+        const storedTitle = localStorage.getItem('quizTitle');
+        setTitle(storedTitle || 'No Title Available');  // Display message if no title is available
+    }, []);
+
 
     const handleClickOk = () => {
         navigate('/Dashboard');
@@ -308,9 +330,21 @@ return (
                     position: 'relative',
                 }}
             >
-                <Typography variant="h5" style={{ marginBottom: '1em', fontWeight: 'bolder', fontFamily: 'Lato' }}>
+                {/* <Typography variant="h5" style={{ marginBottom: '1em', fontWeight: 'bolder', fontFamily: 'Lato' }}>
                     Review Your Answers
-                </Typography>
+                </Typography> */}
+ <Box display="flex" justifyContent="space-between" alignItems="center" style={{ marginBottom: '1em' }}>
+        <Typography variant="h5" style={{ fontWeight: 'bolder', fontFamily: 'Lato' }}>
+            Review Your Answers
+        </Typography>
+
+        {/* Title displayed beside Review Your Answers */}
+        <Typography variant="h6" style={{ fontFamily: 'Lato', color: '#666' }}>
+            {/* {title || 'Untitled Quiz'} */}
+            {title}
+        </Typography>
+    </Box>
+
                 {detailedResults.map((result, index) => (
                     <Box key={index} style={{ marginBottom: '1em', fontFamily: 'Lato' }}>
                         <Typography variant="h6">

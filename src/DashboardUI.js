@@ -8,10 +8,19 @@ import { Link, useLocation, useNavigate} from "react-router-dom";
 import axios from "axios"; 
 import '@fontsource/lato';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { PieChart, Pie, Cell, Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
+import { PieChart, Pie, Cell, Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Brush } from 'recharts';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import BASE_URL from "./config.js";
+
+// Function to calculate target score based on total questions
+const calculateTargetScore = (totalQuestions) => {
+  if (totalQuestions >= 30) return 22; // or 18, adjust if needed
+  if (totalQuestions >= 20) return 15; // or 12
+  if (totalQuestions >= 10) return 8; // or 6
+  if (totalQuestions >= 5) return 3; // or 2
+  return Math.floor(totalQuestions * 0.5); // Default 50% if no specific case
+};
 
 const DashboardUI = ({onLogout}) => {
     const navigate = useNavigate();
@@ -25,8 +34,8 @@ const DashboardUI = ({onLogout}) => {
     const daysOfWeek = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
     const todayIndex = new Date().getDay();
     const [recentFlashcardTitle, setRecentFlashcardTitle] = useState('');
-    const [totalQuestions, setTotalQuestions] = useState(20); 
-    const [score, setScore] = useState(50); 
+    const [totalQuestions, setTotalQuestions] = useState(0); 
+    const [score, setScore] = useState(0); 
     const [targetScore, setTargetScore] = useState(20); 
     const [open, setOpen] = useState(false);
     const [flashcards, setFlashcards] = useState([]);
@@ -35,10 +44,14 @@ const DashboardUI = ({onLogout}) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [data, setData] = useState([]);
-
+    const [dailyScores, setDailyScores] = useState([]);
+    const [weeklyScores, setWeeklyScores] = useState([]);
     const [recentQuizzes, setRecentQuizzes] = useState([]);
     const cardColors = ['#FAD34B', '#FFE070', '#FFEBA6']; 
     const userid = localStorage.getItem('userid');
+    const [percentage, setPercentage] = useState(0);
+    // const [totalQuestions, setTotalQuestions] = useState(0);
+    const [quizTitle, setQuizTitle] = useState('');  // Store quiz title
 
     useEffect(() => {
         const quizzes = JSON.parse(localStorage.getItem('recentQuizzes')) || [];
@@ -89,45 +102,45 @@ const DashboardUI = ({onLogout}) => {
         }
     }, []);
 
-    // useEffect(() => {
-    //   const fetchRecentQuizActivity = async () => {
-    //     try {
-    //       setLoading(true);
-    //       console.log("Fetching flashcard with ID:", id);
-    
-    //       // API call to fetch flashcard data
-    //       const response = await axios.get(`http://localhost:8080/api/flashcards/getFlashcardById/${id}`);
-    
-    //       // Check if response data structure matches expected fields
-    //       console.log("Response data:", response.data);
-    
-    //       const data = response.data;
-    //       setRecentFlashcardTitle(data.title); // Make sure 'title' exists in the response
-    //       setTotalQuestions(data.totalQuestions); // Ensure 'totalQuestions' exists in the response
-    //       setScore(data.score); // Ensure 'score' exists in the response
-    //     } catch (err) {
-    //       console.error("API fetch error:", err);
-    //       setError('Failed to fetch recent quiz activity.');
-    //     } finally {
-    //       setLoading(false);
-    //     }
-    //   };
-    
-    //   if (id) {
-    //     fetchRecentQuizActivity(); // Fetch data only if ID exists
-    //   }
-    // }, [id]);
-    
-    
-    const handleTargetScoreChange = (event) => {
-      // setTargetScore(event.target.value);
-      // setTargetScore(Number(event.target.value));
-      const value = parseFloat(event.target.value); // Convert input to number
-      setTargetScore(value > 0 ? value : 0); // Ensure targetScore is positive
+    useEffect(() => {
+      // Example: Fetching total questions from localStorage or API
+      const fetchedTotalQuestions = parseInt(localStorage.getItem('totalQuestions'), 10) || 0;
+      setTotalQuestions(fetchedTotalQuestions);
+      
+      const calculatedScore = calculateTargetScore(fetchedTotalQuestions);
+      setTargetScore(calculatedScore);
 
-    };
+      // Optional: Fetch or calculate current score if needed
+      const currentScore = parseInt(localStorage.getItem('correctAnswers'), 10) || 0;
+      setScore(currentScore);
+  }, []);
     
-    const percentage = targetScore > 0 ? Math.min((score / targetScore) * 100, 100) : 0;
+   // const percentage = targetScore > 0 ? Math.min((score / targetScore) * 100, 100) : 0;
+  const { correctAnswers, wrongAnswers, detailedResults } = location.state || { correctAnswers: 0, wrongAnswers: 0, detailedResults: [] };
+
+
+
+  // Retrieve the percentage from localStorage when the component mounts
+  useEffect(() => {
+    const storedPercentage = localStorage.getItem('quizPercentage');
+    const storedTotalQuestions = localStorage.getItem('totalQuestions');
+    const storedScore = localStorage.getItem('correctAnswers');
+    const storedQuizTitle = localStorage.getItem('quizTitle');
+    const storedTargetScore = localStorage.getItem('targetScore');
+
+    if (storedPercentage) setPercentage(parseFloat(storedPercentage));
+    if (storedTotalQuestions) setTotalQuestions(parseInt(storedTotalQuestions));
+    if (storedScore) setScore(parseInt(storedScore));
+    if (storedQuizTitle) setQuizTitle(storedQuizTitle);  // Retrieve quiz title
+    if (storedTargetScore) setTargetScore(parseInt(storedTargetScore));
+  }, []);
+
+  useEffect(() => {
+    const storedQuizTitle = localStorage.getItem('quizTitle');
+    if (storedQuizTitle) {
+      setQuizTitle(storedQuizTitle);  // Set the title from localStorage
+    }
+  }, []);
 
     const handleClickOpen = () => {
       setOpen(true);
@@ -137,50 +150,66 @@ const DashboardUI = ({onLogout}) => {
       setOpen(false);
     };
 
-    const weekData = [
-      { Week: 'Sun', GeneralScore: 50, Series2: 24 },
-      { Week: 'Mon', GeneralScore: 30, Series2: 13 },
-      { Week: 'Tue', GeneralScore: 40, Series2: 98 },
-      { Week: 'wed', GeneralScore: 27, Series2: 39 },
-      { Week: 'Thu', GeneralScore: 18, Series2: 48 },
-      { Week: 'Fri', GeneralScore: 23, Series2: 38 },
-      { Week: 'Sat', GeneralScore: 34, Series2: 43 },
-      // Add more data points as needed
+    // const weekData = [
+    //   { Week: 'Sun', GeneralScore: 50, Series2: 24 },
+    //   { Week: 'Mon', GeneralScore: 30, Series2: 13 },
+    //   { Week: 'Tue', GeneralScore: 40, Series2: 98 },
+    //   { Week: 'wed', GeneralScore: 27, Series2: 39 },
+    //   { Week: 'Thu', GeneralScore: 18, Series2: 48 },
+    //   { Week: 'Fri', GeneralScore: 23, Series2: 38 },
+    //   { Week: 'Sat', GeneralScore: 34, Series2: 43 },
+    //   // Add more data points as needed
+    // ];
+  //   useEffect(() => {
+  //     // Fetch daily scores array from localStorage or initialize empty array if not present
+  //     const storedDailyScores = JSON.parse(localStorage.getItem('dailyScores')) || [];
+  //     setDailyScores(storedDailyScores);
+
+  //     // Example of storing today’s score
+  //     const storedScore = localStorage.getItem('correctAnswers');
+  //     const date = new Date().toLocaleDateString('en-US', { weekday: 'short' });
+      
+  //     if (storedScore) {
+  //         const updatedScores = [...storedDailyScores, { Week: date, GeneralScore: parseInt(storedScore) }];
+  //         setDailyScores(updatedScores);
+  //         localStorage.setItem('dailyScores', JSON.stringify(updatedScores));
+  //     }
+  // }, []);
+
+  useEffect(() => {
+    // Get or initialize the weekly scores from localStorage
+    const storedWeeklyScores = JSON.parse(localStorage.getItem('weeklyScores')) || [
+        { Week: 'Sun', GeneralScore: 0, count: 0 },
+        { Week: 'Mon', GeneralScore: 0, count: 0 },
+        { Week: 'Tue', GeneralScore: 0, count: 0 },
+        { Week: 'Wed', GeneralScore: 0, count: 0 },
+        { Week: 'Thu', GeneralScore: 0, count: 0 },
+        { Week: 'Fri', GeneralScore: 0, count: 0 },
+        { Week: 'Sat', GeneralScore: 0, count: 0 },
     ];
-    // useEffect(() => {
-    //   const fetchQuizScores = async () => {
-    //     try {
-    //       setLoading(true);
-    //       // Fetch recent quiz activity data
-    //       const response = await axios.get(`http://localhost:8080/api/flashcards/getFlashcardById/${id}`);
-          
-    //       const quizData = response.data; // Assuming quizData contains the scores per week
-  
-    //       // Create data points for the week based on quizData. 
-    //       // Example assumes you have the score data structured by day.
-    //       const weekData = [
-    //         { Week: 'Sun', GeneralScore: quizData.scores.Sunday || 0 }, 
-    //         { Week: 'Mon', GeneralScore: quizData.scores.Monday || 0 },
-    //         { Week: 'Tue', GeneralScore: quizData.scores.Tuesday || 0 },
-    //         { Week: 'Wed', GeneralScore: quizData.scores.Wednesday || 0 },
-    //         { Week: 'Thu', GeneralScore: quizData.scores.Thursday || 0 },
-    //         { Week: 'Fri', GeneralScore: quizData.scores.Friday || 0 },
-    //         { Week: 'Sat', GeneralScore: quizData.scores.Saturday || 0 }
-    //       ];
-  
-    //       // Set the data state for the chart
-    //       setData(weekData);
-    //     } catch (err) {
-    //       console.error('Error fetching quiz scores:', err);
-    //     } finally {
-    //       setLoading(false);
-    //     }
-    //   };
-  
-    //   if (id) {
-    //     fetchQuizScores(); // Fetch data only if `id` exists
-    //   }
-    // }, [id]);
+
+    // Example of retrieving today's score from localStorage
+    const storedScore = localStorage.getItem('correctAnswers');
+    const date = new Date();
+    const dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'short' });
+
+    if (storedScore) {
+        // Find the correct weekday entry
+        const updatedScores = storedWeeklyScores.map((day) => {
+            if (day.Week === dayOfWeek) {
+                // Update score and count for averaging
+                const newTotalScore = day.GeneralScore * day.count + parseInt(storedScore);
+                const newCount = day.count + 1;
+                return { ...day, GeneralScore: newTotalScore / newCount, count: newCount };
+            }
+            return day;
+        });
+
+        // Update state and save to localStorage
+        setWeeklyScores(updatedScores);
+        localStorage.setItem('weeklyScores', JSON.stringify(updatedScores));
+    }
+}, []);
 
     const pieData = [
       { name: 'Multiple Choice', value: 40 },
@@ -449,8 +478,8 @@ const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
           }}>
             {/* Flashcard Title */}
             <Typography sx={{ fontFamily: 'Lato', position: 'absolute', top: { xs: '1em', md: '1em' }, left: { xs: '1em', md: '1em' }, fontSize: '1em', fontWeight: 'bold' }}>
-              Rizal's Lovers
-              {recentFlashcardTitle}
+              {/* Rizal's Lovers */}
+              {quizTitle || 'Untitled Deck'}
             </Typography>
             {/* Total Questions */}
             <Typography sx={{ fontFamily: 'Lato', position: 'absolute', top: '3em', left: '3em', fontSize: '.8em', fontWeight: 'bold' }}>
@@ -458,7 +487,8 @@ const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
             </Typography>
             {/* Score */}
             <Typography sx={{ fontFamily: 'Lato', position: 'absolute', top: '4.5em', left: '3.1em', fontSize: '.8em', fontWeight: 'bold' }}>
-              Score: {score}%
+              Score: {score}/{totalQuestions}
+              {/* {totalScore}% */}
             </Typography>
 
 
@@ -481,7 +511,7 @@ const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
                 sx={{
                   '@media (max-width: 600px)': { width: '17em', height: '3em', fontSize: '.75em' }
                 }}>
-                Target Score: {targetScore}%
+                Target Score: {totalQuestions}
               </Button>
 
             <Button style={{
@@ -497,62 +527,36 @@ const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
               sx={{
                 '@media (max-width: 600px)': { width: '17em', height: '3em', fontSize: '.75em' }
               }}>
-              {score >= targetScore ? 'PASSED!' : 'FAILED!'}
+              {score >= totalQuestions ? 'PASSED!' : 'FAILED!'}
             </Button>
             </Box>
 
-            <Dialog open={open} onClose={handleClose}>
-              <DialogTitle>Edit Target Score</DialogTitle>
-              <DialogContent>
-                <DialogContentText>
-                  Please enter your desired target score.
-                </DialogContentText>
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  label="Target Score"
-                  type="number"
-                  fullWidth
-                  variant="outlined"
-                  value={targetScore}
-                  onChange={handleTargetScoreChange}
-                />
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={handleClose} color="primary">
-                  Cancel
-                </Button>
-                <Button onClick={handleClose} color="primary">
-                  Save
-                </Button>
-              </DialogActions>
-            </Dialog>
           </Box>
 
           <Box style={{
                 width: isMobile ? '40px' : '50px',
                 height: isMobile ? '40px' : '50px',
                 position: 'relative',
-                top: isMobile ? '22px' : '17px',
-                marginLeft: isMobile ? 'calc(50% - 100px)' : '84%'
+                top: isMobile ? '70px' : '17px',
+                marginLeft: isMobile ? 'calc(89% - 100px)' : '84%'
             }}>
-                <div style={{
-                    width: '150%',
-                    height: '150%',
-                    backgroundColor: '#ffffff',
-                    borderRadius: '50%',
-                    padding: 15
-                }}>
-                    <CircularProgressbar
-                       value={percentage} // Use the correct percentage value
-                       text={`${Math.round(percentage)}%`} // Display rounded percentage
-                       styles={buildStyles({
-                         textColor: '#FFD234',
-                         pathColor: '#ffffff',
-                         trailColor: '#FFD234',
-                         textSize: '20px'
+              <div style={{
+                      width: '150%',
+                      height: '150%',
+                      backgroundColor: isMobile ? '#FFD234' : '#ffffff',
+                      borderRadius: '50%',
+                      padding: 15
+                    }}>
+                      <CircularProgressbar
+                        value={percentage}
+                        text={`${Math.round(percentage)}%`}
+                        styles={buildStyles({
+                          textColor: isMobile ? '#ffffff' : '#FFD234',
+                          pathColor: isMobile ? '#ffffff' : '#FFD234',
+                          trailColor: isMobile ? '#FFD234' : '#ffffff',
+                          textSize: '18px'
                         })}
-                    />
+                      />
                 </div>
             </Box> 
       
@@ -705,45 +709,22 @@ const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
                     alignItems: 'center'
                 }}>
 
-                <Grid container spacing={2} sx={{ width: '100%' }}>
+              <Grid container spacing={2} sx={{ width: '100%' }}>
                 <ResponsiveContainer width="100%" height={130}>
-                <LineChart data={weekData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-                  <CartesianGrid stroke="#969696" strokeDasharray="3 3" />
-                  <XAxis dataKey="Week" stroke="#555" tick={{ fontSize: 12, fontWeight: 'bold', fontFamily: 'Lato'  }} />
-                  <YAxis stroke="#555" tick={{ fontSize: 12 }} />
-                  <Tooltip 
-                    contentStyle={{ backgroundColor: '#f5f5f5', borderRadius: '8px', border: '1px solid #ddd' }}
-                    labelStyle={{ fontWeight: 'bold', color: '#333' }} 
-                  />
-                  <Legend verticalAlign="top" height={20} wrapperStyle={{ paddingBottom: '5px' }} />
-                  <Line type="monotone" dataKey="GeneralScore" stroke="#FFD234" strokeWidth={3} dot={{ r: 5 }} />
-                  
-                </LineChart>
-              </ResponsiveContainer>
-                </Grid>
-
-                 {/* <Grid container spacing={2} sx={{ width: '100%' }}>
-                  {loading ? (
-                    <p>Loading chart...</p>
-                  ) : (
-                    <ResponsiveContainer width="100%" height={130}>
-                      <LineChart
-                        data={data}
-                        margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-                      >
+                    <LineChart data={weeklyScores} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                         <CartesianGrid stroke="#969696" strokeDasharray="3 3" />
                         <XAxis dataKey="Week" stroke="#555" tick={{ fontSize: 12, fontWeight: 'bold', fontFamily: 'Lato' }} />
                         <YAxis stroke="#555" tick={{ fontSize: 12 }} />
-                        <Tooltip
-                          contentStyle={{ backgroundColor: '#f5f5f5', borderRadius: '8px', border: '1px solid #ddd' }}
-                          labelStyle={{ fontWeight: 'bold', color: '#333' }}
+                        <Tooltip 
+                            contentStyle={{ backgroundColor: '#f5f5f5', borderRadius: '8px', border: '1px solid #ddd' }}
+                            labelStyle={{ fontWeight: 'bold', color: '#333' }}
                         />
                         <Legend verticalAlign="top" height={20} wrapperStyle={{ paddingBottom: '5px' }} />
                         <Line type="monotone" dataKey="GeneralScore" stroke="#FFD234" strokeWidth={3} dot={{ r: 5 }} />
-                      </LineChart>
-                    </ResponsiveContainer>
-                  )}
-                </Grid> */}
+                        {/* <Brush dataKey="Week" height={20} stroke="#FFD234" /> */}
+                    </LineChart>
+                </ResponsiveContainer>
+            </Grid>
 
               </Box>
               

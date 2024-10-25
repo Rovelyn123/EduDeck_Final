@@ -18,6 +18,9 @@ const QuizSessionUI = () => {
     const [userAnswers, setUserAnswers] = useState({});
     const navigate = useNavigate();
     const [isTrueFalseQuestion, setIsTrueFalseQuestion] = useState(false);
+    const [isMultipleChoiceQuestion, setIsMultipleChoiceQuestion] = useState(false);
+    const [options, setOptions] = useState([]);
+    const [extractOptions, setExtractOptions] = useState([]);
 
     useEffect(() => {
         const fetchQuestions = async () => {
@@ -48,7 +51,14 @@ const QuizSessionUI = () => {
         fetchQuestions();
 
         const selectedDeck = localStorage.getItem('selectedDeck');
-        setTitle(selectedDeck || 'Untitled Deck');
+        // setTitle(selectedDeck || 'Untitled Deck');
+
+        const title = selectedDeck || 'Untitled Deck';  // This line uses 'title'
+        setTitle(title);  // Make sure you're using setTitle if you're updating state
+        
+        if (title) {
+            localStorage.setItem('quizTitle', title);
+        }
     }, []);
 
     const handleInputChange = (flashcardId, value) => {
@@ -98,24 +108,20 @@ const QuizSessionUI = () => {
         if (question.type === 'true/false') {
             return (
                 <div className="question-section">
-    
-                    {/* Render True/False buttons */}
-                    <div className="answer-options" style={{ marginLeft: isMobile ? '20px' : '250px', marginTop: '20px', display: 'flex', justifyContent: 'center'
-                    }}>
+                    <div className="answer-options" style={{ marginLeft: isMobile ? '20px' : '250px', marginTop: '20px', display: 'flex', justifyContent: 'center' }}>
                         <Button
                             variant={userAnswers[question.id] === 'True' ? 'contained' : 'outlined'}
                             onClick={() => handleInputChange(question.id, 'True')}
                             sx={{ mr: 3, backgroundColor: '#F5F2D8', boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', color: '#CBBA61',
-                                width: '150px', height: '40px', fontFamily: 'Lato', fontSize: '18px', fontWeight: 'bold', borderStyle: 'none', borderRadius: '5px' }}
+                                width: '150px', height: '40px', fontFamily: 'Lato', fontSize: '15px', fontWeight: 'bold', borderStyle: 'none', borderRadius: '5px' }}
                         >
                             True
                         </Button>
                         <Button
                             variant={userAnswers[question.id] === 'False' ? 'contained' : 'outlined'}
                             onClick={() => handleInputChange(question.id, 'False')}
-                             sx={{ mr: 3, backgroundColor: '#F5F2D8', boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', color: '#CBBA61', 
-                                width: '150px', height: '40px', fontFamily: 'Lato', fontSize: '18px', fontWeight: 'bold', borderStyle: 'none', borderRadius: '5px' }}
-
+                            sx={{ mr: 3, backgroundColor: '#F5F2D8', boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', color: '#CBBA61',
+                                width: '150px', height: '40px', fontFamily: 'Lato', fontSize: '15px', fontWeight: 'bold', borderStyle: 'none', borderRadius: '5px' }}
                         >
                             False
                         </Button>
@@ -124,20 +130,52 @@ const QuizSessionUI = () => {
             );
         }else if (question.type === 'multiple_choice') {
             return (
-                <div className="answer-options">
+                // <div className="answer-options">
+                //     {question.options.map((option, idx) => (
+                //         <Button
+                //             key={idx}
+                //             variant={userAnswers[question.id] === option ? 'contained' : 'outlined'}
+                //             onClick={() => handleInputChange(question.id, option)}
+                //             sx={{ mr: 2, mt: 2, backgroundColor: '#F5F2D8', boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', color: '#CBBA61', 
+                //                 width: isMobile ? '150px' : '390px', height: '40px', fontFamily: 'Lato', fontSize: '13px', fontWeight: 'bold', borderStyle: 'none', borderRadius: '5px', 
+                //                 marginLeft: isMobile ? '20px' : '15px',
+                //             }}>
+                //         {option}
+                //         </Button>
+                //     ))}
+                // </div>
+                <div
+                    className="answer-options"
+                    style={{
+                        display: 'inline-flex',
+                        flexWrap: isMobile ? 'wrap' : 'wrap',
+                        justifyContent: isMobile ? 'center' : 'center',
+                        gap: isMobile ? '10px' : '15px',
+                    }}
+                    >
                     {question.options.map((option, idx) => (
                         <Button
-                            key={idx}
-                            variant={userAnswers[question.id] === option ? 'contained' : 'outlined'}
-                            onClick={() => handleInputChange(question.id, option)}
-                            sx={{ mr: 3, backgroundColor: '#F5F2D8', boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', color: '#CBBA61', 
-                                width: '400px', height: '40px', fontFamily: 'Lato', fontSize: '18px', fontWeight: 'bold', borderStyle: 'none', borderRadius: '5px' }}
-                            
+                        key={idx}
+                        variant={userAnswers[question.id] === option ? 'contained' : 'outlined'}
+                        onClick={() => handleInputChange(question.id, option)}
+                        sx={{
+                            backgroundColor: '#F5F2D8',
+                            boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
+                            color: '#CBBA61',
+                            width: isMobile ? '45%' : '390px', 
+                            height: isMobile ? 'auto' : '40px',
+                            fontFamily: 'Lato',
+                            fontSize: isMobile ? '10px' : '13px',
+                            fontWeight: 'bold',
+                            borderStyle: 'none',
+                            borderRadius: '5px',
+                        }}
                         >
                         {option}
                         </Button>
                     ))}
-                </div>
+                    </div>
+
                 );
         } else {
             return (
