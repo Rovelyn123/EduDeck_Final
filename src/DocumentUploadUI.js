@@ -395,16 +395,24 @@ function DocumentUploadUI() {
         }
     };
 
+    const SYSTEM_PROMPT = "You are to create flashcard pairs (question and answer, in json format) based on the given lesson texts to help the student user review and ace his/her exams. Design it in a way that when the user reads the question/flashcard front, they have an idea of what's the answer/flashcard back. Make the answers/flashcard back easier to understand and even give tips to the user to immediately remember the concept.";
+    
+    const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-exp-0827:generateContent?key=${process.env.NEXT_PUBLIC_GEMINI_API_KEY}`;
+    
     const handleGenerateClick = async (index) => {
         try {
             setLoading(true);
+    
+            // 1. Get document and user info
             const documentID = uploadedFiles[index]?.documentID;
             const documentTitle = uploadedFiles[index]?.documentTitle; 
             const userId = localStorage.getItem('userid');
+    
+            // 2. Create deck using the document title and user ID
             const createDeckResponse = await axios.post(`${BASE_URL}/api/decks/createFlashcardDeck`, {
                 title: documentTitle,
                 user: {
-                userid: userId
+                    userid: userId
                 },
                 document: {
                     documentID: documentID // Pass documentID here
@@ -413,25 +421,63 @@ function DocumentUploadUI() {
             const newDeckId = createDeckResponse.data.deckId;
             setDeckId(newDeckId);
             setDeckCreated(true);
-
+    
+            // 3. Extract text from the uploaded document
             const extractTextResponse = await axios.get(`${BASE_URL}/textextractor/document/${documentID}`);
-            setExtractedText(extractTextResponse.data);
-      
-            await axios.post(`${BASE_URL}/generate-flashcards/${newDeckId}`, extractTextResponse.data, {
-              headers: {
-                'Content-Type': 'text/plain'
-              }
+            const extractedText = extractTextResponse.data;
+            setExtractedText(extractedText);
+    
+            // 4. Pass the extracted text to Gemini AI for flashcard generation
+            const geminiResponse = await fetch(GEMINI_API_URL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    contents: [
+                        {
+                            parts: [{ text: `${SYSTEM_PROMPT}\n${extractedText}` }],
+                        },
+                    ],
+                }),
             });
+    
+            const geminiData = await geminiResponse.json();
+            let flashcardContent = geminiData.candidates[0].content.parts[0].text;
+    
+            // 5. Clean up the response (remove code block formatting)
+            flashcardContent = flashcardContent.replace(/```json\n|```/g, '').trim();
+    
+            // 6. Parse the cleaned JSON string
+            const flashcardPairs = JSON.parse(flashcardContent);
+    
+            // 7. Loop through and create each flashcard
+            for (let flashcard of flashcardPairs) {
+                await fetch(`${BASE_URL}/api/flashcards/createFlashcard/${newDeckId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        question: flashcard.question,
+                        answer: flashcard.answer,
+                    }),
+                });
+            }
+    
             setLoading(false);
             navigate('/flashcardsmgt');
+    
         } catch (error) {
             console.error('Error in handleGenerateClick:', error);
             toast.error(error.message, {
                 position: toast.POSITION.TOP_CENTER,
                 autoClose: 1000,
             });
+            setLoading(false);
         }
     };
+    
 
     const styles = {
         overlay: { position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)',

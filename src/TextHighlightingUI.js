@@ -262,6 +262,10 @@ function TextHighlightingUI() {
     return highlightedSegments.join(' ');
   };
 
+  const SYSTEM_PROMPT = "You are to create flashcard pairs (question and answer, in json format) based on the given lesson texts to help the student user review and ace his/her exams. Design it in a way that when the user reads the question/flashcard front, they have an idea of what's the answer/flashcard back. Make the answers/flashcard back easier to understand and even give tips to the user to immediately remember the concept.";
+    
+  const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-exp-0827:generateContent?key=AIzaSyDk-kNVWH8sBWmpboiu6vHHohcgTOinxgk`;
+
   const handleGenerateClick = async (index) => {
     try {
       setLoading(true);
@@ -292,12 +296,43 @@ function TextHighlightingUI() {
       if (!highlightedText) {
         throw new Error("No text highlighted");
       }
-  
-      await axios.post(`${BASE_URL}/generate-flashcards/${newDeckId}`, highlightedText, {
+
+      const geminiResponse = await fetch(GEMINI_API_URL, {
+        method: "POST",
         headers: {
-          'Content-Type': 'text/plain'
-        }
-      });
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            contents: [
+                {
+                    parts: [{ text: `${SYSTEM_PROMPT}\n${highlightedText}` }],
+                },
+            ],
+        }),
+    });
+
+      const geminiData = await geminiResponse.json();
+      let flashcardContent = geminiData.candidates[0].content.parts[0].text;
+
+      // Clean up the response (remove code block formatting)
+      flashcardContent = flashcardContent.replace(/```json\n|```/g, '').trim();
+
+      // Parse the cleaned JSON string
+      const flashcardPairs = JSON.parse(flashcardContent);
+
+      // Loop through and create each flashcard
+      for (let flashcard of flashcardPairs) {
+          await fetch(`${BASE_URL}/api/flashcards/createFlashcard/${newDeckId}`, {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                  question: flashcard.question,
+                  answer: flashcard.answer,
+              }),
+          });
+      }
       setLoading(false);
       navigate('/flashcardsmgt');
     } catch (error) {
