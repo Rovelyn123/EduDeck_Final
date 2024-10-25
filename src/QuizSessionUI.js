@@ -32,6 +32,8 @@ const QuizSessionUI = () => {
                 const fetchedQuestions = quizItems.map(quizItem =>({
                     id: quizItem.quizItemId,
                     question: quizItem.question,
+                    type: quizItem.questionType,
+                    options: quizItem.options || [],
                     answer: quizItem.correctAnswer
 
                 }));
@@ -92,10 +94,8 @@ const QuizSessionUI = () => {
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
     const renderAnswerField = (question) => {
-        // Check if the question contains "True or False:"
-        const isTrueFalseQuestion = question.question.includes('True or False:');
     
-        if (isTrueFalseQuestion) {
+        if (question.type === 'true/false') {
             return (
                 <div className="question-section">
     
@@ -122,42 +122,33 @@ const QuizSessionUI = () => {
                     </div>
                 </div>
             );
-        }
-    
-
-            switch (question.type) {
-                case 'multiplechoice':
-                    // Ensure question.options is an array before mapping
-                    if (Array.isArray(question.options)) {
-                        return (
-                            <div className="answer-options">
-                                {question.options.map((option, idx) => (
-                                    <Button
-                                        key={idx}
-                                        variant={userAnswers[question.id] === option ? 'contained' : 'outlined'}
-                                        onClick={() => handleInputChange(question.id, option)}
-                                        sx={{ mr: 2, mb: 2 }}
-                                        style={{ display: 'block' }} // Fallback style to ensure visibility
-                                    >
-                                        {option}
-                                    </Button>
-                                ))}
-                            </div>
-                        );
-                    } else {
-                        return <Typography color="error">Options not available</Typography>;
-                    }
-                case 'open-ended':
-                default:
-                    return (
-                        <TextField
-                            label="Your Answer"
-                            variant="outlined"
-                            value={userAnswers[question.id] || ''}
-                            onChange={(e) => handleInputChange(question.id, e.target.value)}
-                            sx={{ width: '100%' }}
-                        />
-                    );
+        }else if (question.type === 'multiple_choice') {
+            return (
+                <div className="answer-options">
+                    {question.options.map((option, idx) => (
+                        <Button
+                            key={idx}
+                            variant={userAnswers[question.id] === option ? 'contained' : 'outlined'}
+                            onClick={() => handleInputChange(question.id, option)}
+                            sx={{ mr: 3, backgroundColor: '#F5F2D8', boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', color: '#CBBA61', 
+                                width: '400px', height: '40px', fontFamily: 'Lato', fontSize: '18px', fontWeight: 'bold', borderStyle: 'none', borderRadius: '5px' }}
+                            
+                        >
+                        {option}
+                        </Button>
+                    ))}
+                </div>
+                );
+        } else {
+            return (
+                <TextField
+                    label="Your Answer"
+                    variant="outlined"
+                    value={userAnswers[question.id] || ''}
+                    onChange={(e) => handleInputChange(question.id, e.target.value)}
+                    sx={{ width: '100%' }}
+                    />
+                );
             }
         };
 
@@ -269,14 +260,12 @@ const QuizSessionUI = () => {
                                     <div className="counter">{index + 1}/{totalQuestions}</div>
                                     <Typography variant="h6" className="question-label">Question</Typography>
                                     <span className="question-text">
-                                        {question.dynamicInfo
-                                            ? `${question.dynamicInfo} ${question.question}` // Add AI dynamic content
-                                            : question.question}
+                                        {question.question}
                                     </span>
                                     <div
                                         className="text-field-bottom"
                                         style={{
-                                            backgroundColor: question.type === 'multiplechoice' || question.question.includes('True or False:') 
+                                            backgroundColor: question.type === 'multiple_choice' || question.type === 'true/false' 
                                             ? 'transparent'  // Remove background color for multiple choice and True/False
                                             : '#F5F2D8' ,     // Keep default background for other questions
                                         }}
