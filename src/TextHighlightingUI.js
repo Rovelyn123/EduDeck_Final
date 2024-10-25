@@ -265,7 +265,7 @@ function TextHighlightingUI() {
   const SYSTEM_PROMPT = "You are to create flashcard pairs (question and answer, in json format) based on the given lesson texts to help the student user review and ace his/her exams. Design it in a way that when the user reads the question/flashcard front, they have an idea of what's the answer/flashcard back. Make the answers/flashcard back easier to understand and even give tips to the user to immediately remember the concept.";
     
   const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-exp-0827:generateContent?key=AIzaSyDk-kNVWH8sBWmpboiu6vHHohcgTOinxgk`;
-
+  
   const handleGenerateClick = async (index) => {
     try {
       setLoading(true);
