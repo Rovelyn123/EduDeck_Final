@@ -24,8 +24,12 @@ function DocumentUploadUI() {
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [confirmationCallback, setConfirmationCallback] = useState(null);
     const [documentToDelete, setDocumentToDelete] = useState(null);
-    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-    const isMediumScreen = useMediaQuery('(max-width:1219px)');
+    const isXs = useMediaQuery('(min-width:0px) and (max-width:476px)'); 
+    const isSm = useMediaQuery('(min-width:476px) and (max-width:768px)'); 
+    const isMd = useMediaQuery('(min-width:769px) and (max-width:1023px)'); 
+    const isLg = useMediaQuery('(min-width:1024px) and (max-width:1279px)'); 
+    const isXl = useMediaQuery('(min-width:1280px) and (max-width:1535px)');
+    
     
     const navigate = useNavigate();
     const [deckId, setDeckId] = useState('');
@@ -497,9 +501,9 @@ function DocumentUploadUI() {
                 <AppBar position="sticky" style={{backgroundColor: 'transparent', boxShadow: 'none', justifyContent: 'center'}}>
                     <Toolbar style={{marginLeft: 0, paddingLeft: 0, display: 'flex', justifyContent: 'space-between'}}>
                     <Link to="/dashboard" style={{ textDecoration: 'none' }}>
-                        <Box display={'flex'} style={{ width: isMobile ? 50 : 250, backgroundColor: 'tranparent', alignItems: 'center', marginLeft: 0 }}>
-                        <img src="/logo.png" alt="logo" style={{ height: isMobile ? 35 : 60 }} />
-                        {!isMobile && (
+                        <Box display={'flex'} style={{ width: isXs ? 50 : 250, backgroundColor: 'tranparent', alignItems: 'center', marginLeft: 0 }}>
+                        <img src="/logo.png" alt="logo" style={{ height: isXs ? 35 : isSm ? 40 : 60 }} />
+                        {!isXs && (
                             <Typography variant="h3" style={{ fontFamily: 'Lato', fontWeight: '900', fontSize: '2em', color: '#B18A00' }}>
                                 EduDeck {subscription === 'EduDeck Plus' ? (
                                 <sup style={{ color: 'black', fontSize: '0.5em' }}>Plus</sup>
@@ -510,8 +514,8 @@ function DocumentUploadUI() {
                         )}
                         </Box>
                     </Link>
-                        <Box style={{display: 'flex',backgroundColor: 'white', width: isMobile ? 250 : isMediumScreen ? 700 : 870, justifyContent: 'center', margin: 'auto', borderRadius: 15, boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)'}}>
-                        <Typography variant= {isMobile ? "body1" : "h4"} style={{ fontFamily: "Roboto Condensed", color: '#332D2D', justifyContent: 'center', textAlign: 'center' }}>
+                        <Box style={{display: 'flex',backgroundColor: 'white', width: isXs ? 250 : isSm ? 400 : isMd ? 550 : isLg ? 700 : 870, justifyContent: 'center', margin: 'auto', borderRadius: 15, boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)'}}>
+                        <Typography variant= {isXs ? "body1" : isSm ? 'h5' : "h4"} style={{ fontFamily: "Roboto Condensed", color: '#332D2D', justifyContent: 'center', textAlign: 'center' }}>
                             File Manager
                         </Typography>
                         </Box>
@@ -601,37 +605,37 @@ function DocumentUploadUI() {
 
                         <div className="left-panel">
                             {selectedFile ? (
-                                <div style={{ marginBottom: isMobile ? '20px' : '10px', width: '100%', marginTop: isMobile ? '40px' : 'none', marginBottom: isMobile ? '30px' : 'none'}}>
+                                <div style={{ marginBottom: isXs ? '20px' : '10px', width: '100%', marginTop: isXs ? '10px' : isSm ? '30px' : '50px'}}>
                                     {getFileType(selectedFile.name) === 'pdf' ? (
-                                    <img src="/PDF.png" alt="pdf Icon" style={{ width: '40%', height: isMobile ? '150px' : '270px' }} />
+                                    <img src="/PDF.png" alt="pdf Icon" style={{ width: isXs ? '40%' : isSm ? '30%' : '', height: isXs ? '155px' : isSm ? '200px' : '240px' }} />
                                 ) : getFileType(selectedFile.name) === 'docx' ? (
-                                    <img src="/docx.png" alt="DOCX Icon" style={{ width: '40%', height: isMobile ? '150px' : '270px' }} />
+                                    <img src="/docx.png" alt="DOCX Icon" style={{ width: isXs ? '40%' : isSm ? '30%' : '', height: isXs ? '175px' : isSm ? '200px' : '240px' }} />
                                 ) : getFileType(selectedFile.name) === 'pptx' || getFileType(selectedFile.name) === 'ppt' ? (
-                                    <img src="/pptx.png" alt="PPT Icon" style={{ width: '40%', height: isMobile ? '150px' : '270px' }} />
+                                    <img src="/pptx.png" alt="PPT Icon" style={{ width: isXs ? '40%' : isSm ? '30%' : '', height: isXs ? '150px' : isSm ? '200px' : '240px' }} />
                                 ) : getFileType(selectedFile.name) === 'jpeg' || getFileType(selectedFile.name) === 'jpg' ? (
-                                    <img src="/jpg.png" alt="jpg Icon" style={{ width: '40%', height: isMobile ? '150px' : '270px' }} />
+                                    <img src="/jpg.png" alt="jpg Icon" style={{ width: isXs ? '40%' : isSm ? '30%' : '', height: isXs ? '150px' : isSm ? '200px' : '240px' }} />
                                 ) : getFileType(selectedFile.name) === 'png' ? (
-                                    <img src="/png.jpg" alt="png Icon" style={{ width: '40%', height: isMobile ? '150px' : '270px' }} />
+                                    <img src="/png.jpg" alt="png Icon" style={{ width: isXs ? '40%' : isSm ? '30%' : '', height: isXs ? '150px' : isSm ? '200px' : '240px' }} />
                                 ) : (
-                                    <img src="/error.png" alt="error Icon" style={{ width: '40%', height: isMobile ? '125px' : '270px' }} />
+                                    <img src="/error.png" alt="error Icon" style={{ width: isXs ? '40%' : isSm ? '30%' : '', height: isXs ? '155px' : isSm ? '200px' : '240px' }} />
                                 )}
                                 </div>
                             ) : (
-                                <img src="/document icon.png" alt="Document Icon" style={{ width: isMobile ? 80 : 100, marginTop: isMobile ? '70px' : '130px', marginBottom: '30px' }} /> 
+                                <img src="/document icon.png" alt="Document Icon" style={{ width: isXs ? 80 : 100, marginTop: isXs ? '60px' : isSm ? '80px' : '130px', marginBottom: '30px' }} /> 
                                 )}
                             {selectedFile ? (
-                                <Typography variant="h4" style={{fontFamily: 'Lato',fontSize: '20px',color: 'black',textAlign: 'center',fontWeight: 'bold',fontStyle: 'italic', marginTop: '15px',}}>
+                                <Typography variant="h4" style={{fontFamily: 'Lato',fontSize: isXs ? '15px' : '20px',color: 'black',textAlign: 'center',fontWeight: 'bold',fontStyle: 'italic', marginTop: '15px',}}>
                                     {selectedFile.name}
                                 </Typography>
                             ) : (
-                                <Typography variant="h4" style={{fontFamily: 'Lato', fontSize: isMobile ? '15px' : '20px', color: 'black', textAlign: 'center', fontWeight: 'bold', marginTop: '10px'}}>
+                                <Typography variant="h4" style={{fontFamily: 'Lato', fontSize: isXs ? '15px' : '20px', color: 'black', textAlign: 'center', fontWeight: 'bold', marginTop: '10px'}}>
                                     Supported document types: PDF, DOCX, PPTX, PNG, JPEG
                                 </Typography>
                             )}
 
-                            <div style={{ marginTop: isMobile ? '40px' : '70px' }}>
-                                <Button style={{ background: '#FAC712', width: isMobile ? '130px' : '230px', height: '45px', borderRadius: '10px' }} onClick={handleBrowseClick}>
-                                    <Typography style={{ fontSize: isMobile ? '13px' : '20px', fontFamily: 'Lato', fontWeight: 'bold', color: '#332D2D', textTransform: 'none' }}>
+                            <div style={{ marginTop: isXs ? '60px' : isSm ? '60px' : isMd ? '50px' : '50px' }}>
+                                <Button style={{ background: '#FAC712', width: isXs ? '130px' : '230px', height: '45px', borderRadius: '10px' }} onClick={handleBrowseClick}>
+                                    <Typography style={{ fontSize: isXs ? '13px' : '20px', fontFamily: 'Lato', fontWeight: 'bold', color: '#332D2D', textTransform: 'none' }}>
                                         Browse
                                     </Typography>
                                 </Button>
@@ -644,22 +648,22 @@ function DocumentUploadUI() {
                                 />
                             </div>
 
-                            <Box display="flex" justifyContent="center" flexDirection={isMobile ? 'column' : 'row'} alignItems="center">
+                            <Box display="flex" justifyContent="center" flexDirection={isXs ? 'column' : 'row'} alignItems="center">
                             <Button
                                 style={{
                                     background: '#FAC712',
-                                    width: isMobile ? '130px' : '230px',
+                                    width: isXs ? '130px' : isSm ? '230px' : isMd ? '200px' : '220px',
                                     height: '45px',
                                     borderRadius: '10px',
-                                    marginTop: isMobile ? '50px' : '110px',
-                                    marginRight: isMobile ? '150px' : '10px',  // To ensure space between buttons on desktop
-                                    marginBottom: isMobile ? '20px' : '0px', // To give space between buttons on mobile
+                                    marginTop: isXs ? '5px' : isSm ? '10px' : isMd ? '70px' : isLg ? '70px' : '100px',
+                                    marginRight: isXs ? '150px' : isSm ? '10px' : isMd ? '10px' : '0px',  // To ensure space between buttons on desktop
+                                    marginBottom: isXs ? '20px' : '0px', // To give space between buttons on mobile
                                 }}
                                 onClick={handleUploadClick}
                             >
                                 <Typography
                                     style={{
-                                        fontSize: isMobile ? '12px' : '20px',
+                                        fontSize: isXs ? '12px' : isSm ? '20px' : '18px',
                                         fontFamily: 'Lato',
                                         fontWeight: 'bold',
                                         color: '#332D2D',
@@ -673,16 +677,16 @@ function DocumentUploadUI() {
                                 <Button
                                     style={{
                                         background: '#FAC712',
-                                        width: isMobile ? '130px' : '230px',
+                                        width: isXs ? '130px' : isSm ? '230px' : isMd ? '180px' : '220px',
                                         height: '45px',
                                         borderRadius: '10px',
-                                        marginTop: isMobile ? '-110px' : '110px',
-                                        marginLeft: isMobile ? '150px' : '0px',
+                                        marginTop: isXs ? '-110px' : isSm ? '10px' : isMd ? '70px' : isLg ? '70px' : '100px',
+                                        marginLeft: isXs ? '150px' : isSm ? '0px' : isMd ? '10px' : '5px', 
                                     }}
                                 >
                                     <Typography
                                         style={{
-                                            fontSize: isMobile ? '12px' : '20px',
+                                            fontSize: isXs ? '12px' : isSm ? '20px' : '18px',
                                             fontFamily: 'Lato',
                                             fontWeight: 'bold',
                                             color: '#332D2D',
@@ -699,7 +703,7 @@ function DocumentUploadUI() {
 
                         {/* Right Panel for Displaying Uploaded Files */}
                         <div className="right-panel">
-                            <Typography variant="h4" style={{ fontFamily: 'lato', fontSize: isMobile ? '18px' : '30px', color: '#332D2D', textAlign: 'left', margin: '0px 10px 5px 10px' }}>
+                            <Typography variant="h4" style={{ fontFamily: 'lato', fontSize: isXs ? '18px' : '30px', color: '#332D2D', textAlign: 'left', margin: '0px 10px 5px 10px' }}>
                                 Uploaded Documents
                             </Typography>
                             <div className="uploadedFilePanel">
@@ -709,7 +713,7 @@ function DocumentUploadUI() {
                                     .map((file, index) => (
                                     <div key={file.documentID} className="fileComponents">
                                         {/* Conditionally render file icons based on screen size */}
-                                        {!isMobile && (
+                                        {!isXs && (
                                         <>
                                             {file.fileType === 'pdf' && <img src="/PDF.png" alt="PDF Icon" style={{ width: '60px', margin: '5px 10px 5px 15px' }} />}
                                             {file.fileType === 'docx' && <img src="/docxIcon.png" alt="DOCX Icon" style={{ width: '60px', margin: '5px 10px 5px 15px' }} />}
@@ -721,17 +725,17 @@ function DocumentUploadUI() {
                                         )}
                                         {file.documentTitle && file.fileSize && (
                                         <div style={{ margin: '10px' }}>
-                                            <Typography variant= {isMobile ? 'body2' : "h6"} style={{ fontFamily: 'Lato', fontWeight: 'bold', fontSize: isMobile ? '16px' : '18px', maxWidth: isMobile ? '150px' : '380px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{file.documentTitle}</Typography>
+                                            <Typography variant= {isXs ? 'body2' : "h6"} style={{ fontFamily: 'Lato', fontWeight: 'bold', fontSize: isXs ? '16px' : '18px', maxWidth: isXs ? '150px' : isSm ? '250px' : isMd ? '180px' : isLg ? '200px' : '300px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{file.documentTitle}</Typography>
                                             <Typography variant="body2">{file.fileSize}</Typography>
                                         </div>
                                         )}
                                         <div className="file-actions">
                                         <IconButton onClick={() => handleGenerateClick(index)}>
-                                            <img src="/convertIcon.png" alt="Generate Icon" style={{ width: isMobile ? '20px' : '24px', height: isMobile ? '20px' : '24px' }} />
+                                            <img src="/convertIcon.png" alt="Generate Icon" style={{ width: isXs ? '20px' : '24px', height: isXs ? '20px' : '24px' }} />
                                         </IconButton>
                                         {editIndex === index ? (
                                             <div className="inputContainer">
-                                                <label htmlFor={`newFileNameInput-${file.documentID}`} style={{fontSize: isMobile ? '10px' : '15px'}}>
+                                                <label htmlFor={`newFileNameInput-${file.documentID}`} style={{fontSize: isXs ? '10px' : '15px'}}>
                                                 New File Name:
                                                 </label>
                                                 <input
@@ -740,26 +744,26 @@ function DocumentUploadUI() {
                                                 placeholder="Enter new file name"
                                                 value={newFileName}
                                                 onChange={(e) => setNewFileName(e.target.value)}
-                                                style={{ marginRight: '10px', width: isMobile ? '70px' : '110px'}}
+                                                style={{ marginRight: '10px', width: isXs ? '70px' : isSm ? '200px' : '110px'}}
                                                 />
                                                 <IconButton
-                                                style={{ marginRight: '5px', background: '#9CCC65', width: isMobile ? '25px' : '30px', height: isMobile ? '25px' : '30px' }}
+                                                style={{ marginRight: '5px', background: '#9CCC65', width: isXs ? '25px' : '30px', height: isXs ? '25px' : '30px' }}
                                                 onClick={() => handleNewFileName(index)} >
                                                 <SaveIcon />
                                                 </IconButton>
-                                                <IconButton style={{ background: '#EF5350', width: isMobile ? '25px' : '30px', height: isMobile ? '25px' : '30px' }} onClick={() => handleCancelEdit(index)}>
+                                                <IconButton style={{ background: '#EF5350', width: isXs ? '25px' : '30px', height: isXs ? '25px' : '30px' }} onClick={() => handleCancelEdit(index)}>
                                                 <CancelIcon />
                                                 </IconButton>
                                             </div>
                                         ) : (
                                             <div>
                                             <IconButton onClick={() => handleEditClick(index)}>
-                                                <EditIcon style={{ width: isMobile ? '20px' : '24px', height: isMobile ? '20px' : '24px' }} />
+                                                <EditIcon style={{ width: isXs ? '20px' : '24px', height: isXs ? '20px' : '24px' }} />
                                             </IconButton>
                                             </div>
                                         )}
                                         <IconButton onClick={() => handleDeleteClick(file.documentID)}>
-                                            <DeleteIcon style={{ width: isMobile ? '20px' : '24px', height: isMobile ? '20px' : '24px' }} />
+                                            <DeleteIcon style={{ width: isXs ? '20px' : '24px', height: isXs ? '20px' : '24px' }} />
                                         </IconButton>
                                         </div>
                                     </div>
@@ -770,8 +774,8 @@ function DocumentUploadUI() {
 
                                 {showConfirmation && (
                                 <div className="confirmation-modal">
-                                    <h1 style={{ margin: '10px 10px 20px 50px', fontWeight: 'bold', fontFamily: "Lato", fontSize: "30px" }}>Delete?</h1>
-                                    <p style={{ fontFamily: "Lato", fontSize: "20px", marginRight: "20px" }}>Deleting this document will erase all data permanently <br /> Are you sure? This cannot be undone</p>
+                                    <h1>Delete?</h1>
+                                    <p>Deleting this document will erase all data permanently <br /> Are you sure? This cannot be undone</p>
                                     <button onClick={() => setShowConfirmation(false)}>Cancel</button>
                                     <button style={{ background: '#FAC712' }} onClick={() => { confirmationCallback(); setShowConfirmation(false); }}>Confirm</button>
                                 </div>

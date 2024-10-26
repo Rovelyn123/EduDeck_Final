@@ -291,7 +291,15 @@ const endSession = async () => {
     <ArrowBackIcon />
   </IconButton>
   
-  <Button className="showanswer" variant="contained" onClick={showAnswer}>
+  <Button className="showanswer" variant="contained" onClick={showAnswer} 
+  style={{
+      backgroundColor: '#ffd234',
+      borderRadius: '2em',
+      fontFamily: 'Lato',
+      fontWeight: '600',
+      width: '150px',
+      height: '35px',
+    }}>
     {buttonText}
   </Button>
 

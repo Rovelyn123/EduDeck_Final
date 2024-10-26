@@ -85,10 +85,6 @@
   background-color: rgb(255, 255, 255);
   color: rgb(82, 75, 0);
   width: 10%;
-  border-radius: 2em;
-  font-weight: bold;
-  height: 5%;
-  
 }
 /* Show answer button styles */
 .show-answer-button {
