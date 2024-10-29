@@ -4,19 +4,21 @@ import {Box, Grid, Typography, SwipeableDrawer, useMediaQuery, useTheme, AppBar,
 import { AccountCircle, NotificationsNone} from "@mui/icons-material";
 import { toast } from 'react-toastify';
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import BASE_URL from "./config";
 import * as pdfjsLib from "pdfjs-dist";
 import mammoth from "mammoth";
 import JSZip from "jszip";
 import { GlobalWorkerOptions } from 'pdfjs-dist';
-import BASE_URL from "./config";
 GlobalWorkerOptions.workerSrc = '/path/to/pdf.worker.js';
 
 
 function TextHighlightingUI() {
   const [isBoxVisible, setIsBoxVisible] = useState(false);
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const isMediumScreen = useMediaQuery('(max-width:1219px)');
+  const isXs = useMediaQuery('(min-width:0px) and (max-width:476px)'); 
+  const isSm = useMediaQuery('(min-width:476px) and (max-width:768px)'); 
+  const isMd = useMediaQuery('(min-width:769px) and (max-width:1023px)'); 
+  const isLg = useMediaQuery('(min-width:1024px) and (max-width:1279px)'); 
+  const isXl = useMediaQuery('(min-width:1280px) and (max-width:1535px)');
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileNames, setFileNames] = useState([]);
   const [fileURL, setFileURL] = useState(null);
@@ -127,7 +129,7 @@ function TextHighlightingUI() {
 
   const renderFileNames = () => {
     return fileNames.map((file, index) => (
-      <Grid item xs={12} style={{ marginTop: isMobile ? 25 : 40 }} key={index}>
+      <Grid item xs={12} style={{ marginTop: isXs ? 25 : 40 }} key={index}>
         <Box style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
           <Button style={{
             textTransform: 'none',
@@ -346,7 +348,7 @@ function TextHighlightingUI() {
   
 
   const drawerContent = (
-    <Box sx={{ width: { xs: 110, sm: 230 }, height: { xs: '80vh', sm: '100vh' }, backgroundColor: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', marginTop: '-64px', paddingTop: 0, boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' }}>
+    <Box sx={{ width: 120, height: '100vh', backgroundColor: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', marginTop: '-64px', paddingTop: 0, boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' }}>
       <Grid container>
         <Grid item xs={12}>
           <Box style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
@@ -382,17 +384,17 @@ function TextHighlightingUI() {
         <AppBar position="sticky" style={{ backgroundColor: 'transparent', boxShadow: 'none', justifyContent: 'center' }}>
           <Toolbar style={{ display: 'flex', justifyContent: 'space-between', marginLeft: 0, paddingLeft: 0 }}>
             <Link to="/dashboard" style={{textDecorationLine: 'none'}}>
-            <Box display={'flex'} style={{ width: isMobile ? 50 : 230, backgroundColor: 'tranparent', alignItems: 'center', marginLeft: 0 }}>
-              <img src="/logo.png" alt="logo" style={{ height: isMobile ? 35 : 50 }} />
-              {!isMobile && (
-                <Typography variant="h3" style={{ fontFamily: 'Poppin, sans-serif', fontWeight: '600', fontSize: '2em', color: '#B18A00' }}>
+            <Box display={'flex'} style={{ width: isXs ? 50 : 230, backgroundColor: 'tranparent', alignItems: 'center', marginLeft: 0 }}>
+              <img src="/logo.png" alt="logo" style={{ height: isXs ? 35 : isSm ? 50 : 65 }} />
+              {!isXs && (
+                <Typography variant="h3" style={{ fontFamily: 'Poppin, sans-serif', fontWeight: '600', fontSize: isSm ? '1.6em' : isMd ? '2em' : '2.2em', color: '#B18A00' }}>
                   EduDeck
                 </Typography>
               )}
             </Box>
             </Link>
-            <Box style={{ display: 'flex', backgroundColor: 'white', width: isMobile ? 250 : isMediumScreen ? 700 : 870, justifyContent: 'center', margin: 'auto', borderRadius: 15, boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' }}>
-              <Typography variant={isMobile ? "body1" : "h4"} style={{ fontFamily: "Roboto Condensed", color: '#332D2D', justifyContent: 'center', textAlign: 'center' }}>
+            <Box style={{ display: 'flex', backgroundColor: 'white', width: isXs ? 250 : isMd ? 600 : 750, justifyContent: 'center', margin: 'auto', borderRadius: 15, boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' }}>
+              <Typography variant={isXs ? "body1" : isSm ? 'h5' : "h4"} style={{ fontFamily: "Roboto Condensed", color: '#332D2D', justifyContent: 'center', textAlign: 'center' }}>
                 Document Text Highlighting
               </Typography>
             </Box>
@@ -410,13 +412,13 @@ function TextHighlightingUI() {
                 >
                   <Box display="flex" alignItems="center">
                     <Box
-                      style={{
-                        background: "white",
-                        borderRadius: "100%",
-                        padding: "5px",
-                        marginRight: "15px",
-                        boxShadow: "inset 0 5px 20px 0px rgba(0, 0, 0, 0.35)",
-                      }}
+                      // style={{
+                      //   background: "white",
+                      //   borderRadius: "100%",
+                      //   padding: "5px",
+                      //   marginRight: "15px",
+                      //   boxShadow: "inset 0 5px 20px 0px rgba(0, 0, 0, 0.35)",
+                      // }}
                     >
                       {selectedImage === null ? (
                         <Box
@@ -424,7 +426,7 @@ function TextHighlightingUI() {
                           top: { xs: '1.3%', md: '2.5%' },
                           marginLeft: { xs: '50%', md: '2%' },
                           transform: { xs: 'translateX(-50%)', md: 'none' },
-                          background: '#D0BF81', borderRadius: '50px', width: '39px', height: '39px', display: 'flex', justifyContent: 'center', alignItems: 'center',
+                          background: '#D0BF81', borderRadius: '50px', width: '30px', height: '30px', display: 'flex', justifyContent: 'center', alignItems: 'center',
                                     }}
                         >
                           <IconButton
@@ -449,8 +451,8 @@ function TextHighlightingUI() {
                             style={{
                               background: "white",
                               borderRadius: "50%",
-                              width: "20%",
-                              height: "45px",
+                              width: "30px",
+                              height: "40px",
                               display: "flex",
                               alignItems: "center",
                               justifyContent: "center",
@@ -465,7 +467,7 @@ function TextHighlightingUI() {
                                 width: "80%",
                                 height: "100%",
                                 objectFit: "fill",
-                                borderRadius: "100%",
+                                borderRadius: "50%",
                               }}
                             />
                           </Button>
@@ -475,7 +477,7 @@ function TextHighlightingUI() {
                 </Box>
           </Toolbar>
         </AppBar>
-        {isMobile ? (
+        {isXs ? (
           <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '94vh' }}>
             <SwipeableDrawer
               anchor="left"
@@ -493,8 +495,8 @@ function TextHighlightingUI() {
               <Box sx={{ position: 'fixed', left: 0, top: '50%', backgroundColor: 'gold', height: 30, width: 10 }} onClick={toggleDrawer(true)} />
             )}
           </Box>
-        ) : (
-          <Box sx={{ width: { xs: 110, sm: 230 }, height: { xs: '80vh', sm: '100vh' }, backgroundColor: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', marginTop: '-67px', paddingTop: 0, boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' }}>
+        ) : ( 
+          <Box sx={{ width: isSm ? '25%' : isMd ? '24%' : isLg ? '23%' : '20%', height: '100vh', backgroundColor: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', marginTop: '-67px', paddingTop: 0, boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' }}>
             <Grid container >
               <Grid item xs={12} >
                 <Box style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
@@ -511,15 +513,15 @@ function TextHighlightingUI() {
               </Box>
             </Grid>
             <Button onClick={handleGenerateClick} style={{ backgroundColor: '#FFD234', margin: 20, width: '90%', boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' }}>
-              <Typography style={{ color: 'black', fontFamily: 'Roboto Condensed', fontWeight: 500, fontSize: '1.5em', textTransform: 'none' }}>
+              <Typography style={{ color: 'black', fontFamily: 'Roboto Condensed', fontWeight: 500, fontSize: isSm ? '1.3em' : '1.5em', textTransform: 'none' }}>
                 Generate Flashcard
               </Typography>
             </Button>
           </Box>
         )}
 
-        <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: isMobile ? '90%' : '56%',  marginLeft: isMobile ? 18 : isMediumScreen ? 295 : 350, }}>
-          <Box style={{ width: '90vw', height: '85vh', border: '1px solid black', boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.1)', backgroundColor: 'white', padding: 10, overflow: 'hidden', marginTop: isMobile ? -900 : -580 }}>
+        <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: isXs ? '90%' : '72%',  marginLeft: isXs ? 25 : isSm ? 205 : isMd ? 260 : isLg ? 320 : 360, }}>
+          <Box style={{ width: '90vw', height: '85vh', border: '1px solid black', boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.1)', backgroundColor: 'white', padding: 10, overflow: 'hidden', marginTop: isXs ? -700 : isSm ? -640 : isMd ? -650 : isLg ? -660 : -740}}>
             {renderFileEmbed()}
           </Box>
         </Box>
