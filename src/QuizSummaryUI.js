@@ -138,12 +138,12 @@ const QuizSummary = () => {
     // Handles feedback submission and dialog close
     const handleFeedbackSubmission = async () => {
         console.log("Feedback selected:", feedbackValue);
-    
+        const quizId = localStorage.getItem('quizId');
+        console.log("Quiz ID:", quizId);  
         try {
-            const response = await axios.post('https://your-server-api.com/feedback', { //karyme ikaw lng butang hehe
-                rating: feedbackValue,
-                quizId: '1234',
-                userId: '5678',
+            const response = axios.put(`${BASE_URL}/api/quizzes/update/${quizId}`, {
+                feedback: feedbackValue,
+                dateLastTaken: Date.now()
             });
     
             if (response.status === 200) {

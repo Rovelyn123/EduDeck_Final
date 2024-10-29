@@ -47,6 +47,7 @@ const DashboardUI = ({onLogout}) => {
     const [dailyScores, setDailyScores] = useState([]);
     const [weeklyScores, setWeeklyScores] = useState([]);
     const [recentQuizzes, setRecentQuizzes] = useState([]);
+    const [radarData, setRadarData] = useState([]);
     const cardColors = ['#FAD34B', '#FFE070', '#FFEBA6']; 
     const userid = localStorage.getItem('userid');
     const [percentage, setPercentage] = useState(0);
@@ -150,6 +151,28 @@ const DashboardUI = ({onLogout}) => {
       setOpen(false);
     };
 
+    const [averageTimes, setAverageTimes] = useState({
+      multiple_choice: 0,
+      truefalse: 0,
+      short_answer: 0,
+    });
+  
+    useEffect(() => {
+      const storedAverageTimes = JSON.parse(localStorage.getItem('averageTimes'));
+      if (storedAverageTimes) {
+        setAverageTimes(storedAverageTimes);
+      }
+    }, []);
+
+    const defaultSubjects = [
+      { subject: 'Math', averageScore: 0 },
+      { subject: 'Science', averageScore: 0 },
+      { subject: 'Language', averageScore: 0 },
+      { subject: 'Business', averageScore: 0 },
+      { subject: 'Engineering', averageScore: 0 },
+      { subject: 'Social Studies', averageScore: 0 },
+    ];
+
     // const weekData = [
     //   { Week: 'Sun', GeneralScore: 50, Series2: 24 },
     //   { Week: 'Mon', GeneralScore: 30, Series2: 13 },
@@ -212,18 +235,37 @@ const DashboardUI = ({onLogout}) => {
 }, []);
 
     const pieData = [
-      { name: 'Multiple Choice', value: 40 },
-      { name: 'True or False', value: 30 },
-      { name: 'Short Answer', value: 30 },
-      { name: 'Essay', value: 20 },
+      { name: 'Multiple Choice', value: averageTimes['multiple_choice'] },
+      { name: 'True or False', value: averageTimes['true/false'] },
+      { name: 'Short Answer', value: averageTimes['short_answer']}
     ];
-    
-    const radarData = [
-      { subject: 'Math', A: 90 },
-      { subject: 'Science', A: 88 },
-      { subject: 'History', A: 76 },
-      // etc.
-    ];
+
+    useEffect(() => {
+      const userid = localStorage.getItem('userid');
+      const fetchRadarData = async () => {
+        try {
+          const response = await axios.get(`${BASE_URL}/api/quizzes/average-scores/${userid}`);
+          const fetchedRadarData = response.data.map((item) => ({
+            subject: item.subject || '',
+            averageScore: item.averageScore || 0, 
+          }));
+
+          const mergedRadarData = defaultSubjects.map((defaultSubject) => {
+            const fetchedSubject = fetchedRadarData.find(
+              (item) => item.subject === defaultSubject.subject
+            );
+            return fetchedSubject || defaultSubject;
+          });
+          setRadarData(mergedRadarData);
+        } catch (error) {
+          console.error('Error fetching radar data:', error);
+        }
+      };
+  
+      if (userid) {
+        fetchRadarData();
+      }
+    }, [userid]);
     
     
     const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#969696'];
@@ -495,7 +537,7 @@ const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
             <Box sx={{
               display: 'flex', flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'flex-end', position: 'absolute', bottom: 0, right: 0, p: 2, width: '100%', boxSizing: 'border-box'
             }}>
-              <Button 
+              {/* <Button 
                 onClick={handleClickOpen}
                 style={{
                   background: '#FFE793',
@@ -528,7 +570,7 @@ const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
                 '@media (max-width: 600px)': { width: '17em', height: '3em', fontSize: '.75em' }
               }}>
               {score >= totalQuestions ? 'PASSED!' : 'FAILED!'}
-            </Button>
+            </Button> */}
             </Box>
 
           </Box>
@@ -662,7 +704,7 @@ const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
                   }}
                 >
                   <Typography align="center" gutterBottom>
-                    Performance by Subject/Question
+                    Quiz Performance by Subject
                   </Typography>
                   <ResponsiveContainer width="100%" height={200}>
                     <RadarChart data={radarData}>
@@ -678,13 +720,14 @@ const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
                       />
                       <PolarRadiusAxis
                         angle={50}
-                        domain={[0, 150]}
+                        domain={[0, 100]}
                         tick={{ fill: '#555', fontSize: 10 }}
                       />
                       <Radar
-                        name="Arthur"
-                        dataKey="A"
-                        stroke="#969696"
+                        name="Average Score"
+                        dataKey="averageScore"
+                        stroke="#82ca9d"
+                        strokeWidth={4}
                         fill="#82ca9d"
                         fillOpacity={0.6}
                       />
