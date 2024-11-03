@@ -1,10 +1,59 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { AppBar, Toolbar, Typography, Box, useMediaQuery } from "@mui/material";
 import { Link } from "react-router-dom";
 import '@fontsource/lato';
+import axios from "axios";
+import BASE_URL from "./config";
 
 const TopAppBarUI = () => {
   const isMobile = useMediaQuery('(max-width:600px)');
+    const userId = localStorage.getItem('userid');
+    const [subscription, setSubscription] = useState('Free Plan');
+    const [email, setEmail] = useState('');
+
+
+
+    //Subscription Fetch
+    const fetchEmail = async () => {
+
+
+        try {
+            const response = await axios.get(`${BASE_URL}/user/getEmail/${userId}`);
+            setEmail(response.data); // Set the email from the response
+        } catch (error) {
+            console.error('Error fetching email:', error);
+        }
+    };
+    // Fetch email when the component mounts
+    useEffect(() => {
+        fetchEmail();
+    }, [userId]);
+
+    const fetchSubscription = async () => {
+        try {
+            const response = await axios.post(`${BASE_URL}/api/subscription`, {
+                email: email // Send the email in the request body
+            });
+            console.log('Subscription response:', response.data); // Log the response data
+
+            if (response.data.active) {
+                setSubscription('EduDeck Plus');
+            } else {
+                setSubscription('Free Plan');
+            }
+        } catch (error) {
+            console.error('Error fetching subscription:', error);
+            // Optionally handle error state
+        }
+    };
+
+
+
+    useEffect(() => {
+        if (email) {
+            fetchSubscription();
+        }
+    }, [email]);
 
   return (
     <AppBar
@@ -30,7 +79,11 @@ const TopAppBarUI = () => {
               marginLeft: '10px'
             }}
           >
-            EduDeck
+            EduDeck {subscription === 'EduDeck Plus' ? (
+              <sup style={{ color: 'black', fontSize: '0.5em' }}>Plus</sup>
+          ) : (
+              <sup style={{ fontSize: '0.5em', color: '#888' }}>Free</sup>
+          )}
           </Typography>
         </Box>
       </Link>

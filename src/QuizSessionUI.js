@@ -21,6 +21,61 @@ const QuizSessionUI = () => {
     const [isMultipleChoiceQuestion, setIsMultipleChoiceQuestion] = useState(false);
     const [options, setOptions] = useState([]);
     const [extractOptions, setExtractOptions] = useState([]);
+    const userId = localStorage.getItem('userid');
+    const [subscription, setSubscription] = useState('Free Plan');
+    const [email, setEmail] = useState('');
+    const userid = localStorage.getItem('userid');
+    const [startTime, setStartTime] = useState(null); // Time when the question is displayed
+    const [questionTimes, setQuestionTimes] = useState([]); // Track time per question
+    const [averageTimes, setAverageTimes] = useState({
+        'multiple_choice': 0,
+        'true/false': 0,
+        'short_answer': 0,
+    });
+
+
+    //Subscription Fetch
+    const fetchEmail = async () => {
+
+
+        try {
+            const response = await axios.get(`${BASE_URL}/user/getEmail/${userId}`);
+            setEmail(response.data); // Set the email from the response
+        } catch (error) {
+            console.error('Error fetching email:', error);
+        }
+    };
+    // Fetch email when the component mounts
+    useEffect(() => {
+        fetchEmail();
+    }, [userId]);
+
+    const fetchSubscription = async () => {
+        try {
+            const response = await axios.post(`${BASE_URL}/api/subscription`, {
+                email: email // Send the email in the request body
+            });
+            console.log('Subscription response:', response.data); // Log the response data
+
+            if (response.data.active) {
+                setSubscription('EduDeck Plus');
+            } else {
+                setSubscription('Free Plan');
+            }
+        } catch (error) {
+            console.error('Error fetching subscription:', error);
+            // Optionally handle error state
+        }
+    };
+
+
+
+    useEffect(() => {
+        if (email) {
+            fetchSubscription();
+        }
+    }, [email]);
+
 
     useEffect(() => {
         const fetchQuestions = async () => {
@@ -49,6 +104,7 @@ const QuizSessionUI = () => {
         };
 
         fetchQuestions();
+        setStartTime(Date.now());
 
         const selectedDeck = localStorage.getItem('selectedDeck');
         // setTitle(selectedDeck || 'Untitled Deck');
@@ -62,30 +118,84 @@ const QuizSessionUI = () => {
     }, []);
 
     const handleInputChange = (flashcardId, value) => {
+        const currentTime = Date.now();
+        const timeSpent = currentTime - startTime;
+        setQuestionTimes(prevTimes => [
+        ...prevTimes,
+        { questionId: flashcardId, timeSpent }
+        ]);
+
         setUserAnswers(prevAnswers => ({
             ...prevAnswers,
             [flashcardId]: value
         }));
+
+        setStartTime(currentTime);
     };
 
-    const submitQuiz = () => {
+    const calculateAverageTimes = () => {
+        const timesByType = { multiple_choice: [], 'true/false': [], 'short_answer': [] };
+    
+        questionTimes.forEach(({ questionId, timeSpent }) => {
+          const question = questions.find(q => q.id === questionId);
+          if (question) {
+            const type = question.type;
+            timesByType[type] = [...timesByType[type], timeSpent];
+          }
+        });
+    
+        const averages = {
+            multiple_choice: timesByType.multiple_choice.length
+                ? timesByType.multiple_choice.reduce((a, b) => a + b, 0) / timesByType.multiple_choice.length
+                : 0,
+            'true/false': timesByType['true/false'].length
+                ? timesByType['true/false'].reduce((a, b) => a + b, 0) / timesByType['true/false'].length
+                : 0,
+            'short_answer': timesByType['short_answer'].length
+                ? timesByType['short_answer'].reduce((a, b) => a + b, 0) / timesByType['short_answer'].length
+                : 0,
+        };
+
+        setAverageTimes(averages);
+        return averages;
+    };
+
+    const submitQuiz = async () => {
+        const averages = calculateAverageTimes();
+        const totalQuestions = questions.length;
+        let correctAnswers = 0;
+
         const detailedResults = questions.map(question => ({
             question: question.question,
             correctAnswer: question.answer,
             userAnswer: userAnswers[question.id] || ''
         }));
-    
-        let correctAnswers = 0;
+        
         questions.forEach(question => {
             if (userAnswers[question.id] && userAnswers[question.id].toLowerCase() === question.answer.toLowerCase()) {
                 correctAnswers++;
             }
         });
+
+        const scorePercentage = (correctAnswers / totalQuestions) * 100;
     
         const wrongAnswers = totalQuestions - correctAnswers;
         const score = { correctAnswers, wrongAnswers, detailedResults };
+
+        try {
+            await axios.put(`${BASE_URL}/api/quizzes/update/${quizId}`, {
+                score: correctAnswers,
+                scorePercentage: scorePercentage,
+                totalQuestions: totalQuestions
+            });
     
-        navigate('/quizsummary', { state: score });
+            console.log('Quiz score updated successfully');
+    
+            navigate('/quizsummary', { state: score });
+        localStorage.setItem('averageTimes', JSON.stringify(averages));
+        } catch (error) {
+            console.error('Error updating quiz score:', error);
+        }
     };
     
 
@@ -224,7 +334,11 @@ const QuizSessionUI = () => {
                                     marginLeft: '10px'
                                 }}
                             >
-                                EduDeck
+                                EduDeck {subscription === 'EduDeck Plus' ? (
+                                <sup style={{ color: 'black', fontSize: '0.5em' }}>Plus</sup>
+                            ) : (
+                                <sup style={{ fontSize: '0.5em', color: '#888' }}>Free</sup>
+                            )}
                             </Typography>
                         </Box>
                         </Link>

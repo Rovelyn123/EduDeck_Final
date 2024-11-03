@@ -142,7 +142,7 @@ function FlashcardManagementUI() {
             }
         }, [selectedDeckId]);
 
-        const SYSTEM_PROMPT = `You are to create ${numQuestions} quiz items ("question", answer "options", correct "answer" and its questionType("true/false", "multiple_choice", "short_answer") in json format [{"question": "", "options": (4 choices only. DO NOT include multiple choice letters like a b c d)["option1", "option2"],"answer": ""}, "questionType":""]) based on the given lesson texts to help the student user review and ace their exams. The questions should be of ${selectedDifficulty} difficulty level. Ensure that there are a variety of questions: at least 3 true/false, at least 2 multiple choice(include the choices in the question the user can input the letter of the correct answer) For language learning materials, provide choices with Japanese characters where necessary. The focus should be on helping the student familiarize themselves with key concepts and terms from the lesson.`;
+        const SYSTEM_PROMPT = `Identify which subject the lesson text belongs: "Math", "Science", "Social Studies", "Language", "Engineering", "Business" and you are to create ${numQuestions} quiz items ("question", answer "options", correct "answer" and its questionType("true/false", "multiple_choice", "short_answer") in json format [{"subject":"","questions":[{"question": "", "options": (4 choices only. DO NOT include multiple choice letters like a b c d)["option1", "option2"],"answer": ""}, "questionType":""}]}] based on the given lesson texts to help the student user review and ace their exams. The questions should be of ${selectedDifficulty} difficulty level. Ensure that there are a variety of questions: at least 3 true/false, at least 2 multiple choice(include the choices in the question the user can input the letter of the correct answer) For language learning materials, provide choices with Japanese characters where necessary. The focus should be on helping the student familiarize themselves with key concepts and terms from the lesson.`;
         const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-exp-0827:generateContent?key=AIzaSyDk-kNVWH8sBWmpboiu6vHHohcgTOinxgk`;
 
         const [loading, setLoading] = useState(false);
@@ -158,12 +158,16 @@ function FlashcardManagementUI() {
             const createQuizResponse = await axios.post(`${BASE_URL}/api/quizzes/create`, {
             title: documentTitle,
             passing_score: 60,
+            dateCreated: Date.now(),
             deck: {
                 deckId: selectedDeckId,
             },
+            user: {
+                userid: userid
+            }
             });
             const newQuizId = createQuizResponse.data.quizId;
-
+            localStorage.setItem('quizId', newQuizId);
             const extractTextResponse = await axios.get(`${BASE_URL}/textextractor/document/${selectedDeckDocumentId}`);
             const extractedText = extractTextResponse.data;
 
@@ -187,7 +191,13 @@ function FlashcardManagementUI() {
             console.log('Raw Quiz Items:', rawQuizItems);
             rawQuizItems = rawQuizItems.replace(/```json/g, '').replace(/```/g, '');
             
-            const quizItems = JSON.parse(rawQuizItems);
+            const quizItemsData = JSON.parse(rawQuizItems);
+            const subject = quizItemsData.subject;
+            const quizItems = quizItemsData.questions;
+
+            await axios.put(`${BASE_URL}/api/quizzes/update/${newQuizId}`, {
+                subject: subject,
+            });
 
             for (const item of quizItems) {
             await fetch(`${BASE_URL}/api/quizitems/createQuizItem/${newQuizId}`, {

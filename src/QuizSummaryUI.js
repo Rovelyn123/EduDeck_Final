@@ -19,6 +19,7 @@ import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfi
 import axios from 'axios';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
+import BASE_URL from "./config";
 
 
 
@@ -33,7 +34,9 @@ const QuizSummary = () => {
     const [title, setTitle] = useState('');
     const [targetScore, setTargetScore] = useState(0);
     // const title = localStorage.getItem('quizTitle');
-
+    const userId = localStorage.getItem('userid');
+    const [subscription, setSubscription] = useState('Free Plan');
+    const [email, setEmail] = useState('');
     const { correctAnswers, wrongAnswers, detailedResults } = location.state || { correctAnswers: 0, wrongAnswers: 0, detailedResults: [] };
 
     if (!location.state) {
@@ -45,6 +48,49 @@ const QuizSummary = () => {
     const successMessage = percentage >= 60 ? "Great job! You're on the right track." : "Keep trying! Review your answers and improve.";
     // const storedTitle = localStorage.getItem('quizTitle'); // Retrieve the title
     // const title = location.state?.title || storedTitle || 'Untitled Quiz';
+
+    //Subscription Fetch
+    const fetchEmail = async () => {
+
+
+        try {
+            const response = await axios.get(`${BASE_URL}/user/getEmail/${userId}`);
+            setEmail(response.data); // Set the email from the response
+        } catch (error) {
+            console.error('Error fetching email:', error);
+        }
+    };
+    // Fetch email when the component mounts
+    useEffect(() => {
+        fetchEmail();
+    }, [userId]);
+
+    const fetchSubscription = async () => {
+        try {
+            const response = await axios.post(`${BASE_URL}/api/subscription`, {
+                email: email // Send the email in the request body
+            });
+            console.log('Subscription response:', response.data); // Log the response data
+
+            if (response.data.active) {
+                setSubscription('EduDeck Plus');
+            } else {
+                setSubscription('Free Plan');
+            }
+        } catch (error) {
+            console.error('Error fetching subscription:', error);
+            // Optionally handle error state
+        }
+    };
+
+
+
+    useEffect(() => {
+        if (email) {
+            fetchSubscription();
+        }
+    }, [email]);
+
 
 
       // Store percentage in localStorage
@@ -92,12 +138,12 @@ const QuizSummary = () => {
     // Handles feedback submission and dialog close
     const handleFeedbackSubmission = async () => {
         console.log("Feedback selected:", feedbackValue);
-    
+        const quizId = localStorage.getItem('quizId');
+        console.log("Quiz ID:", quizId);  
         try {
-            const response = await axios.post('https://your-server-api.com/feedback', { //karyme ikaw lng butang hehe
-                rating: feedbackValue,
-                quizId: '1234',
-                userId: '5678',
+            const response = axios.put(`${BASE_URL}/api/quizzes/update/${quizId}`, {
+                feedback: feedbackValue,
+                dateLastTaken: Date.now()
             });
     
             if (response.status === 200) {
@@ -162,7 +208,11 @@ return (
                                     marginLeft: '10px'
                                 }}
                             >
-                                EduDeck
+                                EduDeck {subscription === 'EduDeck Plus' ? (
+                                <sup style={{ color: 'black', fontSize: '0.5em' }}>Plus</sup>
+                            ) : (
+                                <sup style={{ fontSize: '0.5em', color: '#888' }}>Free</sup>
+                            )}
                             </Typography>
                         </Box>
                         </Link>
