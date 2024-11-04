@@ -148,27 +148,46 @@ function DocumentUploadUI() {
             fetchProfilePicture();
         }, [location.pathname, location.state?.enteredUsername]);
 
-    const handleBrowseClick = () => {
-        fileInputRef.current.click();
-    };
+        useEffect(() => {
+            if (selectedFile) {
+                handleUploadClick();
+            }
+        }, [selectedFile]);
+    
+        const handleBrowseClick = () => {
+            fileInputRef.current.click();
+        };
+    
+        const handleFileUpload = (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                setSelectedFile(file);  
+            }
+        };
+
+    // const handleBrowseClick = () => {
+    //     fileInputRef.current.click();
+    // };
 
 
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
+    // const handleFileChange = (e) => {
+    //     const file = e.target.files[0];
     
-        if (file) {
-            setSelectedFile(file);
+    //     if (file) {
+    //         setSelectedFile(file);
     
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                const contentArray = new Uint8Array(event.target.result);
-                // You can use contentArray if needed
-            };
-            reader.readAsArrayBuffer(file);
+    //         const reader = new FileReader();
+    //         reader.onload = (event) => {
+    //             const contentArray = new Uint8Array(event.target.result);
+    //             // You can use contentArray if needed
+    //         };
+    //         reader.readAsArrayBuffer(file);
     
-            setNewFile(file);
-        }
-    };     
+    //         // setNewFile(file);
+
+    //     }
+    // }; 
+    
     
     const formatFileSize = (size) => {
         if (typeof size !== 'number') {
@@ -604,7 +623,7 @@ function DocumentUploadUI() {
                     <div className="upload-content">
 
                         <div className="left-panel">
-                            {selectedFile ? (
+                            {/* {selectedFile ? (
                                 <div style={{ marginBottom: isXs ? '20px' : '10px', width: '100%', marginTop: isXs ? '10px' : isSm ? '30px' : '50px'}}>
                                     {getFileType(selectedFile.name) === 'pdf' ? (
                                     <img src="/PDF.png" alt="pdf Icon" style={{ width: isXs ? '40%' : isSm ? '30%' : '', height: isXs ? '155px' : isSm ? '200px' : '240px' }} />
@@ -620,23 +639,23 @@ function DocumentUploadUI() {
                                     <img src="/error.png" alt="error Icon" style={{ width: isXs ? '40%' : isSm ? '30%' : '', height: isXs ? '155px' : isSm ? '200px' : '240px' }} />
                                 )}
                                 </div>
-                            ) : (
+                            ) : ( */}
                                 <img src="/document icon.png" alt="Document Icon" style={{ width: isXs ? 80 : 100, marginTop: isXs ? '60px' : isSm ? '80px' : '130px', marginBottom: '30px' }} /> 
-                                )}
-                            {selectedFile ? (
+                                {/* )} */}
+                            {/* {selectedFile ? (
                                 <Typography variant="h4" style={{fontFamily: 'Lato',fontSize: isXs ? '15px' : '20px',color: 'black',textAlign: 'center',fontWeight: 'bold',fontStyle: 'italic', marginTop: '15px',}}>
                                     {selectedFile.name}
                                 </Typography>
-                            ) : (
+                            ) : ( */}
                                 <Typography variant="h4" style={{fontFamily: 'Lato', fontSize: isXs ? '15px' : '20px', color: 'black', textAlign: 'center', fontWeight: 'bold', marginTop: '10px'}}>
                                     Supported document types: PDF, DOCX, PPTX, PNG, JPEG
                                 </Typography>
-                            )}
+                            {/* )} */}
 
                             <div style={{ marginTop: isXs ? '60px' : isSm ? '60px' : isMd ? '50px' : '50px' }}>
                                 <Button style={{ background: '#FAC712', width: isXs ? '130px' : '230px', height: '45px', borderRadius: '10px' }} onClick={handleBrowseClick}>
                                     <Typography style={{ fontSize: isXs ? '13px' : '20px', fontFamily: 'Lato', fontWeight: 'bold', color: '#332D2D', textTransform: 'none' }}>
-                                        Browse
+                                        Upload Document
                                     </Typography>
                                 </Button>
                                 <input
@@ -644,11 +663,11 @@ function DocumentUploadUI() {
                                     id="fileInput"
                                     style={{ display: 'none' }}
                                     ref={fileInputRef}
-                                    onChange={handleFileChange}
+                                    onChange={handleFileUpload}
                                 />
                             </div>
 
-                            <Box display="flex" justifyContent="center" flexDirection={isXs ? 'column' : 'row'} alignItems="center">
+                            {/* <Box display="flex" justifyContent="center" flexDirection={isXs ? 'column' : 'row'} alignItems="center"> */}
                             <Button
                                 style={{
                                     background: '#FAC712',
@@ -656,10 +675,10 @@ function DocumentUploadUI() {
                                     height: '45px',
                                     borderRadius: '10px',
                                     marginTop: isXs ? '5px' : isSm ? '10px' : isMd ? '70px' : isLg ? '70px' : '100px',
-                                    marginRight: isXs ? '150px' : isSm ? '10px' : isMd ? '10px' : '0px',  // To ensure space between buttons on desktop
+                                    // marginRight: isXs ? '150px' : isSm ? '10px' : isMd ? '10px' : '0px',
                                     marginBottom: isXs ? '20px' : '0px', // To give space between buttons on mobile
                                 }}
-                                onClick={handleUploadClick}
+                                component={Link} to="/TextHighlighting"
                             >
                                 <Typography
                                     style={{
@@ -670,10 +689,10 @@ function DocumentUploadUI() {
                                         textTransform: 'none',
                                     }}
                                 >
-                                    Upload Document
+                                    Text Highlighting
                                 </Typography>
                             </Button>
-                            <Link to="/TextHighlighting" style={{ textDecoration: 'none' }}>
+                            {/* <Link to="/TextHighlighting" style={{ textDecoration: 'none' }}>
                                 <Button
                                     style={{
                                         background: '#FAC712',
@@ -696,8 +715,8 @@ function DocumentUploadUI() {
                                         Text Highlighting
                                     </Typography>
                                 </Button>
-                            </Link>
-                        </Box>
+                            </Link> */}
+                        {/* </Box> */}
 
                         </div>
 
