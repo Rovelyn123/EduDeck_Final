@@ -1,115 +1,528 @@
 /* Dashboard.css */
-body {
-  font-family: 'Roboto', sans-serif;
+.body {
+  background-image: url('/public/crystalbackground.png');
+  background-size: cover;
+  min-height: 100vh;
+  overflow: hidden;
 }
 
-.dashboard-card {
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 15px;
-  padding: 20px;
+.welcome-text{
+  text-align: left;
+  font-size: 1em;
+  font-family: 'Lato', sans-serif;
+  font-weight: bold !important;
+  position: absolute;
+  top: 10%;
+  left: -70%;
+  transform: none;
+}
+
+.username{
+  font-weight: bold;
+  font-family: 'Lato', sans-serif;
+  font-size: 1.8em;
+  margin-right: auto;
+  position: absolute;
+  top: 40%;
+  left: -42%;
+  transform: translateX(-50%);
+  text-align: left;
+}
+
+.outerBox1{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.innerBox1 {
+  background: white;
+  border-radius: 50%;
+  padding: 5px;
+  box-shadow: inset 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.iconBox1 {
+  top: 2.5%;
+  margin-left: 2%;
+  transform: none; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #D0BF81;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+}
+
+/* .iconButton1 {
+  padding: 0;
+} */
+
+.accountIcon1 {
+  font-size: 45px;
+  color: white;
+  /* margin-left: 1px; */
+}
+
+/* .profileButton {
+  background: white;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;                                                  
+} */
+
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.containerBox1{
+  width: 55%;
+  height: 21%;
+  background-color: #FFD234;
+  position: absolute;
+  top: 13%;
+  left: 47%;
+  transform: translate(-50%, -50%);
+  border-radius: 7px;
+  overflow: hidden;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.container1titleText {
   text-align: center;
-  margin: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  font-size: 1.3em !important;
+  position: absolute;
+  font-weight: bold !important;
+  top: .2em;
+  left: 10em;
+  font-family: 'Lato', sans-serif !important;
 }
 
-.dashboard-card-title {
-  font-size: 1.5em;
-  margin-bottom: 10px;
+.contentBox1 {
+  background-color: #FFFFFF;
+  border-radius: 0.5em;
+  position: absolute;
+  padding: 2px !important; /* Converted 'p' value */
+  box-sizing: border-box;
+  width: 80%;
+  height: 60%;
+  top: 30%;
+  left: 2%;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
 }
 
-.dashboard-card-box {
+.flashcardTitle1 {
+  font-family: 'Lato', sans-serif !important;
+  position: absolute;
+  top: 1em !important;
+  left: 1em;
+  font-size: 1em;
+  font-weight: bold !important;
+}
+
+/* .totalQuestionsText, .scoreText {
+  font-family: 'Lato', sans-serif !important;
+  position: absolute;
+  top: 3em !important;
+  left: 3em ;
+  font-size: 0.8em;
+  font-weight: bold !important;
+} */
+
+.totalQuestionsText {
+  font-family: 'Lato', sans-serif !important;
+  position: absolute;
+  top: 3em !important;
+  left: 3em ;
+  font-size: 0.8em !important;
+  font-weight: bold !important;
+}
+
+.scoreText {
+  font-family: 'Lato', sans-serif !important;
+  position: absolute;
+  top: 4.5em !important;
+  left: 3.1em !important;
+  font-size: 0.8em !important;
+  font-weight: bold !important;
+}
+
+/* .footerBox {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: flex-end;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 16px;
+  width: 100%;
+  box-sizing: border-box;
+} */
+
+.progressBox {
+  width: 50px;
+  height: 50px;
+  position: relative;
+  top: 17px;
+  margin-left: 84%;
+}
+
+.progressInnerBox {
+  width: 150%;
+  height: 150%;
+  background-color: #ffffff;
+  border-radius: 50%;
+  padding: 15px;
+}
+
+.outerBox2 {
+  width: 52%;
+  height: auto;
+  padding: 20px;
+  position: absolute;
+  top: 22%;
+  left: 18%;
+}
+
+.chartBox1 {
+  background-color: white;
+  padding: 20px;
+  border-radius: 7px;
+  border: 1.5px solid lightgray;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+  height: 29vh;
+  width: 90%;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.dashboard-card-button {
-  margin: 5px;
-  padding: 10px 20px;
-  background-color: #D0BF81;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-size: 1em;
-  cursor: pointer;
-}
-
-.dashboard-subtitle {
-  font-size: 1.2em;
-  margin-bottom: 10px;
-}
-
-.dashboard-text {
-  margin-bottom: 10px;
-  text-align: center;
-}
-
-.dashboard-image-box {
+.chartBox2{
+  background-color: white;
+  padding: 20px;
+  border-radius: 7px;
+  border: 1.5px solid lightgray;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+  height: 29vh;
+  width: 100%;
   display: flex;
-  justify-content: center;
-}
-
-.dashboard-image {
-  width: 50px;
-  height: 50px;
-}
-
-.document-count {
-  display: flex;
+  flex-direction: column;
   align-items: center;
 }
 
-.document-count-number {
-  font-size: 2em;
-  margin-right: 10px;
+.lineChartBox {
+  width: 52%;
+  height: auto;
+  background-color: white;
+  position: absolute;
+  top: 62%;
+  left: 47%;
+  transform: translateX(-50%);
+  border-radius: 7px;
+  padding: 20px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.document-icon {
-  width: 30px;
-  height: 30px;
+.streakBox {
+  width: 52%;
+  height: 8%;
+  background-color: white;
+  border: 3px solid #FAC712;
+  position: absolute;
+  top: 87%;
+  left: 47%;
+  transform: translateX(-50%);
+  border-radius: 7px;
+  padding: 10px 20px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }
+
+.streakDays {
+  font-size: 1.5em;
+  font-family: 'Lato', sans-serif !important;
+  font-weight: bold   !important;
+  margin-bottom: 0;
+  margin-right: 1em;
+}
+
+.streakLabel {
+  font-size: 1em;
+  color: #989A9B;
+}
+
+.streakDaysOfWeek {
+  font-size: 1.2em;
+  font-family: 'Lato', sans-serif !important;
+  text-align: center;
+  margin-top: 0;
+}
+
+.flashcardActivityContainer {
+  width: 23.5%;
+  height: 87%;
+  max-height: 87%;
+  background-color: white;
+  position: absolute;
+  top: 11%;
+  left: 76%;
+  border-radius: 7px;
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.flashcardTitle2 {
+  text-align: center;
+  font-size: 1.3em !important;
+  font-family: 'Lato', sans-serif;
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 1;
+  width: 100%;
+  padding: 10px 0;
+}
+
+.flashcardList {
+  width: 100%;
+  overflow-y: auto;
+  scrollbar-width: none;
+  /* margin-left: 10px; */
+}
+
+
+.flashcardItem {
+  width: 86%;
+  height: auto;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 30px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.deckTitle {
+  font-size: 1.2em;
+  font-weight: bold !important;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.reviewDate {
+  font-size: 1em;
+  color: #666;
+  font-style: italic;
+}
+
+.cardCountButton {
+  background-color: #ffffff !important;
+  width: 100%;
+  height: 2.5em;
+  font-size: 1em;
+  font-weight: bold;
+  color: #000000 !important;
+  border-radius: 8px;
+  align-self: center;
+  margin-top: 10px;
+}
+
+
+.cardCountButton1:hover {
+  background-color: #FFB400 !important;
+}
+
 
 @media (max-width: 600px) {
-  .dashboard-card {
-    padding: 10px;
-    margin: 5px;
+
+  .body {
+    min-height: 200vh;
+    overflow: scroll;
   }
 
-  .dashboard-card-title {
-    font-size: 1.2em;
-    margin-bottom: 5px;
+  .welcome-text {
+    text-align: center;
+    font-size: .9em;
+    top: 17%;
+    left: 2%;
+    transform: translateX(-50%);
   }
 
-  .dashboard-card-box {
-    padding: 5px;
+  .username {
+    top: 35%;
+    left: 1%;
+    text-align: center;
   }
 
-  .dashboard-card-button {
-    font-size: 0.8em;
-    padding: 5px 10px;
-    margin: 3px;
-  }
+  .iconButton {
+  padding: 0;
+}
 
-  .dashboard-subtitle {
-    font-size: 1em;
-  }
+.accountIcon {
+  font-size: 45px;
+  color: white;
+  margin-left: 1px;
+}
 
-  .dashboard-text {
-    font-size: 0.9em;
-    margin-bottom: 5px;
-  }
+.profileButton {
+  background: white;
+  border-radius: 50%;
+  width: 20%;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+}
 
-  .dashboard-image {
-    width: 40px;
-    height: 40px;
-  }
+.avatarImage {
+  width: 80%;
+  height: 100%;
+  object-fit: fill;
+  border-radius: 100%;
+}
 
-  .document-count-number {
-    font-size: 1.5em;
-  }
+.iconBox1 {
+  top: 1.3%;
+  margin-left: 50%;
+  transform: none;
+}
+  
+.containerBox1 {
+  width: 83.5%;
+  height: 26%;
+  top: 25%;
+  left: 50%;
+}
 
-  .document-icon {
-    width: 25px;
-    height: 25px;
-  }
+.container1titleText {
+  top: 0.5em;
+  left: 3em;
+}
+
+.contentBox1 {
+  width: 85%;
+  height: 65%;
+  top: 25%;
+  left: 7%;
+}
+
+.progressBox {
+  width: 40px;
+  height: 40px;
+  top: 70px;
+  margin-left: calc(89% - 100px);
+}
+
+.progressInnerBox {
+  background-color: #FFD234;
+}
+
+.outerBox2 {
+  width: 90%;
+  height: auto;
+  padding: 20px;
+  position: absolute;
+  top: 38%;
+  left: 0.5%;
+}
+
+.chartBox1 {
+  height: 20vh;
+  width: 88.5%;
+}
+
+.chartBox2{
+  height: auto;
+  width: 88.5%;
+}
+
+.lineChartBox {
+  width: 75%;
+  top: 98%;
+  left: 50%;
+}
+
+.streakBox {
+  width: 73.5%;
+  height: 15%;
+  top: 117%;
+  left: 50%;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.streakDays {
+  font-size: 1em;
+  margin-right: 0em;
+  margin-bottom: 0.5;
+}
+
+.streakLabel {
+  font-size: 0.8em;
+}
+
+.streakDaysOfWeek {
+  font-size: 1em;
+  margin-top: 1em;
+}
+
+.flashcardActivityContainer {
+  width: 85%;
+  height: 60vh;
+  top: 167%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.flashcardTitle2 {
+  font-size: 1.3em  !important;
+}
+
+.flashcardItem {
+  width: 80%;
+  margin-bottom: 20px;
+}
+
+.deckTitle {
+  font-size: 1.2em;
+}
+
+.reviewDate {
+  font-size: 0.9em;
+}
+
+.cardCountButton {
+  width: 100%;
+  font-size: .9em;
+}
+
+.cardCountButton:hover {
+  background-color: #FFB400 !important;
+}
+
+
 }

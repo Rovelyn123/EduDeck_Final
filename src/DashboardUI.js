@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-//import './DashboardUI.css';
+import './DashboardUI.css';
 import { Typography, Divider, Button, Dialog, DialogActions, DialogContentText,
     DialogContent, TextField, DialogTitle, IconButton, Box, Toolbar, Grid, useMediaQuery} from '@mui/material';
 import { AccountCircle, NotificationsNone, Score } from "@mui/icons-material";
@@ -199,31 +199,67 @@ const DashboardUI = ({onLogout}) => {
   //     }
   // }, []);
 
-  useEffect(() => {
+//   useEffect(() => {
+//     // Get or initialize the weekly scores from localStorage
+//     const storedWeeklyScores = JSON.parse(localStorage.getItem('weeklyScores')) || [
+//         { Week: 'Sun', GeneralScore: 0, count: 0 },
+//         { Week: 'Mon', GeneralScore: 0, count: 0 },
+//         { Week: 'Tue', GeneralScore: 0, count: 0 },
+//         { Week: 'Wed', GeneralScore: 0, count: 0 },
+//         { Week: 'Thu', GeneralScore: 0, count: 0 },
+//         { Week: 'Fri', GeneralScore: 0, count: 0 },
+//         { Week: 'Sat', GeneralScore: 0, count: 0 },
+//     ];
+
+//     // Example of retrieving today's score from localStorage
+//     const storedScore = localStorage.getItem('correctAnswers');
+//     const date = new Date();
+//     const dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'short' });
+
+//     if (storedScore) {
+//         // Find the correct weekday entry
+//         const updatedScores = storedWeeklyScores.map((day) => {
+//             if (day.Week === dayOfWeek) {
+//                 // Update score and count for averaging
+//                 const newTotalScore = day.GeneralScore * day.count + parseInt(storedScore);
+//                 const newCount = day.count + 1;
+//                 return { ...day, GeneralScore: newTotalScore / newCount, count: newCount };
+//             }
+//             return day;
+//         });
+
+//         // Update state and save to localStorage
+//         setWeeklyScores(updatedScores);
+//         localStorage.setItem('weeklyScores', JSON.stringify(updatedScores));
+//     }
+// }, []);
+
+useEffect(() => {
     // Get or initialize the weekly scores from localStorage
     const storedWeeklyScores = JSON.parse(localStorage.getItem('weeklyScores')) || [
-        { Week: 'Sun', GeneralScore: 0, count: 0 },
-        { Week: 'Mon', GeneralScore: 0, count: 0 },
-        { Week: 'Tue', GeneralScore: 0, count: 0 },
-        { Week: 'Wed', GeneralScore: 0, count: 0 },
-        { Week: 'Thu', GeneralScore: 0, count: 0 },
-        { Week: 'Fri', GeneralScore: 0, count: 0 },
-        { Week: 'Sat', GeneralScore: 0, count: 0 },
+        { Week: 'Sun', GeneralScore: 0 },
+        { Week: 'Mon', GeneralScore: 0 },
+        { Week: 'Tue', GeneralScore: 0 },
+        { Week: 'Wed', GeneralScore: 0 },
+        { Week: 'Thu', GeneralScore: 0 },
+        { Week: 'Fri', GeneralScore: 0 },
+        { Week: 'Sat', GeneralScore: 0 },
     ];
 
-    // Example of retrieving today's score from localStorage
+    // Retrieve today's score from localStorage
+    // const storedScore = parseInt(localStorage.getItem('correctAnswers')) || 0;
     const storedScore = localStorage.getItem('correctAnswers');
     const date = new Date();
     const dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'short' });
 
     if (storedScore) {
-        // Find the correct weekday entry
+        // Update scores by adding the new score to the current day's total
         const updatedScores = storedWeeklyScores.map((day) => {
             if (day.Week === dayOfWeek) {
-                // Update score and count for averaging
-                const newTotalScore = day.GeneralScore * day.count + parseInt(storedScore);
-                const newCount = day.count + 1;
-                return { ...day, GeneralScore: newTotalScore / newCount, count: newCount };
+              const newTotalScore = day.GeneralScore * day.count + parseInt(storedScore);
+              const newCount = day.count + 1;
+              return { ...day, GeneralScore: newTotalScore / newCount, count: newCount };
+              // return { ...day, GeneralScore: day.GeneralScore + storedScore };
             }
             return day;
         });
@@ -233,6 +269,7 @@ const DashboardUI = ({onLogout}) => {
         localStorage.setItem('weeklyScores', JSON.stringify(updatedScores));
     }
 }, []);
+
 
     const pieData = [
       { name: 'Multiple Choice', value: averageTimes['multiple_choice'] },
@@ -367,88 +404,28 @@ const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
         
     return (
         <>
-            <Box
-            sx={{
-              backgroundImage: `url('/crystalbackground.png')`,
-              backgroundSize: 'cover',
-              minHeight: { xs: '200vh', md: '100vh', },
-              overflow: { xs: 'scroll', md: 'hidden' },
-            }}
-          >
+        <Box className="body">
           <NavigationBarUI/>
             <div>
             <Toolbar style={{ position: "absolute", top: 0,  right: 0 }}>
         
-                <div style={{ marginLeft: "1em"}}>
-                  <Typography variant="h4" sx={{textAlign: { xs: 'center', md: 'left' },
-                                        fontSize: { xs: '.9em', md: '1em' },
-                                        fontFamily: 'Lato', fontWeight: 'bold',
-                                        position: 'absolute',
-                                        top: { xs: '17%', md: '10%' },
-                                        left: { xs: '2%', md: '-70%' },
-                                        transform: { xs: 'translateX(-50%)', md: 'none' },
-                                    }} > Welcome Back,
+                <div style={{ marginLeft: "3em"}}>
+                  <Typography  className='welcome-text'
+                  > Welcome Back,
                   </Typography>
                   
-                  <Box
-                    sx={{
-                        fontWeight: 'bold',
-                        fontFamily: 'Lato',
-                        fontSize: '1.8em',
-                        marginRight: { xs: 'auto', md: 'auto' }, 
-                        position: 'absolute', 
-                        top: { xs: '35%', md: '40%' }, 
-                        left: { xs: '1%', md: '-42%' }, 
-                        transform: { xs: 'translateX(-50%)', md: 'translateX(-50%)' }, 
-                        textAlign: { xs: 'center', md: 'left' }
-                    }}
-                >
+                  <Box className='username'>
                     {userName}!
                 </Box>                
                 </div>
 
-                <Box
-                  style={{
-                    background: "transparent",
-                    borderRadius: "45px",
-                    padding: "5px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    marginTop: "6px",
-                    marginLeft: "20px",
-                  }}
-                >
+                <Box className="outerBox1">
                   <Box display="flex" alignItems="center">
-                    <Box
-                      style={{
-                        background: "white",
-                        borderRadius: "100%",
-                        padding: "5px",
-                        marginRight: "15px",
-                        boxShadow: "inset 0 5px 20px 0px rgba(0, 0, 0, 0.35)",
-                      }}
-                    >
+                    <Box className="innerBox1">
                       {selectedImage === null ? (
-                        <Box
-                        sx={{
-                          top: { xs: '1.3%', md: '2.5%' },
-                          marginLeft: { xs: '50%', md: '2%' },
-                          transform: { xs: 'translateX(-50%)', md: 'none' },
-                          background: '#D0BF81', borderRadius: '50px', width: '39px', height: '39px', display: 'flex', justifyContent: 'center', alignItems: 'center',
-                                    }}
-                        >
-                          <IconButton
-                            style={{ padding: "0" }}
-                            onClick={() => navigate("/profilesettings")}
-                          >
-                            <AccountCircle
-                              style={{
-                                fontSize: "45px",
-                                color: "white",
-                                marginLeft: "1px",
-                              }}
-                            />
+                        <Box className="iconBox1">
+                          <IconButton className="iconButton1" onClick={() => navigate("/profilesettings")}>
+                            <AccountCircle className="accountIcon1"/>
                           </IconButton>
                         </Box>
                       ) : (
@@ -457,10 +434,11 @@ const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
                           to="/profilesettings"
                             variant="contained"
                             color="primary"
+                            className="profileButton"
                             style={{
                               background: "white",
                               borderRadius: "50%",
-                              width: "20%",
+                              width: "45%",
                               height: "45px",
                               display: "flex",
                               alignItems: "center",
@@ -472,12 +450,7 @@ const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
                             <img
                               src={selectedImage}
                               alt="User Avatar"
-                              style={{
-                                width: "80%",
-                                height: "100%",
-                                objectFit: "fill",
-                                borderRadius: "100%",
-                              }}
+                              className="avatarImage"
                             />
                           </Button>
                       )}
@@ -488,48 +461,24 @@ const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
             </div>
             
-            <Box sx={{
-                width: {xs: '83.5%', md:'55%'},
-                height: {xs: '26%', md:'21%'},
-                backgroundColor: '#FFD234', position: 'absolute',
-                top: {xs: '25%', md: '13%'},
-                marginLeft: {xs: '50%', md: '47%'},
-                transform: 'translate(-50%, -50%)',
-                borderRadius: '7px', overflow: 'hidden',
-                boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
-                }}>
+            <Box className="containerBox1">
 
-            <Typography variant="h4" sx={{ 
-                textAlign: 'center', fontSize: '1.3em', position: 'absolute',fontWeight: 'bold', 
-                top:{xs: '.5em', md: '.2em'}, 
-                left: {xs: '3em', md: '10em'}, fontFamily: 'Lato',
-                }}>Recent Quiz Activity
+            <Typography variant="h4" className="container1titleText"
+                >Recent Quiz Activity
             </Typography>
 
-          <Box sx={{
-            backgroundColor: "#FFFFFF",
-            borderRadius: '.5em',
-            position: 'absolute',
-            p: 2,
-            boxSizing: 'border-box',
-            width: { xs: '85%', md: '80%' },
-            height: { xs: '65%', md: '60%' },
-            top: { xs: '25%', md: '30%' },
-            left: { xs: '7%', md: '2%' },
-            boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
-          }}>
+          <Box className="contentBox1">
             {/* Flashcard Title */}
-            <Typography sx={{ fontFamily: 'Lato', position: 'absolute', top: { xs: '1em', md: '1em' }, left: { xs: '1em', md: '1em' }, fontSize: '1em', fontWeight: 'bold' }}>
-              {/* Rizal's Lovers */}
-              {quizTitle || 'Untitled Deck'}
+            <Typography className="flashcardTitle1"
+            > {quizTitle || 'Untitled Deck'}
             </Typography>
             {/* Total Questions */}
-            <Typography sx={{ fontFamily: 'Lato', position: 'absolute', top: '3em', left: '3em', fontSize: '.8em', fontWeight: 'bold' }}>
-              Total Questions: {totalQuestions}
+            <Typography className="totalQuestionsText"
+            >Total Questions: {totalQuestions}
             </Typography>
             {/* Score */}
-            <Typography sx={{ fontFamily: 'Lato', position: 'absolute', top: '4.5em', left: '3.1em', fontSize: '.8em', fontWeight: 'bold' }}>
-              Score: {score}/{totalQuestions}
+            <Typography className="scoreText"
+            >Score: {score}/{totalQuestions}
               {/* {totalScore}% */}
             </Typography>
 
@@ -537,58 +486,12 @@ const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
             <Box sx={{
               display: 'flex', flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'flex-end', position: 'absolute', bottom: 0, right: 0, p: 2, width: '100%', boxSizing: 'border-box'
             }}>
-              {/* <Button 
-                onClick={handleClickOpen}
-                style={{
-                  background: '#FFE793',
-                  width: '12em',
-                  height: '2.2em',
-                  fontSize: '.75em',
-                  color: '#000000',
-                  position: 'relative',
-                  borderRadius: '.5em',
-                  marginBottom: '.1em',
-                  marginRight: '1em'
-                }}
-                sx={{
-                  '@media (max-width: 600px)': { width: '17em', height: '3em', fontSize: '.75em' }
-                }}>
-                Target Score: {totalQuestions}
-              </Button>
-
-            <Button style={{
-                background: '#FFE793',
-                width: '8em',
-                height: '2.2em',
-                fontSize: '.75em',
-                color: '#000000',
-                position: 'relative',
-                borderRadius: '.5em',
-                marginBottom: '.1em'
-              }}
-              sx={{
-                '@media (max-width: 600px)': { width: '17em', height: '3em', fontSize: '.75em' }
-              }}>
-              {score >= totalQuestions ? 'PASSED!' : 'FAILED!'}
-            </Button> */}
             </Box>
 
           </Box>
 
-          <Box style={{
-                width: isMobile ? '40px' : '50px',
-                height: isMobile ? '40px' : '50px',
-                position: 'relative',
-                top: isMobile ? '70px' : '17px',
-                marginLeft: isMobile ? 'calc(89% - 100px)' : '84%'
-            }}>
-              <div style={{
-                      width: '150%',
-                      height: '150%',
-                      backgroundColor: isMobile ? '#FFD234' : '#ffffff',
-                      borderRadius: '50%',
-                      padding: 15
-                    }}>
+          <Box className="progressBox">
+              <div className="progressInnerBox">
                       <CircularProgressbar
                         value={percentage}
                         text={`${Math.round(percentage)}%`}
@@ -604,16 +507,7 @@ const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
       
           </Box>
 
-          <Box
-            sx={{
-              width: { xs: '90%', md: '52%' },
-              height: { xs: 'auto', md: 'auto' },
-              padding: '20px',
-              position: 'absolute',
-              top: { xs: '38%', md: '22%' },
-              left: { xs: '.5%', md: '18%' },
-            }}
-          >
+          <Box className="outerBox2">
             <Grid
               container
               spacing={2}
@@ -623,22 +517,7 @@ const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
             >
               {/* Pie Chart Section */}
               <Grid item xs={12} md={6}>
-                <Box
-                  sx={{
-                    backgroundColor: 'white',
-                    padding: '20px',
-                    borderRadius: '7px',
-                    borderColor: 'lightgray',
-                    borderStyle: 'solid',
-                    borderWidth: '1.5px',
-                    boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
-                    height: { xs: '20vh', md: '29vh' },
-                    width: { xs: '88.5%', md: '90%' },
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                  }}
-                >
+                <Box className="chartBox1">
                   <Typography align="center" gutterBottom>
                     Average Time Spent Per Question Type
                   </Typography>
@@ -687,22 +566,7 @@ const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
               {/* Radar Chart Section */}
               <Grid item xs={12} md={6}>
-                <Box
-                  sx={{
-                    backgroundColor: 'white',
-                    padding: '20px',
-                    borderRadius: '7px',
-                    borderColor: 'lightgray',
-                    borderStyle: 'solid',
-                    borderWidth: '1.5px',
-                    boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
-                    height: { xs: 'auto', md: '29vh' },
-                    width: { xs: '88.5%', md: '100%' },
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                  }}
-                >
+                <Box className="chartBox2">
                   <Typography align="center" gutterBottom>
                     Quiz Performance by Subject
                   </Typography>
@@ -739,18 +603,7 @@ const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
           </Box>
 
 
-            <Box sx={{
-                    width: { xs: '75%', md: '52%' },
-                    height: { xs: 'auto', md: 'auto' }, backgroundColor: 'white', position: 'absolute',
-                    top: { xs: '98%', md: '62%' },
-                    left: { xs: '50%', md: '47%' },
-                    transform: 'translateX(-50%)',
-                    borderRadius: '7px', padding: '20px',
-                    boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
-                    display: 'flex', 
-                    flexDirection: 'column', 
-                    alignItems: 'center'
-                }}>
+            <Box className="lineChartBox">
 
               <Grid container spacing={2} sx={{ width: '100%' }}>
                 <ResponsiveContainer width="100%" height={130}>
@@ -771,35 +624,15 @@ const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
               </Box>
               
-        <Box sx={{
-            width: { xs: '73.5%', md: '52%' },
-            height: { xs: '15%', md: '8%' }, backgroundColor: 'white', borderColor: '#FAC712', borderStyle: 'solid', borderWidth: '3px',
-            position: 'absolute',
-            top: { xs: '117%', md: '87%' },
-            left: { xs: '50%', md: '47%' },
-            transform: 'translateX(-50%)', borderRadius: '7px', padding: '10px 20px',
-            boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', display: 'flex',
-            flexDirection: { xs: 'column', md: 'row' },
-            alignItems: 'center',
-            justifyContent: { xs: 'center', md: 'space-between' },
-        }}>
+        <Box className="streakBox">
             <img src="fire.png" alt="file" style={{ width: '3em', marginRight: '1em', marginBottom: { xs: '1em', md: 0 } }}/>
             <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, alignItems: { xs: 'center', md: 'baseline' }, }}>
-                <Typography sx={{
-                    fontSize: { xs: '1em', md: '1.5em' },
-                    fontFamily: 'Lato',
-                    fontWeight: 'bold',
-                    marginBottom: { xs: '0.5em', md: 0 },
-                    marginRight: { xs: 0, md: '1em' },
-                }}>{streak} DAYS</Typography>
-                <Typography sx={{fontSize: { xs: '0.8em', md: '1em' }, color: '#989A9B', }}> CURRENT STREAK </Typography>
+                <Typography className="streakDays">{streak} DAYS</Typography>
+                <Typography className="streakLabel"
+                // sx={{fontSize: { xs: '0.8em', md: '1em' }, color: '#989A9B', }}
+                > CURRENT STREAK </Typography>
             </Box>
-            <Typography sx={{
-                fontSize: { xs: '1em', md: '1.2em' }, fontFamily: 'Lato',
-                textAlign: 'center',
-                marginTop: { xs: '1em', md: 0 }
-            }}>
-                {daysOfWeek.map((day, index) => (
+            <Typography className="streakDaysOfWeek">{daysOfWeek.map((day, index) => (
                     <span key={index} style={{ color: todayIndex === index ? 'red' : 'inherit' }}>
                         {day}&nbsp;&nbsp;&nbsp;&nbsp;
                     </span>
@@ -810,100 +643,30 @@ const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
             </Button> */}
         </Box>
 
-              <Box sx={{
-                width: { xs: '85%', md: '21.5%' },
-                height: { xs: '60vh', md: '87%' },  
-                maxHeight: '87%',
-                backgroundColor: 'white',
-                position: 'absolute', 
-                top: { xs: '138%', md: '55%' }, 
-                left: { xs: '8%', md: '87%' }, 
-                transform: { xs: 'none', md: 'translate(-50%, -50%)' }, 
-                borderRadius: '7px',
-                padding: '10px',
-                boxSizing: 'border-box',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'flex-start',
-                alignItems: 'center',
-                boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
-                // overflowY: 'auto',  
-              }}>
-                <Typography variant="h4" sx={{
-                  textAlign: 'center',
-                  fontSize: { xs: '1.2em', md: '1.3em' },
-                  position: 'sticky',
-                  top: '0',
-                  backgroundColor: 'white',
-                  zIndex: 1,
-                  width: '100%',
-                  py: 2,
-                  fontFamily: 'Lato',
-                }}>
+              <Box className="flashcardActivityContainer">
+                <Typography variant="h4" className="flashcardTitle2">
                   Recent Flashcard Activity
                 </Typography>
 
-                <Box sx={{
-                  width: '100%',
-                  overflowY: 'auto',
-                  scrollbarWidth: 'none',
-                  marginLeft: '10px',
-                }}>
+                <Box className="flashcardList">
                   {/* Flashcard Boxes */}
                   {recentActivities.length > 0 ? (
                    recentActivities.map((activity, index) => (
-                    <Box key={index} sx={{
-                      backgroundColor: cardColors[index % cardColors.length],
-                      width: { xs: '80%', md: '80%' },  
-                      height: 'auto',  
-                      borderRadius: '10px',
-                      padding: '20px',
-                      mb: { xs: 2, md: 3 }, 
-                      boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'space-between',
-                      gap: '10px', 
-                      position: 'relative',
-                    }}>
+                    <Box key={index} className="flashcardItem" style={{ backgroundColor: cardColors[index % cardColors.length] }}>
 
                       {/* Flashcard Title and Author */}
                       <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
-                        <Typography sx={{
-                          fontSize: { xs: '1.2em', md: '1.2em' }, 
-                          fontWeight: 'bold',
-                          color: '#333',
-                          mb: 1,
-                        }}>
-                          {activity.deckTitle}
-                        </Typography>
-                        <Typography sx={{
-                          fontSize: { xs: '0.9em', md: '1em' },
-                          color: '#666',
-                          fontStyle: 'italic',
-                        }}>
-                          Reviewed on: {new Date(activity.timestamp).toLocaleString()}
-                        </Typography>
+                        <Typography className="deckTitle">{activity.deckTitle}</Typography>
+                        <Typography className="reviewDate">Reviewed on: {new Date(activity.timestamp).toLocaleString()}</Typography>
+                        {/* <Button className="reviewButton">Review</Button> */}
                       </Box>
 
                       {/* Card Count Button */}
-                      <Button component={Link} to="/flashcardsmgt"
-                      sx={{
-                        background: '#FFffff',
-                        width: { xs: '100%', md: '9em' }, 
-                        height: '2.5em',
-                        fontSize: { xs: '0.9em', md: '1em' }, 
-                        fontWeight: 'bold',
-                        color: '#000000',
-                        borderRadius: '8px',
-                        alignSelf: 'center', 
-                        mt: 2,  
-                        '&:hover': {
-                          backgroundColor: '#FFB400',
-                        },
-                      }}>
-                        {activity.flashcardCount} cards
+                      <Box className="cardCountButton1">
+                      <Button component={Link} to="/flashcardsmgt" className="cardCountButton">
+                      {activity.flashcardCount} cards
                       </Button>
+                      </Box>
                     </Box>
                    ))
                   ):(
