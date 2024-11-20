@@ -404,287 +404,309 @@ const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
         
     return (
         <>
-        <Box className="body">
-          <NavigationBarUI/>
-            <div>
-            <Toolbar style={{ position: "absolute", top: 0,  right: 0 }}>
-        
-                <div style={{ marginLeft: "3em"}}>
-                  <Typography  className='welcome-text'
-                  > Welcome Back,
-                  </Typography>
-                  
-                  <Box className='username'>
-                    {userName}!
-                </Box>                
-                </div>
+            <Box className="body">
+                <NavigationBarUI/>
+                <div>
+                    <Toolbar style={{position: "absolute", top: 0, right: 0}}>
 
-                <Box className="outerBox1">
-                  <Box display="flex" alignItems="center">
-                    <Box className="innerBox1">
-                      {selectedImage === null ? (
-                        <Box className="iconBox1">
-                          <IconButton className="iconButton1" onClick={() => navigate("/profilesettings")}>
-                            <AccountCircle className="accountIcon1"/>
-                          </IconButton>
+                        <Box className="box-container">
+
+                            <div>
+                                <Typography className="welcome-text">Welcome Back,</Typography>
+                                <Box className="username">{userName}!</Box>
+                            </div>
+
+                            {/* Icon/Profile Button */}
+                            <Box className="outerBox1">
+                                <Box display="flex" alignItems="center">
+                                    <Box className="innerBox1">
+                                        {selectedImage === null ? (
+                                            <Box className="iconBox1">
+                                                <IconButton
+                                                    className="iconButton1"
+                                                    onClick={() => navigate("/profilesettings")}
+                                                >
+                                                    <AccountCircle className="accountIcon1"/>
+                                                </IconButton>
+                                            </Box>
+                                        ) : (
+                                            <Button
+                                                component={Link}
+                                                to="/profilesettings"
+                                                variant="contained"
+                                                color="primary"
+                                                className="profileButton"
+                                                style={{
+                                                    background: "white",
+                                                    borderRadius: "50%",
+                                                    width: "45px", // Fixed size for the button
+                                                    height: "45px",
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    justifyContent: "center",
+                                                    padding: 0,
+                                                    margin: 0,
+                                                }}
+                                            >
+                                                <img
+                                                    src={selectedImage}
+                                                    alt="User Avatar"
+                                                    className="avatarImage"
+                                                />
+                                            </Button>
+                                        )}
+                                    </Box>
+                                </Box>
+                            </Box>
                         </Box>
-                      ) : (
-                          <Button
-                          component={Link}
-                          to="/profilesettings"
-                            variant="contained"
-                            color="primary"
-                            className="profileButton"
-                            style={{
-                              background: "white",
-                              borderRadius: "50%",
-                              width: "45%",
-                              height: "45px",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              padding: 0,
-                              margin: 0,
-                            }}
-                          >
-                            <img
-                              src={selectedImage}
-                              alt="User Avatar"
-                              className="avatarImage"
-                            />
-                          </Button>
-                      )}
-                    </Box>
-                  </Box>
-                </Box>
-              </Toolbar>
-
-            </div>
-            
-            <Box className="containerBox1">
-
-            <Typography variant="h4" className="container1titleText"
-                >Recent Quiz Activity
-            </Typography>
-
-          <Box className="contentBox1">
-            {/* Flashcard Title */}
-            <Typography className="flashcardTitle1"
-            > {quizTitle || 'Untitled Deck'}
-            </Typography>
-            {/* Total Questions */}
-            <Typography className="totalQuestionsText"
-            >Total Questions: {totalQuestions}
-            </Typography>
-            {/* Score */}
-            <Typography className="scoreText"
-            >Score: {score}/{totalQuestions}
-              {/* {totalScore}% */}
-            </Typography>
-
-
-            <Box sx={{
-              display: 'flex', flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'flex-end', position: 'absolute', bottom: 0, right: 0, p: 2, width: '100%', boxSizing: 'border-box'
-            }}>
-            </Box>
-
-          </Box>
-
-          <Box className="progressBox">
-              <div className="progressInnerBox">
-                      <CircularProgressbar
-                        value={percentage}
-                        text={`${Math.round(percentage)}%`}
-                        styles={buildStyles({
-                          textColor: isMobile ? '#ffffff' : '#FFD234',
-                          pathColor: isMobile ? '#ffffff' : '#FFD234',
-                          trailColor: isMobile ? '#FFD234' : '#ffffff',
-                          textSize: '18px'
-                        })}
-                      />
+                    </Toolbar>
                 </div>
-            </Box> 
-      
-          </Box>
 
-          <Box className="outerBox2">
-            <Grid
-              container
-              spacing={2}
-              direction={{ xs: 'column', md: 'row' }}
-              justifyContent="center"
-              alignItems="center"
-            >
-              {/* Pie Chart Section */}
-              <Grid item xs={12} md={6}>
-                <Box className="chartBox1">
-                  <Typography align="center" gutterBottom>
-                    Average Time Spent Per Question Type
-                  </Typography>
-                  <ResponsiveContainer width="100%" height={200}>
-                    <PieChart>
-                      <Pie
-                        data={pieData}
-                        cx="50%"
-                        cy="40%"
-                        labelLine={true}
-                        label={({ name, x, y, fill, cx }) => (
-                          <text
-                            x={x}
-                            y={y}
-                            fill={fill}
-                            textAnchor={x > cx ? 'start' : 'end'}
-                            dominantBaseline="central"
-                            style={{
-                              fontSize: '12px',
-                              fontWeight: 'bold',
-                              fontFamily: 'Lato',
-                              fill: '#333',
-                            }}
-                          >
-                            {name}
-                          </text>
-                        )}
-                        outerRadius={50}
-                        fill="#8884d8"
-                        dataKey="value"
-                      >
-                        {pieData.map((entry, index) => (
-                          <Cell
-                            key={`cell-${index}`}
-                            fill={COLORS[index % COLORS.length]}
-                          />
-                        ))}
-                      </Pie>
-                    </PieChart>
-                  </ResponsiveContainer>
-                  <Box sx={{ marginTop: 2 }}>
-                    <Legend />
-                  </Box>
+                <Box className="containerBox1">
+
+                    <Typography variant="h4" className="container1titleText"
+                    >Recent Quiz Activity
+                    </Typography>
+
+                    <Box className="contentBox1">
+                        {/* Flashcard Title */}
+                        <Typography className="flashcardTitle1"
+                        > {quizTitle || 'Untitled Deck'}
+                        </Typography>
+                        {/* Total Questions */}
+                        <Typography className="totalQuestionsText"
+                        >Total Questions: {totalQuestions}
+                        </Typography>
+                        {/* Score */}
+                        <Typography className="scoreText"
+                        >Score: {score}/{totalQuestions}
+                            {/* {totalScore}% */}
+                        </Typography>
+
+
+                        <Box sx={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            alignItems: 'flex-end',
+                            justifyContent: 'flex-end',
+                            position: 'absolute',
+                            bottom: 0,
+                            right: 0,
+                            p: 2,
+                            width: '100%',
+                            boxSizing: 'border-box'
+                        }}>
+                        </Box>
+
+                    </Box>
+
+                    <Box className="progressBox">
+                        <div className="progressInnerBox">
+                            <CircularProgressbar
+                                value={percentage}
+                                text={`${Math.round(percentage)}%`}
+                                styles={buildStyles({
+                                    textColor: isMobile ? '#ffffff' : '#FFD234',
+                                    pathColor: isMobile ? '#ffffff' : '#FFD234',
+                                    trailColor: isMobile ? '#FFD234' : '#ffffff',
+                                    textSize: '18px'
+                                })}
+                            />
+                        </div>
+                    </Box>
+
                 </Box>
-              </Grid>
 
-              {/* Radar Chart Section */}
-              <Grid item xs={12} md={6}>
-                <Box className="chartBox2">
-                  <Typography align="center" gutterBottom>
-                    Quiz Performance by Subject
-                  </Typography>
-                  <ResponsiveContainer width="100%" height={200}>
-                    <RadarChart data={radarData}>
-                      <PolarGrid stroke="#969696" strokeDasharray="6 6" />
-                      <PolarAngleAxis
-                        dataKey="subject"
-                        tick={{
-                          fill: '#555',
-                          fontSize: 12,
-                          fontWeight: 'bold',
-                          fontFamily: 'Lato',
-                        }}
-                      />
-                      <PolarRadiusAxis
-                        angle={50}
-                        domain={[0, 100]}
-                        tick={{ fill: '#555', fontSize: 10 }}
-                      />
-                      <Radar
-                        name="Average Score"
-                        dataKey="averageScore"
-                        stroke="#82ca9d"
-                        strokeWidth={4}
-                        fill="#82ca9d"
-                        fillOpacity={0.6}
-                      />
-                    </RadarChart>
-                  </ResponsiveContainer>
+                <Box className="outerBox2">
+                    <Grid
+                        container
+                        spacing={2}
+                        direction={{xs: 'column', md: 'row'}}
+                        justifyContent="center"
+                        alignItems="center"
+                    >
+                        {/* Pie Chart Section */}
+                        <Grid item xs={12} md={6}>
+                            <Box className="chartBox1">
+                                <Typography align="center" gutterBottom>
+                                    Average Time Spent Per Question Type
+                                </Typography>
+                                <ResponsiveContainer width="100%" height={200}>
+                                    <PieChart>
+                                        <Pie
+                                            data={pieData}
+                                            cx="50%"
+                                            cy="40%"
+                                            labelLine={true}
+                                            label={({name, x, y, fill, cx}) => (
+                                                <text
+                                                    x={x}
+                                                    y={y}
+                                                    fill={fill}
+                                                    textAnchor={x > cx ? 'start' : 'end'}
+                                                    dominantBaseline="central"
+                                                    style={{
+                                                        fontSize: '12px',
+                                                        fontWeight: 'bold',
+                                                        fontFamily: 'Lato',
+                                                        fill: '#333',
+                                                    }}
+                                                >
+                                                    {name}
+                                                </text>
+                                            )}
+                                            outerRadius={50}
+                                            fill="#8884d8"
+                                            dataKey="value"
+                                        >
+                                            {pieData.map((entry, index) => (
+                                                <Cell
+                                                    key={`cell-${index}`}
+                                                    fill={COLORS[index % COLORS.length]}
+                                                />
+                                            ))}
+                                        </Pie>
+                                    </PieChart>
+                                </ResponsiveContainer>
+                                <Box sx={{marginTop: 2}}>
+                                    <Legend/>
+                                </Box>
+                            </Box>
+                        </Grid>
+
+                        {/* Radar Chart Section */}
+                        <Grid item xs={12} md={6}>
+                            <Box className="chartBox2">
+                                <Typography align="center" gutterBottom>
+                                    Quiz Performance by Subject
+                                </Typography>
+                                <ResponsiveContainer width="100%" height={200}>
+                                    <RadarChart data={radarData}>
+                                        <PolarGrid stroke="#969696" strokeDasharray="6 6"/>
+                                        <PolarAngleAxis
+                                            dataKey="subject"
+                                            tick={{
+                                                fill: '#555',
+                                                fontSize: 12,
+                                                fontWeight: 'bold',
+                                                fontFamily: 'Lato',
+                                            }}
+                                        />
+                                        <PolarRadiusAxis
+                                            angle={50}
+                                            domain={[0, 100]}
+                                            tick={{fill: '#555', fontSize: 10}}
+                                        />
+                                        <Radar
+                                            name="Average Score"
+                                            dataKey="averageScore"
+                                            stroke="#82ca9d"
+                                            strokeWidth={4}
+                                            fill="#82ca9d"
+                                            fillOpacity={0.6}
+                                        />
+                                    </RadarChart>
+                                </ResponsiveContainer>
+                            </Box>
+                        </Grid>
+                    </Grid>
                 </Box>
-              </Grid>
-            </Grid>
-          </Box>
 
 
-            <Box className="lineChartBox">
+                <Box className="lineChartBox">
 
-              <Grid container spacing={2} sx={{ width: '100%' }}>
-                <ResponsiveContainer width="100%" height={130}>
-                    <LineChart data={weeklyScores} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-                        <CartesianGrid stroke="#969696" strokeDasharray="3 3" />
-                        <XAxis dataKey="Week" stroke="#555" tick={{ fontSize: 12, fontWeight: 'bold', fontFamily: 'Lato' }} />
-                        <YAxis stroke="#555" tick={{ fontSize: 12 }} />
-                        <Tooltip 
-                            contentStyle={{ backgroundColor: '#f5f5f5', borderRadius: '8px', border: '1px solid #ddd' }}
-                            labelStyle={{ fontWeight: 'bold', color: '#333' }}
-                        />
-                        <Legend verticalAlign="top" height={20} wrapperStyle={{ paddingBottom: '5px' }} />
-                        <Line type="monotone" dataKey="GeneralScore" stroke="#FFD234" strokeWidth={3} dot={{ r: 5 }} />
-                        {/* <Brush dataKey="Week" height={20} stroke="#FFD234" /> */}
-                    </LineChart>
-                </ResponsiveContainer>
-            </Grid>
+                    <Grid container spacing={2} sx={{width: '100%'}}>
+                        <ResponsiveContainer width="100%" height={130}>
+                            <LineChart data={weeklyScores} margin={{top: 10, right: 30, left: 0, bottom: 0}}>
+                                <CartesianGrid stroke="#969696" strokeDasharray="3 3"/>
+                                <XAxis dataKey="Week" stroke="#555"
+                                       tick={{fontSize: 12, fontWeight: 'bold', fontFamily: 'Lato'}}/>
+                                <YAxis stroke="#555" tick={{fontSize: 12}}/>
+                                <Tooltip
+                                    contentStyle={{
+                                        backgroundColor: '#f5f5f5',
+                                        borderRadius: '8px',
+                                        border: '1px solid #ddd'
+                                    }}
+                                    labelStyle={{fontWeight: 'bold', color: '#333'}}
+                                />
+                                <Legend verticalAlign="top" height={20} wrapperStyle={{paddingBottom: '5px'}}/>
+                                <Line type="monotone" dataKey="GeneralScore" stroke="#FFD234" strokeWidth={3}
+                                      dot={{r: 5}}/>
+                                {/* <Brush dataKey="Week" height={20} stroke="#FFD234" /> */}
+                            </LineChart>
+                        </ResponsiveContainer>
+                    </Grid>
 
-              </Box>
-              
-        <Box className="streakBox">
-            <img src="fire.png" alt="file" style={{ width: '3em', marginRight: '1em', marginBottom: { xs: '1em', md: 0 } }}/>
-            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, alignItems: { xs: 'center', md: 'baseline' }, }}>
-                <Typography className="streakDays">{streak} DAYS</Typography>
-                <Typography className="streakLabel"
-                // sx={{fontSize: { xs: '0.8em', md: '1em' }, color: '#989A9B', }}
-                > CURRENT STREAK </Typography>
-            </Box>
-            <Typography className="streakDaysOfWeek">{daysOfWeek.map((day, index) => (
-                    <span key={index} style={{ color: todayIndex === index ? 'red' : 'inherit' }}>
+                </Box>
+
+                <Box className="streakBox">
+                    <img src="fire.png" alt="file"
+                         style={{width: '3em', marginRight: '1em', marginBottom: {xs: '1em', md: 0}}}/>
+                    <Box sx={{
+                        display: 'flex',
+                        flexDirection: {xs: 'column', md: 'row'},
+                        alignItems: {xs: 'center', md: 'baseline'},
+                    }}>
+                        <Typography className="streakDays">{streak} DAYS</Typography>
+                        <Typography className="streakLabel"
+                            // sx={{fontSize: { xs: '0.8em', md: '1em' }, color: '#989A9B', }}
+                        > CURRENT STREAK </Typography>
+                    </Box>
+                    <Typography className="streakDaysOfWeek">{daysOfWeek.map((day, index) => (
+                        <span key={index} style={{color: todayIndex === index ? 'red' : 'inherit'}}>
                         {day}&nbsp;&nbsp;&nbsp;&nbsp;
                     </span>
-                ))}
-            </Typography>
-             {/* <Button variant="contained" color="primary" onClick={handleActivityComplete} sx={{ marginTop: { xs: '1em', md: 0 } }}>
+                    ))}
+                    </Typography>
+                    {/* <Button variant="contained" color="primary" onClick={handleActivityComplete} sx={{ marginTop: { xs: '1em', md: 0 } }}>
                 Mark Activity Complete
             </Button> */}
-        </Box>
+                </Box>
 
-              <Box className="flashcardActivityContainer">
-                <Typography variant="h4" className="flashcardTitle2">
-                  Recent Flashcard Activity
-                </Typography>
-
-                <Box className="flashcardList">
-                  {/* Flashcard Boxes */}
-                  {recentActivities.length > 0 ? (
-                   recentActivities.map((activity, index) => (
-                    <Box key={index} className="flashcardItem" style={{ backgroundColor: cardColors[index % cardColors.length] }}>
-
-                      {/* Flashcard Title and Author */}
-                      <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
-                        <Typography className="deckTitle">{activity.deckTitle}</Typography>
-                        <Typography className="reviewDate">Reviewed on: {new Date(activity.timestamp).toLocaleString()}</Typography>
-                        {/* <Button className="reviewButton">Review</Button> */}
-                      </Box>
-
-                      {/* Card Count Button */}
-                      <Box className="cardCountButton1">
-                      <Button component={Link} to="/flashcardsmgt" className="cardCountButton">
-                      {activity.flashcardCount} cards
-                      </Button>
-                      </Box>
-                    </Box>
-                   ))
-                  ):(
-                    <Typography variant="body1">
-                        No recent activity.
+                <Box className="flashcardActivityContainer">
+                    <Typography variant="h4" className="flashcardTitle2">
+                        Recent Flashcard Activity
                     </Typography>
-                )}
-              </Box>
-</Box>
-        </Box>
-      </>
+
+                    <Box className="flashcardList">
+                        {/* Flashcard Boxes */}
+                        {recentActivities.length > 0 ? (
+                            recentActivities.map((activity, index) => (
+                                <Box key={index} className="flashcardItem"
+                                     style={{backgroundColor: cardColors[index % cardColors.length]}}>
+
+                                    {/* Flashcard Title and Author */}
+                                    <Box sx={{display: 'flex', flexDirection: 'column', flexGrow: 1}}>
+                                        <Typography className="deckTitle">{activity.deckTitle}</Typography>
+                                        <Typography className="reviewDate">Reviewed
+                                            on: {new Date(activity.timestamp).toLocaleString()}</Typography>
+                                        {/* <Button className="reviewButton">Review</Button> */}
+                                    </Box>
+
+                                    {/* Card Count Button */}
+                                    <Box className="cardCountButton1">
+                                        <Button component={Link} to="/flashcardsmgt" className="cardCountButton">
+                                            {activity.flashcardCount} cards
+                                        </Button>
+                                    </Box>
+                                </Box>
+                            ))
+                        ) : (
+                            <Typography variant="body1">
+                                No recent activity.
+                            </Typography>
+                        )}
+                    </Box>
+                </Box>
+            </Box>
+        </>
     );
 
 }
 
 
 export default DashboardUI;
-
 
 
 // import React, { useState, useEffect } from 'react';
@@ -707,7 +729,7 @@ export default DashboardUI;
 
 //     useEffect(() => {
 //       const userid = localStorage.getItem('userid');
-  
+
 //       axios.get(`http://localhost:8080/api/document/files/${userid}`)
 //           .then(response => {
 //               setUserData(response.data);
@@ -716,7 +738,7 @@ export default DashboardUI;
 //           .catch(error => {
 //               console.error('Error retrieving documents!', error);
 //           });
-  
+
 //       // Extract entered username from location state
 //       const newEnteredUsername = location.state?.enteredUsername || "";
 //       setEnteredUsername(newEnteredUsername);
@@ -728,7 +750,7 @@ export default DashboardUI;
 //       setUserName(storedUsername || "Guest");
 //       console.log(storedUsername);
 //       // setUserName(newEnteredUsername || "Guest");
-  
+
 //       axios.get('http://localhost:8080/user/getAllUsers')
 //           .then(response => {
 //               setUserData(response.data);

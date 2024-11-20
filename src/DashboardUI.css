@@ -6,6 +6,7 @@
   overflow: hidden;
 }
 
+
 .welcome-text{
   text-align: left;
   font-size: 1em;
@@ -13,7 +14,6 @@
   font-weight: bold !important;
   position: absolute;
   top: 10%;
-  left: -70%;
   transform: none;
 }
 
@@ -24,8 +24,6 @@
   margin-right: auto;
   position: absolute;
   top: 40%;
-  left: -42%;
-  transform: translateX(-50%);
   text-align: left;
 }
 
@@ -96,6 +94,8 @@
   overflow: hidden;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
 }
+
+
 
 .container1titleText {
   text-align: center;
@@ -289,6 +289,22 @@
   flex-direction: column;
   align-items: center;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+}
+.box-container {
+  border: 1px solid #d3d3d3;
+  border-radius: 7px;
+  padding: 1em;
+  display: flex;
+  align-items: center;
+  background-color: #f9f9f9;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  width: 327px;
+  height: 35px;
+  margin-top: 17px;
+  justify-content: space-between;
+  position: absolute;
+  margin-left: -163px;
+  transform: translateX(-50%);
 }
 
 .flashcardTitle2 {
