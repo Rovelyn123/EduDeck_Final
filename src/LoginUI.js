@@ -76,7 +76,7 @@ function LoginUI() {
       <div className='firstcontainer'>
         <div className='secondcontainer'>
           <form onSubmit={handleLogin}>
-            <Typography style={{ fontSize: '30px', fontWeight: 'bold', marginLeft: '20px' }}>
+            <Typography style={{ fontSize: '30px', fontWeight: 'bold', marginLeft: '20px', marginTop: '7%' }}>
               Log in
             </Typography>
             <Typography style={{ fontSize: '12px', fontWeight: 'light', marginLeft: '20px' }}>
@@ -91,7 +91,7 @@ function LoginUI() {
                     value={username}
                     onChange={handleUsernameChange}
                     style={{
-                      marginTop: '30px',
+                      marginTop: '40px',
                       width: '90%',
                       padding: '8px',
                       border: 'none',
@@ -147,18 +147,18 @@ function LoginUI() {
                 </div>
               </div>
             </div>
-            <div className='buttoncontainer' style={{ position: 'absolute', top: '69%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+            <div className='buttoncontainer' style={{ position: 'absolute', top: '79%', left: '50%', transform: 'translate(-50%, -50%)' }}>
               <button type="submit" style={{ height: '2.3em', width: '14.2em', fontWeight: '600', color: 'white', borderRadius: '.2em', position: 'absolute', top: '71%', left: '49%', transform: 'translate(-50%, -50%)', boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', }}>
                 Login
               </button>
             </div>
             <Link to="/signup">
-              <Typography
-                style={{ cursor: 'pointer', color: '#FFD234', display: 'block', marginTop: '10px', fontWeight: 'bold', fontSize: '12px', textAlign: 'center', position: 'absolute', top: '80%', left: '50%', transform: 'translate(-50%, -50%)' }}
-              >
-                Create Account
-              </Typography>
-            </Link>
+            <Typography
+              style={{ cursor: 'pointer', color: 'gray', display: 'block', marginTop: '40px', fontSize: '12px', textAlign: 'center', position: 'absolute', top: '80%', left: '50%', transform: 'translate(-50%, -50%)' }}
+            >
+              Create Account
+            </Typography>
+          </Link>
           </form>
         </div>
       </div>

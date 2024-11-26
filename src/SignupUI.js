@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Typography, Tooltip } from '@mui/material';
+import { Typography, Tooltip, Link } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
@@ -259,6 +259,15 @@ function SignupUI({ onSignup }) {
                 Create Account
               </button>
             </div>
+            <div style={{position: 'absolute', top: '94%', 
+            left: '50%', transform: 'translate(-50%, -50%)'}}>
+              <Typography variant="body2" style={{fontSize: '12px', color: 'gray'}}>
+                  Already have an account?{' '}
+                  <Link href="/login" underline="hover" color="inherit">
+                    Login here
+                  </Link>
+                </Typography>
+                </div>
           </form>
         </div>
       </div>
