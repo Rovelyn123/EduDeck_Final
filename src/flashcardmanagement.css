@@ -101,8 +101,12 @@
     min-width: 200px; /* Ensure buttons have the same size */
 }
 
-@media (max-width: 480px){
-
+/* @media (max-width: 480px) */
+@media (min-width: 280px) and (max-width: 1024px){
+    .body {
+        height: 50vh;
+    }
+    
     .flashcard-content {
         text-align: center; /* Center content */
         margin-top: 30px;
@@ -110,6 +114,7 @@
 
     .flashcardcontainer{
         height: 85vh; /* Fixed height for the container */
+        margin-top: 50px;
     }
 
     .footer-buttons {

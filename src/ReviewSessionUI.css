@@ -131,19 +131,10 @@
   width: 150px; 
   height: 35px;
   top: 5px;
-  left: 660px;
+  left: 605px;
 }
 
-/* .finish-session-button {
-  background-color: #ffd234;
-  border-radius: 150px !important; 
-  font-family: 'Lato';
-  font-weight: 600; 
-  width: auto; 
-  height: auto;
-  top: 5px;
-  left: 595px;
-} */
+
 
 /* Flashcard styles */
 .flashcard-container {
@@ -263,12 +254,27 @@
     border-radius: 20px;
     font-size: 12px;
   }
+
+  .answerlabel {
+    margin-bottom: 250px;
+  }
+  .questionlabel {
+    margin-bottom: 250px;
+  }
   
   .flashcard-container {
-    height: 30%;
+    height: 80%;
     font-family: 'Lato';
     font-size: 25px;
-  }
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    text-align: center; 
+    overflow: hidden; 
+    word-wrap: break-word; 
+    padding: 10px; 
+    box-sizing: border-box; 
+}
   
   .indicator {
     top: 3px;
@@ -277,8 +283,28 @@
     font-size: 0.7em;
   }
 
-  .front h5,
+
+  .front h5, 
   .back h5 {
-    font-size: 1em; /* Adjust font size for smaller screens */
+    width: 300px;
+    margin-top: 90px;
+    font-size: 1em; 
+    text-align: center; 
+    word-wrap: break-word; 
+    overflow-wrap: break-word; 
+    white-space: normal; 
+    line-height: 1.2; 
   }
+
+  .finish-session-button {
+    background-color: #ffd234; 
+    border-radius: 150px !important; 
+    font-family: 'Lato';
+    font-weight: 600; 
+    width: 150px; 
+    height: 35px;
+    top: 5px;
+    left: 145px;
+  }
+
 }

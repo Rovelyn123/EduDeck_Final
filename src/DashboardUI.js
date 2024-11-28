@@ -613,8 +613,9 @@ const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
                 </Box>
 
 
-                <Box className="lineChartBox">
 
+                <Box className="lineChartBox">
+            
                     <Grid container spacing={2} sx={{width: '100%'}}>
                         <ResponsiveContainer width="100%" height={130}>
                             <LineChart data={weeklyScores} margin={{top: 10, right: 30, left: 0, bottom: 0}}>
@@ -637,7 +638,7 @@ const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
                             </LineChart>
                         </ResponsiveContainer>
                     </Grid>
-
+            
                 </Box>
 
                 <Box className="streakBox">
