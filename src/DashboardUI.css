@@ -695,11 +695,11 @@
   position: absolute;
   top: 28%;
   left: 25%;
-  /* direction: row; */
 }
 
 .chartBox1 {
-  height: 23.5vh;
+  /* height: 23.5vh; */
+  height: auto;
   width: 88.5%;
 }
 
