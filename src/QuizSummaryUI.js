@@ -39,6 +39,15 @@ const QuizSummary = () => {
     const [email, setEmail] = useState('');
     const { correctAnswers, wrongAnswers, detailedResults } = location.state || { correctAnswers: 0, wrongAnswers: 0, detailedResults: [] };
 
+
+    const [feedback, setFeedback] = useState(Array(detailedResults.length).fill(null));
+
+    const handleFeedbackClick = (index, type) => {
+        const updatedFeedback = [...feedback];
+        updatedFeedback[index] = type;
+        setFeedback(updatedFeedback);
+    };
+
     if (!location.state) {
         navigate('/quizsession');
     }
@@ -395,61 +404,71 @@ return (
         </Typography>
     </Box>
 
-                {detailedResults.map((result, index) => (
-                    <Box key={index} style={{ marginBottom: '1em', fontFamily: 'Lato' }}>
-                        <Typography variant="h6">
-                            Question {index + 1}: {result.question}
-                        </Typography>
+    {detailedResults.map((result, index) => (
+                <Box key={index} style={{ marginBottom: '1em', fontFamily: 'Lato' }}>
+                    <Typography variant="h6">
+                        Question {index + 1}: {result.question}
+                    </Typography>
 
-                        {/* Flexbox container for the answer, icon, and feedback buttons */}
-                        <Box display="flex" alignItems="center" justifyContent="space-between">
-                            <Box display="flex" alignItems="center">
-                                <Typography>Your Answer: {result.userAnswer}</Typography>
-                                {/* Conditional icon rendering based on correctness */}
-                                {result.userAnswer === result.correctAnswer ? (
-                                    <CheckIcon style={{ color: 'green', marginLeft: '0.5em', fontSize: '1.5rem' }} />
-                                ) : (
-                                    <CloseIcon style={{ color: 'red', marginLeft: '0.5em', fontSize: '1.5rem' }} />
-                                )}
-                            </Box>
-                            {/* Thumbs up/down icons for feedback */}
-                            <Box display="flex" alignItems="center">
-                                <IconButton
-                                    sx={{
-                                        transition: 'transform 0.2s ease-in-out',
-                                        '&:hover': {
-                                            transform: 'scale(1.2)',
-                                            color: 'green',
-                                        },
-                                        marginRight: '0.5em',
-                                    }}
-                                >
-                                    <ThumbUpAltIcon sx={{ fontSize: '1.5rem', color: '#4CAF50' }} /> {/* Softer green */}
-                                </IconButton>
-                                <IconButton
-                                    sx={{
-                                        transition: 'transform 0.2s ease-in-out',
-                                        '&:hover': {
-                                            transform: 'scale(1.2)',
-                                            color: 'red',
-                                        },
-                                    }}
-                                >
-                                    <ThumbDownAltIcon sx={{ fontSize: '1.5rem', color: '#E57373' }} /> {/* Softer red */}
-                                </IconButton>
-                            </Box>
-                        </Box>
-
-                        <Box display="flex" alignItems="center" justifyContent="space-between">
-                            <Box display="flex" alignItems="center">
-                                <Typography>Correct Answer: {result.correctAnswer}</Typography>
+                    {/* Flexbox container for the answer, icon, and feedback buttons */}
+                    <Box display="flex" alignItems="center" justifyContent="space-between">
+                        <Box display="flex" alignItems="center">
+                            <Typography>Your Answer: {result.userAnswer}</Typography>
+                            {/* Conditional icon rendering based on correctness */}
+                            {result.userAnswer === result.correctAnswer ? (
                                 <CheckIcon style={{ color: 'green', marginLeft: '0.5em', fontSize: '1.5rem' }} />
-                            </Box>
+                            ) : (
+                                <CloseIcon style={{ color: 'red', marginLeft: '0.5em', fontSize: '1.5rem' }} />
+                            )}
                         </Box>
 
-                        <hr style={{ marginTop: '0.5em', marginBottom: '0.5em', borderColor: '#ddd' }} />
+                        {/* Thumbs up/down icons for feedback */}
+                        <Box display="flex" alignItems="center">
+                            <IconButton
+                                sx={{
+                                    transition: 'transform 0.2s ease-in-out',
+                                    '&:hover': {
+                                        transform: 'scale(1.2)',
+                                    },
+                                }}
+                                onClick={() => handleFeedbackClick(index, 'up')}
+                            >
+                                <ThumbUpAltIcon
+                                    sx={{
+                                        fontSize: '1.5rem',
+                                        color: feedback[index] === 'up' ? '#4CAF50' : '#BDBDBD', // Green if selected, gray otherwise
+                                    }}
+                                />
+                            </IconButton>
+                            <IconButton
+                                sx={{
+                                    transition: 'transform 0.2s ease-in-out',
+                                    '&:hover': {
+                                        transform: 'scale(1.2)',
+                                    },
+                                }}
+                                onClick={() => handleFeedbackClick(index, 'down')}
+                            >
+                                <ThumbDownAltIcon
+                                    sx={{
+                                        fontSize: '1.5rem',
+                                        color: feedback[index] === 'down' ? '#E57373' : '#BDBDBD', // Red if selected, gray otherwise
+                                    }}
+                                />
+                            </IconButton>
+                        </Box>
                     </Box>
-                ))}
+
+                    <Box display="flex" alignItems="center" justifyContent="space-between">
+                        <Box display="flex" alignItems="center">
+                            <Typography>Correct Answer: {result.correctAnswer}</Typography>
+                            <CheckIcon style={{ color: 'green', marginLeft: '0.5em', fontSize: '1.5rem' }} />
+                        </Box>
+                    </Box>
+
+                    <hr style={{ marginTop: '0.5em', marginBottom: '0.5em', borderColor: '#ddd' }} />
+                </Box>
+            ))}
             </Box>
         </div>
 

@@ -509,7 +509,7 @@ const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
                                     textColor: isMobile ? '#ffffff' : '#FFD234',
                                     pathColor: isMobile ? '#ffffff' : '#FFD234',
                                     trailColor: isMobile ? '#FFD234' : '#ffffff',
-                                    textSize: '18px'
+                                    textSize: isMobile ? '20px' : '18px'
                                 })}
                             />
                         </div>
@@ -667,6 +667,7 @@ const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
                 </Box>
 
                 <Box className="flashcardActivityContainer">
+
                     <Typography variant="h4" className="flashcardTitle2">
                         Recent Flashcard Activity
                     </Typography>

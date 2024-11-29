@@ -263,9 +263,9 @@
   }
   
   .flashcard-container {
-    height: 80%;
+    height: 100%;
     font-family: 'Lato';
-    font-size: 25px;
+    font-size: 18px;
     display: flex; 
     justify-content: center; 
     align-items: center; 
@@ -287,7 +287,7 @@
   .front h5, 
   .back h5 {
     width: 300px;
-    margin-top: 90px;
+    margin-top: 40px;
     font-size: 1em; 
     text-align: center; 
     word-wrap: break-word; 
