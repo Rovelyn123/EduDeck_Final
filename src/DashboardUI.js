@@ -521,12 +521,13 @@ const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
                     <Grid
                         container
                         spacing={2}
-                        direction={{xs: 'column', md: 'row'}}
+                        // direction={{xs: 'column', sm: 'row', md: 'row'}}
+                        direction={{sm: 'row', md: 'row'}}
                         justifyContent="center"
                         alignItems="center"
                     >
                         {/* Pie Chart Section */}
-                        <Grid item xs={12} md={6}>
+                        <Grid item xs={12} sm={6} md={6}>
                             <Box className="chartBox1">
                                 <Typography align="center" gutterBottom>
                                     Average Time Spent Per Question Type
@@ -575,7 +576,7 @@ const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
                         </Grid>
 
                         {/* Radar Chart Section */}
-                        <Grid item xs={12} md={6}>
+                        <Grid item xs={12} sm={6} md={6}>
                             <Box className="chartBox2">
                                 <Typography align="center" gutterBottom>
                                     Quiz Performance by Subject
