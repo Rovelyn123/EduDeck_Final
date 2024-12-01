@@ -143,205 +143,303 @@ export default function HomePageUI() {
                             path="/"
                             element={
                                 <>
-                                    <AppBar position="fixed" sx={{background: 'white', zIndex: 1000 }}>
-                                        <Toolbar sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-                                            <Box sx={{display: 'flex', alignItems: 'center', margin: '0 0 0 -0.7rem '}}>
-                                                <Box sx={{height: { xs: '35px', sm: '52px' }, width: 'auto'}}>
-                                                    <img src='logo.png' alt='logo' className='logo' style={{height: '100%', width: 'auto'}} />
-                                                </Box>
-                                                <Typography sx={{color: "#8c7111", fontFamily: 'Lato', fontWeight: 600, fontSize: { xs: '1.2em', sm: '1.8em' }, display: { xs: "none", sm: "block" }}}>
-                                                    EduDeck
-                                                </Typography>
+                                    <AppBar position="fixed" sx={{ background: 'white', zIndex: 1000 }}>
+                                        <Toolbar sx={{ 
+                                            display: 'flex', 
+                                            alignItems: 'center', 
+                                            justifyContent: 'space-between', 
+                                            padding: { xs: '2px', sm: '0px 5px' }  // Adjust padding for mobile
+                                        }}>
+                                            <Box sx={{
+                                            display: 'flex', 
+                                            alignItems: 'center', 
+                                            justifyContent: { xs: 'center', sm: 'flex-start' }, // Center logo on small screens
+                                            margin: { xs: '0', sm: '0 0 0 -0.7rem ' }
+                                            }}>
+                                            <Box sx={{ height: { xs: '35px', sm: '52px' }, width: 'auto' }}>
+                                                <img src='logo.png' alt='logo' className='logo' style={{ height: '100%', width: 'auto' }} />
                                             </Box>
-                                            <Box sx={{display: 'flex', alignItems: 'center'}}>
-                                                <ButtonGroup color="secondary" variant="text" aria-label="Button group">
-                                                    <Link to="/signup" style={{ textDecoration: 'none' }}><Button sx={{color: '#8C7111', fontWeight: 'bold', fontSize: { xs: '0.8em', sm: '1em' }}}>Signup</Button></Link>
-                                                    <Link to="/Login" style={{ textDecoration: 'none' }}>   <Button sx={{color: '#8C7111', fontWeight: 'bold', fontSize: { xs: '0.8em', sm: '1em' }}}>Login</Button></Link>
-                                                </ButtonGroup>
+                                            <Typography sx={{
+                                                color: "#8c7111", 
+                                                fontFamily: 'Lato', 
+                                                fontWeight: 600, 
+                                                fontSize: { xs: '1.2em', sm: '1.8em' }, 
+                                            }}>
+                                                EduDeck
+                                            </Typography>
+                                            </Box>
+
+                                            <Box sx={{ display: 'flex', alignItems: 'center', marginTop: { xs: '10px', sm: '0' } }}>
+                                            <ButtonGroup color="secondary" variant="text" aria-label="Button group">
+                                                <Link to="/signup" style={{ textDecoration: 'none' }}>
+                                                <Button sx={{
+                                                    color: '#8C7111', 
+                                                    fontWeight: 'bold', 
+                                                    fontSize: { xs: '0.8em', sm: '1em' },
+                                                    marginBottom: { xs: '5px', sm: '0' }  // Add margin to separate buttons on mobile
+                                                }}>
+                                                    Signup
+                                                </Button>
+                                                </Link>
+                                                <Link to="/Login" style={{ textDecoration: 'none' }}>
+                                                <Button sx={{
+                                                    color: '#8C7111', 
+                                                    fontWeight: 'bold', 
+                                                    fontSize: { xs: '0.8em', sm: '1em' }
+                                                }}>
+                                                    Login
+                                                </Button>
+                                                </Link>
+                                            </ButtonGroup>
                                             </Box>
                                         </Toolbar>
-                                    </AppBar>
+                                        </AppBar>
+
                                     <div className='bd' style={{ overflow: 'hidden' }}>
                                         <img src='homebackgrounds.png' alt='Home Background' className='home-background' style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.3}} />
                                         <div style={{ position: 'relative', zIndex: 10 }}> 
-                                            <Container sx={{textAlign: 'center', mt: { xs: 6, sm: 10 }}}>
-                                                <Grid style={{margin: '10%', marginTop: `18%`, marginBottom: `20%`}}>
-                                                    <Typography variant="h3" sx={{color: "#967501", fontSize: '5.5em', fontFamily: 'Lato', fontWeight: 600}}>
-                                                        Elevating College Life for Holistic Success
-                                                    </Typography>
-                                                    <Typography variant="h6" sx={{color: "#787878", fontFamily: 'Lato', fontSize: '1.5em', fontWeight: 300}}>
-                                                        Transforming the Academic Journey with Integrated Flashcards and Personalized Study Tools for Long-Term Success
-                                                    </Typography>
-                                                    <Link to="/login" style={{ textDecoration: 'none', fontFamily: 'Lato' }}><Button style={{backgroundColor:'#FAC712', color: '#332D2D', marginTop: '2em',  fontWeight: 600, borderRadius: '5em', width: '15em', height: '3em', border: 'black 1px solid'}}>
-                                                        Get Started
-                                                    </Button></Link>
-                                                </Grid>
+                                        <Container sx={{ textAlign: 'center', mt: { xs: 6, sm: 10 } }}>
+                                            <Grid 
+                                                container 
+                                                sx={{
+                                                marginTop: { xs: '50%', sm: '18%' }, 
+                                                marginBottom: { xs: '15%', sm: '20%' }, 
+                                                justifyContent: 'center'  // Center content horizontally
+                                                }}
+                                            >
+                                                <Typography 
+                                                variant="h3" 
+                                                sx={{
+                                                    color: "#967501", 
+                                                    fontSize: { xs: '2.5em', sm: '5.5em' },  // Smaller font size on mobile
+                                                    fontFamily: 'Lato', 
+                                                    fontWeight: 600,
+                                                    lineHeight: 1.2  // Adjust line height for better spacing
+                                                }}
+                                                >
+                                                Elevating College Life for Holistic Success
+                                                </Typography>
+                                                <Typography 
+                                                variant="h6" 
+                                                sx={{
+                                                    color: "#787878", 
+                                                    fontFamily: 'Lato', 
+                                                    fontSize: { xs: '1.2em', sm: '1.5em' },  // Adjust font size for mobile
+                                                    fontWeight: 300,
+                                                    marginTop: { xs: '1em', sm: '2em' },  // Add margin top for spacing on mobile
+                                                }}
+                                                >
+                                                Transforming the Academic Journey with Integrated Flashcards and Personalized Study Tools for Long-Term Success
+                                                </Typography>
+                                                <Link to="/login" style={{ textDecoration: 'none', fontFamily: 'Lato' }}>
+                                                <Button 
+                                                    sx={{
+                                                    backgroundColor: '#FAC712', 
+                                                    color: '#332D2D', 
+                                                    marginTop: '2em',  
+                                                    fontWeight: 600, 
+                                                    borderRadius: '5em', 
+                                                    width: { xs: '12em', sm: '10em' },  // Adjust button width on mobile
+                                                    height: '2.5em', 
+                                                    border: 'black 1px solid',
+                                                    fontSize: { xs: '1em', sm: '1.2em' }, // Adjust font size for mobile
+                                                    marginBottom: {xs: '50%', sm: '0'}
+                                                    }}
+                                                >
+                                                    Get Started
+                                                </Button>
+                                                </Link>
+                                            </Grid>
+                                            </Container>
+                                                                                        {showHometoabout && (
+                                                                                            <>  
+                                                                                                <Container sx={{ textAlign: 'center', mt: { xs: 3, sm: 5 } }}>
+                                            <Typography 
+                                                variant="h5" 
+                                                sx={{ 
+                                                paddingLeft: { xs: '5%', sm: '10%' },  // Adjust padding for mobile and larger screens
+                                                paddingRight: { xs: '5%', sm: '10%' }, 
+                                                fontFamily: 'Lato', 
+                                                color: '#333333', 
+                                                fontWeight: 600, 
+                                                fontSize: { xs: '1.5em', sm: '2.8em' },  // Adjust font size for mobile and larger screens
+                                                lineHeight: 1.4,  // Better line spacing for readability
+                                                marginTop: {xs: '20%', sm: '0'}
+                                                }}
+                                            >
+                                                Excel in your courses using our latest set of study resources and with our exceptional features.
+                                            </Typography>
+                                            
+                                            <Typography 
+                                                variant="h5" 
+                                                sx={{ 
+                                                paddingLeft: { xs: '5%', sm: '10%' },  // Adjust padding for mobile and larger screens
+                                                paddingRight: { xs: '5%', sm: '10%' }, 
+                                                fontFamily: 'Lato', 
+                                                color: "#666666", 
+                                                fontSize: { xs: '.8em', sm: '1em' },  // Adjust font size for mobile and larger screens
+                                                marginTop: { xs: '1em', sm: '1.5em' },  // Adjust top margin for mobile screens
+                                                lineHeight: 1.6,  // Better line spacing for readability
+                                                }}
+                                            >
+                                                Utilize our flashcard tool for quick and effective memorization, text highlighting for easier note-taking and comprehension, and quizzes to test your understanding and reinforce your knowledge. Join our live learning sessions for personalized support from experienced tutors. With EduDeck,
+                                            </Typography>
                                             </Container>
 
 
-                                            {showHometoabout && (
-                                                <>  
-                                                    <Container sx={{ textAlign: 'center', mt: { xs: 3 , sm: 5 }}}>
-                                                        <Typography variant="h5" sx={{ paddingLeft: `10%`, fontFamily: 'Lato', paddingRight: `10%`, color: `#333333`, fontWeight: 600, fontSize: { xs: '3em', sm: '2.8em' }}}>
-                                                            Excel in your courses using our latest set of study resources and with our exceptional features.
-                                                        </Typography>
-                                                        <Typography variant="h5" sx={{ paddingLeft: `10%`, fontFamily: 'Lato', paddingRight: `10%`, color: "#666666", fontSize: { xs: '1em', sm: '.5 em' }}}>
-                                                        Utilize our flashcard tool for quick and effective memorization, text highlighting for easier note-taking and comprehension, and quizzes to 
-                                                        test your understanding and reinforce your knowledge. Join our live learning sessions for personalized support from experienced tutors. With EduDeck, 
-                                                        </Typography>
-                                                    </Container>
+                                            <Container sx={{ textAlign: 'center', mt: { xs: 3, sm: 5 } }}>
+                                            <Grid
+                                                container
+                                                spacing={2} // spacing between Grid items
+                                                sx={{
+                                                display: 'flex',
+                                                justifyContent: 'center', // Center the items horizontally on web view
+                                                flexDirection: { xs: 'column', sm: 'row' }, // Stack items in a column for xs (mobile), row for sm and up (web)
+                                                alignItems: 'center', // Center items vertically in both mobile and web views
+                                                }}
+                                            >
+                                                <Grid
+                                                item
+                                                xs={6}   // Full width on mobile
+                                                md={2}   // 2 columns on medium and up screens
+                                                sx={{
+                                                    display: 'flex',
+                                                    justifyContent: 'center',
+                                                    alignItems: 'center',
+                                                }}
+                                                >
+                                                <Button
+                                                    sx={{
+                                                    ...buttonStyle,
+                                                    display: 'flex',
+                                                    justifyContent: 'center',
+                                                    alignItems: 'center',
+                                                    textTransform: 'none',
+                                                    width: '100%',  // Full width on mobile
+                                                    height: 'auto',
+                                                    border: 'black 1px solid',
+                                                    margin: '10px 0',  // Vertical margin for spacing between buttons
 
-                                                    <Container sx={{ textAlign: 'center', mt: { xs: 3, sm: 5 } }}>
-                                                        <Grid container>
-                                                            <Grid
-                                                                item
-                                                                xs={12}
-                                                                md={4}
-                                                                sx={{
-                                                                    display: 'flex',
-                                                                    justifyContent: 'center',
-                                                                    alignItems: 'center',
-                                                                }}
-                                                            >
-                                                                <Button
-                                                                    sx={{
-                                                                        ...buttonStyle,
-                                                                        display: 'flex',
-                                                                        justifyContent: 'center',
-                                                                        alignItems: 'center',
-                                                                        textTransform: 'none',
-                                                                        width: '50%',
-                                                                        height: 'auto',
-                                                                        border: 'black 1px solid',
+                                                    '&:hover': {
+                                                        boxShadow: 'none',
+                                                    },
 
-                                                                        // Add margin between buttons
-                                                                        margin: '0 5px',  // Adjust this value to control space between buttons
+                                                    '&:active': {
+                                                        boxShadow: '0 0 10px 5px gold',
+                                                    },
+                                                    }}
+                                                    onClick={() => handleOpenDialog('Document to Flashcard')}
+                                                >
+                                                    <img
+                                                    src="/document to flashcard.png"
+                                                    alt="Button Image"
+                                                    style={{
+                                                        width: '100%',
+                                                        height: 'auto',
+                                                        objectFit: 'contain',
+                                                        transition: 'opacity 0.3s ease',
+                                                    }}
+                                                    onMouseOver={(e) => (e.currentTarget.style.opacity = 0.5)}
+                                                    onMouseOut={(e) => (e.currentTarget.style.opacity = 1)}
+                                                    />
+                                                </Button>
+                                                </Grid>
 
-                                                                        '&:hover': {
-                                                                            boxShadow: 'none',
-                                                                        },
+                                                <Grid
+                                                item
+                                                xs={6}   // Full width on mobile
+                                                md={2}   // 2 columns on medium and up screens
+                                                sx={{
+                                                    display: 'flex',
+                                                    justifyContent: 'center',
+                                                    alignItems: 'center',
+                                                }}
+                                                >
+                                                <Button
+                                                    sx={{
+                                                    ...buttonStyle,
+                                                    display: 'flex',
+                                                    justifyContent: 'center',
+                                                    alignItems: 'center',
+                                                    textTransform: 'none',
+                                                    width: '100%', // Full width on mobile
+                                                    height: 'auto',
+                                                    border: 'black 1px solid',
+                                                    margin: '10px 0',  // Add space between buttons
 
-                                                                        '&:active': {
-                                                                            boxShadow: '0 0 10px 5px gold',
-                                                                        },
-                                                                    }}
-                                                                    onClick={() => handleOpenDialog('Document to Flashcard')}
-                                                                >
-                                                                    <img
-                                                                        src="/document to flashcard.png"
-                                                                        alt="Button Image"
-                                                                        style={{
-                                                                            width: '100%',
-                                                                            height: 'auto',
-                                                                            objectFit: 'contain',
-                                                                            transition: 'opacity 0.3s ease',
-                                                                        }}
-                                                                        onMouseOver={(e) => (e.currentTarget.style.opacity = 0.5)}
-                                                                        onMouseOut={(e) => (e.currentTarget.style.opacity = 1)}
-                                                                    />
-                                                                </Button>
-                                                            </Grid>
+                                                    '&:hover': {
+                                                        boxShadow: 'none',
+                                                    },
 
-                                                            <Grid
-                                                                item
-                                                                xs={12}
-                                                                md={4}
-                                                                sx={{
-                                                                    display: 'flex',
-                                                                    justifyContent: 'center',
-                                                                    alignItems: 'center',
-                                                                }}
-                                                            >
-                                                                <Button
-                                                                    sx={{
-                                                                        ...buttonStyle,
-                                                                        display: 'flex',
-                                                                        justifyContent: 'center',
-                                                                        alignItems: 'center',
-                                                                        textTransform: 'none',
-                                                                        width: '50%',
-                                                                        height: 'auto',
-                                                                        border: 'black 1px solid',
+                                                    '&:active': {
+                                                        boxShadow: '0 0 10px 5px gold',
+                                                    },
+                                                    }}
+                                                    onClick={() => handleOpenDialog('AI generated Quiz')}
+                                                >
+                                                    <img
+                                                    src="/ai.png"
+                                                    alt="Button Image"
+                                                    style={{
+                                                        width: '100%',
+                                                        height: 'auto',
+                                                        objectFit: 'contain',
+                                                        transition: 'opacity 0.3s ease',
+                                                    }}
+                                                    onMouseOver={(e) => (e.currentTarget.style.opacity = 0.5)}
+                                                    onMouseOut={(e) => (e.currentTarget.style.opacity = 1)}
+                                                    />
+                                                </Button>
+                                                </Grid>
 
-                                                                        // Add margin between buttons
-                                                                        margin: '0 5px',  // Adjust this value to control space between buttons
+                                                <Grid
+                                                item
+                                                xs={6}   // Full width on mobile
+                                                md={2}   // 2 columns on medium and up screens
+                                                sx={{
+                                                    display: 'flex',
+                                                    justifyContent: 'center',
+                                                    alignItems: 'center',
+                                                }}
+                                                >
+                                                <Button
+                                                    sx={{
+                                                    ...buttonStyle,
+                                                    display: 'flex',
+                                                    justifyContent: 'center',
+                                                    alignItems: 'center',
+                                                    textTransform: 'none',
+                                                    width: '100%',  // Full width on mobile
+                                                    height: 'auto',
+                                                    border: 'black 1px solid',
+                                                    margin: '10px 0',  // Vertical margin for spacing between buttons
 
-                                                                        '&:hover': {
-                                                                            boxShadow: 'none',
-                                                                        },
+                                                    '&:hover': {
+                                                        boxShadow: 'none',
+                                                    },
 
-                                                                        '&:active': {
-                                                                            boxShadow: '0 0 10px 5px gold',
-                                                                        },
-                                                                    }}
-                                                                    onClick={() => handleOpenDialog('AI generated Quiz')}
-                                                                >
-                                                                    <img
-                                                                        src="/ai.png"
-                                                                        alt="Button Image"
-                                                                        style={{
-                                                                            width: '100%',
-                                                                            height: 'auto',
-                                                                            objectFit: 'contain',
-                                                                            transition: 'opacity 0.3s ease',
-                                                                        }}
-                                                                        onMouseOver={(e) => (e.currentTarget.style.opacity = 0.5)}
-                                                                        onMouseOut={(e) => (e.currentTarget.style.opacity = 1)}
-                                                                    />
-                                                                </Button>
-                                                            </Grid>
-
-                                                            <Grid
-                                                                item
-                                                                xs={12}
-                                                                md={4}
-                                                                sx={{
-                                                                    display: 'flex',
-                                                                    justifyContent: 'center',
-                                                                    alignItems: 'center',
-                                                                }}
-                                                            >
-                                                                <Button
-                                                                    sx={{
-                                                                        ...buttonStyle,
-                                                                        display: 'flex',
-                                                                        justifyContent: 'center',
-                                                                        alignItems: 'center',
-                                                                        textTransform: 'none',
-                                                                        width: '50%',
-                                                                        height: 'auto',
-                                                                        border: 'black 1px solid',
-
-                                                                        // Add margin between buttons
-                                                                        margin: '0 5px',  // Adjust this value to control space between buttons
-
-                                                                        '&:hover': {
-                                                                            boxShadow: 'none',
-                                                                        },
-
-                                                                        '&:active': {
-                                                                            boxShadow: '0 0 10px 5px gold',
-                                                                        },
-                                                                    }}
-                                                                    onClick={() => handleOpenDialog('Text Highlighting')}
-                                                                >
-                                                                    <img
-                                                                        src="/quizzes.png"
-                                                                        alt="Button Image"
-                                                                        style={{
-                                                                            width: '100%',
-                                                                            height: 'auto',
-                                                                            objectFit: 'contain',
-                                                                            transition: 'opacity 0.3s ease',
-                                                                        }}
-                                                                        onMouseOver={(e) => (e.currentTarget.style.opacity = 0.5)}
-                                                                        onMouseOut={(e) => (e.currentTarget.style.opacity = 1)}
-                                                                    />
-                                                                </Button>
-                                                            </Grid>
-                                                        </Grid>
-                                                    </Container>
-
+                                                    '&:active': {
+                                                        boxShadow: '0 0 10px 5px gold',
+                                                    },
+                                                    }}
+                                                    onClick={() => handleOpenDialog('Text Highlighting')}
+                                                >
+                                                    <img
+                                                    src="/quizzes.png"
+                                                    alt="Button Image"
+                                                    style={{
+                                                        width: '100%',
+                                                        height: 'auto',
+                                                        objectFit: 'contain',
+                                                        transition: 'opacity 0.3s ease',
+                                                    }}
+                                                    onMouseOver={(e) => (e.currentTarget.style.opacity = 0.5)}
+                                                    onMouseOut={(e) => (e.currentTarget.style.opacity = 1)}
+                                                    />
+                                                </Button>
+                                                </Grid>
+                                            </Grid>
+                                            </Container>
                                                     <Container
                                                         maxWidth={false}  // Ensures the container takes up the full width
                                                         sx={{
@@ -398,31 +496,65 @@ export default function HomePageUI() {
                                                         </Link>
                                                         </Container>
 
+                                                        <Container sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', flexWrap: 'wrap' }}>
+                                                        <img
+  src="studying.jpg"
+  alt="studying"
+  className="studying"
+  style={{
+    borderRadius: '.5em',
+    width: '40%',
+    height: 'auto',
+    maxWidth: '600px',
+    margin: '0px 70px 90px 70px',
+    boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
+  }}
+/>
 
-                                                    <Container sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', flexWrap: 'wrap' }}>
-                                                        <img 
-                                                            src='studying.jpg' 
-                                                            alt='studying' 
-                                                            className='studying' 
-                                                            style={{
-                                                            borderRadius: '.5em',
-                                                            width: '40%',
-                                                            height: 'auto',
-                                                            maxWidth: '600px',
-                                                            margin: '0px 70px 90px 70px',
-                                                            boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
-                                                            }} 
-                                                        />
-                                                        
-                                                        <div style={{ flex: 1, marginLeft: '20px', textAlign: 'right', marginRight: `80px` }}>
-                                                            <Typography variant="h5" sx={{ color: `#333333`, mb: 2, fontFamily: 'Lato', fontWeight: 'bold', fontSize: `4em`, lineHeight: '1'}}>Your Journey Starts Here!</Typography>
-                                                            <Typography sx={{ fontSize: '1rem', fontFamily: 'Lato', color: `#333333`, }}>
-                                                            Discover tools and connections that will transform your academic and personal journey. Take the first step toward achieving your academic goals with EduDeck by your side.
-                                                            </Typography>
-                                                        </div>
-                                                    </Container>
+<style jsx>{`
+  @media (max-width: 768px) {
+    .studying {
+      width: 100%;  /* Set to 100% for mobile to take up more space */
+      max-width: 100%;  /* Ensure it can take up full width */
+      margin: 0 10px 20px 10px;  /* Adjust margins for smaller screens */
+    }
+  }
+`}</style>
 
-
+  <div style={{ flex: 1, textAlign: 'right' }}>
+    <Typography
+      variant="h5"
+      sx={{
+        color: '#333333',
+        mb: 2,
+        fontFamily: 'Lato',
+        fontWeight: 'bold',
+        fontSize: '4em',
+        lineHeight: '1',
+        '@media (max-width: 768px)': { // Adjust for tablet and mobile devices
+          fontSize: '2.5em',
+          textAlign: 'center',
+        },
+      }}
+    >
+      Your Journey Starts Here!
+    </Typography>
+    <Typography
+      sx={{
+        fontSize: '1rem',
+        fontFamily: 'Lato',
+        color: '#333333',
+        marginBottom: {xs: '10%', sm: '0'},
+        '@media (max-width: 768px)': { // Adjust for mobile view
+          fontSize: '1rem',
+          textAlign: 'center',
+        },
+      }}
+    >
+      Discover tools and connections that will transform your academic and personal journey. Take the first step toward achieving your academic goals with EduDeck by your side.
+    </Typography>
+  </div>
+</Container>
 
 
                                                     <Footer/>
