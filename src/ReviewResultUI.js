@@ -163,7 +163,7 @@ function ReviewResultUI() {
   
 
     return (
-      <div className="completion-screen" style={{ textAlign: 'center', background: '#f4f4f4', backgroundImage: `url('/crystalbackground.png')`, height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+      <div className="completion-screen" style={{ textAlign: 'center', background: '#f4f4f4', backgroundImage: `url('/crystalbackground.png')`, height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',  minHeight: isMobile ? '120vh' : '0', overflow: isMobile ? 'scroll' : 'hidden'}}>
         <TopAppBar />
         <div className="completion-content" 
             style={{

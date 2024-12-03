@@ -195,7 +195,7 @@
 
 .front h5,
 .back h5 {
-  margin-top: 20;
+  margin-top: 22px;
   padding: 0;
   font-size: 1.2em; /* Adjust font size for better readability */
 }
@@ -210,7 +210,7 @@
   z-index: 1;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 960px) {
 
 
   .center-panel {
@@ -263,7 +263,7 @@
   }
   
   .flashcard-container {
-    height: 100%;
+    height: 90%;
     font-family: 'Lato';
     font-size: 18px;
     display: flex; 
@@ -272,7 +272,7 @@
     text-align: center; 
     overflow: hidden; 
     word-wrap: break-word; 
-    padding: 10px; 
+    padding: 5px; 
     box-sizing: border-box; 
 }
   
@@ -283,17 +283,17 @@
     font-size: 0.7em;
   }
 
-
-  .front h5, 
-  .back h5 {
-    width: 300px;
-    margin-top: 40px;
-    font-size: 1em; 
+  .front , 
+  .back  {
+    width: 250px;
+    margin-top: 35px;
+    font-size: .8em; 
     text-align: center; 
     word-wrap: break-word; 
     overflow-wrap: break-word; 
     white-space: normal; 
     line-height: 1.2; 
+    padding: 5px;
   }
 
   .finish-session-button {
@@ -304,7 +304,7 @@
     width: 150px; 
     height: 35px;
     top: 5px;
-    left: 145px;
+    left: 32%;
   }
 
 }
