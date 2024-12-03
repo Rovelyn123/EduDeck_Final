@@ -56,6 +56,14 @@ button[type="submit"] {
 }
 
 @media (max-width: 768px) {
+    .lsbody {
+      height: 100vh; /* Full height of the viewport */
+      width: 100vw; /* Full width of the viewport */
+      background-size: cover; /* Ensure the background image covers the entire area */
+      background-repeat: no-repeat; /* Prevent the background image from repeating */
+      background-position: center; /* Center the background image */
+    }
+
   .logocontainer {
     display: none;
   }

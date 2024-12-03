@@ -212,7 +212,11 @@
       flex-direction: column;
       font-family: 'Lato';
       height: 120vh;
-      
+    }
+
+    .username-display{
+      margin-left: 15%;
+      font-size: 18px;
     }
   
     .containerbox{
@@ -220,16 +224,22 @@
     }
   
     .profile-picture {
+      height: 25%;
       width: 90%;
       left: 50%;
-      top: 19%;
+      top: 28%;
       transform: translate(-50%, -50%);
       margin-bottom: 10%;
     }
+
+    .profilepicturecontainer {
+      margin-left: 5%;
+    }
+    
   
     .bios {
       width: 90%;
-      top: 40%;
+      top: 55%;
       left: 50%;
       transform: translate(-50%, -50%);
       height: auto; /* Adjust height based on content */
@@ -243,8 +253,9 @@
     }
   
     .personal-info {
-      width: 82%;
-      top: 75%;
+      font-size: 12px;
+      width: 80%;
+      top: 99%;
       left: 50%;
       transform: translate(-50%, -50%);
       height: auto; /* Adjust height based on content */  

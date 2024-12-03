@@ -121,10 +121,11 @@ function NavigationBarUI() {
                     <Typography
                         variant="h3"
                         style={{
+                            marginTop: '.5em',
                             marginRight: '.5em',
                             fontFamily: 'Lato',
                             fontWeight: '900',
-                            fontSize: '2em',
+                            fontSize: '1.5em',
                             color: '#B18A00'
                         }}>
                         EduDeck {subscription === 'EduDeck Plus' ? (
