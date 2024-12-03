@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import "./LoginUI.css";
-import { Typography, Divider } from '@mui/material';
+import { Typography } from '@mui/material';
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import BASE_URL from './config.js';
@@ -59,51 +59,92 @@ function LoginUI() {
 
   return (
     <div className='lsbody'>
+      {/* Logo and Welcome Content */}
       <div className='logocontainer'>
-        <img src="logo.png" alt="Logo" style={{ width: '25%', height: '15%', position: 'absolute', 
-        top: '22.5%', left: '22%', transform: 'translate(-50%, -50%)' }} />
-        <Typography variant="h3" style={{ fontFamily: 'lato', fontWeight: '650', fontSize: '50px', color: '#B18A00', position: 'absolute', top: '23%', left: '48%', transform: 'translate(-50%, -50%)' }}>
+        <img 
+          src="logo.png" 
+          alt="Logo" 
+          style={{ width: '25%', height: '15%', position: 'absolute', top: '22.5%', left: '22%', transform: 'translate(-50%, -50%)' }} 
+        />
+        <Typography 
+          variant="h3" 
+          style={{ fontFamily: 'lato', fontWeight: '650', fontSize: '50px', color: '#B18A00', position: 'absolute', top: '23%', left: '48%', transform: 'translate(-50%, -50%)' }}
+        >
           EduDeck
         </Typography>
-        <Typography style={{ color: 'white', fontWeight: '650', fontSize: '30px', position: 'absolute', top: '35%', left: '27%', transform: 'translate(-50%, -50%)' }}>
+        <Typography 
+          style={{ color: 'white', fontWeight: '650', fontSize: '30px', position: 'absolute', top: '35%', left: '27%', transform: 'translate(-50%, -50%)' }}
+        >
           Welcome!
         </Typography>
-        <Typography style={{ color: 'white', fontSize: '15px', position: 'absolute', top: '41.5%', left: '40%', transform: 'translate(-50%, -50%)' }}>
+        <Typography 
+          style={{ color: 'white', fontSize: '15px', position: 'absolute', top: '41.5%', left: '40%', transform: 'translate(-50%, -50%)' }}
+        >
           Elevating College Life for Holistic Success
         </Typography>
-        <img src="studying.png" alt="Studying" style={{ width: '80%', height: '50%', position: 'absolute', top: '70%', left: '50%', transform: 'translate(-50%, -50%)' }} />
+        <img 
+          src="studying.png" 
+          alt="Studying" 
+          style={{ width: '80%', height: '50%', position: 'absolute', top: '70%', left: '50%', transform: 'translate(-50%, -50%)' }} 
+        />
       </div>
+
+      {/* First Container (Hidden on Mobile) */}
       <div className='firstcontainer'>
-        <div className='secondcontainer'>
-          <form onSubmit={handleLogin}>
-            <Typography style={{ fontSize: '30px', fontWeight: 'bold', marginLeft: '20px', marginTop: '7%' }}>
-              Log in
-            </Typography>
-            <Typography style={{ fontSize: '12px', fontWeight: 'light', marginLeft: '20px' }}>
-              please fill your information below
-            </Typography>
-            <div>
-              <div style={{ marginBottom: '10px', position: 'relative' }}>
-                <div style={{ marginLeft: '30px' }}>
-                  <input
-                    type="text"
-                    placeholder="Username"
-                    value={username}
-                    onChange={handleUsernameChange}
-                    style={{
-                      marginTop: '40px',
-                      width: '90%',
-                      padding: '8px',
-                      border: 'none',
-                      borderBottom: '1px solid #B18A00',
-                      outline: 'none',
-                    }}
-                  />
-                </div>
+        {/* Content for first container */}
+      </div>
+
+      {/* Second Container (Login Form) */}
+      <div className="secondcontainer"
+        style={{
+          position: 'absolute',
+          top: '38%',
+          right: '6%',
+          transform: 'translateY(-50%)', // Center vertically
+          width: '77%',
+          maxWidth: '450px',
+        }}
+      >
+  
+  <form onSubmit={handleLogin}>
+    <Typography sx={{
+        fontSize: { xs: '24px', sm: '30px' }, 
+        fontWeight: 'bold', 
+        marginLeft: '20px', 
+        marginTop: { xs: '5%', sm: '7%' }
+      }}>
+      Log in
+    </Typography>
+
+    <Typography sx={{
+        fontSize: { xs: '10px', sm: '12px' }, 
+        fontWeight: 'light', 
+        marginLeft: '20px'
+      }}>
+      Please fill your information below
+    </Typography>
+          <div>
+            <div style={{ marginBottom: '10px', position: 'relative' }}>
+              <div style={{ marginLeft: '30px' }}>
+                <input
+                  type="text"
+                  placeholder="Username"
+                  value={username}
+                  onChange={handleUsernameChange}
+                  style={{
+                    marginTop: '40px',
+                    width: '90%',
+                    padding: '8px',
+                    border: 'none',
+                    borderBottom: '1px solid #B18A00',
+                    outline: 'none',
+                  }}
+                />
               </div>
             </div>
-            <div>
-              <div style={{ marginBottom: '10px', position: 'relative' }}>
+          </div>
+          <div>
+            <div style={{ marginBottom: '10px', position: 'relative' }}>
               <div style={{ marginLeft: '30px', position: 'relative' }}>
                 <div style={{ position: 'relative', width: '100%' }}>
                   <input
@@ -121,46 +162,70 @@ function LoginUI() {
                     }}
                   />
                   {password && (
-                      <span 
-                        onClick={togglePasswordVisibility} 
-                        style={{
-                          position: 'absolute',
-                          right: '33px',
-                          top: '63%',
-                          transform: 'translateY(-50%)',
-                          cursor: 'pointer',
-                          color: '#B18A00'
-                        }}
-                      >
-                        {showPassword ? <Visibility /> : <VisibilityOff />}
-                      </span>
-                    )}
-                  </div>
-                  <Typography
-                    onClick={handleForgotPassword}
-                    style={{ cursor: 'pointer', color: 'gray', display: 'block', marginTop: '10px', fontStyle: 'italic', fontWeight: '300', fontSize: '12px', textAlign: 'center', marginRight: '2.5em' }}
-                  >
-                    Forgot Password?
-                  </Typography>
-
-                  {error && <Typography style={{ color: 'red', textAlign: 'center'}}>{error}</Typography>}
+                    <span 
+                      onClick={togglePasswordVisibility} 
+                      style={{
+                        position: 'absolute',
+                        right: '33px',
+                        top: '63%',
+                        transform: 'translateY(-50%)',
+                        cursor: 'pointer',
+                        color: '#B18A00'
+                      }}
+                    >
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </span>
+                  )}
                 </div>
+                <Typography
+                  onClick={handleForgotPassword}
+                  style={{
+                    cursor: 'pointer',
+                    color: 'gray',
+                    display: 'block',
+                    marginTop: '10px',
+                    fontStyle: 'italic',
+                    fontWeight: '300',
+                    fontSize: '12px',
+                    textAlign: 'center',
+                    marginRight: '2.5em'
+                  }}
+                >
+                  Forgot Password?
+                </Typography>
+                {error && <Typography style={{ color: 'red', textAlign: 'center' }}>{error}</Typography>}
               </div>
             </div>
-            <div className='buttoncontainer' style={{ position: 'absolute', top: '79%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-              <button type="submit" style={{ height: '2.3em', width: '14.2em', fontWeight: '600', color: 'white', borderRadius: '.2em', position: 'absolute', top: '71%', left: '49%', transform: 'translate(-50%, -50%)', boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)', }}>
-                Login
-              </button>
-            </div>
-            <Link to="/signup">
+          </div>
+          <div className='buttoncontainer' style={{ textAlign: 'center', marginTop: '20px' }}>
+            <button type="submit" style={{
+              height: '2.3em',
+              width: '14.2em',
+              fontWeight: '600',
+              color: 'white',
+              borderRadius: '.2em',
+              boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
+              backgroundColor: '#FFD234',
+              border: 'none'
+            }}>
+              Login
+            </button>
+          </div>
+          <Link to="/signup">
             <Typography
-              style={{ cursor: 'pointer', color: 'gray', display: 'block', marginTop: '40px', fontSize: '12px', textAlign: 'center', position: 'absolute', top: '80%', left: '50%', transform: 'translate(-50%, -50%)' }}
+              style={{
+                cursor: 'pointer',
+                color: 'gray',
+                display: 'block',
+                marginTop: '20px',
+                fontSize: '12px',
+                textAlign: 'center'
+              }}
             >
               Create Account
             </Typography>
           </Link>
-          </form>
-        </div>
+        </form>
       </div>
     </div>
   );

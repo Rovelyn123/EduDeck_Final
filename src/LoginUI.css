@@ -27,16 +27,7 @@
   border-radius: 1vw; /* Adjusted to a percentage */
 }
 
-.secondcontainer {
-  margin: 3vh 0; /* Adjusted to a percentage */
-  padding: 2vw; /* Adjusted to a percentage */
-  background-color: white;
-  border-radius: 1vw; /* Adjusted to a percentage */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: 80%; /* Adjusted to a percentage */
-  max-width: 450px; /* Limit maximum width */
-  border: 1px solid gold;
-}
+
 
 button[type="submit"] {
   background-color: #FFD234;
@@ -63,29 +54,26 @@ button[type="submit"] {
     display: none;
   }
 }
-/* Media query for screens smaller than 600px */
+
 @media (max-width: 768px) {
   .logocontainer {
     display: none;
   }
 
   .firstcontainer {
-    display: flex;
-    display: none;
-    width: 90%;
-    height: 100px;
+    display: none !important; /* Hide only the first container */
   }
 
   .secondcontainer {
-    width: 900%; /* Adjust width to fit smaller screens */
-    border: none;
-    position: absolute;
+    max-width: 100% !important;/* Allow it to span most of the screen width */
+    margin-top: 20%; /* Center it horizontally */
     box-shadow: none;
+    border: none;
   }
 
   /* Adjust button styles for smaller screens */
   button[type="submit"] {
-    width: 90%; /* Make button full width */
-    margin: 5vw 5vw; /* Adjust margin for spacing */
+    width: 100%; /* Make button full width */
+    margin: 10px 0; /* Adjust margin for spacing */
   }
 }

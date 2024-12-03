@@ -103,8 +103,17 @@ function SignupUI({ onSignup }) {
         <img src="studying.png" alt="Studying" style={{ width: '80%', height: '50%', 
         position: 'absolute', top: '70%', left: '50%', transform: 'translate(-50%, -50%)' }} />
       </div>
-      <div className='firstcontainer'>
-        <div className='secondcontainer'>
+      <div className='firstcontainer'></div>
+      <div className="secondcontainer"
+          style={{
+            position: 'absolute',
+            top: '38%',
+            right: '6%',
+            transform: 'translateY(-50%)', // Center vertically
+            width: '77%',
+            maxWidth: '450px',
+          }}
+        >
           <form onSubmit={handleSubmit}>
             <Typography style={{ fontSize: '30px', fontWeight: 'bold', marginLeft: '20px' }}>
               Signup</Typography>
@@ -270,7 +279,6 @@ function SignupUI({ onSignup }) {
                 </div>
           </form>
         </div>
-      </div>
     </div>
   );
 }
