@@ -268,15 +268,24 @@ function SignupUI({ onSignup }) {
                 Create Account
               </button>
             </div>
-            <div style={{position: 'absolute', top: '94%', 
-            left: '50%', transform: 'translate(-50%, -50%)'}}>
-              <Typography variant="body2" style={{fontSize: '12px', color: 'gray'}}>
-                  Already have an account?{' '}
-                  <Link href="/login" underline="hover" color="inherit">
-                    Login here
-                  </Link>
-                </Typography>
-                </div>
+            <div style={{
+              position: 'absolute', 
+              top: '94%', 
+              left: '50%', 
+              transform: 'translate(-50%, -50%)',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '100%',
+              padding: '0 10px', // Optional padding for smaller screens
+            }}>
+              <Typography variant="body2" style={{fontSize: '12px', color: 'gray', textAlign: 'center'}}>
+                Already have an account?{' '}
+                <Link href="/login" underline="hover" color="inherit" style={{color:'gold', fontWeight: 'bold'}}>
+                  Login here
+                </Link>
+              </Typography>
+            </div>
           </form>
         </div>
     </div>
