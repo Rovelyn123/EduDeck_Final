@@ -48,7 +48,7 @@ const DashboardUI = ({onLogout}) => {
     const [weeklyScores, setWeeklyScores] = useState([]);
     const [recentQuizzes, setRecentQuizzes] = useState([]);
     const [radarData, setRadarData] = useState([]);
-    const cardColors = ['#FAD34B', '#FFE070', '#FFEBA6']; 
+    const cardColors = ['#ffffff'];
     const userid = localStorage.getItem('userid');
     const [percentage, setPercentage] = useState(0);
     // const [totalQuestions, setTotalQuestions] = useState(0);
@@ -409,7 +409,7 @@ const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
                 <div>
                     <Toolbar style={{position: "absolute", top: 0, right: 0}}>
 
-                        <Box className="box-container">
+                        <Box className="box-containerv1">
 
                             <div>
                                 <Typography className="welcome-text">Welcome Back,</Typography>
@@ -675,30 +675,38 @@ const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
                     <Box className="flashcardList">
                         {/* Flashcard Boxes */}
                         {recentActivities.length > 0 ? (
-                            recentActivities.map((activity, index) => (
-                                <Box key={index} className="flashcardItem"
-                                     style={{backgroundColor: cardColors[index % cardColors.length]}}>
+                            recentActivities.map((activity, index) => {
+                                // Remove file extension from deckTitle
+                                const cleanTitle = activity.deckTitle.replace(/\.[^/.]+$/, ""); // Removes the last ".extension"
 
-                                    {/* Flashcard Title and Author */}
-                                    <Box sx={{display: 'flex', flexDirection: 'column', flexGrow: 1}}>
-                                        <Typography className="deckTitle">{activity.deckTitle}</Typography>
-                                        <Typography className="reviewDate">Reviewed
-                                            on: {new Date(activity.timestamp).toLocaleString()}</Typography>
-                                        {/* <Button className="reviewButton">Review</Button> */}
-                                    </Box>
+                                return (
+                                    <Box
+                                        key={index}
+                                        className="flashcardItem"
+                                        style={{ backgroundColor: cardColors[index % cardColors.length] }}
+                                    >
+                                        {/* Left Section */}
+                                        <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                                            <Typography className="deckTitle">{cleanTitle}</Typography>
+                                            <Typography className="reviewDate">
+                                                {new Date(activity.timestamp).toLocaleDateString()}
+                                            </Typography>
+                                            <Button
+                                                component={Link}
+                                                to="/flashcardsmgt"
+                                                className="reviewButton1"
+                                            >
+                                                review
+                                            </Button>
+                                        </Box>
 
-                                    {/* Card Count Button */}
-                                    <Box className="cardCountButton1">
-                                        <Button component={Link} to="/flashcardsmgt" className="cardCountButton">
-                                            {activity.flashcardCount} cards
-                                        </Button>
+                                        {/* Right Section */}
+                                        <Box className="cardCount">{activity.flashcardCount} CARDS</Box>
                                     </Box>
-                                </Box>
-                            ))
+                                );
+                            })
                         ) : (
-                            <Typography variant="body1">
-                                No recent activity.
-                            </Typography>
+                            <Typography variant="body1">No recent activity.</Typography>
                         )}
                     </Box>
                 </Box>

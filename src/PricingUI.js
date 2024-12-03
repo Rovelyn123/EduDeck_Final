@@ -505,6 +505,7 @@ function PricingUI() {
                                             fontWeight: 'bold',
                                             color: '#555245',
                                             textTransform: 'none',
+
                                             padding: '10px',
                                             borderRadius: '10px',
                                             marginTop: '10px',
