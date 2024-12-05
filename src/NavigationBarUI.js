@@ -79,7 +79,7 @@ function NavigationBarUI() {
             const response = await axios.post(`${BASE_URL}/api/subscription`, {
                 email: email // Send the email in the request body
             });
-            console.log('Subscription response:', response.data); // Log the response data
+
 
             if (response.data.active) {
                 setSubscription('EduDeck Plus');

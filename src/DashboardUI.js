@@ -310,7 +310,6 @@ useEffect(() => {
     // display flashcards
     useEffect(() => {
       const deckId = 1; // or however you get the deckId from your app
-      console.log('Deck ID:', deckId);  // Verify if this is valid
 
       const fetchFlashcards = async () => {
         try {
@@ -343,11 +342,9 @@ useEffect(() => {
       setEnteredUsername(newEnteredUsername);
       // Retrieve userid from localStorage
       const storeduserid = localStorage.getItem('userid');
-      console.log(storeduserid); // Use this userid as needed
       // Retrieve username from localStorage
       const storedUsername = localStorage.getItem('username');
       setUserName(storedUsername || "Guest");
-      console.log(storedUsername);
       // setUserName(newEnteredUsername || "Guest");
   
       axios.get(`${BASE_URL}/user/getAllUsers`)
