@@ -298,23 +298,51 @@ function FlashcardManagementUI() {
             }
         };
 
+        // const handleAddFlashcard = async () => {
+        //     if (selectedDeck) {
+        //         try {
+        //             const response = await axios.post(`${BASE_URL}/api/flashcards/createFlashcard`, {
+        //                 question: newQuestion,
+        //                 answer: newAnswer,
+        //                 flashcardDeck: {
+        //                     deckId: selectedDeckId
+        //                 }
+        //             });
+
+        //             if (response.status === 200) {
+        //                 const newFlashcard = {
+        //                     question: newQuestion,
+        //                     answer: newAnswer,
+        //                     deck: selectedDeck
+        //                 };
+        //                 setFlashcards([...flashcards, newFlashcard]);
+        //                 setOpenAddDialog(false);
+        //                 setNewQuestion('');
+        //                 setNewAnswer('');
+        //             } else {
+        //                 alert('Failed to add flashcard. Please try again.');
+        //             }
+        //         } catch (error) {
+        //             console.error('Error adding flashcard:', error);
+        //             alert('An error occurred while adding the flashcard.');
+        //         }
+        //     } else {
+        //         alert('Please select a deck before adding a flashcard.');
+        //     }
+        // };
         const handleAddFlashcard = async () => {
             if (selectedDeck) {
                 try {
-                    const response = await axios.post(`${BASE_URL}/api/flashcards/createFlashcard`, {
-                        question: newQuestion,
-                        answer: newAnswer,
-                        flashcardDeck: {
-                            deckId: selectedDeckId
-                        }
-                    });
-
-                    if (response.status === 200) {
-                        const newFlashcard = {
+                    const response = await axios.post(
+                        `${BASE_URL}/api/flashcards/createFlashcard/${selectedDeckId}`, // Include deckId in the URL
+                        {
                             question: newQuestion,
                             answer: newAnswer,
-                            deck: selectedDeck
-                        };
+                        }
+                    );
+        
+                    if (response.status === 200) {
+                        const newFlashcard = response.data; // Get the created flashcard from the response
                         setFlashcards([...flashcards, newFlashcard]);
                         setOpenAddDialog(false);
                         setNewQuestion('');
@@ -329,7 +357,7 @@ function FlashcardManagementUI() {
             } else {
                 alert('Please select a deck before adding a flashcard.');
             }
-        };
+        };        
 
         const handleDeleteAll = async () => {
             try {
@@ -371,10 +399,49 @@ function FlashcardManagementUI() {
             setOpenNewDeckDialog(false);
         };
 
-        const handleCreateNewDeck = () => {
-            setDecks([...decks, {title: newDeckTitle}]);
-            setOpenNewDeckDialog(false);
-        };
+        // const handleCreateNewDeck = () => {
+        //     setDecks([...decks, {title: newDeckTitle}]);
+        //     setOpenNewDeckDialog(false);
+        // };
+
+        const handleCreateNewDeck = async (type) => {
+            if (!newDeckTitle.trim()) {
+                alert("Please enter a valid deck title.");
+                return;
+            }
+        
+            // Determine the endpoint and payload based on the type
+            const endpoint =
+                type === "manual"
+                    ? `${BASE_URL}/api/decks/createManualDeck`
+                    : `${BASE_URL}/api/decks/createFlashcardDeck`;
+        
+            const payload = {
+                title: newDeckTitle,
+                user: { userid: localStorage.getItem("userid") },
+            };
+        
+            // Add document only for AI-generated decks
+            if (type === "ai") {
+                payload.document = { documentID: localStorage.getItem("selectedDocumentId") }; // Example documentID
+            }
+        
+            try {
+                const response = await axios.post(endpoint, payload);
+        
+                if (response.status === 200) {
+                    const newDeck = response.data; // Backend should return the created deck
+                    setDecks([...decks, newDeck]); // Add the new deck to the state
+                    setOpenNewDeckDialog(false);
+                    setNewDeckTitle('');
+                } else {
+                    alert("Failed to create a new deck. Please try again.");
+                }
+            } catch (error) {
+                console.error("Error creating a new deck:", error);
+                alert("An error occurred while creating the new deck.");
+            }
+        };        
 
         // const handleDeckSelection = (deck) => {
         //     setSelectedDeck(deck.title);
@@ -387,25 +454,47 @@ function FlashcardManagementUI() {
         //     localStorage.setItem('selectedDeck', deck.title);
         //     localStorage.setItem('selectedDeckId', deck.deckId);
         // };
+        // const handleDeckSelection = (deck) => {
+        //     // If the selected deck is clicked again, deselect it
+        //     if (selectedDeck === deck.title && selectedDeckId === deck.deckId && selectedDeckDocumentId === deck.document.documentID) {
+        //         setSelectedDeck('');
+        //         setSelectedDeckId('');
+        //         setSelectedDeckDocumentId('');
+        //     } else {
+        //         // Select the deck
+        //         setSelectedDeck(deck.title);
+        //         setSelectedDeckId(deck.deckId);
+        //         setSelectedDeckDocumentId(deck.document.documentID);
+        
+        //         localStorage.removeItem(`reviewSessionId_${deck.deckId}`);
+        //         localStorage.setItem('selectedDeck', deck.title);
+        //         localStorage.setItem('selectedDeckId', deck.deckId);
+        //         localStorage.setItem('selectedDeckDocumentId', deck.document.documentID);
+        //     }
+        // };
+
         const handleDeckSelection = (deck) => {
             // If the selected deck is clicked again, deselect it
-            if (selectedDeck === deck.title && selectedDeckId === deck.deckId && selectedDeckDocumentId === deck.document.documentID) {
+            if (
+                selectedDeck === deck.title &&
+                selectedDeckId === deck.deckId &&
+                selectedDeckDocumentId === (deck.document?.documentID || null)
+            ) {
                 setSelectedDeck('');
                 setSelectedDeckId('');
                 setSelectedDeckDocumentId('');
             } else {
                 // Select the deck
                 setSelectedDeck(deck.title);
-                setSelectedDeckId(deck.deckId);
-                setSelectedDeckDocumentId(deck.document.documentID);
+                setSelectedDeckId(deck.deckId || ''); // Fallback to empty if undefined
+                setSelectedDeckDocumentId(deck.document?.documentID || null); // Handle null or missing document
         
                 localStorage.removeItem(`reviewSessionId_${deck.deckId}`);
                 localStorage.setItem('selectedDeck', deck.title);
-                localStorage.setItem('selectedDeckId', deck.deckId);
-                localStorage.setItem('selectedDeckDocumentId', deck.document.documentID);
+                localStorage.setItem('selectedDeckId', deck.deckId || '');
+                localStorage.setItem('selectedDeckDocumentId', deck.document?.documentID || '');
             }
-        };
-
+        };        
 
         const handleStartReviewSession = async () => {
             const userId = localStorage.getItem('userid');
