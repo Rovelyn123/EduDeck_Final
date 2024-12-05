@@ -12,6 +12,7 @@ function SignupUI({ onSignup }) {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState(''); // Added email error state
   const [passwordRequirements, setPasswordRequirements] = useState({});
   const [showTooltip, setShowTooltip] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -40,7 +41,7 @@ function SignupUI({ onSignup }) {
       length: newPassword.length >= 8,
       upper: /[A-Z]/.test(newPassword),
       lower: /[a-z]/.test(newPassword),
-      digit: /[0-9]/.test(newPassword)
+      digit: /[0-9]/.test(newPassword),
     };
 
     setPasswordRequirements(requirements);
@@ -52,11 +53,27 @@ function SignupUI({ onSignup }) {
   };
 
   const handleEmailChange = (event) => {
-    setEmail(event.target.value);
+    const newEmail = event.target.value;
+    setEmail(newEmail);
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(newEmail)) {
+      setEmailError('Please enter a valid email address.');
+    } else {
+      setEmailError(''); // Clear error if valid
+    }
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    
+    // Check if email is valid before submitting
+    if (emailError) {
+      alert("Please provide a valid email address.");
+      return;
+    }
+
     if (password !== confirmPassword) {
       alert("Passwords do not match");
       return;
@@ -120,7 +137,7 @@ function SignupUI({ onSignup }) {
             <Typography style={{ fontSize: '12px', fontWeight: 'light', marginLeft: '20px' }}>
               please fill your information below</Typography>
             <div>
-              <div style={{ marginLeft:'.5em', marginBottom: '10px', position: 'relative' }}>
+            <div style={{ marginLeft: '.5em', marginBottom: '10px', position: 'relative' }}>
                 <div style={{ marginLeft: '20px' }}>
                   <input
                     type="email"
@@ -136,6 +153,7 @@ function SignupUI({ onSignup }) {
                       outline: 'none',
                     }}
                   />
+                  {emailError && <p style={{ color: 'red', marginTop: '5px', fontSize: '10px'}}>{emailError}</p>} {/* Updated to use emailError */}
                 </div>
               </div>
             </div>
